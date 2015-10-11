@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\category\Category;
+use common\models\rubric\Rubric;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -209,5 +211,22 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionResult()
+    {
+        return $this->render('result');
+    }
+
+    public function actionSearch()
+    {
+        $categories = Category::find()->all();
+        return $this->render('category', ['categories' => $categories]);
+    }
+
+    public function actionCategory($id)
+    {
+        $rubrics = Rubric::find()->whereCategoryId($id)->all();
+        return $this->render('rubric', ['rubrics' => $rubrics]);
     }
 }
