@@ -11,7 +11,7 @@ class Role
     const USER = 'USER';
 
     /**
-     * @param User   $user
+     * @param User $user
      * @param string $role
      */
     public static function assignRoleForUser(User $user, $role = self::USER)

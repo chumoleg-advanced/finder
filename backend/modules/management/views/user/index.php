@@ -20,8 +20,8 @@ $this->title = Yii::t('title', 'Users management');
         'dataProvider' => $dataProvider,
         'filterModel'  => $searchModel,
         'columns'      => [
-            ['class' => 'yii\grid\SerialColumn'],
             'id',
+            'username',
             'email:email',
             'status',
             [

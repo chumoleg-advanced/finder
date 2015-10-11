@@ -14,7 +14,7 @@ class StatusBehavior extends Behavior
     public $defaultStatus = self::STATUS_ACTIVE;
     public $statusesList
         = [
-            self::STATUS_ACTIVE  => self::STATUS_ACTIVE,
+            self::STATUS_ACTIVE   => self::STATUS_ACTIVE,
             self::STATUS_DISABLED => self::STATUS_DISABLED,
         ];
 
@@ -43,7 +43,7 @@ class StatusBehavior extends Behavior
     public function getStatusLabels()
     {
         $allStatuses = [
-            self::STATUS_ACTIVE  => \Yii::t('app', 'Enabled'),
+            self::STATUS_ACTIVE   => \Yii::t('app', 'Enabled'),
             self::STATUS_DISABLED => \Yii::t('app', 'Disabled'),
         ];
 

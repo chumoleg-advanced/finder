@@ -16,8 +16,8 @@ class DatePickerFactory
     public static function getInput($searchModel, $attribute)
     {
         return DatePicker::widget([
-            'model'         => $searchModel,
-            'attribute'     => $attribute,
+            'model'     => $searchModel,
+            'attribute' => $attribute,
         ]);
     }
 }

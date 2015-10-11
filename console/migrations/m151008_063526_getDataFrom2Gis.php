@@ -15,20 +15,20 @@ class m151008_063526_getDataFrom2Gis extends Migration
             die;
         }
 
-        $this->createTable('category', array(
+        $this->createTable('category', [
             'id'          => 'INT(2) UNSIGNED NOT NULL AUTO_INCREMENT',
             'name'        => 'VARCHAR(200) NOT NULL',
             'date_create' => 'TIMESTAMP NULL',
             'PRIMARY KEY (id)'
-        ), 'Engine=InnoDB Charset=UTF8');
+        ], 'Engine=InnoDB Charset=UTF8');
 
-        $this->createTable('rubric', array(
+        $this->createTable('rubric', [
             'id'          => 'INT(6) UNSIGNED NOT NULL AUTO_INCREMENT',
             'category_id' => 'INT(2) UNSIGNED NOT NULL',
             'name'        => 'VARCHAR(250) NOT NULL',
             'date_create' => 'TIMESTAMP NULL',
             'PRIMARY KEY (id)'
-        ), 'Engine=InnoDB Charset=UTF8');
+        ], 'Engine=InnoDB Charset=UTF8');
 
         $this->addForeignKey('fk_rubric_category_id', 'rubric', 'category_id', 'category', 'id', 'CASCADE', 'CASCADE');
 
@@ -37,20 +37,20 @@ class m151008_063526_getDataFrom2Gis extends Migration
         foreach ($data['result']['items'] as $mainCategory) {
             echo $mainCategory['name'] . PHP_EOL;
             $connect->createCommand()
-                ->insert('category', array(
+                ->insert('category', [
                     'name'        => $mainCategory['name'],
                     'date_create' => $date
-                ))
+                ])
                 ->execute();
 
             $categoryId = $connect->getLastInsertID();
             foreach ($mainCategory['rubrics'] as $rubric) {
                 $connect->createCommand()
-                    ->insert('rubric', array(
+                    ->insert('rubric', [
                         'category_id' => $categoryId,
                         'name'        => $rubric['name'],
                         'date_create' => $date
-                    ))
+                    ])
                     ->execute();
             }
         }

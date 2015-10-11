@@ -13,7 +13,7 @@ return [
     'bootstrap'           => ['log'],
     'modules'             => [
         'management' => [
-            'class' => 'backend\modules\management\ManagementModule',
+            'class'        => 'backend\modules\management\ManagementModule',
             'defaultRoute' => 'user'
         ]
     ],

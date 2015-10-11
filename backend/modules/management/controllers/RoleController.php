@@ -91,7 +91,7 @@ class RoleController extends Controller
 
     /**
      * @param array $permissions
-     * @param Role  $role
+     * @param Role $role
      */
     private function savePermissions($permissions, $role)
     {

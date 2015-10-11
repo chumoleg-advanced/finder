@@ -209,7 +209,7 @@ class RbacManager extends Component
     private function saveAuthItem(Item $item, $description, $isNew)
     {
         $authManager = $this->getAuthManager();
-        $this->applyOptions($item, array('description' => $description));
+        $this->applyOptions($item, ['description' => $description]);
         $isNew ? $authManager->add($item) : $authManager->update($item->name, $item);
     }
 

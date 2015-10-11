@@ -21,7 +21,7 @@ $this->title = 'Roles management';
             [
                 'class'     => DataColumn::className(),
                 'attribute' => 'name',
-                'label'     =>  Yii::t('label', 'Role')
+                'label'     => Yii::t('label', 'Role')
             ],
             [
                 'class'     => DataColumn::className(),
@@ -39,10 +39,10 @@ $this->title = 'Roles management';
                 }
             ],
             [
-                'class'    => 'yii\grid\ActionColumn',
-                'template' => '{update}',
+                'class'          => 'yii\grid\ActionColumn',
+                'template'       => '{update}',
                 'contentOptions' => ['style' => 'min-width: 30px; text-align: center'],
-                'buttons'  =>
+                'buttons'        =>
                     [
                         'update' => function ($url, $model) {
                             return Html::a('<span class="glyphicon glyphicon-pencil"></span>',

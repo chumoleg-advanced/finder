@@ -11,7 +11,7 @@ use common\components\activeQueryTraits\CommonQueryTrait;
  */
 class CategoryQuery extends \yii\db\ActiveQuery
 {
-   use CommonQueryTrait;
+    use CommonQueryTrait;
 
     /**
      * @inheritdoc
