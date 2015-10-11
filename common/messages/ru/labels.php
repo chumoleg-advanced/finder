@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'Email'            => 'Email',
+    'Fio'              => 'ФИО',
+    'Password'         => 'Пароль',
+    'Remember Me'      => 'Запомнить меня',
+    'Status'           => 'Статус',
+    'Created At'       => 'Дата создания',
+    'Updated At'       => 'Дата обновления',
+    'Change user role' => 'Управление ролями',
+    'Description'      => 'Описание',
+    'Rule'             => 'Правило',
+    'Role'             => 'Роль',
+    'Assignment rules' => 'Разрешенные правила',
+    'Debit'            => 'Поступление',
+    'Credit'           => 'Списание',
+    'Sender Number'    => 'Счет отправителя',
+    'Receiver Number'  => 'Счет получателя',
+    'Number'           => 'Номер',
+    'Company'          => 'Компания',
+    'Inn'              => 'ИНН',
+    'Name'             => 'Название',
+    'Company User'     => 'Владелец',
+    'Balance'          => 'Баланс',
+];
