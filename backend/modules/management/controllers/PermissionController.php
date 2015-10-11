@@ -87,6 +87,6 @@ class PermissionController extends Controller
             }
         }
 
-        return $this->redirect(['/user/index/index']);
+        return $this->redirect(['/management/user/index']);
     }
 }

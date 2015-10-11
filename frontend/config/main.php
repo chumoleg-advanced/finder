@@ -7,20 +7,27 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'id'                  => 'app-frontend',
+    'basePath'            => dirname(__DIR__),
+    'bootstrap'           => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'components' => [
-        'user' => [
-            'identityClass' => 'common\models\User',
+    'components'          => [
+        'urlManager'   => [
+            'rules' => [
+                '<module:\w+><controller:\w+>/<action:\w+>/<id:\d+>' => '<module><controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>'             => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'                      => '<controller>/<action>',
+            ]
+        ],
+        'user'         => [
+            'identityClass'   => 'common\models\user\User',
             'enableAutoLogin' => true,
         ],
-        'log' => [
+        'log'          => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
+            'targets'    => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
             ],
@@ -29,5 +36,5 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
-    'params' => $params,
+    'params'              => $params,
 ];

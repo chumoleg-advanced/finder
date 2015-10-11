@@ -1,7 +1,8 @@
 <?php
 namespace frontend\models;
 
-use common\models\User;
+use common\components\behaviors\StatusBehavior;
+use common\models\user\User;
 use yii\base\Model;
 
 /**
@@ -21,8 +22,8 @@ class PasswordResetRequestForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
-                'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_ACTIVE],
+                'targetClass' => '\common\models\user\User',
+                'filter' => ['status' => StatusBehavior::STATUS_ACTIVE],
                 'message' => 'There is no user with such email.'
             ],
         ];
@@ -37,7 +38,7 @@ class PasswordResetRequestForm extends Model
     {
         /* @var $user User */
         $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
+            'status' => StatusBehavior::STATUS_ACTIVE,
             'email' => $this->email,
         ]);
 

@@ -10,7 +10,7 @@ $this->title = Yii::t('title', 'Manage user roles: {email}', ['email' => $user->
 ?>
 
 <h3><?= $this->title; ?></h3>
-<?php $form = ActiveForm::begin(['action' => ['/user/permission/update', 'id' => $user->getId()]]); ?>
+<?php $form = ActiveForm::begin(['action' => ['/management/permission/update', 'id' => $user->getId()]]); ?>
 
 <?= Html::checkboxList('roles', $userPermit, $roles, ['separator' => '<br>']); ?>
 

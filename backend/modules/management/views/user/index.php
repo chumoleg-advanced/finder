@@ -45,7 +45,7 @@ $this->title = Yii::t('title', 'Users management');
                         }
 
                         return Html::a('<span class="glyphicon glyphicon-wrench"></span>',
-                            Url::to(['/user/permission/view', 'id' => $model->id]), [
+                            Url::to(['/management/permission/view', 'id' => $model->id]), [
                                 'title' => Yii::t('label', 'Change user role')
                             ]
                         );

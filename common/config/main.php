@@ -2,18 +2,13 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
-        'urlManager'   => [
+        'urlManager'  => [
             'enablePrettyUrl' => true,
-            'showScriptName'  => false,
-            'rules'           => [
-                '<module:\w+><controller:\w+>/<action:\w+>/<id:\d+>' => '<module><controller>/<action>',
-                '<controller:\w+>/<action:\w+>/<id:\d+>'             => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>'                      => '<controller>/<action>',
-            ]
+            'showScriptName'  => false
         ],
         'i18n'        => [
             'translations' => [
-                '*'        => [
+                '*' => [
                     'class'    => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@app/messages',
                     'fileMap'  => [

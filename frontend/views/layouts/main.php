@@ -1,3 +1,5 @@
+
+
 <?php
 
 /* @var $this \yii\web\View */
@@ -29,8 +31,8 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
+        'brandUrl'   => Yii::$app->homeUrl,
+        'options'    => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
@@ -39,19 +41,31 @@ AppAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
+            'label'   => Yii::t('frontend/title', 'Personal cabinet'),
+            'url'     => ['/personalCabinet/index/index'],
+            'visible' => Yii::$app->user->can('accessToPersonalCabinet'),
+            'items'   => [
+                ['label' => 'Персональные данные', 'url' => ['/personalCabinet/index/index']],
+                ['label' => 'Компании', 'url' => ['/personalCabinet/company/index']],
+                ['label' => 'Расчетные счета', 'url' => ['/personalCabinet/settlement-account/index']],
+            ]
+        ];
+
+        $menuItems[] = [
+            'label'       => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'url'         => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post']
         ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
+        'items'   => $menuItems,
     ]);
     NavBar::end();
     ?>
@@ -77,3 +91,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+

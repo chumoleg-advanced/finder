@@ -13,64 +13,90 @@ use common\widgets\Alert;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
-<head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
-</head>
-<body>
-<?php $this->beginBody() ?>
+    <!DOCTYPE html>
+    <html lang="<?= Yii::$app->language ?>">
+    <head>
+        <meta charset="<?= Yii::$app->charset ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?= Html::csrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <?php $this->head() ?>
+    </head>
+    <body>
+    <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
+    <div class="wrap">
+        <?php
+        NavBar::begin([
+            'brandLabel' => Yii::t('title', 'System'),
+            'brandUrl'   => Yii::$app->homeUrl,
+            'options'    => [
+                'class' => 'navbar-inverse navbar-fixed-top',
+            ],
+        ]);
+
+        $menuItems = [
+            [
+                'label'   => Yii::t('title', 'Login'),
+                'url'     => ['/site/login'],
+                'visible' => Yii::$app->user->isGuest
+            ],
+            [
+                'label'   => Yii::t('title', 'Users'),
+                'visible' => Yii::$app->user->can('accessToBackend'),
+                'items'   => [
+                    [
+                        'label'   => Yii::t('title', 'Users management'),
+                        'url'     => ['/management/user/index'],
+                        'visible' => Yii::$app->user->can('userManage')
+                    ],
+                    [
+                        'label'   => Yii::t('title', 'Roles management'),
+                        'url'     => ['/management/role/index'],
+                        'visible' => Yii::$app->user->can('roleManage')
+                    ],
+                    [
+                        'label'   => Yii::t('title', 'Access rules'),
+                        'url'     => ['/management/access/index'],
+                        'visible' => Yii::$app->user->can('accessManage')
+                    ],
+                ]
+            ]
         ];
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+        if (!Yii::$app->user->isGuest) {
+            $menuItems[] = [
+                'label'       => Yii::t('common/app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
+                'url'         => ['/site/logout'],
+                'linkOptions' => ['data-method' => 'post']
+            ];
+        }
+
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items'   => $menuItems,
+        ]);
+        NavBar::end();
+        ?>
+
+        <div class="container">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
+        </div>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; <?= Yii::t('common/app', 'Billing Partner System') . ' ' . date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+            <p class="pull-right"><?= Yii::powered() ?></p>
+        </div>
+    </footer>
 
-<?php $this->endBody() ?>
-</body>
-</html>
+    <?php $this->endBody() ?>
+    </body>
+    </html>
 <?php $this->endPage() ?>

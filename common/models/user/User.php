@@ -40,6 +40,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+            StatusBehavior::className()
         ];
     }
 
@@ -50,8 +51,17 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => StatusBehavior::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [StatusBehavior::STATUS_ACTIVE, StatusBehavior::STATUS_DELETED]],
+            ['status', 'in', 'range' => [StatusBehavior::STATUS_ACTIVE, StatusBehavior::STATUS_DISABLED]],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 
     /**
@@ -59,7 +69,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => StatusBehavior::STATUS_ACTIVE]);
+        return static::find($id)->isActive()->one();
     }
 
     /**
@@ -78,7 +88,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => StatusBehavior::STATUS_ACTIVE]);
+        return static::find(['username' => $username])->isActive()->one();
     }
 
     /**
@@ -93,10 +103,7 @@ class User extends ActiveRecord implements IdentityInterface
             return null;
         }
 
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status'               => StatusBehavior::STATUS_ACTIVE,
-        ]);
+        return static::find(['password_reset_token' => $token])->isActive()->one();
     }
 
     /**
