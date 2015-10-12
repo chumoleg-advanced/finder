@@ -38,8 +38,9 @@ return [
             'hostname' => 'localhost',
             'port'     => 6379
         ],
-        'mailer'      => [
+        'mailer' => [
             'class'            => 'yii\swiftmailer\Mailer',
+            'viewPath'         => '@common/mail',
             'useFileTransport' => true,
         ],
         'curl'        => [
