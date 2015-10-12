@@ -22,7 +22,7 @@ $this->registerJsFile('/js/carousel.js', ['depends' => [\frontend\assets\OwlCaro
                     <?php foreach ($split as $categoryData) : ?>
                         <div class="item">
                             <?php foreach ($categoryData as $category) : ?>
-                                <div class="col-lg-4 col-xs-12 col-sm-6" style="height: 120px; text-align: center;">
+                                <div class="col-lg-4 col-xs-12 col-sm-6" style="height: 150px; text-align: center;">
                                     <a href="/site/category/<?= $category->id; ?>">
                                         <?= $category->name; ?></a>
                                 </div>
