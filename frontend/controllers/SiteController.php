@@ -221,7 +221,8 @@ class SiteController extends Controller
     public function actionSearch()
     {
         $categories = Category::find()->all();
-        return $this->render('category', ['categories' => $categories]);
+        $categoryData = array_chunk($categories, 12);
+        return $this->render('category', ['categoryData' => $categoryData]);
     }
 
     public function actionCategory($id)

@@ -49,5 +49,9 @@ return [
         'curl'        => [
             'class' => 'linslin\yii2\curl\Curl'
         ],
+        'thumbnail' => [
+            'class' => 'himiklab\thumbnail\EasyThumbnail',
+            'cacheAlias' => 'assets/gallery_thumbnails',
+        ],
     ],
 ];
