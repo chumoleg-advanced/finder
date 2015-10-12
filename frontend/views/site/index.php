@@ -12,7 +12,8 @@ $this->title = Yii::t('title', 'Search');
         </div>
 
         <div class="lead col-md-12 col-md-offset-3 text-center">
-            <?= \kartik\helpers\Html::textInput('searchField', null, ['class' => 'col-md-6']); ?>
+            <?= \kartik\helpers\Html::textInput('searchField', null,
+                ['class' => 'col-md-6 col-xs-12 col-sm-12']); ?>
         </div>
 
         <div class="col-lg-12 text-center">

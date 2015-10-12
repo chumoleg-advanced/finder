@@ -24,9 +24,9 @@ $this->registerJsFile('/js/carousel.js', ['depends' => [OwlCarouselAsset::classN
                     <?php foreach ($categoryData as $categories) : ?>
                         <div class="item">
                             <?php foreach ($categories as $category) : ?>
-                                <div class="col-lg-4 col-xs-12 col-sm-6" style="height: 150px; text-align: center;">
+                                <div class="col-lg-4 col-xs-12 col-sm-6" style="height: 200px; text-align: center;">
                                     <a href="/site/category/<?= $category->id; ?>">
-                                        <?php echo EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 220, 100); ?>
+                                        <?php echo EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 240, 140); ?>
                                         <br/>
                                         <?= $category->name; ?>
                                     </a>
