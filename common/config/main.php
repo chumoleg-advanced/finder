@@ -1,4 +1,7 @@
 <?php
+
+require(__DIR__ .  DIRECTORY_SEPARATOR . 'container.php');
+
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
