@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "09b9ee995a57b7ed26cba2bc83931f93",
-    "content-hash": "11c73fd7777b5b591fcf8e71e1d47dbe",
+    "hash": "4f275151b29498ec1205c2011dc0095b",
+    "content-hash": "85402da5fd752cc7685a615617aba4c9",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -176,6 +176,22 @@
                 "mask",
                 "plugins"
             ]
+        },
+        {
+            "name": "bower-asset/owl-carousel",
+            "version": "v1.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OwlFonk/OwlCarousel.git",
+                "reference": "83ad5591c8a6aa8773591b12b91f55d1369b358c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OwlFonk/OwlCarousel/zipball/83ad5591c8a6aa8773591b12b91f55d1369b358c",
+                "reference": "83ad5591c8a6aa8773591b12b91f55d1369b358c",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/punycode",
