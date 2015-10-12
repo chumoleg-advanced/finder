@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ .  DIRECTORY_SEPARATOR . 'container.php');
+require(__DIR__ . DIRECTORY_SEPARATOR . 'container.php');
 
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
@@ -41,7 +41,7 @@ return [
             'hostname' => 'localhost',
             'port'     => 6379
         ],
-        'mailer' => [
+        'mailer'      => [
             'class'            => 'yii\swiftmailer\Mailer',
             'viewPath'         => '@common/mail',
             'useFileTransport' => true,
@@ -49,9 +49,9 @@ return [
         'curl'        => [
             'class' => 'linslin\yii2\curl\Curl'
         ],
-        'thumbnail' => [
-            'class' => 'himiklab\thumbnail\EasyThumbnail',
-            'cacheAlias' => 'assets/gallery_thumbnails',
+        'thumbnail'   => [
+            'class'      => 'himiklab\thumbnail\EasyThumbnail',
+            'cacheAlias' => 'assets/thumbnails',
         ],
     ],
 ];
