@@ -6,7 +6,7 @@
 use kartik\checkbox\CheckboxX;
 use \yii\helpers\Html;
 
-$this->title = 'My Yii Application';
+$this->title = Yii::t('title', 'Rubrics');
 ?>
 
 <?php
@@ -20,11 +20,13 @@ echo Html::tag('div', '&nbsp;');
 
 <div class="row">
     <?php foreach ($rubrics as $rubric) : ?>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
             <?php echo CheckboxX::widget([
                 'name'          => 'rubrics[]',
                 'autoLabel'     => true,
-                'pluginOptions' => ['threeState' => false],
+                'pluginOptions' => [
+                    'threeState' => false
+                ],
                 'labelSettings' => [
                     'label'    => $rubric->name,
                     'position' => CheckboxX::LABEL_RIGHT
@@ -33,9 +35,9 @@ echo Html::tag('div', '&nbsp;');
             ?>
         </div>
     <?php endforeach; ?>
-</div>
 
-<div>&nbsp;</div>
-<div class="row">
-    <p><a class="btn btn-lg btn-danger" href="/site/result">Отправить запрос</a></p>
+    <div class="col-lg-12">
+        <div>&nbsp;</div>
+        <a class="btn btn-lg btn-danger" href="/site/result">Отправить запрос</a>
+    </div>
 </div>

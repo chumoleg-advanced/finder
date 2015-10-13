@@ -12,18 +12,37 @@ return [
     'bootstrap'           => ['log', 'thumbnail'],
     'controllerNamespace' => 'frontend\controllers',
     'components'          => [
-        'urlManager'   => [
+        'authClientCollection' => [
+            'class'   => 'yii\authclient\Collection',
+            'clients' => [
+                'google'    => [
+                    'class' => 'yii\authclient\clients\GoogleOpenId'
+                ],
+                'facebook'  => [
+                    'class'        => 'yii\authclient\clients\Facebook',
+                    'clientId'     => 'facebook_client_id',
+                    'clientSecret' => 'facebook_client_secret',
+                ],
+                'vkontakte' => [
+                    'class'        => 'yii\authclient\clients\VKontakte',
+                    'clientId'     => 'vkontakte_client_id',
+                    'clientSecret' => 'vkontakte_client_secret',
+                ],
+
+            ],
+        ],
+        'urlManager'           => [
             'rules' => [
                 '<module:\w+><controller:\w+>/<action:\w+>/<id:\d+>' => '<module><controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>'             => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'                      => '<controller>/<action>',
             ]
         ],
-        'user'         => [
+        'user'                 => [
             'identityClass'   => 'common\models\user\User',
             'enableAutoLogin' => true,
         ],
-        'log'          => [
+        'log'                  => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets'    => [
                 [
@@ -32,7 +51,7 @@ return [
                 ],
             ],
         ],
-        'errorHandler' => [
+        'errorHandler'         => [
             'errorAction' => 'site/error',
         ],
     ],

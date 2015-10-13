@@ -73,6 +73,10 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+        <?= yii\authclient\widgets\AuthChoice::widget([
+            'baseAuthUrl' => ['site/auth'],
+            'popupMode'   => false,
+        ]) ?>
         <?= $content ?>
     </div>
 </div>

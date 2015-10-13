@@ -1,6 +1,5 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
 
 class m130524_201442_init extends Migration
@@ -14,15 +13,16 @@ class m130524_201442_init extends Migration
         }
 
         $this->createTable('{{%user}}', [
-            'id'                   => $this->primaryKey(),
-            'username'             => $this->string()->notNull()->unique(),
-            'auth_key'             => $this->string(32)->notNull(),
-            'password_hash'        => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email'                => $this->string()->notNull()->unique(),
-            'status'               => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at'           => $this->integer()->notNull(),
-            'updated_at'           => $this->integer()->notNull(),
+            'id'                   => 'INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY',
+            'username'             => 'VARCHAR(20) NOT NULL',
+            'email'                => 'VARCHAR(64) NOT NULL',
+            'password_hash'        => 'CHAR(60) NULL',
+            'password_reset_token' => 'CHAR(44) NULL',
+            'phone'                => 'VARCHAR(14)',
+            'auth_key'             => 'CHAR(32) NOT NULL',
+            'status'               => 'TINYINT UNSIGNED NOT NULL',
+            'created_at'           => 'DATETIME NOT NULL',
+            'updated_at'           => 'DATETIME NOT NULL',
         ], $tableOptions);
     }
 

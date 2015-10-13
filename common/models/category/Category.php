@@ -8,14 +8,16 @@ use common\models\rubric\Rubric;
 /**
  * This is the model class for table "category".
  *
- * @property string $id
- * @property string $name
- * @property string $date_create
+ * @property string   $id
+ * @property string   $name
+ * @property string   $date_create
  *
  * @property Rubric[] $rubrics
  */
 class Category extends \yii\db\ActiveRecord
 {
+    const COUNT_ON_MAIN_PAGE = 9;
+
     /**
      * @inheritdoc
      */

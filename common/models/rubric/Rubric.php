@@ -8,10 +8,10 @@ use common\models\category\Category;
 /**
  * This is the model class for table "rubric".
  *
- * @property string $id
- * @property string $category_id
- * @property string $name
- * @property string $date_create
+ * @property string   $id
+ * @property string   $category_id
+ * @property string   $name
+ * @property string   $date_create
  *
  * @property Category $category
  */

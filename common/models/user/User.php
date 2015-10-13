@@ -13,15 +13,15 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property string $username
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
- * @property string $auth_key
+ * @property string  $username
+ * @property string  $password_hash
+ * @property string  $password_reset_token
+ * @property string  $email
+ * @property string  $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
+ * @property string  $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -50,8 +50,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => StatusBehavior::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [StatusBehavior::STATUS_ACTIVE, StatusBehavior::STATUS_DISABLED]],
+            [['username', 'email'], 'required'],
+            [['status'], 'integer'],
+            [['username'], 'string', 'max' => 20],
+            [['email'], 'string', 'max' => 64],
+            [['password_hash'], 'string', 'max' => 60],
+            [['password_reset_token'], 'string', 'max' => 44],
+            [['phone'], 'string', 'max' => 14],
+            [['auth_key'], 'string', 'max' => 32],
+            [['created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -81,49 +88,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        return static::find(['username' => $username])->isActive()->one();
-    }
-
-    /**
-     * Finds user by password reset token
-     *
-     * @param string $token password reset token
-     * @return static|null
-     */
-    public static function findByPasswordResetToken($token)
-    {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
-
-        return static::find(['password_reset_token' => $token])->isActive()->one();
-    }
-
-    /**
-     * Finds out if password reset token is valid
-     *
-     * @param string $token password reset token
-     * @return boolean
-     */
-    public static function isPasswordResetTokenValid($token)
-    {
-        if (empty($token)) {
-            return false;
-        }
-
-        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        return $timestamp + $expire >= time();
-    }
-
-    /**
      * @inheritdoc
      */
     public function getId()
@@ -148,9 +112,56 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by username
+     *
+     * @param string $username
+     *
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return static::find(['username' => $username])->isActive()->one();
+    }
+
+    /**
+     * Finds user by password reset token
+     *
+     * @param string $token password reset token
+     *
+     * @return static|null
+     */
+    public static function findByPasswordResetToken($token)
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            return null;
+        }
+
+        return static::find(['password_reset_token' => $token])->isActive()->one();
+    }
+
+    /**
+     * Finds out if password reset token is valid
+     *
+     * @param string $token password reset token
+     *
+     * @return boolean
+     */
+    public static function isPasswordResetTokenValid($token)
+    {
+        if (empty($token)) {
+            return false;
+        }
+
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
+        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        return $timestamp + $expire >= time();
+    }
+
+    /**
      * Validates password
      *
      * @param string $password password to validate
+     *
      * @return boolean if password provided is valid for current user
      */
     public function validatePassword($password)
