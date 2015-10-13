@@ -1,16 +1,22 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use \yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $user common\models\user\User */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = Yii::t('title', 'Manage user roles: {email}', ['email' => $user->getEmail()]);
+$this->title = Yii::t('title', 'Manage user roles: {email}', ['email' => $user->email]);
 ?>
 
 <h3><?= $this->title; ?></h3>
-<?php $form = ActiveForm::begin(['action' => ['/management/permission/update', 'id' => $user->getId()]]); ?>
+<?php
+$form = ActiveForm::begin([
+    'action' => Url::toRoute(['/management/permission/update', 'id' => $user->getId()])
+]);
+?>
 
 <?= Html::checkboxList('roles', $userPermit, $roles, ['separator' => '<br>']); ?>
 

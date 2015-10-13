@@ -5,12 +5,13 @@
 
 use kartik\checkbox\CheckboxX;
 use \yii\helpers\Html;
+use \yii\helpers\Url;
 
 $this->title = Yii::t('title', 'Rubrics');
 ?>
 
 <?php
-echo Html::a('К списку категорий', '/site/search');
+echo Html::a('К списку категорий', Url::toRoute('/site/search'));
 echo Html::tag('div', '&nbsp;');
 ?>
 
@@ -38,6 +39,6 @@ echo Html::tag('div', '&nbsp;');
 
     <div class="col-lg-12">
         <div>&nbsp;</div>
-        <a class="btn btn-lg btn-danger" href="/site/result">Отправить запрос</a>
+        <a class="btn btn-lg btn-danger" href="<?= Url::toRoute('/site/result'); ?>">Отправить запрос</a>
     </div>
 </div>

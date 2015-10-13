@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -35,14 +36,14 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Home', 'url' => Url::toRoute('/site/index')],
+        ['label' => 'About', 'url' => Url::toRoute('/site/about')],
+        ['label' => 'Contact', 'url' => Url::toRoute('/site/contact')],
     ];
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Signup', 'url' => Url::toRoute('/site/signup')];
+        $menuItems[] = ['label' => 'Login', 'url' => Url::toRoute('/site/login')];
     } else {
         $menuItems[] = [
             'label'   => Yii::t('frontend/title', 'Personal cabinet'),
@@ -57,7 +58,7 @@ AppAsset::register($this);
 
         $menuItems[] = [
             'label'       => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url'         => ['/site/logout'],
+            'url'         => Url::toRoute('/site/logout'),
             'linkOptions' => ['data-method' => 'post']
         ];
     }

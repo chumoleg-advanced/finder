@@ -9,6 +9,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -38,7 +39,7 @@ AppAsset::register($this);
         $menuItems = [
             [
                 'label'   => Yii::t('title', 'Login'),
-                'url'     => ['/site/login'],
+                'url'     => Url::toRoute('/site/login'),
                 'visible' => Yii::$app->user->isGuest
             ],
             [
@@ -47,17 +48,17 @@ AppAsset::register($this);
                 'items'   => [
                     [
                         'label'   => Yii::t('title', 'Users management'),
-                        'url'     => ['/management/user/index'],
+                        'url'     => Url::toRoute('/management/user/index'),
                         'visible' => Yii::$app->user->can('userManage')
                     ],
                     [
                         'label'   => Yii::t('title', 'Roles management'),
-                        'url'     => ['/management/role/index'],
+                        'url'     => Url::toRoute('/management/role/index'),
                         'visible' => Yii::$app->user->can('roleManage')
                     ],
                     [
                         'label'   => Yii::t('title', 'Access rules'),
-                        'url'     => ['/management/access/index'],
+                        'url'     => Url::toRoute('/management/access/index'),
                         'visible' => Yii::$app->user->can('accessManage')
                     ],
                 ]

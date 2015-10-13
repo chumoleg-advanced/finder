@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use common\models\user\User;
+use yii\helpers\Url;
 
 class PermissionController extends Controller
 {
@@ -87,6 +88,6 @@ class PermissionController extends Controller
             }
         }
 
-        return $this->redirect(['/management/user/index']);
+        return $this->redirect(Url::toRoute('/management/user/index'));
     }
 }

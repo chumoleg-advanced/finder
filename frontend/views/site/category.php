@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 
 use \frontend\assets\OwlCarouselAsset;
-use himiklab\thumbnail\EasyThumbnailImage;
+use \yii\helpers\Url;
 
 OwlCarouselAsset::register($this);
 $this->registerJsFile('/js/carousel.js', ['depends' => [OwlCarouselAsset::className()]]);
@@ -15,27 +15,21 @@ $this->title = Yii::t('title', 'Categories');
 <p class="lead">Выберите категорию:</p>
 <div>&nbsp;</div>
 
-<div id="demo">
-    <div class="container">
-        <div class="row">
-            <div class="span12">
-                <div id="owl-demo" class="owl-carousel owl-theme col-lg-12">
-                    <?php foreach ($categoryData as $categories) : ?>
-                        <?php /* @var $categories common\models\category\Category[] */ ?>
-                        <div class="item">
-                            <?php foreach ($categories as $category) : ?>
-                                <div class="col-lg-4 col-xs-12 col-sm-6" style="height: 200px; text-align: center;">
-                                    <a href="/site/category/<?= $category->id; ?>">
-                                        <?php echo EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 240, 140); ?>
-                                        <br/>
-                                        <?= $category->name; ?>
-                                    </a>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+<div class="row">
+    <div id="owl-demo" class="owl-carousel owl-theme col-lg-12">
+        <?php foreach ($categoryData as $categories) : ?>
+            <?php /* @var $categories common\models\category\Category[] */ ?>
+            <div class="item">
+                <?php foreach ($categories as $category) : ?>
+                    <div class="col-lg-4 col-xs-12 col-sm-6 text-center">
+                        <a href="<?= Url::toRoute(['/site/category', 'id' => $category->id]); ?>">
+                            <img src="/img/NoImage.jpg" class="img-responsive img-thumbnail"
+                                 alt="<?= $category->name; ?>"/>
+                            <?= $category->name; ?>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>
