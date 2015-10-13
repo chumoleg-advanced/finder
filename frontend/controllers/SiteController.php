@@ -201,11 +201,15 @@ class SiteController extends Controller
         return $this->render('result');
     }
 
+    public function actionForm()
+    {
+        return $this->render('form');
+    }
+
     public function actionSearch()
     {
         $categories = Category::find()->all();
-        $categoryData = array_chunk($categories, Category::COUNT_ON_MAIN_PAGE);
-        return $this->render('category', ['categoryData' => $categoryData]);
+        return $this->render('category', ['categories' => $categories]);
     }
 
     public function actionCategory($id)

@@ -39,6 +39,6 @@ echo Html::tag('div', '&nbsp;');
 
     <div class="col-lg-12">
         <div>&nbsp;</div>
-        <a class="btn btn-lg btn-danger" href="<?= Url::toRoute('/site/result'); ?>">Отправить запрос</a>
+        <a class="btn btn-lg btn-danger" href="<?= Url::toRoute('/site/form'); ?>">Далее</a>
     </div>
 </div>
