@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 AppAsset::register($this);
 ?>
@@ -43,7 +44,7 @@ AppAsset::register($this);
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => Url::toRoute('/site/signup')];
-        $menuItems[] = ['label' => 'Login', 'url' => Url::toRoute('/site/login')];
+        $menuItems[] = ['label' => 'Login', 'url' => '#', 'options' => ['class' => 'loginButton']];
     } else {
         $menuItems[] = [
             'label'   => Yii::t('frontend/title', 'Personal cabinet'),
@@ -74,10 +75,6 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?= yii\authclient\widgets\AuthChoice::widget([
-            'baseAuthUrl' => ['site/auth'],
-            'popupMode'   => false,
-        ]) ?>
         <?= $content ?>
     </div>
 </div>
@@ -89,6 +86,8 @@ AppAsset::register($this);
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
+
+<?= $this->render('login'); ?>
 
 <?php $this->endBody() ?>
 </body>

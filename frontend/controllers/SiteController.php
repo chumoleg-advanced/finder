@@ -15,9 +15,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\category\Category;
 use common\models\rubric\Rubric;
-use yii\authclient\BaseClient;
-use common\models\auth\Oauth;
-use common\models\user\User;
+
 
 /**
  * Site controller
@@ -67,11 +65,7 @@ class SiteController extends Controller
             'captcha' => [
                 'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-            'auth' => [
-                'class'           => 'yii\authclient\AuthAction',
-                'successCallback' => [$this, 'onAuthSuccess'],
-            ],
+            ]
         ];
     }
 
@@ -83,27 +77,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
-    }
-
-    /**
-     * Logs in a user.
-     *
-     * @return mixed
-     */
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
     }
 
     /**
@@ -128,7 +101,8 @@ class SiteController extends Controller
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+                Yii::$app->session->setFlash('success',
+                    'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending email.');
             }
@@ -199,6 +173,7 @@ class SiteController extends Controller
      * Resets password.
      *
      * @param string $token
+     *
      * @return mixed
      * @throws BadRequestHttpException
      */
@@ -237,68 +212,5 @@ class SiteController extends Controller
     {
         $rubrics = Rubric::find()->whereCategoryId($id)->all();
         return $this->render('rubric', ['rubrics' => $rubrics]);
-    }
-
-    /**
-     * @param BaseClient $client
-     */
-    public function onAuthSuccess($client)
-    {
-        $attributes = $client->getUserAttributes();
-
-        /* @var $auth Oauth */
-        $auth = Oauth::find()->where([
-            'source'    => $client->getId(),
-            'source_id' => $attributes['id'],
-        ])->one();
-
-        if (Yii::$app->user->isGuest) {
-            if ($auth) { // login
-                $user = $auth->user;
-                Yii::$app->user->login($user);
-            } else { // signup
-                if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
-                    Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('app',
-                            "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.",
-                            ['client' => $client->getTitle()]),
-                    ]);
-                } else {
-                    $password = Yii::$app->security->generateRandomString(6);
-                    $user = new User([
-                        'username' => $attributes['login'],
-                        'email'    => $attributes['email'],
-                        'password' => $password,
-                    ]);
-                    $user->generateAuthKey();
-                    $user->generatePasswordResetToken();
-                    $transaction = $user->getDb()->beginTransaction();
-                    if ($user->save()) {
-                        $auth = new Oauth([
-                            'user_id'   => $user->id,
-                            'source'    => $client->getId(),
-                            'source_id' => (string)$attributes['id'],
-                        ]);
-                        if ($auth->save()) {
-                            $transaction->commit();
-                            Yii::$app->user->login($user);
-                        } else {
-                            print_r($auth->getErrors());
-                        }
-                    } else {
-                        print_r($user->getErrors());
-                    }
-                }
-            }
-        } else { // user already logged in
-            if (!$auth) { // add auth provider
-                $auth = new Oauth([
-                    'user_id'   => Yii::$app->user->id,
-                    'source'    => $client->getId(),
-                    'source_id' => $attributes['id'],
-                ]);
-                $auth->save();
-            }
-        }
     }
 }

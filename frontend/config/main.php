@@ -15,6 +15,9 @@ return [
         'authClientCollection' => [
             'class'   => 'yii\authclient\Collection',
             'clients' => [
+                'yandex'    => [
+                    'class' => 'yii\authclient\clients\YandexOpenId'
+                ],
                 'google'    => [
                     'class' => 'yii\authclient\clients\GoogleOpenId'
                 ],
@@ -28,7 +31,11 @@ return [
                     'clientId'     => 'vkontakte_client_id',
                     'clientSecret' => 'vkontakte_client_secret',
                 ],
-
+                'linkedin'  => [
+                    'class'        => 'yii\authclient\clients\LinkedIn',
+                    'clientId'     => 'linkedin_client_id',
+                    'clientSecret' => 'linkedin_client_secret',
+                ],
             ],
         ],
         'urlManager'           => [
