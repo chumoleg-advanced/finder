@@ -22,6 +22,9 @@ class m151011_163946_addAdminUser extends Migration
                 $model->signup();
             }
 
+            $rbac = new \console\components\RbacManager();
+            $rbac->generate();
+
             $user = common\models\user\User::find(1)->one();
             Role::assignRoleForUser($user, Role::ADMIN);
 
