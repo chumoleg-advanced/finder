@@ -5,7 +5,17 @@ namespace common\components\activeQueryTraits;
 trait CommonQueryTrait
 {
     /**
-     * @param $dateCreate
+     * @param int|array $id
+     *
+     * @return $this
+     */
+    public function whereId($id)
+    {
+        return $this->andWhere(['id' => $id]);
+    }
+
+    /**
+     * @param string $dateCreate
      *
      * @return $this
      */

@@ -1,6 +1,6 @@
 <?php
 
-use yii\db\Migration;
+use console\components\Migration;
 use common\components\Role;
 
 class m151011_163946_addAdminUser extends Migration
@@ -25,7 +25,7 @@ class m151011_163946_addAdminUser extends Migration
             $rbac = new \console\components\RbacManager();
             $rbac->generate();
 
-            $user = common\models\user\User::find(1)->one();
+            $user = common\models\user\User::find()->whereId(1)->one();
             Role::assignRoleForUser($user, Role::ADMIN);
 
         } catch (\yii\base\Exception $e) {

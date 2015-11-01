@@ -1,37 +1,52 @@
 <?php
 
-use yii\db\Migration;
+use console\components\Migration;
 
 class m151008_063526_getDataFrom2Gis extends Migration
 {
     public function up()
     {
-        $url
-            = 'http://catalog.api.2gis.ru/2.0/catalog/rubric/list?parent_id=0&region_id=1&sort=popularity&fields=items.rubrics&key=rurywg6447';
-        $dataFrom2Gis = Yii::$app->curl->get($url);
-        $data = \yii\helpers\Json::decode($dataFrom2Gis);
-        if (empty($data['result']['items'])) {
-            echo 'Empty data from 2Gis!!!!' . PHP_EOL;
-            die;
-        }
+//        $url
+//            = 'http://catalog.api.2gis.ru/2.0/catalog/rubric/list?parent_id=0&region_id=1&sort=popularity&fields=items.rubrics&key=rusazx2220';
+//        $dataFrom2Gis = Yii::$app->curl->get($url);
+//        $data = \yii\helpers\Json::decode($dataFrom2Gis);
+//        if (empty($data['result']['items'])) {
+//            echo 'Empty data from 2Gis!!!!' . PHP_EOL;
+//            die;
+//        }
 
         $this->createTable('category', [
-            'id'          => 'INT(2) UNSIGNED NOT NULL AUTO_INCREMENT',
+            'id'          => parent::PRIMARY_KEY,
             'name'        => 'VARCHAR(200) NOT NULL',
-            'date_create' => 'TIMESTAMP NULL',
-            'PRIMARY KEY (id)'
-        ], 'Engine=InnoDB Charset=UTF8');
+            'date_create' => parent::DATE_FIELD,
+        ], parent::TABLE_OPTIONS);
 
         $this->createTable('rubric', [
-            'id'          => 'INT(6) UNSIGNED NOT NULL AUTO_INCREMENT',
-            'category_id' => 'INT(2) UNSIGNED NOT NULL',
+            'id'          => parent::PRIMARY_KEY,
+            'category_id' => parent::INT_FIELD . ' NOT NULL',
             'name'        => 'VARCHAR(250) NOT NULL',
-            'date_create' => 'TIMESTAMP NULL',
-            'PRIMARY KEY (id)'
-        ], 'Engine=InnoDB Charset=UTF8');
+            'date_create' => parent::DATE_FIELD,
+        ], parent::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_rubric_category_id', 'rubric', 'category_id', 'category', 'id', 'CASCADE', 'CASCADE');
 
+//        $this->_insertDataFrom2Gis($data);
+    }
+
+    public function down()
+    {
+        $this->dropForeignKey('fk_rubric_category_id', 'rubric');
+        $this->dropTable('rubric');
+        $this->dropTable('category');
+    }
+
+    /**
+     * @param $data
+     *
+     * @throws \yii\db\Exception
+     */
+    private function _insertDataFrom2Gis($data)
+    {
         $date = date('Y-m-d H:i:s');
         $connect = Yii::$app->db;
         foreach ($data['result']['items'] as $mainCategory) {
@@ -54,12 +69,5 @@ class m151008_063526_getDataFrom2Gis extends Migration
                     ->execute();
             }
         }
-    }
-
-    public function down()
-    {
-        $this->dropForeignKey('fk_rubric_category_id', 'rubric');
-        $this->dropTable('rubric');
-        $this->dropTable('category');
     }
 }

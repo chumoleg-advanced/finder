@@ -3,19 +3,23 @@
 namespace common\models\rubric;
 
 use Yii;
+use \yii\db\ActiveRecord;
 use common\models\category\Category;
+use common\models\rubricForm\RubricForm;
 
 /**
  * This is the model class for table "rubric".
  *
- * @property string   $id
- * @property string   $category_id
- * @property string   $name
- * @property string   $date_create
+ * @property integer    $id
+ * @property integer    $category_id
+ * @property integer    $rubric_form_id
+ * @property string     $name
+ * @property string     $date_create
  *
- * @property Category $category
+ * @property Category   $category
+ * @property RubricForm $rubricForm
  */
-class Rubric extends \yii\db\ActiveRecord
+class Rubric extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -31,8 +35,8 @@ class Rubric extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'name'], 'required'],
-            [['category_id'], 'integer'],
+            [['category_id', 'rubric_form_id', 'name'], 'required'],
+            [['category_idm', 'rubric_form_id'], 'integer'],
             [['date_create'], 'safe'],
             [['name'], 'string', 'max' => 250]
         ];
@@ -44,11 +48,21 @@ class Rubric extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('label', 'ID'),
-            'category_id' => Yii::t('label', 'Category ID'),
-            'name'        => Yii::t('label', 'Name'),
-            'date_create' => Yii::t('label', 'Date Create'),
+            'id'             => Yii::t('label', 'ID'),
+            'category_id'    => Yii::t('label', 'Category ID'),
+            'rubric_form_id' => Yii::t('label', 'Rubric Form ID'),
+            'name'           => Yii::t('label', 'Name'),
+            'date_create'    => Yii::t('label', 'Date Create'),
         ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return RubricQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new RubricQuery(get_called_class());
     }
 
     /**
@@ -60,11 +74,10 @@ class Rubric extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
-     * @return RubricQuery the active query used by this AR class.
+     * @return \yii\db\ActiveQuery
      */
-    public static function find()
+    public function getRubricForm()
     {
-        return new RubricQuery(get_called_class());
+        return $this->hasOne(RubricForm::className(), ['id' => 'rubric_form_id']);
     }
 }

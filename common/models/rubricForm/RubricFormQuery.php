@@ -1,22 +1,22 @@
 <?php
 
-namespace common\models\category;
+namespace common\models\rubricForm;
 
 use \yii\db\ActiveQuery;
 use common\components\activeQueryTraits\CommonQueryTrait;
 
 /**
- * This is the ActiveQuery class for [[Category]].
+ * This is the ActiveQuery class for [[RubricForm]].
  *
- * @see Category
+ * @see RubricForm
  */
-class CategoryQuery extends ActiveQuery
+class RubricFormQuery extends ActiveQuery
 {
     use CommonQueryTrait;
 
     /**
      * @inheritdoc
-     * @return Category[]|array
+     * @return RubricForm[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class CategoryQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return Category|array|null
+     * @return RubricForm|array|null
      */
     public function one($db = null)
     {

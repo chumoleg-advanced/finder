@@ -1,19 +1,13 @@
 <?php
 
-use yii\db\Migration;
+use console\components\Migration;
 
 class m130524_201442_init extends Migration
 {
     public function up()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
         $this->createTable('{{%user}}', [
-            'id'                   => 'INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY',
+            'id'                   => parent::PRIMARY_KEY,
             'username'             => 'VARCHAR(20) NOT NULL',
             'email'                => 'VARCHAR(64) NOT NULL',
             'password_hash'        => 'CHAR(60) NULL',
@@ -21,9 +15,9 @@ class m130524_201442_init extends Migration
             'phone'                => 'VARCHAR(14)',
             'auth_key'             => 'CHAR(32) NOT NULL',
             'status'               => 'TINYINT UNSIGNED NOT NULL',
-            'created_at'           => 'DATETIME NOT NULL',
-            'updated_at'           => 'DATETIME NOT NULL',
-        ], $tableOptions);
+            'created_at'           => parent::DATE_FIELD,
+            'updated_at'           => parent::DATE_FIELD,
+        ], parent::TABLE_OPTIONS);
     }
 
     public function down()

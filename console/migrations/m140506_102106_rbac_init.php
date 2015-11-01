@@ -7,6 +7,7 @@
 
 use yii\base\InvalidConfigException;
 use yii\rbac\DbManager;
+use console\components\Migration;
 
 /**
  * Initializes RBAC tables
@@ -14,7 +15,7 @@ use yii\rbac\DbManager;
  * @author Alexander Kochetov <creocoder@gmail.com>
  * @since 2.0
  */
-class m140506_102106_rbac_init extends \yii\db\Migration
+class m140506_102106_rbac_init extends Migration
 {
     /**
      * @throws yii\base\InvalidConfigException
@@ -34,19 +35,13 @@ class m140506_102106_rbac_init extends \yii\db\Migration
         $authManager = $this->getAuthManager();
         $this->db = $authManager->db;
 
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
         $this->createTable($authManager->ruleTable, [
             'name' => $this->string(64)->notNull(),
             'data' => $this->text(),
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
             'PRIMARY KEY (name)',
-        ], $tableOptions);
+        ], parent::TABLE_OPTIONS);
 
         $this->createTable($authManager->itemTable, [
             'name' => $this->string(64)->notNull(),
@@ -58,7 +53,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration
             'updated_at' => $this->integer(),
             'PRIMARY KEY (name)',
             'FOREIGN KEY (rule_name) REFERENCES ' . $authManager->ruleTable . ' (name) ON DELETE SET NULL ON UPDATE CASCADE',
-        ], $tableOptions);
+        ], parent::TABLE_OPTIONS);
         $this->createIndex('idx-auth_item-type', $authManager->itemTable, 'type');
 
         $this->createTable($authManager->itemChildTable, [
@@ -67,7 +62,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration
             'PRIMARY KEY (parent, child)',
             'FOREIGN KEY (parent) REFERENCES ' . $authManager->itemTable . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
             'FOREIGN KEY (child) REFERENCES ' . $authManager->itemTable . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
-        ], $tableOptions);
+        ], parent::TABLE_OPTIONS);
 
         $this->createTable($authManager->assignmentTable, [
             'item_name' => $this->string(64)->notNull(),
@@ -75,7 +70,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration
             'created_at' => $this->integer(),
             'PRIMARY KEY (item_name, user_id)',
             'FOREIGN KEY (item_name) REFERENCES ' . $authManager->itemTable . ' (name) ON DELETE CASCADE ON UPDATE CASCADE',
-        ], $tableOptions);
+        ], parent::TABLE_OPTIONS);
     }
 
     public function down()

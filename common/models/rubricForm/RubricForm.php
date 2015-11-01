@@ -1,30 +1,28 @@
 <?php
 
-namespace common\models\category;
+namespace common\models\rubricForm;
 
 use Yii;
 use \yii\db\ActiveRecord;
 use common\models\rubric\Rubric;
 
 /**
- * This is the model class for table "category".
+ * This is the model class for table "rubric_form".
  *
- * @property integer   $id
- * @property string   $name
+ * @property integer  $id
+ * @property string   $name_view
  * @property string   $date_create
  *
  * @property Rubric[] $rubrics
  */
-class Category extends ActiveRecord
+class RubricForm extends ActiveRecord
 {
-    const COUNT_ON_MAIN_PAGE = 9;
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'category';
+        return 'rubric_form';
     }
 
     /**
@@ -33,9 +31,9 @@ class Category extends ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name_view'], 'required'],
             [['date_create'], 'safe'],
-            [['name'], 'string', 'max' => 200]
+            [['name_view'], 'string', 'max' => 50]
         ];
     }
 
@@ -46,18 +44,18 @@ class Category extends ActiveRecord
     {
         return [
             'id'          => Yii::t('label', 'ID'),
-            'name'        => Yii::t('label', 'Name'),
+            'name_view'   => Yii::t('label', 'Name View'),
             'date_create' => Yii::t('label', 'Date Create'),
         ];
     }
 
     /**
      * @inheritdoc
-     * @return CategoryQuery the active query used by this AR class.
+     * @return RubricFormQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoryQuery(get_called_class());
+        return new RubricFormQuery(get_called_class());
     }
 
     /**
@@ -65,6 +63,6 @@ class Category extends ActiveRecord
      */
     public function getRubrics()
     {
-        return $this->hasMany(Rubric::className(), ['category_id' => 'id']);
+        return $this->hasMany(Rubric::className(), ['rubric_form_id' => 'id']);
     }
 }

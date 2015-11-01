@@ -76,7 +76,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $categories = Category::find()->whereId([1, 2])->all();
+        return $this->render('index', ['categories' => $categories]);
     }
 
     /**
@@ -201,9 +202,10 @@ class SiteController extends Controller
         return $this->render('result');
     }
 
-    public function actionForm()
+    public function actionForm($id)
     {
-        return $this->render('form');
+        $rubric = Rubric::find()->whereId($id)->one();
+        return $this->render('form', ['rubric' => $rubric]);
     }
 
     public function actionSearch()
