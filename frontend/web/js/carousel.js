@@ -9,29 +9,20 @@ $(document).ready(function () {
             0:{
                 items:1
             },
-            300:{
+            400:{
                 items:2
             },
-            400:{
+            500:{
                 items:3
             },
-            500:{
+            600:{
                 items:4
             },
-            700:{
+            900:{
                 items:5
             },
-            800:{
-                items:6
-            },
-            1000:{
-                items:7
-            },
-            1100:{
-                items:8
-            },
             1200:{
-                items:9
+                items:7
             }
         }
     });
