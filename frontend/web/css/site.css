@@ -104,3 +104,14 @@ a.desc:after {
 .auth-clients-modal {
     text-align: center;
 }
+
+.formDiv {
+    padding: 10px;
+}
+
+.borderDashed {
+    border: 1px dashed black;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}

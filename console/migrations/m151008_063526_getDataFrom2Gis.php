@@ -16,17 +16,17 @@ class m151008_063526_getDataFrom2Gis extends Migration
 //        }
 
         $this->createTable('category', [
-            'id'          => parent::PRIMARY_KEY,
+            'id'          => self::PRIMARY_KEY,
             'name'        => 'VARCHAR(200) NOT NULL',
-            'date_create' => parent::DATE_FIELD,
-        ], parent::TABLE_OPTIONS);
+            'date_create' => self::DATE_FIELD,
+        ], self::TABLE_OPTIONS);
 
         $this->createTable('rubric', [
-            'id'          => parent::PRIMARY_KEY,
-            'category_id' => parent::INT_FIELD . ' NOT NULL',
+            'id'          => self::PRIMARY_KEY,
+            'category_id' => self::INT_FIELD . ' NOT NULL',
             'name'        => 'VARCHAR(250) NOT NULL',
-            'date_create' => parent::DATE_FIELD,
-        ], parent::TABLE_OPTIONS);
+            'date_create' => self::DATE_FIELD,
+        ], self::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_rubric_category_id', 'rubric', 'category_id', 'category', 'id', 'CASCADE', 'CASCADE');
 

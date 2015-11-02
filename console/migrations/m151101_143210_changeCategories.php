@@ -9,18 +9,24 @@ class m151101_143210_changeCategories extends Migration
         $date = date('Y-m-d H:i:s');
 
         $this->createTable('rubric_form', [
-            'id'          => parent::PRIMARY_KEY,
+            'id'          => self::PRIMARY_KEY,
             'name_view'   => 'VARCHAR(50) NOT NULL',
-            'date_create' => parent::DATE_FIELD,
-        ], parent::TABLE_OPTIONS);
+            'date_create' => self::DATE_FIELD,
+        ], self::TABLE_OPTIONS);
 
         $this->execute('SET foreign_key_checks = 0;');
         $this->truncateTable('rubric');
         $this->truncateTable('category');
         $this->execute('SET foreign_key_checks = 1;');
 
-        $this->insert('category', ['name' => 'Автосервис']);
-        $this->insert('category', ['name' => 'Автозапчасти / Автотовары']);
+        $this->insert('category', [
+            'name'        => 'Автосервис',
+            'date_create' => $date
+        ]);
+        $this->insert('category', [
+            'name'        => 'Автозапчасти / Автотовары',
+            'date_create' => $date
+        ]);
 
         $this->addColumn('rubric', 'rubric_form_id', self::INT_FIELD . ' NOT NULL AFTER category_id');
         $this->addForeignKey('fk_rubric_rubric_form_id', 'rubric', 'rubric_form_id',
@@ -30,7 +36,7 @@ class m151101_143210_changeCategories extends Migration
             1 => 'import_auto_parts',
             2 => 'russian_auto_parts',
             3 => 'tires',
-            4 => 'tires_freight',
+            4 => 'wheel_disc',
             5 => 'auto_service',
             6 => 'repair_discs',
             7 => 'repair_car_body'
@@ -45,13 +51,13 @@ class m151101_143210_changeCategories extends Migration
 
         $rubricsService = [
             'Авторемонт и техобслуживание (СТО)' => 5,
-            'Ремонт дисков'                     => 6,
-            'Кузовной ремонт / малярные работы' => 7,
-            'Установка / ремонт автостёкол'     => 5,
-            'Ремонт автоэлектрики'              => 5,
-            'Ремонт ходовой части автомобиля'   => 5,
-            'Ремонт дизельных двигателей'       => 5,
-            'Ремонт бензиновых двигателей'      => 5
+            'Ремонт дисков'                      => 6,
+            'Кузовной ремонт / малярные работы'  => 7,
+            'Установка / ремонт автостёкол'      => 5,
+            'Ремонт автоэлектрики'               => 5,
+            'Ремонт ходовой части автомобиля'    => 5,
+            'Ремонт дизельных двигателей'        => 5,
+            'Ремонт бензиновых двигателей'       => 5
         ];
 
         $this->_insertRubrics($rubricsService, 1);

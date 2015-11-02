@@ -9,7 +9,7 @@ use common\models\rubric\Rubric;
 /**
  * This is the model class for table "category".
  *
- * @property integer   $id
+ * @property integer  $id
  * @property string   $name
  * @property string   $date_create
  *

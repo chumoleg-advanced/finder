@@ -9,32 +9,24 @@ use \yii\helpers\Html;
 
     <div class="col-md-12 formDiv">
         <div class="col-md-12">
-            <?= Html::dropDownList('diameter'); ?>
             <?= Html::dropDownList('points'); ?>
+            <?= Html::dropDownList('diameter'); ?>
             <?= Html::dropDownList('width'); ?>
+            <?= Html::dropDownList('protrusion'); ?>
             <?= Html::textInput('count'); ?>
         </div>
     </div>
 
     <div class="col-md-12 formDiv">
         <div class="col-md-6">
-            <?= Html::button('На лето'); ?>
-            <?= Html::button('На зиму'); ?>
-            <?= Html::button('Всесезонка'); ?>
+            <?= Html::button('Литые'); ?>
+            <?= Html::button('Кованные'); ?>
+            <?= Html::button('Штампованные'); ?>
         </div>
         <div class="col-md-6">
             <?= Html::button('Новые'); ?>
             <?= Html::button('Б/у'); ?>
         </div>
-    </div>
-
-    <div class="col-md-12 formDiv">
-        <div class="col-md-6">
-            <?= Html::button('Без шипов'); ?>
-            <?= Html::button('Шипы'); ?>
-            <?= Html::button('Под шипы'); ?>
-        </div>
-        <div class="col-md-6"></div>
     </div>
 
     <div class="col-md-12 formDiv borderDashed">
