@@ -20,7 +20,7 @@ echo Html::tag('div', '&nbsp;');
 <div class="row">
     <?php foreach ($rubrics as $rubric) : ?>
         <div class="text-center col-lg-2 col-md-4 col-sm-6 col-xs-12">
-            <a href="<?= Url::toRoute(['/site/form', 'id' => $rubric->id]); ?>">
+            <a href="<?= Url::toRoute(['/search/form', 'id' => $rubric->id]); ?>">
                 <?= EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 100, 100,
                     EasyThumbnailImage::THUMBNAIL_OUTBOUND,
                     ['class' => 'img-responsive img-thumbnail', 'alt' => $rubric->name]

@@ -17,7 +17,7 @@ class m151011_163946_addAdminUser extends Migration
                 ]
             ];
 
-            $model = new \frontend\models\SignupForm();
+            $model = new \frontend\forms\SignupForm();
             if ($model->load($data)) {
                 $model->signup();
             }

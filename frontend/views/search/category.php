@@ -21,7 +21,7 @@ $this->title = Yii::t('title', 'Categories');
     <div id="owl-demo" class="owl-carousel owl-theme col-lg-4 col-xs-12 col-sm-6">
         <?php foreach ($categories as $category) : ?>
             <div class="text-center">
-                <a href="<?= Url::toRoute(['/site/category', 'id' => $category->id]); ?>">
+                <a href="<?= Url::toRoute(['/search/category', 'id' => $category->id]); ?>">
                     <?= EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 200, 200,
                         EasyThumbnailImage::THUMBNAIL_OUTBOUND,
                         ['class' => 'img-responsive img-thumbnail', 'alt' => $category->name]

@@ -8,12 +8,6 @@ class m151101_143210_changeCategories extends Migration
     {
         $date = date('Y-m-d H:i:s');
 
-        $this->createTable('rubric_form', [
-            'id'          => self::PRIMARY_KEY,
-            'name_view'   => 'VARCHAR(50) NOT NULL',
-            'date_create' => self::DATE_FIELD,
-        ], self::TABLE_OPTIONS);
-
         $this->execute('SET foreign_key_checks = 0;');
         $this->truncateTable('rubric');
         $this->truncateTable('category');
@@ -28,26 +22,7 @@ class m151101_143210_changeCategories extends Migration
             'date_create' => $date
         ]);
 
-        $this->addColumn('rubric', 'rubric_form_id', self::INT_FIELD . ' NOT NULL AFTER category_id');
-        $this->addForeignKey('fk_rubric_rubric_form_id', 'rubric', 'rubric_form_id',
-            'rubric_form', 'id', 'RESTRICT', 'CASCADE');
-
-        $forms = [
-            1 => 'import_auto_parts',
-            2 => 'russian_auto_parts',
-            3 => 'tires',
-            4 => 'wheel_disc',
-            5 => 'auto_service',
-            6 => 'repair_discs',
-            7 => 'repair_car_body'
-        ];
-
-        foreach ($forms as $name) {
-            $this->insert('rubric_form', [
-                'name_view'   => $name,
-                'date_create' => $date
-            ]);
-        }
+        $this->addColumn('rubric', 'rubric_form', 'TINYINT NOT NULL AFTER category_id');
 
         $rubricsService = [
             'Авторемонт и техобслуживание (СТО)' => 5,
@@ -76,9 +51,7 @@ class m151101_143210_changeCategories extends Migration
 
     public function down()
     {
-        $this->dropForeignKey('fk_rubric_rubric_form_id', 'rubric');
-        $this->dropColumn('rubric', 'rubric_form_id');
-        $this->dropTable('rubric_form');
+        $this->dropColumn('rubric', 'rubric_form');
     }
 
     /**
@@ -92,7 +65,7 @@ class m151101_143210_changeCategories extends Migration
             $this->insert('rubric', [
                 'category_id'    => $categoryId,
                 'name'           => $name,
-                'rubric_form_id' => $formId,
+                'rubric_form' => $formId,
                 'date_create'    => $date
             ]);
         }

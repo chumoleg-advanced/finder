@@ -11,6 +11,9 @@ return [
     'basePath'            => dirname(__DIR__),
     'bootstrap'           => ['log', 'thumbnail'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules'             => [
+        'ajax' => 'frontend\modules\ajax\AjaxModule'
+    ],
     'components'          => [
         'authClientCollection' => [
             'class'   => 'yii\authclient\Collection',

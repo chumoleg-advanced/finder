@@ -14,7 +14,7 @@ $this->title = Yii::t('title', 'Search');
         <div class="col-md-12 text-center">
             <?php foreach ($categories as $category) : ?>
                 <div class="col-md-6">
-                    <a href="<?= Url::toRoute(['/site/category', 'id' => $category->id]); ?>">
+                    <a href="<?= Url::toRoute(['/search/category', 'id' => $category->id]); ?>">
                         <?= EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 400, 200,
                             EasyThumbnailImage::THUMBNAIL_OUTBOUND,
                             ['class' => 'img-responsive img-thumbnail', 'alt' => $category->name]

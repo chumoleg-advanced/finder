@@ -4,6 +4,7 @@ namespace common\models\car;
 
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "car_firm".
@@ -84,5 +85,14 @@ class CarFirm extends ActiveRecord
     public function getCarMotors()
     {
         return $this->hasMany(CarMotor::className(), ['car_firm_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getList()
+    {
+        $data = $this->find()->all();
+        return ArrayHelper::map($data, 'id', 'name');
     }
 }

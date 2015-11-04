@@ -3,19 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use frontend\forms\PasswordResetRequestForm;
+use frontend\forms\ResetPasswordForm;
+use frontend\forms\SignupForm;
+use frontend\forms\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\category\Category;
-use common\models\rubric\Rubric;
-
 
 /**
  * Site controller
@@ -195,28 +192,5 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
-    }
-
-    public function actionResult()
-    {
-        return $this->render('result');
-    }
-
-    public function actionForm($id)
-    {
-        $rubric = Rubric::find()->whereId($id)->one();
-        return $this->render('form', ['rubric' => $rubric]);
-    }
-
-    public function actionSearch()
-    {
-        $categories = Category::find()->all();
-        return $this->render('category', ['categories' => $categories]);
-    }
-
-    public function actionCategory($id)
-    {
-        $rubrics = Rubric::find()->whereCategoryId($id)->all();
-        return $this->render('rubric', ['rubrics' => $rubrics]);
     }
 }

@@ -5,19 +5,18 @@ namespace common\models\rubric;
 use Yii;
 use \yii\db\ActiveRecord;
 use common\models\category\Category;
-use common\models\rubricForm\RubricForm;
+use \yii\base\Model;
 
 /**
  * This is the model class for table "rubric".
  *
- * @property integer    $id
- * @property integer    $category_id
- * @property integer    $rubric_form_id
- * @property string     $name
- * @property string     $date_create
+ * @property integer  $id
+ * @property integer  $category_id
+ * @property integer  $rubric_form
+ * @property string   $name
+ * @property string   $date_create
  *
- * @property Category   $category
- * @property RubricForm $rubricForm
+ * @property Category $category
  */
 class Rubric extends ActiveRecord
 {
@@ -35,8 +34,8 @@ class Rubric extends ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'rubric_form_id', 'name'], 'required'],
-            [['category_idm', 'rubric_form_id'], 'integer'],
+            [['category_id', 'rubric_form', 'name'], 'required'],
+            [['category_idm', 'rubric_form'], 'integer'],
             [['date_create'], 'safe'],
             [['name'], 'string', 'max' => 250]
         ];
@@ -48,11 +47,11 @@ class Rubric extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'             => Yii::t('label', 'ID'),
-            'category_id'    => Yii::t('label', 'Category ID'),
-            'rubric_form_id' => Yii::t('label', 'Rubric Form ID'),
-            'name'           => Yii::t('label', 'Name'),
-            'date_create'    => Yii::t('label', 'Date Create'),
+            'id'          => Yii::t('label', 'ID'),
+            'category_id' => Yii::t('label', 'Category ID'),
+            'rubric_form' => Yii::t('label', 'Rubric Form'),
+            'name'        => Yii::t('label', 'Name'),
+            'date_create' => Yii::t('label', 'Date Create'),
         ];
     }
 
@@ -74,10 +73,20 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
-    public function getRubricForm()
+    public function getViewName()
     {
-        return $this->hasOne(RubricForm::className(), ['id' => 'rubric_form_id']);
+        $formView = RubricFormData::getViewName($this->rubric_form);
+        return '_forms/' . $formView;
+    }
+
+    /**
+     * @return Model
+     */
+    public function geFormModel()
+    {
+        $className = RubricFormData::geFormModel($this->rubric_form);
+        return new $className;
     }
 }

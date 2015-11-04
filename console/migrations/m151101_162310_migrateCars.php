@@ -10,22 +10,22 @@ class m151101_162310_migrateCars extends Migration
     {
         try {
             $this->_createTableCarFirm();
-        } catch (Exception $e){
+        } catch (Exception $e) {
         }
 
         try {
             $this->_createTableCarModel();
-        } catch (Exception $e){
+        } catch (Exception $e) {
         }
 
         try {
             $this->_createTableCarBody();
-        } catch (Exception $e){
+        } catch (Exception $e) {
         }
 
         try {
             $this->_createTableCarMotor();
-        } catch (Exception $e){
+        } catch (Exception $e) {
         }
 
         $this->_insertData();
@@ -122,17 +122,7 @@ class m151101_162310_migrateCars extends Migration
 
     private function _insertData()
     {
-        $finalData = $this->_getFinalData();
-        $this->_insertIntoDb($finalData);
-    }
-
-    /**
-     * @return array
-     */
-    private function _getFinalData()
-    {
         $curl = Yii::$app->curl;
-        $finalData = [];
 
         $url
             = 'http://baza.drom.ru/ajax-control/modelSelectControl/mselect?ajax=1&super-edit=1&mode=control&bodyNumbers=&engineNumbers=';
@@ -152,15 +142,19 @@ class m151101_162310_migrateCars extends Migration
             'УАЗ',
         ];
 
+        $connect = Yii::$app->db;
+        $date = date('Y-m-d H:i:s');
+
         foreach ($result as $firmK => $itemFirm) {
             echo 'car firm ' . $itemFirm['name'] . PHP_EOL;
 
             $import = array_search($itemFirm['name'], $our) === false ? 1 : 2;
-            $finalData[$firmK] = [
-                'name'   => $itemFirm['name'],
-                'import' => $import,
-                'models' => []
-            ];
+            $connect->createCommand()->insert('car_firm', [
+                'name'        => $itemFirm['name'],
+                'import'      => $import,
+                'date_create' => $date
+            ])->execute();
+            $firmId = $connect->getLastInsertID();
 
             if (empty($itemFirm['has_children'])) {
                 continue;
@@ -184,10 +178,12 @@ class m151101_162310_migrateCars extends Migration
             foreach ($resultModels as $modelK => $itemModel) {
                 echo 'car model ' . $itemModel['name'] . PHP_EOL;
 
-                $finalData[$firmK]['models'][$modelK] = [
-                    'name'   => $itemModel['name'],
-                    'bodies' => []
-                ];
+                $connect->createCommand()->insert('car_model', [
+                    'name'        => $itemModel['name'],
+                    'car_firm_id' => $firmId,
+                    'date_create' => $date
+                ])->execute();
+                $modelId = $connect->getLastInsertID();
 
                 if (empty($itemModel['has_children'])) {
                     continue;
@@ -209,10 +205,13 @@ class m151101_162310_migrateCars extends Migration
                 $resultBodies = ArrayHelper::getValue($dataBodies, 'response.items', []);
 
                 foreach ($resultBodies as $bodyK => $itemBody) {
-                    $finalData[$firmK]['models'][$modelK]['bodies'][$bodyK] = [
-                        'name'   => $itemBody['name'],
-                        'motors' => []
-                    ];
+                    $connect->createCommand()->insert('car_body', [
+                        'name'         => $itemBody['name'],
+                        'car_firm_id'  => $firmId,
+                        'car_model_id' => $modelId,
+                        'date_create'  => $date
+                    ])->execute();
+                    $bodyId = $connect->getLastInsertID();
 
                     if (empty($itemBody['has_children'])) {
                         continue;
@@ -235,52 +234,8 @@ class m151101_162310_migrateCars extends Migration
                     $resultMotors = ArrayHelper::getValue($dataMotors, 'response.items', []);
 
                     foreach ($resultMotors as $itemMotor) {
-                        $finalData[$firmK]['models'][$modelK]['bodies'][$bodyK]['motors'][] = $itemMotor['name'];
-                    }
-                }
-            }
-        }
-
-        return $finalData;
-    }
-
-    /**
-     * @param $finalData
-     *
-     * @throws \yii\db\Exception
-     */
-    private function _insertIntoDb($finalData)
-    {
-        $connect = Yii::$app->db;
-        $date = date('Y-m-d H:i:s');
-        foreach ($finalData as $firm) {
-            $connect->createCommand()->insert('car_firm', [
-                'name'        => $firm['name'],
-                'import'      => $firm['import'],
-                'date_create' => $date
-            ])->execute();
-            $firmId = $connect->getLastInsertID();
-
-            foreach ($firm['models'] as $model) {
-                $connect->createCommand()->insert('car_model', [
-                    'name'        => $model['name'],
-                    'car_firm_id' => $firmId,
-                    'date_create' => $date
-                ])->execute();
-                $modelId = $connect->getLastInsertID();
-
-                foreach ($model['bodies'] as $body) {
-                    $connect->createCommand()->insert('car_body', [
-                        'name'         => $body['name'],
-                        'car_firm_id'  => $firmId,
-                        'car_model_id' => $modelId,
-                        'date_create'  => $date
-                    ])->execute();
-                    $bodyId = $connect->getLastInsertID();
-
-                    foreach ($body['motors'] as $motor) {
                         $connect->createCommand()->insert('car_motor', [
-                            'name'         => $motor,
+                            'name'         => $itemMotor['name'],
                             'car_firm_id'  => $firmId,
                             'car_model_id' => $modelId,
                             'car_body_id'  => $bodyId,

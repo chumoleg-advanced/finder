@@ -24,7 +24,7 @@ echo Html::tag('div', '&nbsp;');
 <div class="row">
     <div id="owl-demo" class="owl-carousel owl-theme col-lg-12">
         <?php foreach ($rubrics as $rubric) : ?>
-            <a href="<?= Url::toRoute(['/site/form', 'id' => $rubric->id]); ?>">
+            <a href="<?= Url::toRoute(['/search/form', 'id' => $rubric->id]); ?>">
                 <div class="text-center">
                     <?= EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 300, 300,
                         EasyThumbnailImage::THUMBNAIL_OUTBOUND,
