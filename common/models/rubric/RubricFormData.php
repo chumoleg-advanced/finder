@@ -44,6 +44,11 @@ class RubricFormData
             7 => null
         ];
 
-        return '\\frontend\\searchForms\\' . ArrayHelper::getValue($viewsList, $formId, 'Default');
+        $className = ArrayHelper::getValue($viewsList, $formId);
+        if (empty($className)) {
+            $className = 'DefaultForm';
+        }
+
+        return '\\frontend\\searchForms\\' . $className;
     }
 }
