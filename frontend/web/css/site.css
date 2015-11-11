@@ -122,13 +122,10 @@ a.desc:after {
 }
 
 .districtSelect {
+    margin-top: 7px;
     display: none;
 }
 
 .deleteService {
     display: none;
-}
-
-.serviceRow {
-    margin-bottom: 5px;
 }

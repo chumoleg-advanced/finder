@@ -23,6 +23,8 @@ class AutoServiceForm extends Model
     public $districtData;
 
     public $verifyCode;
+    public $comment;
+    public $description;
 
     /**
      * @inheritdoc
