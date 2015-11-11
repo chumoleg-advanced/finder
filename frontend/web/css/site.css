@@ -115,3 +115,20 @@ a.desc:after {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+.additionOptions {
+    margin-top: 5px;
+    display: none;
+}
+
+.districtSelect {
+    display: none;
+}
+
+.deleteService {
+    display: none;
+}
+
+.serviceRow {
+    margin-bottom: 5px;
+}

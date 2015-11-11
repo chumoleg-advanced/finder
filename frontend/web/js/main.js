@@ -3,7 +3,26 @@ $(document).ready(function () {
         $('#loginForm').modal();
     });
 
-    $('body').on('beforeSubmit', 'form#login-form', function () {
+    $('.showAdditionOptions').click(function () {
+        $('.additionOptions').toggle();
+    });
+
+    $('.showDistrictSelect').change(function () {
+        $('.districtSelect').toggle();
+    });
+
+    $('.addService').click(function () {
+        var obj = $('.serviceRow:first-child').clone();
+        obj.find('.form-control').val('');
+        obj.find('.deleteService').show();
+        obj.appendTo('.placeListServices');
+    });
+
+    $(document).on('click', '.deleteService', function () {
+        $(this).closest('.serviceRow').remove();
+    });
+
+    $(document).on('beforeSubmit', 'form#login-form', function () {
         var errorDiv = $('.error-summary');
         errorDiv.hide();
 
