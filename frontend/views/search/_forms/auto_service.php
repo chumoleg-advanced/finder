@@ -41,13 +41,13 @@ $form = ActiveForm::begin([
                 <?= $form->field($model, 'comment[]', [
                     'addon' => [
                         'append'  => [
-                            'content'  => '<button class="btn btn-default"><i class="glyphicon glyphicon-camera"></i> Добавить фото</button>',
+                            'content'  => '<div class="fileUpload btn btn-primary"><span><i class="glyphicon glyphicon-camera"></i> Добавить фото</span><input type="file" class="upload" /></div>',
                             'asButton' => true
                         ]
                     ]
                 ])->textInput(['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1 deleteServiceDiv">
                 <?= Html::button('-', ['class' => 'btn btn-default deleteService']); ?>
             </div>
         </div>

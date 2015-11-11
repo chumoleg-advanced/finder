@@ -7,8 +7,6 @@ use yii\base\Model;
 
 class AutoServiceForm extends Model
 {
-    public $subjectData;
-
     public $carFirm;
     public $carModel;
     public $carBody;
@@ -23,8 +21,8 @@ class AutoServiceForm extends Model
     public $districtData;
 
     public $verifyCode;
-    public $comment;
-    public $description;
+    public $comment = [];
+    public $description = [];
 
     /**
      * @inheritdoc
