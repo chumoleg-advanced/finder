@@ -9,13 +9,6 @@ use \common\models\car\CarFirm;
 use \common\components\CarData;
 use \kartik\widgets\Select2;
 
-$carFirms = (new CarFirm())->getList();
-
-$captchaOptions = [
-    'captchaAction' => '/site/captcha',
-    'options'       => ['class' => 'form-control'],
-    'template'      => '<div class="col-md-4">{image}</div><div class="col-md-8">{input}</div>',
-];
 ?>
 
 <?php
@@ -40,8 +33,10 @@ $form = ActiveForm::begin([
             <div class="col-md-6">
                 <?= $form->field($model, 'comment[]', [
                     'addon' => [
-                        'append'  => [
-                            'content'  => '<div class="fileUpload btn btn-primary"><span><i class="glyphicon glyphicon-camera"></i> Добавить фото</span><input type="file" class="upload" /></div>',
+                        'append' => [
+                            'content'  => '<div class="fileUpload btn btn-primary"><span>
+                                <i class="glyphicon glyphicon-camera"></i> Добавить фото</span>
+                                <input type="file" class="upload" /></div>',
                             'asButton' => true
                         ]
                     ]
@@ -67,7 +62,7 @@ $form = ActiveForm::begin([
             <div class="col-md-12">Для:</div>
             <div class="col-md-6">
                 <?= $form->field($model, 'carFirm')->widget(Select2::classname(), [
-                    'data'          => $carFirms,
+                    'data'          => (new CarFirm())->getList(),
                     'pluginOptions' => ['allowClear' => true],
                     'options'       => [
                         'placeholder' => $model->getAttributeLabel('carFirm'),
@@ -167,16 +162,19 @@ $form = ActiveForm::begin([
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <hr>
-            <?= $form->field($model, 'verifyCode')->widget(
-                Captcha::className(), $captchaOptions); ?>
+            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                'captchaAction' => '/site/captcha',
+                'options'       => ['class' => 'form-control'],
+                'template'      => '<div class="col-md-4">{image}</div><div class="col-md-8">{input}</div>',
+            ]); ?>
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div class="col-md-12">
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
-                <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+                <?= Html::submitButton('Отправить заявку', ['class' => 'btn btn-primary']) ?>
+                <?= Html::resetButton('Сбросить', ['class' => 'btn btn-default']) ?>
             </div>
         </div>
     </div>
