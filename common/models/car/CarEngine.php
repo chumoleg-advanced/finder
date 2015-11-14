@@ -7,7 +7,7 @@ use \yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "car_motor".
+ * This is the model class for table "car_engine".
  *
  * @property integer  $id
  * @property string   $name
@@ -20,14 +20,14 @@ use yii\helpers\ArrayHelper;
  * @property CarFirm  $carFirm
  * @property CarModel $carModel
  */
-class CarMotor extends ActiveRecord
+class CarEngine extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'car_motor';
+        return 'car_engine';
     }
 
     /**
@@ -60,11 +60,11 @@ class CarMotor extends ActiveRecord
 
     /**
      * @inheritdoc
-     * @return CarMotorQuery the active query used by this AR class.
+     * @return CarEngineQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CarMotorQuery(get_called_class());
+        return new CarEngineQuery(get_called_class());
     }
 
     /**

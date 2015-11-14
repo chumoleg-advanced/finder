@@ -9,15 +9,15 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "car_body".
  *
- * @property integer    $id
- * @property string     $name
- * @property integer    $car_firm_id
- * @property integer    $car_model_id
- * @property string     $date_create
+ * @property integer     $id
+ * @property string      $name
+ * @property integer     $car_firm_id
+ * @property integer     $car_model_id
+ * @property string      $date_create
  *
- * @property CarModel   $carModel
- * @property CarFirm    $carFirm
- * @property CarMotor[] $carMotors
+ * @property CarModel    $carModel
+ * @property CarFirm     $carFirm
+ * @property CarEngine[] $carEngines
  */
 class CarBody extends ActiveRecord
 {
@@ -84,9 +84,9 @@ class CarBody extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCarMotors()
+    public function getCarEngines()
     {
-        return $this->hasMany(CarMotor::className(), ['car_body_id' => 'id']);
+        return $this->hasMany(CarEngine::className(), ['car_body_id' => 'id']);
     }
 
     /**

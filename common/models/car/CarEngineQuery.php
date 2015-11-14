@@ -5,15 +5,15 @@ namespace common\models\car;
 use \yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[CarMotor]].
+ * This is the ActiveQuery class for [[CarEngine]].
  *
- * @see CarMotor
+ * @see CarEngine
  */
-class CarMotorQuery extends ActiveQuery
+class CarEngineQuery extends ActiveQuery
 {
     /**
      * @inheritdoc
-     * @return CarMotor[]|array
+     * @return CarEngine[]|array
      */
     public function all($db = null)
     {
@@ -22,7 +22,7 @@ class CarMotorQuery extends ActiveQuery
 
     /**
      * @inheritdoc
-     * @return CarMotor|array|null
+     * @return CarEngine|array|null
      */
     public function one($db = null)
     {

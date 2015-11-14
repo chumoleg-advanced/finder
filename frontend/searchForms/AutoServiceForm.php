@@ -10,7 +10,7 @@ class AutoServiceForm extends BaseForm
     public $carFirm;
     public $carModel;
     public $carBody;
-    public $carMotor;
+    public $carEngine;
 
     public $vinNumber;
     public $yearRelease;
@@ -33,7 +33,7 @@ class AutoServiceForm extends BaseForm
             'carFirm'      => 'Марка',
             'carModel'     => 'Модель',
             'carBody'      => 'Кузов',
-            'carMotor'     => 'Двигатель',
+            'carEngine'    => 'Двигатель',
             'vinNumber'    => 'VIN или FRAME',
             'yearRelease'  => 'Год выпуска',
             'drive'        => 'Привод',

@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use common\models\car\CarBody;
 use common\models\car\CarModel;
-use common\models\car\CarMotor;
+use common\models\car\CarEngine;
 use kartik\helpers\Html;
 
 class CarSearchController extends Controller
@@ -45,9 +45,9 @@ class CarSearchController extends Controller
         $this->_renderSelect($data);
     }
 
-    public function actionCarMotor()
+    public function actionCarEngine()
     {
-        $data = (new CarMotor())->getListByBody($this->_getId());
+        $data = (new CarEngine())->getListByBody($this->_getId());
         $this->_renderSelect($data);
     }
 }

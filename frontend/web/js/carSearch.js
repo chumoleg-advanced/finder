@@ -8,7 +8,7 @@ $(document).ready(function () {
     });
 
     $('.carBodySelect').change(function () {
-        _updateSelect($(this).val(), 'carMotorSelect', 'car-motor');
+        _updateSelect($(this).val(), 'carEngineSelect', 'car-motor');
     });
 });
 

@@ -24,7 +24,7 @@ class m151101_162310_migrateCars extends Migration
         }
 
         try {
-            $this->_createTableCarMotor();
+            $this->_createTableCarEngine();
         } catch (Exception $e) {
         }
 
@@ -37,9 +37,9 @@ class m151101_162310_migrateCars extends Migration
             'fk_car_model_car_firm_id'  => 'car_model',
             'fk_car_body_car_firm_id'   => 'car_body',
             'fk_car_body_car_model_id'  => 'car_body',
-            'fk_car_motor_car_firm_id'  => 'car_motor',
-            'fk_car_motor_car_model_id' => 'car_motor',
-            'fk_car_motor_car_body_id'  => 'car_motor'
+            'fk_car_engine_car_firm_id'  => 'car_engine',
+            'fk_car_engine_car_model_id' => 'car_engine',
+            'fk_car_engine_car_body_id'  => 'car_engine'
         ];
         foreach ($foreignKeys as $key => $table) {
             try {
@@ -49,7 +49,7 @@ class m151101_162310_migrateCars extends Migration
         }
 
         $tables = [
-            'car_motor',
+            'car_engine',
             'car_body',
             'car_model',
             'car_firm'
@@ -101,9 +101,9 @@ class m151101_162310_migrateCars extends Migration
             'car_model', 'id', 'CASCADE', 'CASCADE');
     }
 
-    private function _createTableCarMotor()
+    private function _createTableCarEngine()
     {
-        $this->createTable('car_motor', [
+        $this->createTable('car_engine', [
             'id'           => self::PRIMARY_KEY,
             'name'         => 'VARCHAR(100) NOT NULL',
             'car_firm_id'  => self::INT_FIELD . ' NOT NULL',
@@ -112,11 +112,11 @@ class m151101_162310_migrateCars extends Migration
             'date_create'  => self::DATE_FIELD
         ], self::TABLE_OPTIONS);
 
-        $this->addForeignKey('fk_car_motor_car_firm_id', 'car_motor', 'car_firm_id',
+        $this->addForeignKey('fk_car_engine_car_firm_id', 'car_engine', 'car_firm_id',
             'car_firm', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_car_motor_car_model_id', 'car_motor', 'car_model_id',
+        $this->addForeignKey('fk_car_engine_car_model_id', 'car_engine', 'car_model_id',
             'car_model', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_car_motor_car_body_id', 'car_motor', 'car_body_id',
+        $this->addForeignKey('fk_car_engine_car_body_id', 'car_engine', 'car_body_id',
             'car_body', 'id', 'CASCADE', 'CASCADE');
     }
 
@@ -145,7 +145,7 @@ class m151101_162310_migrateCars extends Migration
         $connect = Yii::$app->db;
         $date = date('Y-m-d H:i:s');
 
-        foreach ($result as $firmK => $itemFirm) {
+        foreach ($result as $itemFirm) {
             echo 'car firm ' . $itemFirm['name'] . PHP_EOL;
 
             $import = array_search($itemFirm['name'], $our) === false ? 1 : 2;
@@ -160,8 +160,9 @@ class m151101_162310_migrateCars extends Migration
                 continue;
             }
 
+            $firmName = mb_convert_encoding($itemFirm['name'], 'CP1251', 'UTF-8');
             $urlModel = 'http://baza.drom.ru/ajax-control/modelSelectControl/mselect?mode=models&firm='
-                . $itemFirm['name'];
+                . $firmName;
             $carModels = mb_convert_encoding($curl->get($urlModel), 'UTF-8', 'CP1251');
             if (empty($carModels)) {
                 continue;
@@ -189,8 +190,9 @@ class m151101_162310_migrateCars extends Migration
                     continue;
                 }
 
+                $modelName = mb_convert_encoding($itemModel['name'], 'CP1251', 'UTF-8');
                 $urlBodies = 'http://baza.drom.ru/ajax-control/modelSelectControl/mselect?mode=bodies&firm='
-                    . $itemFirm['name'] . '&model=' . $itemModel['name'];
+                    . $firmName . '&model=' . $modelName;
                 $carBodies = mb_convert_encoding($curl->get($urlBodies), 'UTF-8', 'CP1251');
                 if (empty($carBodies)) {
                     continue;
@@ -217,16 +219,17 @@ class m151101_162310_migrateCars extends Migration
                         continue;
                     }
 
+                    $bodyName = mb_convert_encoding($itemBody['name'], 'CP1251', 'UTF-8');
                     $urlMotor = 'http://baza.drom.ru/ajax-control/modelSelectControl/mselect?mode=engines&firm='
-                        . $itemFirm['name'] . '&model=' . $itemModel['name'] . '&bodyNumbers=&bodyNumbers='
-                        . $itemBody['name'];
-                    $carMotors = mb_convert_encoding($curl->get($urlMotor), 'UTF-8', 'CP1251');
-                    if (empty($carMotors)) {
+                        . $firmName . '&model=' . $modelName . '&bodyNumbers=&bodyNumbers='
+                        . $bodyName;
+                    $carEngines = mb_convert_encoding($curl->get($urlMotor), 'UTF-8', 'CP1251');
+                    if (empty($carEngines)) {
                         continue;
                     }
 
                     try {
-                        $dataMotors = @json_decode($carMotors, true);
+                        $dataMotors = @json_decode($carEngines, true);
                     } catch (Exception $e) {
                         continue;
                     }
@@ -234,7 +237,7 @@ class m151101_162310_migrateCars extends Migration
                     $resultMotors = ArrayHelper::getValue($dataMotors, 'response.items', []);
 
                     foreach ($resultMotors as $itemMotor) {
-                        $connect->createCommand()->insert('car_motor', [
+                        $connect->createCommand()->insert('car_engine', [
                             'name'         => $itemMotor['name'],
                             'car_firm_id'  => $firmId,
                             'car_model_id' => $modelId,

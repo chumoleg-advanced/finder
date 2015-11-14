@@ -34,12 +34,12 @@ use \kartik\widgets\Select2;
     ]); ?>
 </div>
 <div class="col-md-3">
-    <?= $form->field($model, 'carMotor')->widget(Select2::classname(), [
+    <?= $form->field($model, 'carEngine')->widget(Select2::classname(), [
         'data'          => [],
         'pluginOptions' => ['allowClear' => true],
         'options'       => [
-            'placeholder' => $model->getAttributeLabel('carMotor'),
-            'class'       => 'carMotor'
+            'placeholder' => $model->getAttributeLabel('carEngine'),
+            'class'       => 'carEngine'
         ]
     ]); ?>
 </div>
