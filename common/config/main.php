@@ -3,6 +3,7 @@
 require(__DIR__ . DIRECTORY_SEPARATOR . 'container.php');
 
 return [
+    'language'   => 'ru-RU',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'urlManager'  => [

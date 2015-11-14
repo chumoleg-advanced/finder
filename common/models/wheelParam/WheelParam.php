@@ -4,6 +4,7 @@ namespace common\models\wheelParam;
 
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "wheel_param".
@@ -15,6 +16,24 @@ use \yii\db\ActiveRecord;
  */
 class WheelParam extends ActiveRecord
 {
+    const WHEEL_WIDTH_ = 1;
+    const WHEEL_HEIGHT = 2;
+    const DISC_DIAMETER = 3;
+    const DISC_POINTS = 4;
+    const DISC_WIDTH = 5;
+    const DISC_OUT = 6;
+
+    /**
+     * @param int $type
+     *
+     * @return array
+     */
+    public static function getListParams($type)
+    {
+        $data = (new self())->find()->whereType($type)->all();
+        return ArrayHelper::map($data, 'id', 'value');
+    }
+
     /**
      * @inheritdoc
      */

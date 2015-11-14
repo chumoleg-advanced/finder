@@ -3,9 +3,9 @@
 namespace frontend\searchForms;
 
 use Yii;
-use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
-class AutoServiceForm extends Model
+class AutoServiceForm extends BaseForm
 {
     public $carFirm;
     public $carModel;
@@ -17,27 +17,19 @@ class AutoServiceForm extends Model
     public $drive;
     public $transmission;
 
-    public $withMe;
-    public $districtData;
-
-    public $verifyCode;
-    public $comment = [];
-    public $description = [];
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        return [
-            [['subjectData', 'carFirm'], 'required'],
-            ['verifyCode', 'captcha'],
-        ];
+        return ArrayHelper::merge(parent::rules(), [
+            [['description', 'carFirm'], 'required']
+        ]);
     }
 
     public function attributeLabels()
     {
-        return [
+        return ArrayHelper::merge(parent::attributeLabels(), [
             'carFirm'      => 'Марка',
             'carModel'     => 'Модель',
             'carBody'      => 'Кузов',
@@ -45,9 +37,7 @@ class AutoServiceForm extends Model
             'vinNumber'    => 'VIN или FRAME',
             'yearRelease'  => 'Год выпуска',
             'drive'        => 'Привод',
-            'transmission' => 'Коробка передач',
-            'withMe'       => 'Рядом со мной',
-            'districtData' => 'Районы',
-        ];
+            'transmission' => 'Коробка передач'
+        ]);
     }
 }

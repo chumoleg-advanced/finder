@@ -11,6 +11,10 @@ $(document).ready(function () {
         $('.districtSelect').toggle();
     });
 
+    $('.showDeliveryAddress').change(function () {
+        $('.deliveryAddress').toggle();
+    });
+
     $('.addService').click(function () {
         var obj = $('.serviceRow:first-child').clone();
         obj.find('.form-control').val('');
@@ -20,6 +24,16 @@ $(document).ready(function () {
 
     $(document).on('click', '.deleteService', function () {
         $(this).closest('.serviceRow').remove();
+    });
+
+    $(document).on('change', '.radioButtonListPartsCondition', function () {
+        var obj = $(this).closest('.serviceRow').find('.partsOriginal');
+        var value = $(this).find('.active input[type="radio"]').val();
+        if (value == 1){
+            obj.show();
+        } else {
+            obj.hide();
+        }
     });
 
     $(document).on('beforeSubmit', 'form#login-form', function () {

@@ -121,7 +121,7 @@ a.desc:after {
     display: none;
 }
 
-.districtSelect {
+.districtSelect, .deliveryAddress {
     margin-top: 7px;
     display: none;
 }
@@ -130,7 +130,7 @@ a.desc:after {
     text-align: right;
 }
 
-.deleteService {
+.deleteService, .partsOriginal {
     display: none;
 }
 

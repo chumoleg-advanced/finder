@@ -35,13 +35,13 @@ class RubricFormData
     public static function geFormModel($formId)
     {
         $viewsList = [
-            1 => null,
+            1 => 'AutoPartForm',
             2 => null,
             3 => null,
             4 => null,
             5 => 'AutoServiceForm',
-            6 => null,
-            7 => null
+            6 => 'RepairDiscForm',
+            7 => 'RepairCarBodyForm'
         ];
 
         $className = ArrayHelper::getValue($viewsList, $formId);

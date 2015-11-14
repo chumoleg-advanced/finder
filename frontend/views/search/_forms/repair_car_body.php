@@ -1,48 +1,51 @@
 <?php
-use \yii\helpers\Html;
+
+use \kartik\form\ActiveForm;
+
+/** @var $model \frontend\searchForms\AutoServiceForm */
+/** @var $this \yii\web\View */
 ?>
 
-<div class="row">
-    <div class="col-md-12 formDiv borderDashed">
-        <div class="col-md-2">Мне нужно:</div>
-        <div class="col-md-5"><?= Html::textInput('description'); ?></div>
-        <div class="col-md-5"><?= Html::textInput('comment'); ?></div>
-    </div>
+<?php
+$form = ActiveForm::begin([
+    'id'          => 'repair-car-body-form',
+    'type'        => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig'  => [
+        'showLabels' => false,
+        'deviceSize' => ActiveForm::SIZE_MEDIUM
+    ],
+    'fieldConfig' => [
+        'template' => "{input}\n{hint}\n{error}",
+    ],
+]);
+?>
 
-    <div class="col-md-12 formDiv">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            <?= Html::button('Добавить еще одну работу'); ?>
+<?= $this->render('_parts/_serviceRows', ['form' => $form, 'model' => $model]); ?>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <hr/>
+            <?= $this->render('_parts/_carSelect', ['form' => $form, 'model' => $model]); ?>
+            <div class="col-md-6">
+                <?= $form->field($model, 'color')->textInput(
+                    ['class' => 'form-control', 'placeholder' => 'Цвет']); ?>
+            </div>
         </div>
     </div>
 
-    <div class="col-md-12 formDiv">
-        <div class="col-md-2">Для:</div>
-        <div class="col-md-10">
-            <?= Html::textInput('carFirm'); ?><br />
-            <?= Html::textInput('carModel'); ?>
-            <?= Html::textInput('carBody'); ?><br />
-            <?= Html::textInput('color'); ?>
+<?= $this->render('_parts/_additionOptionsButton'); ?>
+
+    <div class="additionOptions">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <?= $this->render('_parts/_additionCarData', ['form' => $form, 'model' => $model]); ?>
+            </div>
+            <div class="col-md-5">
+                <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>
+            </div>
         </div>
     </div>
 
-    <div class="col-md-12 formDiv borderDashed">
-        <div class="col-md-2"></div>
-        <div class="col-md-5">
-            <?= Html::textInput('vinNumber'); ?><br />
-            <?= Html::textInput('yearRelease'); ?><br />
-            <?= Html::textInput('drive'); ?><br />
-            <?= Html::textInput('transmission'); ?>
-        </div>
-        <div class="col-md-5">
-            <?= Html::label('Рядом со мной', 'withMe'); ?>
-            <?= Html::checkbox('withMe'); ?><br />
-            <?= Html::dropDownList('districts'); ?>
-        </div>
-    </div>
-
-    <div class="col-md-12 formDiv">
-        <div class="col-md-2"></div>
-        <div class="col-md-10"><?= Html::button('Отправить заявку'); ?></div>
-    </div>
-</div>
+<?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
+<?= $this->render('_parts/_buttons'); ?>
+<?php ActiveForm::end(); ?>
