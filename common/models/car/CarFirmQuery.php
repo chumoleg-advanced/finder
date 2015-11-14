@@ -28,4 +28,14 @@ class CarFirmQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+    /**
+     * @param int $import
+     *
+     * @return $this
+     */
+    public function whereImport($import)
+    {
+        return $this->andWhere(['import' => $import]);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace common\components\activeQueryTraits;
 
-use common\components\behaviors\StatusBehavior;
+use common\components\Status;
 
 trait StatusQueryTrait
 {
@@ -29,7 +29,7 @@ trait StatusQueryTrait
      */
     public function isActive()
     {
-        return $this->whereStatus(StatusBehavior::STATUS_ACTIVE);
+        return $this->whereStatus(Status::STATUS_ACTIVE);
     }
 
     /**
@@ -47,6 +47,6 @@ trait StatusQueryTrait
      */
     public function isBlocked()
     {
-        return $this->whereStatus(StatusBehavior::STATUS_DISABLED);
+        return $this->whereStatus(Status::STATUS_DISABLED);
     }
 }

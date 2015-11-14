@@ -1,11 +1,10 @@
 <?php
-use \common\models\car\CarFirm;
 use \kartik\widgets\Select2;
 ?>
 
 <div class="col-md-3">
     <?= $form->field($model, 'carFirm')->widget(Select2::classname(), [
-        'data'          => (new CarFirm())->getList(),
+        'data'          => $carFirms,
         'pluginOptions' => ['allowClear' => true],
         'options'       => [
             'placeholder' => $model->getAttributeLabel('carFirm'),

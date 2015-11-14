@@ -88,6 +88,17 @@ class CarFirm extends ActiveRecord
     }
 
     /**
+     * @param int $import
+     *
+     * @return array
+     */
+    public function getListByImport($import)
+    {
+        $data = $this->find()->whereImport($import)->orderBy('name')->all();
+        return ArrayHelper::map($data, 'id', 'name');
+    }
+
+    /**
      * @return array
      */
     public function getList()

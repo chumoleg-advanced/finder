@@ -1,6 +1,7 @@
 <?php
 
 use \kartik\form\ActiveForm;
+use common\models\car\CarFirm;
 
 /** @var $model \frontend\searchForms\AutoServiceForm */
 /** @var $this \yii\web\View */
@@ -25,7 +26,9 @@ $form = ActiveForm::begin([
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <hr/>
-            <?= $this->render('_parts/_carSelect', ['form' => $form, 'model' => $model]); ?>
+            <?= $this->render('_parts/_carSelect',
+                ['form' => $form, 'model' => $model, 'carFirms' => (new CarFirm())->getList()]); ?>
+
             <div class="col-md-6">
                 <?= $form->field($model, 'color')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Цвет']); ?>

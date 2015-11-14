@@ -2,7 +2,7 @@
 
 namespace common\models\user;
 
-use common\components\behaviors\StatusBehavior;
+use common\components\Status;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -39,8 +39,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
-            StatusBehavior::className()
+            TimestampBehavior::className()
         ];
     }
 
@@ -69,6 +68,15 @@ class User extends ActiveRecord implements IdentityInterface
     public static function find()
     {
         return new UserQuery(get_called_class());
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord){
+            $this->status = Status::STATUS_ACTIVE;
+        }
+
+        return parent::beforeSave($insert);
     }
 
     /**
