@@ -49,7 +49,8 @@ $form = ActiveForm::begin([
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div class="col-md-6">
-                <?= $form->field($model, 'type')->radioButtonGroup(CarData::$tireTypeList, ['class' => 'radioButtonListTireType']); ?>
+                <?= $form->field($model, 'type')->radioButtonGroup(CarData::$tireTypeList,
+                    ['class' => 'radioButtonListTireType']); ?>
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'condition')->radioButtonGroup(CarData::$wheelCondition); ?>
