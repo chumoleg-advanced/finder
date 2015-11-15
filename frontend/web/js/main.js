@@ -18,6 +18,7 @@ $(document).ready(function () {
     $('.addService').click(function () {
         var obj = $('.serviceRow:first-child').clone();
         obj.find('.form-control').val('');
+        obj.find('.help-block').text('');
         obj.find('.deleteService').show();
         obj.appendTo('.placeListServices');
     });
@@ -30,6 +31,16 @@ $(document).ready(function () {
         var obj = $(this).closest('.serviceRow').find('.partsOriginal');
         var value = $(this).find('.active input[type="radio"]').val();
         if (value == 1){
+            obj.show();
+        } else {
+            obj.hide();
+        }
+    });
+
+    $(document).on('change', '.radioButtonListTireType', function () {
+        var obj = $('.tireTypeWinterParams');
+        var value = $(this).find('.active input[type="radio"]').val();
+        if (value == 2){
             obj.show();
         } else {
             obj.hide();

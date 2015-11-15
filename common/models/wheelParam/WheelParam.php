@@ -16,8 +16,8 @@ use yii\helpers\ArrayHelper;
  */
 class WheelParam extends ActiveRecord
 {
-    const WHEEL_WIDTH_ = 1;
-    const WHEEL_HEIGHT = 2;
+    const TIRE_WIDTH = 1;
+    const TIRE_HEIGHT = 2;
     const DISC_DIAMETER = 3;
     const DISC_POINTS = 4;
     const DISC_WIDTH = 5;

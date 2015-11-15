@@ -36,6 +36,6 @@ class CarFirmQuery extends ActiveQuery
      */
     public function whereImport($import)
     {
-        return $this->andWhere(['import' => $import]);
+        return $this->andWhere(['import' => (int)$import]);
     }
 }

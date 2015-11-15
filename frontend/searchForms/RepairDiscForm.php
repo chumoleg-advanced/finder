@@ -14,6 +14,7 @@ class RepairDiscForm extends BaseForm
     public $diameter;
     public $points;
     public $width;
+    public $out;
     public $count;
 
     /**
@@ -22,7 +23,7 @@ class RepairDiscForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['description', 'type', 'diameter', 'points'], 'required'],
+            [['description', 'type', 'diameter', 'points', 'count'], 'required'],
         ]);
     }
 
@@ -33,6 +34,7 @@ class RepairDiscForm extends BaseForm
             'diameter' => 'Диаметр',
             'points'   => 'Сверловка',
             'width'    => 'Ширина',
+            'out'      => 'Вылет',
             'count'    => 'Кол-во',
         ]);
     }

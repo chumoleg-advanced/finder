@@ -28,4 +28,14 @@ class ManufacturerQuery extends ActiveQuery
     {
         return parent::one($db);
     }
+
+    /**
+     * @param int $type
+     *
+     * @return $this
+     */
+    public function whereType($type)
+    {
+        return $this->andWhere(['type' => (int)$type]);
+    }
 }

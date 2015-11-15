@@ -1,51 +1,60 @@
 <?php
-use \yii\helpers\Html;
 
+use \kartik\form\ActiveForm;
+use \common\components\Status;
+use common\models\car\CarFirm;
+
+/** @var $model \frontend\searchForms\AutoPartForm */
+/** @var $rubric common\models\rubric\Rubric */
+/** @var $this \yii\web\View */
+
+$form = ActiveForm::begin([
+    'id'          => 'russian-auto-part-form',
+    'type'        => ActiveForm::TYPE_HORIZONTAL,
+    'formConfig'  => [
+        'showLabels' => false,
+        'deviceSize' => ActiveForm::SIZE_MEDIUM
+    ],
+    'fieldConfig' => [
+        'template' => "{input}\n{hint}\n{error}",
+    ],
+]);
 ?>
 
-<div class="row">
-    <div class="col-md-12 formDiv borderDashed">
-        <div class="col-md-12">
-            <div class="col-md-2">Я ищу:</div>
-            <div class="col-md-5"><?= Html::textInput('description'); ?></div>
-            <div class="col-md-5"><?= Html::textInput('comment'); ?></div>
+<?= $this->render('_parts/_serviceRows', [
+    'form'        => $form,
+    'model'       => $model,
+    'buttonText'  => 'Добавить еще одну запчасть',
+    'placeholder' => 'Название запчасти',
+]); ?>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <hr/>
+            <?= $this->render('_parts/_carSelect', [
+                'form'                 => $form,
+                'model'                => $model,
+                'carFirms'             => (new CarFirm())->getListByImport(Status::STATUS_DISABLED),
+                'withoutBodyAndEngine' => true
+            ]); ?>
         </div>
     </div>
 
-    <div class="col-md-12 formDiv">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            <?= Html::button('Добавить еще одну запчасть'); ?>
+<?= $this->render('_parts/_additionOptionsButton'); ?>
+
+    <div class="additionOptions">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+                <?= $this->render('_parts/_additionCarData',
+                    ['form' => $form, 'model' => $model, 'htmlClass' => 'col-md-12']); ?>
+            </div>
+            <div class="col-md-5">
+                <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
+                <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>
+            </div>
         </div>
     </div>
 
-    <div class="col-md-12 formDiv">
-        <div class="col-md-2">Для:</div>
-        <div class="col-md-10">
-            <?= Html::textInput('carFirm'); ?><br/>
-            <?= Html::textInput('carModel'); ?>
-            <?= Html::textInput('carBody'); ?><br/>
-        </div>
-    </div>
-
-    <div class="col-md-12 formDiv borderDashed">
-        <div class="col-md-2"></div>
-        <div class="col-md-5">
-            <?= Html::textInput('vinNumber'); ?><br/>
-
-            <?= Html::label('Необходима доставка', 'withMe'); ?>
-            <?= Html::checkbox('withMe'); ?><br/>
-            <?= Html::textInput('address'); ?><br/>
-
-            <?= Html::label('Рядом со мной', 'withMe'); ?>
-            <?= Html::checkbox('withMe'); ?><br/>
-            <?= Html::dropDownList('districts'); ?>
-        </div>
-        <div class="col-md-5"></div>
-    </div>
-
-    <div class="col-md-12 formDiv">
-        <div class="col-md-2"></div>
-        <div class="col-md-10"><?= Html::button('Отправить заявку'); ?></div>
-    </div>
-</div>
+<?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
+<?= $this->render('_parts/_buttons'); ?>
+<?php ActiveForm::end(); ?>

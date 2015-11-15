@@ -130,7 +130,7 @@ a.desc:after {
     text-align: right;
 }
 
-.deleteService, .partsOriginal {
+.deleteService, .partsOriginal, .tireTypeWinterParams {
     display: none;
 }
 

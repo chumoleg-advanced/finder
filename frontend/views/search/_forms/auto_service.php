@@ -6,9 +6,6 @@ use common\models\car\CarFirm;
 /** @var $model \frontend\searchForms\AutoServiceForm */
 /** @var $this \yii\web\View */
 
-?>
-
-<?php
 $form = ActiveForm::begin([
     'id'          => 'auto-service-form',
     'type'        => ActiveForm::TYPE_HORIZONTAL,

@@ -4,6 +4,7 @@ namespace common\models\manufacturer;
 
 use Yii;
 use \yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "manufacturer".
@@ -15,6 +16,9 @@ use \yii\db\ActiveRecord;
  */
 class Manufacturer extends ActiveRecord
 {
+    const TYPE_TIRE = 1;
+    const TYPE_DISC = 2;
+
     /**
      * @inheritdoc
      */
@@ -56,5 +60,16 @@ class Manufacturer extends ActiveRecord
     public static function find()
     {
         return new ManufacturerQuery(get_called_class());
+    }
+
+    /**
+     * @param int $type
+     *
+     * @return array
+     */
+    public function getListByType($type)
+    {
+        $data = $this->find()->whereType($type)->all();
+        return ArrayHelper::map($data, 'id', 'name');
     }
 }

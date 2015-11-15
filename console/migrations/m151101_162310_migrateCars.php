@@ -3,6 +3,7 @@
 use console\components\Migration;
 use \yii\helpers\ArrayHelper;
 use \yii\base\Exception;
+use \common\components\Status;
 
 class m151101_162310_migrateCars extends Migration
 {
@@ -34,9 +35,9 @@ class m151101_162310_migrateCars extends Migration
     public function down()
     {
         $foreignKeys = [
-            'fk_car_model_car_firm_id'  => 'car_model',
-            'fk_car_body_car_firm_id'   => 'car_body',
-            'fk_car_body_car_model_id'  => 'car_body',
+            'fk_car_model_car_firm_id'   => 'car_model',
+            'fk_car_body_car_firm_id'    => 'car_body',
+            'fk_car_body_car_model_id'   => 'car_body',
             'fk_car_engine_car_firm_id'  => 'car_engine',
             'fk_car_engine_car_model_id' => 'car_engine',
             'fk_car_engine_car_body_id'  => 'car_engine'
@@ -148,7 +149,7 @@ class m151101_162310_migrateCars extends Migration
         foreach ($result as $itemFirm) {
             echo 'car firm ' . $itemFirm['name'] . PHP_EOL;
 
-            $import = array_search($itemFirm['name'], $our) === false ? 1 : 2;
+            $import = array_search($itemFirm['name'], $our) === false ? Status::STATUS_ACTIVE : Status::STATUS_DISABLED;
             $connect->createCommand()->insert('car_firm', [
                 'name'        => $itemFirm['name'],
                 'import'      => $import,

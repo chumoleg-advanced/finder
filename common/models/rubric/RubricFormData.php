@@ -36,9 +36,9 @@ class RubricFormData
     {
         $viewsList = [
             1 => 'AutoPartForm',
-            2 => null,
-            3 => null,
-            4 => null,
+            2 => 'AutoPartForm',
+            3 => 'TireForm',
+            4 => 'WheelDiscForm',
             5 => 'AutoServiceForm',
             6 => 'RepairDiscForm',
             7 => 'RepairCarBodyForm'
