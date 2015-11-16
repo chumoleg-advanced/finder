@@ -27,20 +27,20 @@ $(document).ready(function () {
         $(this).closest('.serviceRow').remove();
     });
 
-    $(document).on('change', '.radioButtonListPartsCondition', function () {
+    $(document).on('change', '.buttonListPartsCondition', function () {
         var obj = $(this).closest('.serviceRow').find('.partsOriginal');
-        var value = $(this).find('.active input[type="radio"]').val();
-        if (value == 1){
+        var value = $(this).find('.active input[value="1"]');
+        if (value.length) {
             obj.show();
         } else {
             obj.hide();
         }
     });
 
-    $(document).on('change', '.radioButtonListTireType', function () {
+    $(document).on('change', '.buttonListTireType', function () {
         var obj = $('.tireTypeWinterParams');
-        var value = $(this).find('.active input[type="radio"]').val();
-        if (value == 2){
+        var value = $(this).find('.active input[value="2"]');
+        if (value.length) {
             obj.show();
         } else {
             obj.hide();

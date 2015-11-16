@@ -6,7 +6,7 @@ $this->title = Yii::t('title', 'Result');
 ?>
 
 <div class="site-index">
-    <div class="jumbotron" style="margin-top: 20vh;">
+    <div class="jumbotron">
         <p class="lead">Ваш запрос успешно зарегистрирован!</p>
         <?php echo \yii\helpers\Html::a('На главную', '/'); ?>
     </div>

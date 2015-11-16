@@ -22,7 +22,7 @@ $form = ActiveForm::begin([
 <?= $this->render('_parts/_serviceRows', ['form' => $form, 'model' => $model]); ?>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <hr/>
             <?= $this->render('_parts/_carSelect',
                 ['form' => $form, 'model' => $model, 'carFirms' => (new CarFirm())->getList()]); ?>
@@ -31,16 +31,7 @@ $form = ActiveForm::begin([
 
 <?= $this->render('_parts/_additionOptionsButton'); ?>
 
-    <div class="additionOptions">
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-5">
-                <?= $this->render('_parts/_additionCarData', ['form' => $form, 'model' => $model]); ?>
-            </div>
-            <div class="col-md-5">
-                <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>
-            </div>
-        </div>
-    </div>
+<?= $this->render('_parts/_additionBlock', ['form' => $form, 'model' => $model]); ?>
 
 <?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
 <?= $this->render('_parts/_buttons'); ?>

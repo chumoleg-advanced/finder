@@ -1,9 +1,11 @@
 <?php
 use \kartik\widgets\Select2;
 use \common\models\wheelParam\WheelParam;
+
+$htmlClass = 'col-md-3 col-sm-6 col-xs-12';
 ?>
 
-<div class="col-md-3">
+<div class="<?= $htmlClass; ?>">
     <?= $form->field($model, 'diameter')->widget(Select2::classname(), [
         'data'          => WheelParam::getListParams(WheelParam::DISC_DIAMETER),
         'pluginOptions' => ['allowClear' => true],
@@ -12,7 +14,7 @@ use \common\models\wheelParam\WheelParam;
         ]
     ]); ?>
 </div>
-<div class="col-md-3">
+<div class="<?= $htmlClass; ?>">
     <?= $form->field($model, 'width')->widget(Select2::classname(), [
         'data'          => WheelParam::getListParams(WheelParam::TIRE_WIDTH),
         'pluginOptions' => ['allowClear' => true],
@@ -21,7 +23,7 @@ use \common\models\wheelParam\WheelParam;
         ]
     ]); ?>
 </div>
-<div class="col-md-3">
+<div class="<?= $htmlClass; ?>">
     <?= $form->field($model, 'height')->widget(Select2::classname(), [
         'data'          => WheelParam::getListParams(WheelParam::TIRE_HEIGHT),
         'pluginOptions' => ['allowClear' => true],
@@ -30,7 +32,7 @@ use \common\models\wheelParam\WheelParam;
         ]
     ]); ?>
 </div>
-<div class="col-md-3">
+<div class="<?= $htmlClass; ?>">
     <?= $form->field($model, 'count')->textInput(
         ['placeholder' => $model->getAttributeLabel('count')]); ?>
 </div>

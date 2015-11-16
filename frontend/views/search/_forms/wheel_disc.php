@@ -23,8 +23,8 @@ $form = ActiveForm::begin([
 ?>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <div class="col-md-4">
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
+            <div class="col-md-4 col-sm-5 col-xs-12">
                 <?= $form->field($model, 'manufacturer')->widget(Select2::classname(), [
                     'data'          => (new Manufacturer())->getListByType(Manufacturer::TYPE_DISC),
                     'pluginOptions' => ['allowClear' => true],
@@ -33,7 +33,7 @@ $form = ActiveForm::begin([
                     ]
                 ]); ?>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-sm-7 col-xs-12">
                 <?= $form->field($model, 'description')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Укажите название или модель диска']); ?>
             </div>
@@ -41,18 +41,18 @@ $form = ActiveForm::begin([
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <?= $this->render('_parts/_discParams', ['form' => $form, 'model' => $model]); ?>
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <div class="col-md-6">
-                <?= $form->field($model, 'type')->radioButtonGroup(CarData::$discTypeList); ?>
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?= $form->field($model, 'type')->checkboxButtonGroup(CarData::$discTypeList); ?>
             </div>
-            <div class="col-md-6">
-                <?= $form->field($model, 'condition')->radioButtonGroup(CarData::$wheelCondition); ?>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <?= $form->field($model, 'condition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@ $form = ActiveForm::begin([
 
     <div class="additionOptions">
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-5">
+            <div class="col-md-offset-2 col-md-5 col-sm-7 col-xs-12">
                 <?= $this->render('_parts/_price', ['form' => $form, 'model' => $model]); ?>
                 <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
                 <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>

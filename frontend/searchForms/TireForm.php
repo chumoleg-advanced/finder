@@ -10,7 +10,7 @@ class TireForm extends BaseForm
     public $description;
 
     public $type;
-    public $typeWinter;
+    public $typeWinter = [];
 
     public $diameter;
     public $width;
@@ -23,7 +23,7 @@ class TireForm extends BaseForm
     public $priceTo;
 
     public $manufacturer;
-    public $condition;
+    public $condition = [];
 
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class TireForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['diameter', 'width', 'height', 'type', 'count'], 'required'],
+            [['diameter', 'width', 'height', 'type', 'count', 'condition'], 'required']
         ]);
     }
 

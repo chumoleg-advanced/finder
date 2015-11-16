@@ -82,11 +82,10 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @return Model
+     * @return string
      */
-    public function geFormModel()
+    public function geFormModelClassName()
     {
-        $className = RubricFormData::geFormModel($this->rubric_form);
-        return new $className;
+        return RubricFormData::geFormModel($this->rubric_form);
     }
 }

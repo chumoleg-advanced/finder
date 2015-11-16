@@ -22,7 +22,7 @@ echo Html::tag('div', '&nbsp;');
 <div>&nbsp;</div>
 
 <div class="row">
-    <div id="owl-demo" class="owl-carousel owl-theme col-lg-12">
+    <div id="owl-demo" class="owl-carousel owl-theme col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <?php foreach ($rubrics as $rubric) : ?>
             <a href="<?= Url::toRoute(['/search/form', 'id' => $rubric->id]); ?>">
                 <div class="text-center">
@@ -31,7 +31,6 @@ echo Html::tag('div', '&nbsp;');
                         ['class' => 'img-responsive img-thumbnail', 'alt' => $rubric->name]
                     ); ?><br/>
                     <?= $rubric->name; ?>
-
                 </div>
             </a>
         <?php endforeach; ?>

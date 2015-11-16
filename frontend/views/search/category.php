@@ -18,7 +18,7 @@ $this->title = Yii::t('title', 'Categories');
 <div>&nbsp;</div>
 
 <div class="row">
-    <div id="owl-demo" class="owl-carousel owl-theme col-lg-4 col-xs-12 col-sm-6">
+    <div id="owl-demo" class="owl-carousel owl-theme col-lg-4 col-sm-6 col-xs-12">
         <?php foreach ($categories as $category) : ?>
             <div class="text-center">
                 <a href="<?= Url::toRoute(['/search/category', 'id' => $category->id]); ?>">

@@ -150,3 +150,7 @@ a.desc:after {
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+.tt-menu .tt-suggestion {
+    white-space: normal !important;
+}

@@ -19,12 +19,12 @@ $form = ActiveForm::begin([
 ]);
 ?>
     <div class="form-group placeListServices">
-        <div class="col-md-offset-2 col-md-10 serviceRow">
-            <div class="col-md-5">
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">
+            <div class="col-md-5 col-sm-6 col-xs-12">
                 <?= $form->field($model, 'description')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Опишите работу']); ?>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 col-sm-6 col-xs-12">
                 <?= $form->field($model, 'comment', [
                     'addon' => [
                         'append' => [
@@ -40,17 +40,17 @@ $form = ActiveForm::begin([
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <hr/>
             <?= $this->render('_parts/_discParams', ['form' => $form, 'model' => $model]); ?>
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <div class="col-md-6">
+        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <?php $model->type = 1; ?>
-                <?= $form->field($model, 'type')->radioButtonGroup(CarData::$discTypeList); ?>
+                <?= $form->field($model, 'type')->checkboxButtonGroup(CarData::$discTypeList); ?>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@ $form = ActiveForm::begin([
 
     <div class="additionOptions">
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-5">
+            <div class="col-md-offset-2 col-md-5 col-sm-6 col-xs-12">
                 <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>
             </div>
         </div>

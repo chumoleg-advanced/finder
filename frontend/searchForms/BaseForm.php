@@ -34,4 +34,17 @@ class BaseForm extends Model
             'districtData'    => 'Районы'
         ];
     }
+
+    /**
+     * @return bool
+     */
+    public function submitForm()
+    {
+        if ($this->validate()) {
+            // @TODO создаем заявку
+            return true;
+        }
+
+        return false;
+    }
 }
