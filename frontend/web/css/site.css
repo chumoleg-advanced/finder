@@ -161,3 +161,11 @@ a.desc:after {
     right: 0;
     top: -100px;
 }
+
+.withoutPadding {
+    padding: 0;
+}
+
+.withoutPadding .col-md-12 {
+    padding: 0;
+}

@@ -41,7 +41,7 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                     ['class' => 'form-control', 'placeholder' => $placeholder]); ?>
             </div>
 
-            <div class="col-md-5 col-sm-5 col-xs-8">
+            <div class="col-md-5 col-sm-5 col-xs-6">
                 <?= $form->field($modelData, '[0]comment')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
@@ -52,7 +52,7 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                 </a>
             </div>
 
-            <div class="col-md-1 col-sm-1 col-xs-3 deleteServiceDiv">
+            <div class="col-md-1 col-sm-1 col-xs-2 deleteServiceDiv">
                 <button type="button" class="delete-item btn btn-default">
                     <i class="glyphicon glyphicon-minus"></i>
                 </button>
@@ -68,6 +68,31 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                 </div>
             <?php endif; ?>
 
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <?= $form->field($modelData, '[0]partSide',
+                            ['options' => ['class' => 'col-md-4 withoutPadding']])
+                            ->radioButtonGroup([1 => 'левой', 2 => 'правой'], [
+                                'class'       => 'btn-group-xs',
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                            ]); ?>
+                        <?= $form->field($modelData, '[0]partDirection',
+                            ['options' => ['class' => 'col-md-4 withoutPadding']])
+                            ->radioButtonGroup([1 => 'передней', 2 => 'задней'], [
+                                'class'       => 'btn-group-xs',
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                            ]); ?>
+                        <?= $form->field($modelData, '[0]partHeight',
+                            ['options' => ['class' => 'col-md-4 withoutPadding']])
+                            ->radioButtonGroup([1 => 'верхней', 2 => 'нижней'], [
+                                'class'       => 'btn-group-xs',
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                            ]); ?>
+                    </div>
+                </div>
+            </div>
+
             <div class="uploadFilesBlock col-md-12 col-sm-12 col-xs-12">
                 <?= $form->field($modelData, '[0]image[]')->widget(FileInput::className(), [
                     'language'      => 'ru',
@@ -79,8 +104,8 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                     'pluginOptions' => [
                         'previewFileType' => 'image',
                         'showRemove'      => false,
-                        'showCaption' => false,
-                        'showUpload' => false,
+                        'showCaption'     => false,
+                        'showUpload'      => false,
                         'browseClass'     => 'btn btn-primary',
                         'browseIcon'      => '<i class="glyphicon glyphicon-camera"></i>',
                         'removeIcon'      => '<i class="fa fa-trash"></i>',
@@ -99,7 +124,7 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <?= Html::button($buttonText, ['class' => 'add-item btn btn-default btn-sm']); ?>
+                <?= Html::button($buttonText, ['class' => 'add-item btn btn-success btn-sm']); ?>
             </div>
         </div>
     </div>
