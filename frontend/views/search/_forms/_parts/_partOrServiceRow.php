@@ -69,9 +69,8 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
             <?php endif; ?>
 
             <div class="uploadFilesBlock col-md-12 col-sm-12 col-xs-12">
-                <?= FileInput::widget([
+                <?= $form->field($modelData, '[0]image[]')->widget(FileInput::className(), [
                     'language'      => 'ru',
-                    'name'          => '[0]image[]',
                     'options'       => [
                         'multiple' => true,
                         'accept'   => 'image/*',
@@ -80,7 +79,8 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                     'pluginOptions' => [
                         'previewFileType' => 'image',
                         'showRemove'      => false,
-                        'showCaption'     => false,
+                        'showCaption' => false,
+                        'showUpload' => false,
                         'browseClass'     => 'btn btn-primary',
                         'browseIcon'      => '<i class="glyphicon glyphicon-camera"></i>',
                         'removeIcon'      => '<i class="fa fa-trash"></i>',
