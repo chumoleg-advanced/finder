@@ -53,7 +53,7 @@ class SearchController extends Controller
 
     public function actionAddressList($q = null)
     {
-        $url = 'https://geocode-maps.yandex.ru/1.x/?format=json&results=10&lang=ru_RU&geocode=' . $q;
+        $url = 'https://geocode-maps.yandex.ru/1.x/?format=json&results=10&lang=ru_RU&ll=82.9204,55.0302&spn=0.7,0.7&rspn=1&geocode=' . $q;
         $data = Yii::$app->curl->get($url);
         $data = Json::decode($data);
         $finalData = ArrayHelper::getValue($data, 'response.GeoObjectCollection.featureMember');

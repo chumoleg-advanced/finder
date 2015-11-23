@@ -118,39 +118,46 @@ a.desc:after {
 
 .additionOptions {
     margin-top: 5px;
-    display: none;
 }
 
-.districtSelect, .deliveryAddress {
+.districtSelect,
+.deliveryAddress {
     margin-top: 7px;
-    display: none;
 }
 
 .deleteServiceDiv {
     text-align: right;
 }
 
-.deleteService, .partsOriginal, .tireTypeWinterParams {
+.districtSelect,
+.deliveryAddress,
+.additionOption,
+.deleteService,
+.partsOriginal,
+.tireTypeWinterParams,
+.uploadFilesBlock,
+.file-footer-caption,
+.file-upload-indicator,
+.kv-file-upload {
     display: none;
-}
-
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-}
-
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
 }
 
 .tt-menu .tt-suggestion {
     white-space: normal !important;
+}
+
+.file-preview-frame {
+    height: 100%;
+}
+
+.file-drop-zone-title {
+    padding: 40px 10px;
+    font-size: 30px;
+}
+
+.file-actions {
+    position: absolute;
+    margin-top: 0;
+    right: 0;
+    top: -100px;
 }

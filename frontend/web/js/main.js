@@ -27,6 +27,10 @@ $(document).ready(function () {
         $(this).closest('.serviceRow').remove();
     });
 
+    $(document).on('click', '.showFileUpload', function () {
+        $(this).closest('.form-options-item').find('.uploadFilesBlock').toggle();
+    });
+
     $(document).on('change', '.buttonListPartsCondition', function () {
         var obj = $(this).closest('.serviceRow').find('.partsOriginal');
         var value = $(this).find('.active input[value="1"]');

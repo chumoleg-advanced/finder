@@ -54,7 +54,6 @@ class CarData
     public static $partsOriginal
         = [
             1 => 'Оригинал',
-            2 => 'Дубликат',
-            3 => 'Любая',
+            2 => 'Дубликат'
         ];
 }

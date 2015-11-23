@@ -25,16 +25,8 @@ $form = ActiveForm::begin([
                     ['class' => 'form-control', 'placeholder' => 'Опишите работу']); ?>
             </div>
             <div class="col-md-7 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'comment', [
-                    'addon' => [
-                        'append' => [
-                            'content'  => '<div class="fileUpload btn btn-primary"><span>
-                                <i class="glyphicon glyphicon-camera"></i> Добавить фото</span>
-                                <input type="file" class="upload" /></div>',
-                            'asButton' => true
-                        ]
-                    ]
-                ])->textInput(['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
+                <?= $form->field($model, 'comment')->textInput(
+                    ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
         </div>
     </div>

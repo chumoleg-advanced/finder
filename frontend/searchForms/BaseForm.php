@@ -9,10 +9,6 @@ class BaseForm extends Model
 {
     public $withMe;
     public $districtData;
-
-    public $comment = [];
-    public $description = [];
-
     public $verifyCode;
 
     /**
@@ -28,10 +24,8 @@ class BaseForm extends Model
     public function attributeLabels()
     {
         return [
-            'description'     => 'Описание',
-            'comment'         => 'Комментарий',
-            'withMe'          => 'Рядом со мной',
-            'districtData'    => 'Районы'
+            'withMe'       => 'Рядом со мной',
+            'districtData' => 'Районы'
         ];
     }
 

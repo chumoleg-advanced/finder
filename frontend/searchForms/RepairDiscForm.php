@@ -7,9 +7,6 @@ use yii\helpers\ArrayHelper;
 
 class RepairDiscForm extends BaseForm
 {
-    public $description;
-    public $comment;
-
     public $type;
     public $diameter;
     public $points;
@@ -23,7 +20,7 @@ class RepairDiscForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['description', 'type', 'diameter', 'points', 'count'], 'required'],
+            [['type', 'diameter', 'points', 'count'], 'required'],
         ]);
     }
 

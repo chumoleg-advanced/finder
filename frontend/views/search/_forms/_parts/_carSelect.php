@@ -41,7 +41,7 @@ $htmlClass = 'col-md-3 col-sm-6 col-xs-12';
             'pluginOptions' => ['allowClear' => true],
             'options'       => [
                 'placeholder' => $model->getAttributeLabel('carEngine'),
-                'class'       => 'carEngine'
+                'class'       => 'carEngineSelect'
             ]
         ]); ?>
     </div>

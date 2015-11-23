@@ -3,6 +3,7 @@
 /** @var $this \yii\web\View */
 
 use \kartik\helpers\Html;
+use \kartik\file\FileInput;
 use \common\components\CarData;
 
 if (!isset($buttonText)) {
@@ -27,17 +28,26 @@ if (isset($parts)) {
             <?= $form->field($model, 'description[]')->textInput(
                 ['class' => 'form-control', 'placeholder' => $placeholder]); ?>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-10">
-            <?= $form->field($model, 'comment[]', [
-                'addon' => [
-                    'append' => [
-                        'content'  => '<div class="fileUpload btn btn-primary"><span>
-                                <i class="glyphicon glyphicon-camera"></i> Добавить фото</span>
-                                <input type="file" class="upload" /></div>',
-                        'asButton' => true
-                    ]
-                ]
-            ])->textInput(['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
+        <div class="col-md-5 col-sm-5 col-xs-8">
+            <?= $form->field($model, 'comment[]')->textInput(
+                ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
+        </div>
+        <div class="col-md-1 col-sm-1 col-xs-2">
+            <?= FileInput::widget([
+                'model'         => $model,
+                'name'          => 'image[]',
+                'pluginOptions' => [
+                    'showCaption' => false,
+                    'showRemove'  => false,
+                    'showUpload'  => false,
+                    'showPreview' => false,
+                    'browseClass' => 'btn btn-primary btn-block',
+                    'browseIcon'  => '<i class="glyphicon glyphicon-camera"></i>',
+                    'browseLabel' => '',
+                ],
+                'options'       => ['multiple' => true, 'accept' => 'image/*']
+            ]);
+            ?>
         </div>
         <div class="col-md-1 col-sm-1 col-xs-2 deleteServiceDiv">
             <?= Html::button('-', ['class' => 'btn btn-default deleteService']); ?>
