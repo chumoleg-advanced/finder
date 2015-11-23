@@ -169,3 +169,7 @@ a.desc:after {
 .withoutPadding .col-md-12 {
     padding: 0;
 }
+
+label.btn-link.active {
+    background-color: #bbe7f5 !important;
+}

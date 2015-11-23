@@ -70,24 +70,24 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
 
             <div class="form-group">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-7 col-sm-7 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?= $form->field($modelData, '[0]partSide',
                             ['options' => ['class' => 'col-md-4 withoutPadding']])
                             ->radioButtonGroup([1 => 'левой', 2 => 'правой'], [
                                 'class'       => 'btn-group-xs',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-link']]
                             ]); ?>
                         <?= $form->field($modelData, '[0]partDirection',
                             ['options' => ['class' => 'col-md-4 withoutPadding']])
                             ->radioButtonGroup([1 => 'передней', 2 => 'задней'], [
                                 'class'       => 'btn-group-xs',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-link']]
                             ]); ?>
                         <?= $form->field($modelData, '[0]partHeight',
                             ['options' => ['class' => 'col-md-4 withoutPadding']])
                             ->radioButtonGroup([1 => 'верхней', 2 => 'нижней'], [
                                 'class'       => 'btn-group-xs',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-link']]
                             ]); ?>
                     </div>
                 </div>
