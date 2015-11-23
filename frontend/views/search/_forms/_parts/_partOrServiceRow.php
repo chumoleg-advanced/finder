@@ -41,7 +41,7 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                     ['class' => 'form-control', 'placeholder' => $placeholder]); ?>
             </div>
 
-            <div class="col-md-5 col-sm-5 col-xs-6">
+            <div class="col-md-5 col-sm-5 col-xs-7">
                 <?= $form->field($modelData, '[0]comment')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
