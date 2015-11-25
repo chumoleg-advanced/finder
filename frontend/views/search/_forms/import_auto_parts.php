@@ -17,7 +17,6 @@ if ($rubric->id == 10) {
 }
 
 $form = ActiveForm::begin([
-    'id'          => 'import-auto-part-form',
     'type'        => ActiveForm::TYPE_HORIZONTAL,
     'formConfig'  => [
         'showLabels' => false,
@@ -26,10 +25,14 @@ $form = ActiveForm::begin([
     'fieldConfig' => [
         'template' => "{input}\n{hint}\n{error}",
     ],
+    'options'     => [
+        'enctype' => 'multipart/form-data',
+        'id'      => 'auto-service-form'
+    ]
 ]);
 ?>
 
-<?= $this->render('_parts/_serviceRows', [
+<?= $this->render('_parts/_partOrServiceRow', [
     'form'        => $form,
     'model'       => $model,
     'buttonText'  => 'Добавить еще одну запчасть',

@@ -131,7 +131,7 @@ a.desc:after {
 
 .districtSelect,
 .deliveryAddress,
-.additionOption,
+.additionOptions,
 .deleteService,
 .partsOriginal,
 .tireTypeWinterParams,
@@ -146,12 +146,16 @@ a.desc:after {
     white-space: normal !important;
 }
 
+.file-preview {
+    margin-top: 10px;
+}
+
 .file-preview-frame {
     height: 100%;
 }
 
 .file-drop-zone-title {
-    padding: 40px 10px;
+    padding: 10px 10px;
     font-size: 30px;
 }
 
@@ -172,4 +176,13 @@ a.desc:after {
 
 label.btn-link.active {
     background-color: #bbe7f5 !important;
+}
+
+.checkBoxGroupFormBlock {
+    margin-bottom: 10px;
+}
+
+.checkBoxGroupForm .btn-xs, .btn-group-xs > .btn {
+    padding: 1px 3px;
+    font-size: 11px;
 }

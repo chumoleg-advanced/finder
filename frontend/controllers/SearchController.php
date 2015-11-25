@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\autoPart\AutoPart;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -64,6 +65,18 @@ class SearchController extends Controller
             if (!empty($text)){
                 $out[] = ['value' => $text];
             }
+        }
+
+        echo Json::encode($out);
+    }
+
+    public function actionPartsList($q = null)
+    {
+        $data = AutoPart::find()->andFilterWhere(['LIKE', 'name', $q])->limit(10)->all();
+
+        $out = [];
+        foreach ($data as $item) {
+            $out[] = ['value' => $item->name];
         }
 
         echo Json::encode($out);

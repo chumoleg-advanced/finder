@@ -1,10 +1,13 @@
 <?php
 
+use \frontend\searchForms\QueryArrayForm;
 use yii\jui\JuiAsset;
 use kartik\widgets\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 use \common\components\CarData;
 use \kartik\helpers\Html;
+use \kartik\typeahead\Typeahead;
+use \yii\helpers\Url;
 
 if (!isset($buttonText)) {
     $buttonText = 'Добавить еще одну работу';
@@ -14,7 +17,14 @@ if (!isset($placeholder)) {
     $placeholder = 'Опишите работу';
 }
 
-$modelData = new \frontend\searchForms\QueryArrayForm();
+if (isset($parts)) {
+    $this->registerJs("$(document).ready(function(){
+            $('.buttonListPartsCondition').find('input[value=" . $parts . "]')
+            .trigger('click').trigger('change');});",
+        \yii\web\View::POS_END, 'searchFormFirstSelect');
+}
+
+$modelData = new QueryArrayForm();
 ?>
 
 
@@ -37,8 +47,25 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
     <div class="form-group form-options-body">
         <div class="form-options-item col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <?= $form->field($modelData, '[0]description')->textInput(
-                    ['class' => 'form-control', 'placeholder' => $placeholder]); ?>
+                <?php if (isset($parts)) : ?>
+                    <?= $form->field($modelData, '[0]description')->widget(Typeahead::className(), [
+                        'options'       => ['placeholder' => $placeholder, 'class' => 'form-control descriptionQuery'],
+                        'pluginOptions' => ['highlight' => false, 'minLength' => 2],
+                        'dataset'       => [
+                            [
+                                'datumTokenizer' => "Bloodhound.tokenizers.obj.whitespace('value')",
+                                'display'        => 'value',
+                                'remote'         => [
+                                    'url'      => Url::to(['search/parts-list']) . '?q=%QUERY',
+                                    'wildcard' => '%QUERY'
+                                ]
+                            ]
+                        ]
+                    ]); ?>
+                <?php else: ?>
+                    <?= $form->field($modelData, '[0]description')->textInput(
+                        ['class' => 'form-control descriptionQuery', 'placeholder' => $placeholder]); ?>
+                <?php endif; ?>
             </div>
 
             <div class="col-md-5 col-sm-5 col-xs-7">
@@ -58,6 +85,35 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                 </button>
             </div>
 
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12 checkBoxGroupFormBlock">
+                    <div class="col-md-5 col-sm-6 col-xs-12 text-center">
+                        <div inline="" data-toggle="buttons" class="btn-group-xs checkBoxGroupForm btn-group"
+                             id="partSide">
+                            <label class="btn btn-link"><input type="checkbox" data-value="1">слева</label>
+                            <label class="btn btn-link">-</label>
+                            <label class="btn btn-link"><input type="checkbox" data-value="2">справа</label>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+
+                        <div inline="" data-toggle="buttons" class="btn-group-xs checkBoxGroupForm btn-group"
+                             id="partDirection">
+                            <label class="btn btn-link"><input type="checkbox" data-value="1">спереди</label>
+                            <label class="btn btn-link">-</label>
+                            <label class="btn btn-link"><input type="checkbox" data-value="2">сзади</label>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+
+                        <div inline="" data-toggle="buttons" class="btn-group-xs checkBoxGroupForm btn-group"
+                             id="partHeight">
+                            <label class="btn btn-link"><input type="checkbox" data-value="1">сверху</label>
+                            <label class="btn btn-link">-</label>
+                            <label class="btn btn-link"><input type="checkbox" data-value="2">снизу</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <?php if (isset($parts)) : ?>
                 <div class="col-md-5 col-sm-6 col-xs-12">
                     <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(
@@ -68,31 +124,6 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                 </div>
             <?php endif; ?>
 
-            <div class="form-group">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?= $form->field($modelData, '[0]partSide',
-                            ['options' => ['class' => 'col-md-4 withoutPadding']])
-                            ->radioButtonGroup([1 => 'левой', 2 => 'правой'], [
-                                'class'       => 'btn-group-xs',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-link']]
-                            ]); ?>
-                        <?= $form->field($modelData, '[0]partDirection',
-                            ['options' => ['class' => 'col-md-4 withoutPadding']])
-                            ->radioButtonGroup([1 => 'передней', 2 => 'задней'], [
-                                'class'       => 'btn-group-xs',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-link']]
-                            ]); ?>
-                        <?= $form->field($modelData, '[0]partHeight',
-                            ['options' => ['class' => 'col-md-4 withoutPadding']])
-                            ->radioButtonGroup([1 => 'верхней', 2 => 'нижней'], [
-                                'class'       => 'btn-group-xs',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-link']]
-                            ]); ?>
-                    </div>
-                </div>
-            </div>
-
             <div class="uploadFilesBlock col-md-12 col-sm-12 col-xs-12">
                 <?= $form->field($modelData, '[0]image[]')->widget(FileInput::className(), [
                     'language'      => 'ru',
@@ -102,6 +133,7 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                         'class'    => 'option-value-img'
                     ],
                     'pluginOptions' => [
+                        'afterInsert'     => '_hideCheckBoxButtonMiddle()',
                         'previewFileType' => 'image',
                         'showRemove'      => false,
                         'showCaption'     => false,
@@ -116,9 +148,15 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
                     ]
                 ]);
                 ?>
-                <hr/>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <hr/>
+                </div>
             </div>
         </div>
+
     </div>
 
     <div class="form-group">

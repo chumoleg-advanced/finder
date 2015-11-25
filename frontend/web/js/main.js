@@ -32,7 +32,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '.buttonListPartsCondition', function () {
-        var obj = $(this).closest('.serviceRow').find('.partsOriginal');
+        var obj = $(this).closest('.form-options-item').find('.partsOriginal');
         var value = $(this).find('.active input[value="1"]');
         if (value.length) {
             obj.show();
@@ -77,5 +77,37 @@ $(document).ready(function () {
         });
 
         return false;
+    });
+
+    $(document).on('change', '.checkBoxGroupForm input[type="checkbox"]', function () {
+        var labelText = $.trim($(this).parent().text());
+        var inputObj = $(this).closest('.form-options-item').find('.descriptionQuery');
+
+        if ($(this).is(':checked')) {
+            $(this).closest('.checkBoxGroupForm')
+                .find('label.active')
+                .removeClass('active')
+                .children('input[data-value!="' + $(this).data('value') + '"]')
+                .prop('checked', false)
+                .trigger('change');
+
+            $(this).parent().addClass('active');
+            _addLabelIntoText();
+
+        } else {
+            _clearInput();
+        }
+
+        function _clearInput() {
+            inputObj.val(function (i, text) {
+                return $.trim(text.replace(new RegExp(labelText, 'g'), ''));
+            });
+        }
+
+        function _addLabelIntoText() {
+            inputObj.val(function (i, text) {
+                return $.trim((text + ' ' + labelText).replace(/\s{2,}/g, ' '));
+            });
+        }
     });
 });

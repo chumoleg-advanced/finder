@@ -7,7 +7,6 @@ use common\models\car\CarFirm;
 /** @var $this \yii\web\View */
 
 $form = ActiveForm::begin([
-//    'id'          => 'auto-service-form',
     'type'        => ActiveForm::TYPE_HORIZONTAL,
     'formConfig'  => [
         'showLabels' => false,

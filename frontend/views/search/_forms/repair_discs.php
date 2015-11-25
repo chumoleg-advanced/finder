@@ -2,9 +2,12 @@
 
 use \kartik\form\ActiveForm;
 use \common\components\CarData;
+use \frontend\searchForms\QueryArrayForm;
 
 /** @var $model \frontend\searchForms\RepairDiscForm */
 /** @var $this \yii\web\View */
+
+$modelData = new QueryArrayForm();
 
 $form = ActiveForm::begin([
     'id'          => 'repair-disc-form',
@@ -21,11 +24,11 @@ $form = ActiveForm::begin([
     <div class="form-group placeListServices">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">
             <div class="col-md-5 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'description')->textInput(
+                <?= $form->field($modelData, 'description')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Опишите работу']); ?>
             </div>
             <div class="col-md-7 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'comment')->textInput(
+                <?= $form->field($modelData, 'comment')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
         </div>

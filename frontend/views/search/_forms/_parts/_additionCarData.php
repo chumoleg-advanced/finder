@@ -2,7 +2,7 @@
 use \common\components\CarData;
 use \kartik\widgets\Select2;
 
-$htmlClass = 'col-md-6 col-sm-12 col-xs-12';
+$htmlClass = 'col-md-3 col-sm-6 col-xs-12';
 ?>
 
 <div class="<?= $htmlClass; ?>">

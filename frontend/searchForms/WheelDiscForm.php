@@ -12,6 +12,7 @@ class WheelDiscForm extends RepairDiscForm
     public $priceFrom;
     public $priceTo;
 
+    public $description;
     public $manufacturer;
     public $condition;
 
@@ -35,6 +36,7 @@ class WheelDiscForm extends RepairDiscForm
             'priceTo'         => 'Стоимость до',
             'condition'       => 'Состояние',
             'manufacturer'    => 'Производитель',
+            'description'     => 'Описание'
         ]);
     }
 }
