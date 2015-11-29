@@ -54,5 +54,8 @@ return [
             'class'      => 'himiklab\thumbnail\EasyThumbnail',
             'cacheAlias' => 'assets/thumbnails',
         ],
+        'yandexMapsApi' => [
+            'class' => 'mirocow\yandexmaps\Api',
+        ]
     ],
 ];
