@@ -16,13 +16,16 @@ if (!isset($placeholder)) {
     $placeholder = 'Опишите работу';
 }
 
+FormPartSearchAsset::register($this);
+
 if (isset($parts)) {
     $this->registerJs("$(document).ready(function(){
             $('.buttonListPartsCondition').find('input[value=" . $parts . "]')
             .trigger('click').trigger('change');});",
         \yii\web\View::POS_END, 'searchFormFirstSelect');
 
-    FormPartSearchAsset::register($this);
+    $this->registerJs("$(document).ready(function(){activateAutoComplete();});",
+        \yii\web\View::POS_END, 'searchFormInitAutoComplete');
 }
 
 $modelData = new QueryArrayForm();
@@ -91,6 +94,7 @@ $modelData = new QueryArrayForm();
             <?php if (isset($parts)) : ?>
                 <div class="col-md-5 col-sm-6 col-xs-12">
                     <input name="QueryArrayForm[0][condition]" value="" type="hidden">
+
                     <div id="queryarrayform-0-condition" class="buttonListPartsCondition btn-group"
                          data-toggle="buttons">
                         <?php foreach (CarData::$partsCondition as $id => $label) : ?>
@@ -103,6 +107,7 @@ $modelData = new QueryArrayForm();
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12 partsOriginal">
                     <input name="QueryArrayForm[0][original]" value="" type="hidden">
+
                     <div id="queryarrayform-0-original" class="btn-group"
                          data-toggle="buttons">
                         <?php foreach (CarData::$partsOriginal as $id => $label) : ?>

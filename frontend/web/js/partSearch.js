@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    activateAutoComplete();
-
     $(document).on('click', '.ajaxLink', function () {
         var selected = $(this).hasClass('active');
         formSideSelect($(this));
