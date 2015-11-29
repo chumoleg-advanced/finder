@@ -6,8 +6,7 @@ use kartik\widgets\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 use \common\components\CarData;
 use \kartik\helpers\Html;
-use \kartik\typeahead\Typeahead;
-use \yii\helpers\Url;
+use \frontend\assets\FormPartSearchAsset;
 
 if (!isset($buttonText)) {
     $buttonText = 'Добавить еще одну работу';
@@ -22,6 +21,8 @@ if (isset($parts)) {
             $('.buttonListPartsCondition').find('input[value=" . $parts . "]')
             .trigger('click').trigger('change');});",
         \yii\web\View::POS_END, 'searchFormFirstSelect');
+
+    FormPartSearchAsset::register($this);
 }
 
 $modelData = new QueryArrayForm();
@@ -44,28 +45,13 @@ $modelData = new QueryArrayForm();
     ],
 ]); ?>
 
-    <div class="form-group form-options-body">
+    <div class="form-group form-options-body partsSearch">
         <div class="form-options-item col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-5 col-sm-5 col-xs-12">
-                <?php if (isset($parts)) : ?>
-                    <?= $form->field($modelData, '[0]description')->widget(Typeahead::className(), [
-                        'options'       => ['placeholder' => $placeholder, 'class' => 'form-control descriptionQuery'],
-                        'pluginOptions' => ['highlight' => false, 'minLength' => 2],
-                        'dataset'       => [
-                            [
-                                'datumTokenizer' => "Bloodhound.tokenizers.obj.whitespace('value')",
-                                'display'        => 'value',
-                                'remote'         => [
-                                    'url'      => Url::to(['search/parts-list']) . '?q=%QUERY',
-                                    'wildcard' => '%QUERY'
-                                ]
-                            ]
-                        ]
-                    ]); ?>
-                <?php else: ?>
-                    <?= $form->field($modelData, '[0]description')->textInput(
-                        ['class' => 'form-control descriptionQuery', 'placeholder' => $placeholder]); ?>
-                <?php endif; ?>
+                <?= $form->field($modelData, '[0]description')->textInput([
+                    'placeholder' => $placeholder,
+                    'class'       => 'form-control descriptionQuery'
+                ]); ?>
             </div>
 
             <div class="col-md-5 col-sm-5 col-xs-7">
@@ -86,29 +72,17 @@ $modelData = new QueryArrayForm();
             </div>
 
             <div class="form-group">
-                <div class="col-md-12 col-sm-12 col-xs-12 checkBoxGroupFormBlock">
+                <div class="col-md-12 col-sm-12 col-xs-12 partsSide">
                     <div class="col-md-5 col-sm-6 col-xs-12 text-center">
-                        <div inline="" data-toggle="buttons" class="btn-group-xs checkBoxGroupForm btn-group"
-                             id="partSide">
-                            <label class="btn btn-link"><input type="checkbox" data-value="1">слева</label>
-                            <label class="btn btn-link">-</label>
-                            <label class="btn btn-link"><input type="checkbox" data-value="2">справа</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;
-
-                        <div inline="" data-toggle="buttons" class="btn-group-xs checkBoxGroupForm btn-group"
-                             id="partDirection">
-                            <label class="btn btn-link"><input type="checkbox" data-value="1">спереди</label>
-                            <label class="btn btn-link">-</label>
-                            <label class="btn btn-link"><input type="checkbox" data-value="2">сзади</label>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;
-
-                        <div inline="" data-toggle="buttons" class="btn-group-xs checkBoxGroupForm btn-group"
-                             id="partHeight">
-                            <label class="btn btn-link"><input type="checkbox" data-value="1">сверху</label>
-                            <label class="btn btn-link">-</label>
-                            <label class="btn btn-link"><input type="checkbox" data-value="2">снизу</label>
+                        <div class="btn-group-xs" style="display: block;">
+                            <a match="лев" class="ajaxLink sideLeft" href="#">левый</a> &ndash;
+                            <a match="прав" class="ajaxLink sideRight" href="#">правый</a>,
+                            &nbsp;&nbsp;&nbsp;
+                            <a match="перед" class="ajaxLink" href="#">передний</a> &ndash;
+                            <a match="зад" class="ajaxLink" href="#">задний</a>,
+                            &nbsp;&nbsp;&nbsp;
+                            <a match="верх" class="ajaxLink" href="#">верхний</a> &ndash;
+                            <a match="ниж" class="ajaxLink" href="#">нижний</a>
                         </div>
                     </div>
                 </div>
@@ -116,11 +90,28 @@ $modelData = new QueryArrayForm();
 
             <?php if (isset($parts)) : ?>
                 <div class="col-md-5 col-sm-6 col-xs-12">
-                    <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(
-                        CarData::$partsCondition, ['class' => 'buttonListPartsCondition']); ?>
+                    <input name="QueryArrayForm[0][condition]" value="" type="hidden">
+                    <div id="queryarrayform-0-condition" class="buttonListPartsCondition btn-group"
+                         data-toggle="buttons">
+                        <?php foreach (CarData::$partsCondition as $id => $label) : ?>
+                            <label class="btn btn-default">
+                                <input name="QueryArrayForm[0][condition][]" value="<?= $id; ?>"
+                                       data-value="<?= $id; ?>" type="checkbox"><?= $label; ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12 partsOriginal">
-                    <?= $form->field($modelData, '[0]original')->checkboxButtonGroup(CarData::$partsOriginal); ?>
+                    <input name="QueryArrayForm[0][original]" value="" type="hidden">
+                    <div id="queryarrayform-0-original" class="btn-group"
+                         data-toggle="buttons">
+                        <?php foreach (CarData::$partsOriginal as $id => $label) : ?>
+                            <label class="btn btn-default">
+                                <input name="QueryArrayForm[0][original][]" value="<?= $id; ?>"
+                                       data-value="<?= $id; ?>" type="checkbox"><?= $label; ?>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             <?php endif; ?>
 

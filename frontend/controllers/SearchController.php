@@ -72,7 +72,7 @@ class SearchController extends Controller
 
     public function actionPartsList($q = null)
     {
-        $data = AutoPart::find()->andFilterWhere(['LIKE', 'name', $q])->limit(10)->all();
+        $data = AutoPart::find()->andWhere(['LIKE', 'name', $q])->orderBy('LENGTH(name)')->limit(10)->all();
 
         $out = [];
         foreach ($data as $item) {

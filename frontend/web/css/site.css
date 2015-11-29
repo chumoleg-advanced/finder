@@ -174,15 +174,12 @@ a.desc:after {
     padding: 0;
 }
 
-label.btn-link.active {
+.ajaxLink.active {
     background-color: #bbe7f5 !important;
 }
 
-.checkBoxGroupFormBlock {
+.partsSide {
     margin-bottom: 10px;
-}
-
-.checkBoxGroupForm .btn-xs, .btn-group-xs > .btn {
-    padding: 1px 3px;
     font-size: 11px;
+    display: inline-block;
 }

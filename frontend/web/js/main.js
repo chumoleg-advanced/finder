@@ -1,4 +1,29 @@
 $(document).ready(function () {
+    $.extend($.ui.autocomplete.prototype, {
+        _renderItem: function (ul, item) {
+            var searchMask = this.element.val();
+            var regEx = new RegExp(searchMask, "ig");
+            var replaceMask = "<b>$&</b>";
+            var html = item.label.replace(regEx, replaceMask);
+
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append($("<a></a>").html(html))
+                .appendTo(ul);
+        }
+    });
+
+    $(".dynamicform_wrapper").on("afterInsert", function (e, item) {
+        try {
+            activateAutoComplete();
+
+            $('input[type=checkbox]').val(function (i, val) {
+                return $(this).data('value');
+            });
+        } catch (err) {
+        }
+    });
+
     $('.loginButton').click(function () {
         $('#loginForm').modal();
     });
@@ -77,37 +102,5 @@ $(document).ready(function () {
         });
 
         return false;
-    });
-
-    $(document).on('change', '.checkBoxGroupForm input[type="checkbox"]', function () {
-        var labelText = $.trim($(this).parent().text());
-        var inputObj = $(this).closest('.form-options-item').find('.descriptionQuery');
-
-        if ($(this).is(':checked')) {
-            $(this).closest('.checkBoxGroupForm')
-                .find('label.active')
-                .removeClass('active')
-                .children('input[data-value!="' + $(this).data('value') + '"]')
-                .prop('checked', false)
-                .trigger('change');
-
-            $(this).parent().addClass('active');
-            _addLabelIntoText();
-
-        } else {
-            _clearInput();
-        }
-
-        function _clearInput() {
-            inputObj.val(function (i, text) {
-                return $.trim(text.replace(new RegExp(labelText, 'g'), ''));
-            });
-        }
-
-        function _addLabelIntoText() {
-            inputObj.val(function (i, text) {
-                return $.trim((text + ' ' + labelText).replace(/\s{2,}/g, ' '));
-            });
-        }
     });
 });
