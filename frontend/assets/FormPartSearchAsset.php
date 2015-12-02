@@ -11,8 +11,7 @@ class FormPartSearchAsset extends AssetBundle
     public $js
         = [
             '/js/partSearch.js',
-            'http://api-maps.yandex.ru/2.1/?lang=ru_RU',
-            '/js/yandexMap.js',
+            'https://api-maps.yandex.ru/2.1/?lang=ru_RU',
         ];
 
     public $depends
