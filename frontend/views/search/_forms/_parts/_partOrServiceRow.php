@@ -1,7 +1,6 @@
 <?php
 
 use \frontend\searchForms\QueryArrayForm;
-use yii\jui\JuiAsset;
 use kartik\widgets\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 use \common\components\CarData;
@@ -35,7 +34,7 @@ $modelData = new QueryArrayForm();
 <?php DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper',
     'widgetBody'      => '.form-options-body',
-    'widgetItem'      => '.form-options-item',
+    'widgetItem'      => '.dynamicFormRow',
     'min'             => 1,
     'insertButton'    => '.add-item',
     'deleteButton'    => '.delete-item',
@@ -49,7 +48,7 @@ $modelData = new QueryArrayForm();
 ]); ?>
 
     <div class="form-group form-options-body partsSearch">
-        <div class="form-options-item col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
+        <div class="dynamicFormRow col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-5 col-sm-5 col-xs-12">
                 <?= $form->field($modelData, '[0]description')->textInput([
                     'placeholder' => $placeholder,
@@ -163,21 +162,3 @@ $modelData = new QueryArrayForm();
         </div>
     </div>
 <?php DynamicFormWidget::end(); ?>
-
-<?php
-$js
-    = <<<'EOD'
-$(".option-value-img").on("filecleared", function(event) {
-    var regexID = /^(.+?)([-\d-]{1,})(.+)$/i;
-    var id = event.target.id;
-    var matches = id.match(regexID);
-    if (matches && matches.length === 4) {
-        var identifiers = matches[2].split("-");
-        $("#optionvalue-" + identifiers[1] + "-deleteimg").val("1");
-    }
-});
-
-EOD;
-
-JuiAsset::register($this);
-$this->registerJs($js);

@@ -1,4 +1,39 @@
 $(document).ready(function () {
+    $.extend($.ui.autocomplete.prototype, {
+        _renderItem: function (ul, item) {
+            var searchMask = this.element.val();
+            var regEx = new RegExp(searchMask, "ig");
+            var replaceMask = "<b>$&</b>";
+            var html = item.label.replace(regEx, replaceMask);
+
+            return $("<li></li>")
+                .data("item.autocomplete", item)
+                .append($("<a></a>").html(html))
+                .appendTo(ul);
+        }
+    });
+
+    $(".dynamicform_wrapper").on("afterInsert", function (e, item) {
+        try {
+            activateAutoComplete();
+
+            $('input[type=checkbox]').val(function (i, val) {
+                return $(this).data('value');
+            });
+        } catch (err) {
+        }
+    });
+
+    $(".option-value-img").on("filecleared", function(event) {
+        var regexID = /^(.+?)([-\d-]{1,})(.+)$/i;
+        var id = event.target.id;
+        var matches = id.match(regexID);
+        if (matches && matches.length === 4) {
+            var identifiers = matches[2].split("-");
+            $("#optionvalue-" + identifiers[1] + "-deleteimg").val("1");
+        }
+    });
+
     $(document).on('click', '.ajaxLink', function () {
         var selected = $(this).hasClass('active');
         formSideSelect($(this));
@@ -6,7 +41,7 @@ $(document).ready(function () {
             return false;
         }
 
-        var links = $(this).closest('.form-options-item').find('.ajaxLink');
+        var links = $(this).closest('.dynamicFormRow').find('.ajaxLink');
         var index = links.index(this);
         if (index == 0 && links.eq(1).hasClass('active')) formSideSelect(links.eq(1));
         if (index == 1 && links.eq(0).hasClass('active')) formSideSelect(links.eq(0));
@@ -22,7 +57,7 @@ $(document).ready(function () {
 
     $(document).on('change keyup', '.descriptionQuery', function () {
         var val = $(this).val();
-        var links = $(this).closest('.form-options-item').find('.ajaxLink');
+        var links = $(this).closest('.dynamicFormRow').find('.ajaxLink');
         if (val != '') {
             var valFirstWord = val.split(' ')[0];
             var sideForm = new Array('левый', 'правый', 'передний', 'задний', 'верхний', 'нижний');
@@ -51,7 +86,7 @@ $(document).ready(function () {
 });
 
 function formSideSelect(link) {
-    var query = link.closest('.form-options-item').find('.descriptionQuery');
+    var query = link.closest('.dynamicFormRow').find('.descriptionQuery');
     var val = query.val();
     var selected = link.hasClass('active');
 

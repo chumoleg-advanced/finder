@@ -10,12 +10,13 @@ class FormPartSearchAsset extends AssetBundle
     public $baseUrl = '@web';
     public $js
         = [
-            '/js/partSearch.js'
+            '/js/partSearch.js',
+            'http://api-maps.yandex.ru/2.1/?lang=ru_RU',
+            '/js/yandexMap.js',
         ];
 
     public $depends
         = [
-            'yii\web\YiiAsset',
-            'yii\bootstrap\BootstrapAsset',
+            'frontend\assets\AppAsset',
         ];
 }
