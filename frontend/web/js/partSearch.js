@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $('button.delete-item').hide();
+
     $.extend($.ui.autocomplete.prototype, {
         _renderItem: function (ul, item) {
             var searchMask = this.element.val();
@@ -10,6 +12,25 @@ $(document).ready(function () {
                 .data("item.autocomplete", item)
                 .append($("<a></a>").html(html))
                 .appendTo(ul);
+        }
+    });
+
+    $('.deliveryAddress').autocomplete({
+        minLength: 3,
+        source: function (request, response) {
+            $.ajax({
+                url: '/search/address-list',
+                dataType: 'json',
+                data: {q: request.term},
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.value,
+                            value: item.value
+                        };
+                    }));
+                }
+            });
         }
     });
 

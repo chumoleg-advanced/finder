@@ -54,17 +54,30 @@ $modelData = new QueryArrayForm();
                     'placeholder' => $placeholder,
                     'class'       => 'form-control descriptionQuery'
                 ]); ?>
+
+                <div class="col-md-12 col-sm-12 col-xs-12 partsSide text-center">
+                    <div class="btn-group-xs" style="display: block;">
+                        <a match="лев" class="ajaxLink sideLeft" href="#">левый</a> &ndash;
+                        <a match="прав" class="ajaxLink sideRight" href="#">правый</a>,
+                        &nbsp;&nbsp;&nbsp;
+                        <a match="перед" class="ajaxLink" href="#">передний</a> &ndash;
+                        <a match="зад" class="ajaxLink" href="#">задний</a>,
+                        &nbsp;&nbsp;&nbsp;
+                        <a match="верх" class="ajaxLink" href="#">верхний</a> &ndash;
+                        <a match="ниж" class="ajaxLink" href="#">нижний</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-5 col-sm-5 col-xs-7">
+            <div class="col-md-5 col-sm-5 col-xs-8">
                 <?= $form->field($modelData, '[0]comment')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
 
-            <div class="col-md-1 col-sm-1 col-xs-3">
-                <a class="btn btn-primary btn-block showFileUpload">
+            <div class="col-md-1 col-sm-1 col-xs-2">
+                <button class="btn btn-primary showFileUpload">
                     <i class="glyphicon glyphicon-camera"></i>
-                </a>
+                </button>
             </div>
 
             <div class="col-md-1 col-sm-1 col-xs-2 deleteServiceDiv">
@@ -74,20 +87,7 @@ $modelData = new QueryArrayForm();
             </div>
 
             <div class="form-group">
-                <div class="col-md-12 col-sm-12 col-xs-12 partsSide">
-                    <div class="col-md-5 col-sm-6 col-xs-12 text-center">
-                        <div class="btn-group-xs" style="display: block;">
-                            <a match="лев" class="ajaxLink sideLeft" href="#">левый</a> &ndash;
-                            <a match="прав" class="ajaxLink sideRight" href="#">правый</a>,
-                            &nbsp;&nbsp;&nbsp;
-                            <a match="перед" class="ajaxLink" href="#">передний</a> &ndash;
-                            <a match="зад" class="ajaxLink" href="#">задний</a>,
-                            &nbsp;&nbsp;&nbsp;
-                            <a match="верх" class="ajaxLink" href="#">верхний</a> &ndash;
-                            <a match="ниж" class="ajaxLink" href="#">нижний</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
             <?php if (isset($parts)) : ?>

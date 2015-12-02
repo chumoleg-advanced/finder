@@ -121,7 +121,7 @@ a.desc:after {
 }
 
 .districtSelect,
-.deliveryAddress {
+.deliveryAddressBlock {
     margin-top: 7px;
 }
 
@@ -130,7 +130,7 @@ a.desc:after {
 }
 
 .districtSelect,
-.deliveryAddress,
+.deliveryAddressBlock,
 .additionOptions,
 .partsOriginal,
 .tireTypeWinterParams,

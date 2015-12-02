@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 
     $('.showDeliveryAddress').change(function () {
-        $('.deliveryAddress').toggle();
+        $('.deliveryAddressBlock').toggle();
     });
 
     $(document).on('click', '.showFileUpload', function () {
