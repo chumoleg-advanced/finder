@@ -16,7 +16,7 @@ $(document).ready(function () {
         obj.toggle();
 
         if (obj.is(':visible')) {
-            ymaps.ready(initMap());
+            ymaps.ready(initMap([55.0302, 82.9204]));
         }
     });
 
@@ -73,18 +73,21 @@ $(document).ready(function () {
     });
 });
 
-function initMap() {
-    var myMap = new ymaps.Map('yandexMap', {
-        center: [55.0302, 82.9204],
-        zoom: 10,
-        controls: ['zoomControl']
-    });
+function initMap(coords, redraw) {
+    if (redraw) {
+        myCollection.removeAll();
+    } else {
+        myMap = new ymaps.Map('yandexMap', {
+            center: coords,
+            zoom: 10,
+            controls: ['zoomControl']
+        });
+    }
 
-    ymaps.geocode('Россия, Новосибирск', {
-        results: 1
-    }).then(function (res) {
-        var firstGeoObject = res.geoObjects.get(0);
-        var coords = firstGeoObject.geometry.getCoordinates();
-        myMap.geoObjects.add(firstGeoObject);
-    });
+    var myPlacemark = new ymaps.Placemark(coords);
+    myCollection = new ymaps.GeoObjectCollection();
+    myCollection.add(myPlacemark);
+
+    myMap.geoObjects.add(myCollection);
+    myMap.setCenter(coords, 10);
 }

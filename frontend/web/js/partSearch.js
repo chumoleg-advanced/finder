@@ -1,12 +1,33 @@
+function disableEnterKey(e) {
+    var key;
+    if (window.event) {
+        key = window.event.keyCode;
+    } else {
+        key = e.which;
+    }
+
+    if (key == 13) {
+        return false;
+    }
+
+    return true;
+}
+
 $(document).ready(function () {
+    $('#auto-service-form').attr('onKeyPress', 'return disableEnterKey(event)');
+
     $('button.delete-item').hide();
 
     $.extend($.ui.autocomplete.prototype, {
         _renderItem: function (ul, item) {
             var searchMask = this.element.val();
-            var regEx = new RegExp(searchMask, "ig");
-            var replaceMask = "<b>$&</b>";
-            var html = item.label.replace(regEx, replaceMask);
+            var html = item.label;
+            try {
+                var regEx = new RegExp(searchMask, "ig");
+                var replaceMask = "<b>$&</b>";
+                html = item.label.replace(regEx, replaceMask);
+            } catch (e) {
+            }
 
             return $("<li></li>")
                 .data("item.autocomplete", item)
@@ -15,7 +36,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.deliveryAddress').autocomplete({
+    $(".deliveryAddress").autocomplete({
         minLength: 3,
         source: function (request, response) {
             $.ajax({
@@ -25,12 +46,16 @@ $(document).ready(function () {
                 success: function (data) {
                     response($.map(data, function (item) {
                         return {
-                            label: item.value,
-                            value: item.value
+                            label: item.text,
+                            value: item.text,
+                            point: item.point
                         };
                     }));
                 }
             });
+        },
+        select: function (a, b) {
+            initMap(b.item.point, true);
         }
     });
 
@@ -45,7 +70,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".option-value-img").on("filecleared", function(event) {
+    $(".option-value-img").on("filecleared", function (event) {
         var regexID = /^(.+?)([-\d-]{1,})(.+)$/i;
         var id = event.target.id;
         var matches = id.match(regexID);
