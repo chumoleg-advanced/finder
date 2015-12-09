@@ -55,17 +55,15 @@ $modelData = new QueryArrayForm();
                     'class'       => 'form-control descriptionQuery'
                 ]); ?>
 
-                <div class="col-md-12 col-sm-12 col-xs-12 partsSide text-center">
-                    <div class="btn-group-xs" style="display: block;">
-                        <a match="лев" class="ajaxLink sideLeft" href="#">левый</a> &ndash;
-                        <a match="прав" class="ajaxLink sideRight" href="#">правый</a>,
-                        &nbsp;&nbsp;&nbsp;
-                        <a match="перед" class="ajaxLink" href="#">передний</a> &ndash;
-                        <a match="зад" class="ajaxLink" href="#">задний</a>,
-                        &nbsp;&nbsp;&nbsp;
-                        <a match="верх" class="ajaxLink" href="#">верхний</a> &ndash;
-                        <a match="ниж" class="ajaxLink" href="#">нижний</a>
-                    </div>
+                <div class="btn-group-xs partsSide text-center" style="display: block;">
+                    <a match="лев" class="ajaxLink sideLeft" href="#">левый</a> &ndash;
+                    <a match="прав" class="ajaxLink sideRight" href="#">правый</a>,
+                    &nbsp;&nbsp;&nbsp;
+                    <a match="перед" class="ajaxLink" href="#">передний</a> &ndash;
+                    <a match="зад" class="ajaxLink" href="#">задний</a>,
+                    &nbsp;&nbsp;&nbsp;
+                    <a match="верх" class="ajaxLink" href="#">верхний</a> &ndash;
+                    <a match="ниж" class="ajaxLink" href="#">нижний</a>
                 </div>
             </div>
 
@@ -75,20 +73,18 @@ $modelData = new QueryArrayForm();
             </div>
 
             <div class="col-md-1 col-sm-1 col-xs-2">
-                <button class="btn btn-primary showFileUpload">
+                <a class="btn btn-primary showFileUpload">
                     <i class="glyphicon glyphicon-camera"></i>
-                </button>
+                </a>
             </div>
 
             <div class="col-md-1 col-sm-1 col-xs-2 deleteServiceDiv">
-                <button type="button" class="delete-item btn btn-default">
+                <a class="btn btn-default delete-item">
                     <i class="glyphicon glyphicon-minus"></i>
-                </button>
+                </a>
             </div>
 
-            <div class="form-group">
-
-            </div>
+            <div class="form-group"></div>
 
             <?php if (isset($parts)) : ?>
                 <div class="col-md-5 col-sm-6 col-xs-12">
@@ -151,7 +147,6 @@ $modelData = new QueryArrayForm();
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="form-group">

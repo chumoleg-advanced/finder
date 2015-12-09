@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\autoPart\AutoPart;
+use frontend\searchForms\QueryArrayForm;
+use kartik\widgets\ActiveForm;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;

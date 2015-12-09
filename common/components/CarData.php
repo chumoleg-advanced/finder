@@ -14,7 +14,9 @@ class CarData
     public static $transmissionList
         = [
             1 => 'Механическая',
-            2 => 'Автоматическая'
+            2 => 'Автоматическая',
+            3 => 'Вариатор',
+            4 => 'Робот',
         ];
 
     public static $discTypeList

@@ -1,25 +1,15 @@
 <?php
 
-use \kartik\form\ActiveForm;
 use \common\components\CarData;
 use \kartik\widgets\Select2;
 use \common\models\manufacturer\Manufacturer;
+use frontend\components\ActiveFormGenerator;
 
 /** @var $model \frontend\searchForms\WheelDiscForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveForm::begin([
-    'id'          => 'tires-form',
-    'type'        => ActiveForm::TYPE_HORIZONTAL,
-    'formConfig'  => [
-        'showLabels' => false,
-        'deviceSize' => ActiveForm::SIZE_MEDIUM
-    ],
-    'fieldConfig' => [
-        'template' => "{input}\n{hint}\n{error}",
-    ],
-]);
+$form = ActiveFormGenerator::getFormSingle('tires-form');
 ?>
 
     <div class="form-group">
@@ -63,19 +53,15 @@ $form = ActiveForm::begin([
         </div>
     </div>
 
+<?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
 
 <?= $this->render('_parts/_additionOptionsButton'); ?>
 
     <div class="additionOptions">
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-5 col-sm-7 col-xs-12">
-                <?= $this->render('_parts/_price', ['form' => $form, 'model' => $model]); ?>
-                <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
-                <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>
-            </div>
-        </div>
+        <?= $this->render('_parts/_price', ['form' => $form, 'model' => $model]); ?>
     </div>
 
 <?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
 <?= $this->render('_parts/_buttons'); ?>
-<?php ActiveForm::end(); ?>
+
+<?php $form->end(); ?>

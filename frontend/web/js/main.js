@@ -1,4 +1,25 @@
 $(document).ready(function () {
+    var myMap = null;
+
+    function initMap(coords, zoom, redraw) {
+        if (redraw) {
+            myCollection.removeAll();
+        } else {
+            myMap = new ymaps.Map('yandexMap', {
+                center: coords,
+                zoom: zoom,
+                controls: ['zoomControl']
+            });
+        }
+
+        var myPlacemark = new ymaps.Placemark(coords);
+        myCollection = new ymaps.GeoObjectCollection();
+        myCollection.add(myPlacemark);
+
+        myMap.geoObjects.add(myCollection);
+        myMap.setCenter(coords, zoom);
+    }
+
     $('.loginButton').click(function () {
         $('#loginForm').modal();
     });
@@ -16,7 +37,36 @@ $(document).ready(function () {
         obj.toggle();
 
         if (obj.is(':visible')) {
-            ymaps.ready(initMap([55.0302, 82.9204]));
+            if (myMap == null) {
+                initMap([55.0302, 82.9204], 14);
+            }
+
+            var destination = $(this).offset().top - 60;
+            $('html, body').animate({scrollTop: destination}, 500);
+            $('.deliveryAddress').focus();
+        }
+    });
+
+    $(".deliveryAddress").autocomplete({
+        minLength: 3,
+        source: function (request, response) {
+            $.ajax({
+                url: '/search/address-list',
+                dataType: 'json',
+                data: {q: request.term},
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.text,
+                            value: item.text,
+                            point: item.point
+                        };
+                    }));
+                }
+            });
+        },
+        select: function (a, b) {
+            initMap(b.item.point, 17, true);
         }
     });
 
@@ -72,22 +122,3 @@ $(document).ready(function () {
         return false;
     });
 });
-
-function initMap(coords, redraw) {
-    if (redraw) {
-        myCollection.removeAll();
-    } else {
-        myMap = new ymaps.Map('yandexMap', {
-            center: coords,
-            zoom: 10,
-            controls: ['zoomControl']
-        });
-    }
-
-    var myPlacemark = new ymaps.Placemark(coords);
-    myCollection = new ymaps.GeoObjectCollection();
-    myCollection.add(myPlacemark);
-
-    myMap.geoObjects.add(myCollection);
-    myMap.setCenter(coords, 10);
-}

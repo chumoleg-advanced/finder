@@ -1,25 +1,15 @@
 <?php
 
-use \kartik\form\ActiveForm;
 use \common\components\CarData;
 use \frontend\searchForms\QueryArrayForm;
+use frontend\components\ActiveFormGenerator;
 
 /** @var $model \frontend\searchForms\RepairDiscForm */
 /** @var $this \yii\web\View */
 
 $modelData = new QueryArrayForm();
 
-$form = ActiveForm::begin([
-    'id'          => 'repair-disc-form',
-    'type'        => ActiveForm::TYPE_HORIZONTAL,
-    'formConfig'  => [
-        'showLabels' => false,
-        'deviceSize' => ActiveForm::SIZE_MEDIUM
-    ],
-    'fieldConfig' => [
-        'template' => "{input}\n{hint}\n{error}",
-    ],
-]);
+$form = ActiveFormGenerator::getFormSingle('repair-disc-form');
 ?>
     <div class="form-group placeListServices">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">
@@ -50,16 +40,7 @@ $form = ActiveForm::begin([
         </div>
     </div>
 
-<?= $this->render('_parts/_additionOptionsButton'); ?>
-
-    <div class="additionOptions">
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-5 col-sm-6 col-xs-12">
-                <?= $this->render('_parts/_districtWithMe', ['form' => $form, 'model' => $model]); ?>
-            </div>
-        </div>
-    </div>
-
 <?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
 <?= $this->render('_parts/_buttons'); ?>
-<?php ActiveForm::end(); ?>
+
+<?php $form->end(); ?>

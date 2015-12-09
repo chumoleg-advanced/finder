@@ -25,7 +25,8 @@ class BaseForm extends Model
     {
         return [
             'withMe'       => 'Рядом со мной',
-            'districtData' => 'Районы'
+            'districtData' => 'Районы',
+            'verifyCode'   => 'Проверочный код'
         ];
     }
 
