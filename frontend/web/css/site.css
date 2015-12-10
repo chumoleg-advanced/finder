@@ -193,3 +193,7 @@ a.desc:after {
 .verifyCodeInput {
     margin-top: 10px;
 }
+
+.verifyCodeBlock .help-block {
+    padding-left: 10px;
+}
