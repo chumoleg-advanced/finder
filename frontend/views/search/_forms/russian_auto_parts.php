@@ -8,7 +8,7 @@ use frontend\components\ActiveFormGenerator;
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveFormGenerator::getFormFiles();
+$form = ActiveFormGenerator::getFormFiles($rubric->id);
 ?>
 
 <?= $this->render('_parts/_partOrServiceRow', [

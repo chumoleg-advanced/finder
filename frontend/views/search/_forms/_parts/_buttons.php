@@ -2,6 +2,7 @@
 use \kartik\helpers\Html;
 ?>
 
+<div>&nbsp;</div>
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
         <div class="col-md-12 col-sm-12 col-xs-12">

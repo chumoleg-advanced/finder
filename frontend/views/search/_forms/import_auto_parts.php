@@ -16,7 +16,7 @@ if ($rubric->id == 10) {
     $selectedCondition = 2;
 }
 
-$form = ActiveFormGenerator::getFormFiles();
+$form = ActiveFormGenerator::getFormFiles($rubric->id);
 ?>
 
 <?= $this->render('_parts/_partOrServiceRow', [

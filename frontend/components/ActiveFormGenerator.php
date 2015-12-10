@@ -3,51 +3,62 @@
 namespace frontend\components;
 
 use \kartik\form\ActiveForm;
+use yii\helpers\Url;
 
 class ActiveFormGenerator
 {
     /**
-     * @param string $id
+     * @param int    $formId
+     * @param string $htmlId
      *
      * @return ActiveForm
      */
-    public static function getFormFiles($id = 'auto-service-form')
+    public static function getFormFiles($formId, $htmlId = 'auto-service-form')
     {
-        return ActiveForm::begin([
-            'type'           => ActiveForm::TYPE_HORIZONTAL,
-            'validateOnBlur' => false,
-            'formConfig'     => [
-                'showLabels' => false,
-                'deviceSize' => ActiveForm::SIZE_MEDIUM
-            ],
-            'fieldConfig'    => [
-                'template' => "{input}\n{hint}\n{error}",
-            ],
-            'options'        => [
-                'enctype' => 'multipart/form-data',
-                'id'      => $id
-            ],
-        ]);
+        $params = self::_getCommonParams($formId);
+        $params['options'] = [
+            'enctype' => 'multipart/form-data',
+            'id'      => $htmlId
+        ];
+
+        return ActiveForm::begin($params);
     }
 
     /**
-     * @param string $id
+     * @param int $formId
      *
-     * @return ActiveForm
+     * @return array
      */
-    public static function getFormSingle($id)
+    private static function _getCommonParams($formId)
     {
-        return ActiveForm::begin([
-            'id'             => $id,
-            'type'           => ActiveForm::TYPE_HORIZONTAL,
-            'validateOnBlur' => false,
-            'formConfig'     => [
+        return [
+            'type'                   => ActiveForm::TYPE_HORIZONTAL,
+            'validateOnBlur'         => false,
+            'validateOnChange'       => true,
+            'enableAjaxValidation'   => true,
+            'enableClientValidation' => false,
+            'validationUrl'          => Url::to(['search/validate', 'id' => $formId]),
+            'formConfig'             => [
                 'showLabels' => false,
                 'deviceSize' => ActiveForm::SIZE_MEDIUM
             ],
-            'fieldConfig'    => [
+            'fieldConfig'            => [
                 'template' => "{input}\n{hint}\n{error}",
             ],
-        ]);
+        ];
+    }
+
+    /**
+     * @param int    $formId
+     * @param string $htmlId
+     *
+     * @return ActiveForm
+     */
+    public static function getFormSingle($formId, $htmlId)
+    {
+        $params = self::_getCommonParams($formId);
+        $params['id'] = $htmlId;
+
+        return ActiveForm::begin($params);
     }
 }

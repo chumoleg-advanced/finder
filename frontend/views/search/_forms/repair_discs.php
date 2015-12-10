@@ -5,11 +5,12 @@ use \frontend\searchForms\QueryArrayForm;
 use frontend\components\ActiveFormGenerator;
 
 /** @var $model \frontend\searchForms\RepairDiscForm */
+/** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
 $modelData = new QueryArrayForm();
 
-$form = ActiveFormGenerator::getFormSingle('repair-disc-form');
+$form = ActiveFormGenerator::getFormSingle($rubric->id, 'repair-disc-form');
 ?>
     <div class="form-group placeListServices">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">

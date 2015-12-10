@@ -4,9 +4,10 @@ use common\models\car\CarFirm;
 use frontend\components\ActiveFormGenerator;
 
 /** @var $model \frontend\searchForms\AutoServiceForm */
+/** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveFormGenerator::getFormFiles();
+$form = ActiveFormGenerator::getFormFiles($rubric->id);
 ?>
 
 <?= $this->render('_parts/_partOrServiceRow', ['form' => $form, 'model' => $model]); ?>

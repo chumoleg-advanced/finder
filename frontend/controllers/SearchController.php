@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use common\models\autoPart\AutoPart;
 use frontend\searchForms\QueryArrayForm;
 use kartik\widgets\ActiveForm;
-use Yii;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use common\models\category\Category;
@@ -25,7 +27,6 @@ class SearchController extends Controller
     public function actionForm($id)
     {
         $rubric = Rubric::find()->whereId($id)->one();
-
         $formModel = $rubric->geFormModelClassName();
 
         /** @var BaseForm $model */
@@ -41,6 +42,47 @@ class SearchController extends Controller
             'formView'  => $rubric->getViewName(),
             'formModel' => $model
         ]);
+    }
+
+    public function actionValidate($id)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!Yii::$app->request->isAjax) {
+            return [];
+        }
+
+        $postData = Yii::$app->request->post();
+        $rubric = Rubric::find()->whereId($id)->one();
+        if (empty($rubric) || empty($postData)) {
+            return [];
+        }
+
+        $formModel = $rubric->geFormModelClassName();
+
+        /** @var BaseForm $model */
+        $model = new $formModel();
+        $modelData = new QueryArrayForm();
+
+        if ($model->load($postData)) {
+            $errors = ActiveForm::validate($model);
+
+            $countQueryArrayRows = count(ArrayHelper::getValue($postData,
+                StringHelper::basename($modelData->className())));
+
+            if ($countQueryArrayRows > 0) {
+                $arrayModels = [];
+                for ($i = 0; $i <= $countQueryArrayRows; $i++) {
+                    $arrayModels[$i] = new QueryArrayForm();
+                }
+
+                Model::loadMultiple($arrayModels, $postData);
+                $errors += ActiveForm::validateMultiple($arrayModels);
+            }
+
+            return $errors;
+        }
+
+        return [];
     }
 
     public function actionSearch()

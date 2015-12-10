@@ -9,7 +9,7 @@ use frontend\components\ActiveFormGenerator;
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveFormGenerator::getFormSingle('wheel-disc-form');
+$form = ActiveFormGenerator::getFormSingle($rubric->id, 'wheel-disc-form');
 ?>
 
     <div class="form-group">
