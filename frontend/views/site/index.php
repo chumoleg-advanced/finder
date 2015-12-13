@@ -11,6 +11,11 @@ $this->title = Yii::t('title', 'Search');
 
 <div class="site-index">
     <div class="col-md-12 text-center">
+        <?php $info = new \common\components\GeoIpInfo(); ?>
+        <h3>Ваш город: <?= $info->getValue('city'); ?></h3>
+    </div>
+
+    <div class="col-md-12 text-center">
         <?php foreach ($categories as $category) : ?>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <a href="<?= Url::toRoute(['/search/category', 'id' => $category->id]); ?>">

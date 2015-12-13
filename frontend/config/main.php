@@ -12,17 +12,22 @@ return [
     'bootstrap'           => ['log', 'thumbnail'],
     'controllerNamespace' => 'frontend\controllers',
     'modules'             => [
-        'ajax' => 'frontend\modules\ajax\AjaxModule'
+        'ajax'            => 'frontend\modules\ajax\AjaxModule',
+        'personalCabinet' => 'frontend\modules\personalCabinet\PersonalCabinetModule'
     ],
     'components'          => [
         'authClientCollection' => [
             'class'   => 'yii\authclient\Collection',
             'clients' => [
                 'yandex'    => [
-                    'class' => 'yii\authclient\clients\YandexOpenId'
+                    'class'        => 'yii\authclient\clients\YandexOAuth',
+                    'clientId'     => 'yandex_client_id',
+                    'clientSecret' => 'yandex_client_secret',
                 ],
                 'google'    => [
-                    'class' => 'yii\authclient\clients\GoogleOpenId'
+                    'class'        => 'yii\authclient\clients\GoogleOAuth',
+                    'clientId'     => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
                 ],
                 'facebook'  => [
                     'class'        => 'yii\authclient\clients\Facebook',
@@ -38,6 +43,11 @@ return [
                     'class'        => 'yii\authclient\clients\LinkedIn',
                     'clientId'     => 'linkedin_client_id',
                     'clientSecret' => 'linkedin_client_secret',
+                ],
+                'twitter'   => [
+                    'class'          => 'yii\authclient\clients\Twitter',
+                    'consumerKey'    => 'twitter_consumer_key',
+                    'consumerSecret' => 'twitter_consumer_secret',
                 ],
             ],
         ],

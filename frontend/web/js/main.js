@@ -24,6 +24,10 @@ $(document).ready(function () {
         $('#loginForm').modal();
     });
 
+    $('.signUpButton').click(function () {
+        $('#signUpForm').modal();
+    });
+
     $('.showAdditionOptions').click(function () {
         $('.additionOptions').toggle();
     });

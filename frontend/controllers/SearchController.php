@@ -6,7 +6,7 @@ use Yii;
 use common\models\autoPart\AutoPart;
 use frontend\searchForms\QueryArrayForm;
 use kartik\widgets\ActiveForm;
-use yii\base\Model;
+use common\components\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
@@ -61,23 +61,18 @@ class SearchController extends Controller
 
         /** @var BaseForm $model */
         $model = new $formModel();
-        $modelData = new QueryArrayForm();
-
         if ($model->load($postData)) {
             $errors = ActiveForm::validate($model);
 
-            $countQueryArrayRows = count(ArrayHelper::getValue($postData,
-                StringHelper::basename($modelData->className())));
-
-            if ($countQueryArrayRows > 0) {
-                $arrayModels = [];
-                for ($i = 0; $i <= $countQueryArrayRows; $i++) {
-                    $arrayModels[$i] = new QueryArrayForm();
-                }
-
-                Model::loadMultiple($arrayModels, $postData);
-                $errors += ActiveForm::validateMultiple($arrayModels);
+            $scenario = null;
+            if (StringHelper::basename($model->className()) == 'AutoPartForm') {
+                $scenario = 'parts';
             }
+
+            $modelRows = Model::createMultiple(QueryArrayForm::classname(), [], $scenario);
+            Model::loadMultiple($modelRows, Yii::$app->request->post());
+
+            $errors += ActiveForm::validateMultiple($modelRows);
 
             return $errors;
         }

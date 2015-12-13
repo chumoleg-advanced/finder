@@ -8,13 +8,10 @@ use yii\base\Model;
 class QueryArrayForm extends Model
 {
     public $description;
-    public $partSide;
-    public $partDirection;
-    public $partHeight;
     public $comment;
     public $image = [];
-    public $condition;
-    public $original;
+    public $condition = [];
+    public $original = [];
 
     /**
      * @inheritdoc
@@ -23,20 +20,18 @@ class QueryArrayForm extends Model
     {
         return [
             [['description'], 'required'],
+            [['condition'], 'required', 'on' => ['parts']],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'description'   => 'Описание',
-            'partSide'      => 'Сторона',
-            'partDirection' => 'Сторона',
-            'partHeight'    => 'Сторона',
-            'comment'       => 'Комментарий',
-            'image'         => 'Фото',
-            'condition'     => 'Состояние',
-            'original'      => 'Оригинальность',
+            'description' => 'Описание',
+            'comment'     => 'Комментарий',
+            'image'       => 'Фото',
+            'condition'   => 'Состояние',
+            'original'    => 'Оригинальность',
         ];
     }
 }

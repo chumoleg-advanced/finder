@@ -17,6 +17,8 @@ if (!isset($placeholder)) {
 
 FormPartSearchAsset::register($this);
 
+$modelData = new QueryArrayForm();
+
 if (isset($parts)) {
     $this->registerJs("$(document).ready(function(){
             $('.buttonListPartsCondition').find('input[value=" . $parts . "]')
@@ -25,13 +27,11 @@ if (isset($parts)) {
 
     $this->registerJs("$(document).ready(function(){activateAutoComplete();});",
         \yii\web\View::POS_END, 'searchFormInitAutoComplete');
+
+    $modelData->setScenario('parts');
 }
 
-$modelData = new QueryArrayForm();
-?>
-
-
-<?php DynamicFormWidget::begin([
+$dynamicParams = [
     'widgetContainer' => 'dynamicform_wrapper',
     'widgetBody'      => '.form-options-body',
     'widgetItem'      => '.dynamicFormRow',
@@ -45,7 +45,15 @@ $modelData = new QueryArrayForm();
         'comment',
         'image'
     ],
-]); ?>
+];
+
+if (isset($parts)) {
+    $dynamicParams['formFields'][] = 'condition';
+    $dynamicParams['formFields'][] = 'original';
+}
+?>
+
+<?php DynamicFormWidget::begin($dynamicParams); ?>
 
     <div class="form-group form-options-body partsSearch">
         <div class="dynamicFormRow col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
@@ -88,30 +96,17 @@ $modelData = new QueryArrayForm();
 
             <?php if (isset($parts)) : ?>
                 <div class="col-md-5 col-sm-6 col-xs-12">
-                    <input name="QueryArrayForm[0][condition]" value="" type="hidden">
-
-                    <div id="queryarrayform-0-condition" class="buttonListPartsCondition btn-group"
-                         data-toggle="buttons">
-                        <?php foreach (CarData::$partsCondition as $id => $label) : ?>
-                            <label class="btn btn-default">
-                                <input name="QueryArrayForm[0][condition][]" value="<?= $id; ?>"
-                                       data-value="<?= $id; ?>" type="checkbox"><?= $label; ?>
-                            </label>
-                        <?php endforeach; ?>
-                    </div>
+                    <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(CarData::$partsCondition, [
+                        'class'       => 'btn-group buttonListPartsCondition',
+                        'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                    ]); ?>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-12 partsOriginal">
-                    <input name="QueryArrayForm[0][original]" value="" type="hidden">
 
-                    <div id="queryarrayform-0-original" class="btn-group"
-                         data-toggle="buttons">
-                        <?php foreach (CarData::$partsOriginal as $id => $label) : ?>
-                            <label class="btn btn-default">
-                                <input name="QueryArrayForm[0][original][]" value="<?= $id; ?>"
-                                       data-value="<?= $id; ?>" type="checkbox"><?= $label; ?>
-                            </label>
-                        <?php endforeach; ?>
-                    </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 partsOriginal">
+                    <?= $form->field($modelData, '[0]original')->checkboxButtonGroup(CarData::$partsOriginal, [
+                        'class'       => 'btn-group',
+                        'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                    ]); ?>
                 </div>
             <?php endif; ?>
 

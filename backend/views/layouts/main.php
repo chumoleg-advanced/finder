@@ -29,7 +29,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
         NavBar::begin([
-            'brandLabel' => Yii::t('title', 'System'),
+            'brandLabel' => 'Админка',
             'brandUrl'   => Yii::$app->homeUrl,
             'options'    => [
                 'class' => 'navbar-inverse navbar-fixed-top',
@@ -38,38 +38,57 @@ AppAsset::register($this);
 
         $menuItems = [
             [
-                'label'   => Yii::t('title', 'Login'),
-                'url'     => Url::toRoute('/site/login'),
-                'visible' => Yii::$app->user->isGuest
-            ],
-            [
-                'label'   => Yii::t('title', 'Users'),
+                'label'   => 'Пользователи',
                 'visible' => Yii::$app->user->can('accessToBackend'),
                 'items'   => [
                     [
-                        'label'   => Yii::t('title', 'Users management'),
+                        'label'   => 'Управление пользователями',
                         'url'     => Url::toRoute('/management/user/index'),
                         'visible' => Yii::$app->user->can('userManage')
                     ],
                     [
-                        'label'   => Yii::t('title', 'Roles management'),
+                        'label'   => 'Распределение ролей',
                         'url'     => Url::toRoute('/management/role/index'),
                         'visible' => Yii::$app->user->can('roleManage')
                     ],
                     [
-                        'label'   => Yii::t('title', 'Access rules'),
+                        'label'   => 'Управление доступом',
                         'url'     => Url::toRoute('/management/access/index'),
                         'visible' => Yii::$app->user->can('accessManage')
                     ],
                 ]
-            ]
+            ],
+            [
+                'label'   => 'Организации',
+                'url'     => Url::toRoute('/company/index'),
+                'visible' => Yii::$app->user->can('accessToBackend'),
+            ],
+            [
+                'label'   => 'Заявки',
+                'url'     => Url::toRoute('/request/index'),
+                'visible' => Yii::$app->user->can('accessToBackend'),
+            ],
+            [
+                'label'   => 'Справочники',
+                'visible' => Yii::$app->user->can('accessToBackend'),
+                'items'   => [
+                    ['label' => 'Автомобили', 'url' => ['/management/car/index']],
+                    ['label' => 'Запчасти', 'url' => ['/management/auto-part/index']],
+                ]
+            ],
+            ['label' => 'Перейти на сайт', 'url' => Url::to('/')],
         ];
 
         if (!Yii::$app->user->isGuest) {
             $menuItems[] = [
-                'label'       => Yii::t('common/app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-                'url'         => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']
+                'label' => Yii::$app->user->identity->username,
+                'items' => [
+                    [
+                        'label'       => 'Выход',
+                        'url'         => Url::toRoute('/site/logout'),
+                        'linkOptions' => ['data-method' => 'post']
+                    ],
+                ]
             ];
         }
 

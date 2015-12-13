@@ -9,7 +9,7 @@ use yii\authclient\BaseClient;
 use common\models\auth\Oauth;
 use common\models\user\User;
 use common\components\Json;
-use common\models\LoginForm;
+use common\forms\LoginForm;
 use yii\web\Response;
 
 class AuthController extends Controller

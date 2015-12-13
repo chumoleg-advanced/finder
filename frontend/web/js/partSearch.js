@@ -43,6 +43,21 @@ $(document).ready(function () {
             $('input[type=checkbox]').val(function (i, val) {
                 return $(this).data('value');
             });
+
+            var form = $('#auto-service-form');
+            form.find(".dynamicFormRow").each(function (index) {
+                var attribute = {
+                    enableAjaxValidation: true,
+                    encodeError: true,
+                    container: ".field-queryarrayform-" + index + "-condition",
+                    error: ".help-block",
+                    id: "queryarrayform-" + index + "-condition",
+                    input: "#queryarrayform-" + index + "-condition",
+                    name: "[" + index + "]condition",
+                };
+
+                form.yiiActiveForm('add', attribute);
+            });
         } catch (err) {
         }
     });

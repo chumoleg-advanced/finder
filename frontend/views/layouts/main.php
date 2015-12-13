@@ -10,22 +10,23 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
-use yii\bootstrap\Modal;
+use common\components\Role;
+use common\models\user\User;
 
 AppAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage(); ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?= Html::csrfMetaTags(); ?>
+    <title><?= Html::encode($this->title); ?></title>
+    <?php $this->head(); ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
+<?php $this->beginBody(); ?>
 
 <div class="wrap">
     <?php
@@ -36,6 +37,7 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     $menuItems = [
         ['label' => 'Home', 'url' => Url::toRoute('/site/index')],
         ['label' => 'About', 'url' => Url::toRoute('/site/about')],
@@ -43,29 +45,35 @@ AppAsset::register($this);
     ];
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => Url::toRoute('/site/signup')];
-        $menuItems[] = ['label' => 'Login', 'url' => '#', 'options' => ['class' => 'loginButton']];
-    } else {
+        $menuItems[] = ['label' => 'Регистрация', 'url' => '#', 'options' => ['class' => 'signUpButton']];
+        $menuItems[] = ['label' => 'Авторизация', 'url' => '#', 'options' => ['class' => 'loginButton']];
+    }
+
+    $role = User::getUserRole();
+    if ($role == Role::USER) {
+        $menuItems[] = ['label' => 'Личный кабинет', 'url' => Url::toRoute('/personalCabinet')];
+    } elseif ($role == Role::ADMIN) {
+        $menuItems[] = ['label' => 'Администрирование', 'url' => Url::toRoute('/backend')];
+    }
+
+    if (!Yii::$app->user->isGuest) {
         $menuItems[] = [
-            'label'   => Yii::t('frontend/title', 'Personal cabinet'),
-            'url'     => ['/personalCabinet/index/index'],
-            'visible' => Yii::$app->user->can('accessToPersonalCabinet'),
-            'items'   => [
-                ['label' => 'Персональные данные', 'url' => ['/personalCabinet/index/index']],
-                ['label' => 'Компании', 'url' => ['/personalCabinet/company/index']],
-                ['label' => 'Расчетные счета', 'url' => ['/personalCabinet/settlement-account/index']],
+            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->username,
+            'items' => [
+                ['label' => 'Профиль', 'url' => ['/personalCabinet/profile/index']],
+                [
+                    'label'       => 'Выход',
+                    'url'         => Url::toRoute('/site/logout'),
+                    'linkOptions' => ['data-method' => 'post']
+                ],
             ]
         ];
-
-        $menuItems[] = [
-            'label'       => 'Logout (' . Yii::$app->user->identity->username . ')',
-            'url'         => Url::toRoute('/site/logout'),
-            'linkOptions' => ['data-method' => 'post']
-        ];
     }
+
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items'   => $menuItems,
+        'options'      => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
+        'items'        => $menuItems,
     ]);
     NavBar::end();
     ?>
@@ -73,24 +81,26 @@ AppAsset::register($this);
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+        ]); ?>
+        <?= Alert::widget(); ?>
+
+        <?= $content; ?>
     </div>
 </div>
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; My Company <?= date('Y'); ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?= Yii::powered(); ?></p>
     </div>
 </footer>
 
 <?= $this->render('login'); ?>
+<?= $this->render('register'); ?>
 
-<?php $this->endBody() ?>
+<?php $this->endBody(); ?>
 </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage(); ?>
 

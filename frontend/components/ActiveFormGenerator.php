@@ -2,6 +2,7 @@
 
 namespace frontend\components;
 
+use common\components\ActiveField;
 use \kartik\form\ActiveForm;
 use yii\helpers\Url;
 
@@ -40,10 +41,14 @@ class ActiveFormGenerator
             'validationUrl'          => Url::to(['search/validate', 'id' => $formId]),
             'formConfig'             => [
                 'showLabels' => false,
-                'deviceSize' => ActiveForm::SIZE_MEDIUM
+                'deviceSize' => ActiveForm::SIZE_MEDIUM,
             ],
             'fieldConfig'            => [
                 'template' => "{input}\n{hint}\n{error}",
+                'class'    => ActiveField::className()
+            ],
+            'options' => [
+                'data-pjax' => true
             ],
         ];
     }
