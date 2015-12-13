@@ -24,10 +24,13 @@ $model = new LoginForm();
 
             $form = ActiveForm::begin(['id' => 'login-form', 'action' => Url::toRoute('/auth/login')]);
             echo $form->errorSummary($model);
-            echo $form->field($model, 'username');
-            echo $form->field($model, 'password')->passwordInput();
+            echo $form->field($model, 'username')->textInput(
+                ['placeholder' => $model->getAttributeLabel('username')]);
+            echo $form->field($model, 'password')->passwordInput(
+                ['placeholder' => $model->getAttributeLabel('password')]);
             echo $form->field($model, 'rememberMe')->checkbox();
             ?>
+
             <div style="color:#999;margin:1em 0">
                 <?= Html::a('Забыли пароль?', ['site/request-password-reset']); ?>
             </div>

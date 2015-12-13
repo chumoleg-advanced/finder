@@ -15,10 +15,15 @@ $model = new SignupForm();
             <div class="site-signup">
                 <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <div class="row">
-                    <div class="col-lg-5">
-                        <?= $form->field($model, 'username'); ?>
-                        <?= $form->field($model, 'password')->passwordInput(); ?>
-                        <?= $form->field($model, 'email'); ?>
+                    <div class="col-md-12">
+                        <?php
+                        echo $form->field($model, 'username')->textInput(
+                            ['placeholder' => $model->getAttributeLabel('username')]);
+                        echo $form->field($model, 'password')->passwordInput(
+                            ['placeholder' => $model->getAttributeLabel('password')]);
+                        echo $form->field($model, 'email')->textInput(
+                            ['placeholder' => $model->getAttributeLabel('email')]);
+                        ?>
                     </div>
                 </div>
             </div>
