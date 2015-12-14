@@ -2,8 +2,11 @@
 
 namespace frontend\controllers;
 
+use frontend\forms\SignupForm;
+use kartik\form\ActiveForm;
 use Yii;
-use yii\bootstrap\ActiveForm;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\authclient\BaseClient;
 use common\models\auth\Oauth;
@@ -14,6 +17,37 @@ use yii\web\Response;
 
 class AuthController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only'  => ['logout', 'signup'],
+                'rules' => [
+                    [
+                        'actions' => ['signup'],
+                        'allow'   => true,
+                        'roles'   => ['?'],
+                    ],
+                    [
+                        'actions' => ['logout'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
+                    ],
+                ],
+            ],
+            'verbs'  => [
+                'class'   => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -45,6 +79,43 @@ class AuthController extends Controller
         }
 
         return $answer;
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionSignupValidate()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!\Yii::$app->user->isGuest) {
+            return [];
+        }
+
+        $errors = [];
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            $errors = ActiveForm::validate($model);
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return mixed
+     */
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        $model->load(Yii::$app->request->post());
+        if ($model->validate()){
+            $model->signup();
+        }
+
+        return $this->goHome();
     }
 
     /**
@@ -105,8 +176,20 @@ class AuthController extends Controller
                     'source'    => $client->getId(),
                     'source_id' => $attributes['id'],
                 ]);
+
                 $auth->save();
             }
         }
+    }
+
+    /**
+     * Logs out the current user.
+     *
+     * @return mixed
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        return $this->goHome();
     }
 }

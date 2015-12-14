@@ -63,7 +63,7 @@ AppAsset::register($this);
                 ['label' => 'Профиль', 'url' => ['/personalCabinet/profile/index']],
                 [
                     'label'       => 'Выход',
-                    'url'         => Url::toRoute('/site/logout'),
+                    'url'         => Url::toRoute('/auth/logout'),
                     'linkOptions' => ['data-method' => 'post']
                 ],
             ]

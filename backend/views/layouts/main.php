@@ -85,7 +85,7 @@ AppAsset::register($this);
                 'items' => [
                     [
                         'label'       => 'Выход',
-                        'url'         => Url::toRoute('/site/logout'),
+                        'url'         => Url::toRoute('/auth/logout'),
                         'linkOptions' => ['data-method' => 'post']
                     ],
                 ]
