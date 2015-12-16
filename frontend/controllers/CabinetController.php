@@ -1,12 +1,12 @@
 <?php
 
-namespace frontend\modules\personalCabinet\controllers;
+namespace frontend\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
+use frontend\components\Controller;
 
-class ProfileController extends Controller
+class CabinetController extends Controller
 {
     public function behaviors()
     {
@@ -17,11 +17,16 @@ class ProfileController extends Controller
                     [
                         'actions' => ['index'],
                         'allow'   => true,
-                        'roles'   => ['@'],
+                        'roles'   => ['accessToPersonalCabinet'],
                     ],
                 ],
             ],
         ];
+    }
+
+    public function init()
+    {
+        $this->layout = 'personalCabinet';
     }
 
     public function actionIndex()

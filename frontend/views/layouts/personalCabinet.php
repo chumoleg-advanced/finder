@@ -30,7 +30,7 @@ AppAsset::register($this);
         <?php
         NavBar::begin([
             'brandLabel' => 'Личный кабинет',
-            'brandUrl'   => Url::to('personalCabinet'),
+            'brandUrl'   => Yii::$app->getHomeUrl(),
             'options'    => [
                 'class' => 'navbar-inverse navbar-fixed-top',
             ],
@@ -39,21 +39,21 @@ AppAsset::register($this);
         $menuItems = [
             [
                 'label' => '<i class="glyphicon glyphicon-plus"></i> Создать заявку',
-                'url'   => Url::toRoute('/personalCabinet/request/create')
+                'url'   => Url::toRoute('/request/create')
             ],
-            ['label' => 'Мои заявки', 'url' => Url::toRoute('/personalCabinet/request/index')],
-            ['label' => 'Мои организации', 'url' => Url::toRoute('/personalCabinet/company/index')],
+            ['label' => 'Мои заявки', 'url' => Url::toRoute('/request/index')],
+            ['label' => 'Мои организации', 'url' => Url::toRoute('/company/index')],
             [
                 'label' => '<i class="glyphicon glyphicon-bell"></i>',
-                'url'   => Url::toRoute('/personalCabinet/message/index')
+                'url'   => Url::toRoute('/message/index')
             ],
             [
-                'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->username,
+                'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->email,
                 'items' => [
-                    ['label' => 'Профиль', 'url' => ['/personalCabinet/profile/index']],
+                    ['label' => 'Профиль', 'url' => ['/profile/index']],
                     [
                         'label'       => 'Выход',
-                        'url'         => Url::toRoute('/auth/logout'),
+                        'url'         => Url::to('/auth/logout'),
                         'linkOptions' => ['data-method' => 'post']
                     ],
                 ]

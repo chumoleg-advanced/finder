@@ -81,11 +81,11 @@ AppAsset::register($this);
 
         if (!Yii::$app->user->isGuest) {
             $menuItems[] = [
-                'label' => Yii::$app->user->identity->username,
+                'label' => Yii::$app->user->identity->email,
                 'items' => [
                     [
                         'label'       => 'Выход',
-                        'url'         => Url::toRoute('/auth/logout'),
+                        'url'         => Url::toRoute('/site/logout'),
                         'linkOptions' => ['data-method' => 'post']
                     ],
                 ]

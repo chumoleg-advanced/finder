@@ -9,11 +9,10 @@ $params = array_merge(
 return [
     'id'                  => 'app-frontend',
     'basePath'            => dirname(__DIR__),
-    'bootstrap'           => ['log', 'thumbnail'],
+    'bootstrap'           => ['log', 'thumbnail', 'frontend\components\Settings'],
     'controllerNamespace' => 'frontend\controllers',
     'modules'             => [
-        'ajax'            => 'frontend\modules\ajax\AjaxModule',
-        'personalCabinet' => 'frontend\modules\personalCabinet\PersonalCabinetModule'
+        'ajax' => 'frontend\modules\ajax\AjaxModule',
     ],
     'components'          => [
         'authClientCollection' => [
@@ -61,6 +60,7 @@ return [
         'user'                 => [
             'identityClass'   => 'common\models\user\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['/']
         ],
         'log'                  => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

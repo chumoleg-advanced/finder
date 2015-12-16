@@ -11,12 +11,11 @@ use common\models\user\User;
  */
 class LoginForm extends Model
 {
-    public $username;
+    public $email;
     public $password;
     public $rememberMe = true;
 
     private $_user;
-
 
     /**
      * @inheritdoc
@@ -24,7 +23,7 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            [['username', 'password'], 'required'],
+            [['email', 'password'], 'required'],
             ['rememberMe', 'boolean'],
             ['password', 'validatePassword'],
         ];
@@ -33,9 +32,9 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username'   => 'Логин',
-            'rememberMe' => 'Запомнить меня',
+            'email'      => 'Email',
             'password'   => 'Пароль',
+            'rememberMe' => 'Запомнить меня',
         ];
     }
 
@@ -48,30 +47,35 @@ class LoginForm extends Model
      */
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors()) {
-            $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Неверный логин или пароль');
-            }
+        if ($this->hasErrors()) {
+            return;
+        }
+
+        $user = $this->getUser();
+        if (!$user){
+            $this->addError('email', 'Указанный email не зарегистрирован или заблокирован');
+            return;
+        }
+
+        if (!$user->validatePassword($this->password)) {
+            $this->addError($attribute, 'Неверный пароль');
         }
     }
 
     /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
+     * @return null|User
      */
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByEmail($this->email);
         }
 
         return $this->_user;
     }
 
     /**
-     * Logs in a user using the provided username and password.
+     * Logs in a user using the provided email and password.
      *
      * @return boolean whether the user is logged in successfully
      */
@@ -80,7 +84,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-        
+
         return false;
     }
 }

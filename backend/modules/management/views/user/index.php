@@ -21,7 +21,6 @@ $this->title = Yii::t('title', 'Users management');
         'filterModel'  => $searchModel,
         'columns'      => [
             'id',
-            'username',
             'email:email',
             'status',
             [

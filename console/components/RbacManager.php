@@ -105,14 +105,9 @@ class RbacManager extends Component
 
     private function appendChildren($parentName, $children)
     {
+        $this->removeChildren($parentName);
         foreach ($children as $key => $child) {
-
-            if (is_array($child)) {
-                $this->appendChild($parentName, $key);
-                $this->appendChildren($key, $child);
-            } else {
-                $this->appendChild($parentName, $child);
-            }
+            $this->appendChild($parentName, $child);
         }
     }
 
@@ -167,6 +162,19 @@ class RbacManager extends Component
         }
 
         $this->saveAuthItem($role, $description, $isNew);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeChildren($parentName)
+    {
+        $authManager = $this->getAuthManager();
+        $authManager->db->createCommand()
+            ->delete($authManager->itemChildTable, ['parent' => $parentName])
+            ->execute();
+
+        $authManager->invalidateCache();
     }
 
     /**

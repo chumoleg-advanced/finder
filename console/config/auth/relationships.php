@@ -8,7 +8,9 @@ return [
         'accessManage',
         'roleManage',
         'userManage',
-        'userRoleManage',
-        'accessToPersonalCabinet',
+        'userRoleManage'
+    ],
+    Role::USER  => [
+        'accessToPersonalCabinet'
     ]
 ];

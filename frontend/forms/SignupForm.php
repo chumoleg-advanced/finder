@@ -11,7 +11,6 @@ use Yii;
  */
 class SignupForm extends Model
 {
-    public $username;
     public $email;
     public $password;
 
@@ -21,15 +20,14 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            [['username', 'email', 'password'], 'filter', 'filter' => 'trim'],
-            [['username', 'email', 'password'], 'required'],
+            [['email', 'password'], 'filter', 'filter' => 'trim'],
+            [['email', 'password'], 'required'],
             [
-                'username',
+                'email',
                 'unique',
                 'targetClass' => '\common\models\user\User',
-                'message'     => 'Указанный логин уже занят'
+                'message'     => 'Указанный email уже занят'
             ],
-            ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\user\User', 'message' => 'Указанный email уже занят'],
@@ -40,7 +38,6 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Логин',
             'email'    => 'E-mail',
             'password' => 'Пароль',
         ];
@@ -58,7 +55,6 @@ class SignupForm extends Model
         }
 
         $user = new User();
-        $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();

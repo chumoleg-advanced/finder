@@ -47,23 +47,19 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Регистрация', 'url' => '#', 'options' => ['class' => 'signUpButton']];
         $menuItems[] = ['label' => 'Авторизация', 'url' => '#', 'options' => ['class' => 'loginButton']];
-    }
 
-    $role = User::getUserRole();
-    if ($role == Role::USER) {
-        $menuItems[] = ['label' => 'Личный кабинет', 'url' => Url::toRoute('/personalCabinet')];
-    } elseif ($role == Role::ADMIN) {
-        $menuItems[] = ['label' => 'Администрирование', 'url' => Url::toRoute('/backend')];
-    }
+    } else {
+        if (User::getUserRole() == Role::ADMIN) {
+            $menuItems[] = ['label' => 'Администрирование', 'url' => Url::toRoute('/backend')];
+        }
 
-    if (!Yii::$app->user->isGuest) {
         $menuItems[] = [
-            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->username,
+            'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->email,
             'items' => [
-                ['label' => 'Профиль', 'url' => ['/personalCabinet/profile/index']],
+                ['label' => 'Профиль', 'url' => Url::to('/profile/index')],
                 [
                     'label'       => 'Выход',
-                    'url'         => Url::toRoute('/auth/logout'),
+                    'url'         => Url::to('/auth/logout'),
                     'linkOptions' => ['data-method' => 'post']
                 ],
             ]

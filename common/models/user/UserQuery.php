@@ -4,12 +4,24 @@ namespace common\models\user;
 
 use common\components\activeQueryTraits\CommonQueryTrait;
 use common\components\activeQueryTraits\StatusQueryTrait;
+use common\components\activeQueryTraits\UserQueryTrait;
 use yii\db\ActiveQuery;
 
 class UserQuery extends ActiveQuery
 {
     use CommonQueryTrait,
-        StatusQueryTrait;
+        StatusQueryTrait,
+        UserQueryTrait;
+
+    /**
+     * @param string $token
+     *
+     * @return $this
+     */
+    public function wherePasswordResetToken($token)
+    {
+        return $this->andWhere(['password_reset_token' => $token]);
+    }
 
     /**
      * @inheritdoc

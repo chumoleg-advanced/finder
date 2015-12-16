@@ -16,20 +16,20 @@ $model = new SignupForm();
             <div class="site-signup">
                 <?php $form = ActiveForm::begin([
                     'id'                     => 'signup-form',
-                    'action'                 => Url::to('auth/signup'),
+                    'action'                 => Url::to('/auth/signup'),
                     'enableAjaxValidation'   => true,
                     'enableClientValidation' => false,
-                    'validationUrl'          => Url::to('auth/signup-validate'),
-                ]); ?>
+                    'validationUrl'          => Url::to('/auth/signup-validate'),
+                ]);
+                ?>
+
                 <div class="row">
                     <div class="col-md-12">
                         <?php
-                        echo $form->field($model, 'username')->textInput(
-                            ['placeholder' => $model->getAttributeLabel('username')]);
-                        echo $form->field($model, 'password')->passwordInput(
-                            ['placeholder' => $model->getAttributeLabel('password')]);
                         echo $form->field($model, 'email')->textInput(
                             ['placeholder' => $model->getAttributeLabel('email')]);
+                        echo $form->field($model, 'password')->passwordInput(
+                            ['placeholder' => $model->getAttributeLabel('password')]);
                         ?>
                     </div>
                 </div>

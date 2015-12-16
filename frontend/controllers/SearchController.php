@@ -10,7 +10,7 @@ use common\components\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
-use yii\web\Controller;
+use frontend\components\Controller;
 use common\models\category\Category;
 use common\models\rubric\Rubric;
 use \yii\helpers\Json;
