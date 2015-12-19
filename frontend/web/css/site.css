@@ -205,3 +205,29 @@ a.desc:after {
 .navbar-brand > img {
     margin-top: -6px;
 }
+
+.wizardMenu ul {
+    margin-left: 0;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.wizardMenu li {
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+    height: 30px;
+    font-size: 20px;
+}
+
+.wizardMenu li.past-step {
+    background-color: #bbe7f5;
+}
+
+.wizardMenu li.active {
+    background-color: lightgreen;
+}
+
+.form-row.buttons .btn {
+    margin-right: 10px;
+}

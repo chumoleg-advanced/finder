@@ -69,7 +69,7 @@ class m151101_162310_migrateCars extends Migration
             'id'          => self::PRIMARY_KEY,
             'name'        => 'VARCHAR(100) NOT NULL',
             'import'      => 'TINYINT(1) UNSIGNED DEFAULT 1',
-            'date_create' => self::DATE_FIELD
+            'date_create' => self::TIMESTAMP_FIELD
         ], self::TABLE_OPTIONS);
     }
 
@@ -79,7 +79,7 @@ class m151101_162310_migrateCars extends Migration
             'id'          => self::PRIMARY_KEY,
             'name'        => 'VARCHAR(100) NOT NULL',
             'car_firm_id' => self::INT_FIELD . ' NOT NULL',
-            'date_create' => self::DATE_FIELD
+            'date_create' => self::TIMESTAMP_FIELD
         ], self::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_car_model_car_firm_id', 'car_model', 'car_firm_id',
@@ -93,7 +93,7 @@ class m151101_162310_migrateCars extends Migration
             'name'         => 'VARCHAR(100) NOT NULL',
             'car_firm_id'  => self::INT_FIELD . ' NOT NULL',
             'car_model_id' => self::INT_FIELD . ' NOT NULL',
-            'date_create'  => self::DATE_FIELD
+            'date_create'  => self::TIMESTAMP_FIELD
         ], self::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_car_body_car_firm_id', 'car_body', 'car_firm_id',
@@ -110,7 +110,7 @@ class m151101_162310_migrateCars extends Migration
             'car_firm_id'  => self::INT_FIELD . ' NOT NULL',
             'car_model_id' => self::INT_FIELD . ' NOT NULL',
             'car_body_id'  => self::INT_FIELD . ' NOT NULL',
-            'date_create'  => self::DATE_FIELD
+            'date_create'  => self::TIMESTAMP_FIELD
         ], self::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_car_engine_car_firm_id', 'car_engine', 'car_firm_id',

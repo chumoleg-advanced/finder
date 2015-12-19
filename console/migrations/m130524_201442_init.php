@@ -15,8 +15,8 @@ class m130524_201442_init extends Migration
             'phone'                => 'VARCHAR(14)',
             'auth_key'             => 'CHAR(32) NOT NULL',
             'status'               => 'TINYINT UNSIGNED NOT NULL',
-            'created_at'           => self::DATE_FIELD,
-            'updated_at'           => self::DATE_FIELD,
+            'created_at'           => self::TIMESTAMP_FIELD,
+            'updated_at'           => self::TIMESTAMP_FIELD,
         ], self::TABLE_OPTIONS);
     }
 

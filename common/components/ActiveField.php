@@ -8,6 +8,40 @@ use yii\helpers\ArrayHelper;
 class ActiveField extends \kartik\form\ActiveField
 {
     /**
+     * @var array the list of hint keys that will be used by ActiveFieldHint jQuery plugin
+     */
+    protected static $_pluginHintKeys
+        = [
+            'iconCssClass',
+            'labelCssClass',
+            'contentCssClass',
+            'hideOnEscape',
+            'hideOnClickOut',
+            'title',
+            'placement',
+            'container',
+            'animation',
+            'delay',
+            'template',
+            'selector',
+            'viewport',
+        ];
+
+    /**
+     * @return array
+     */
+    public static function getHintProperties()
+    {
+        return [
+            'hintType'     => self::HINT_SPECIAL,
+            'hintSettings' => [
+                'placement'       => 'right',
+                'iconBesideInput' => true,
+            ]
+        ];
+    }
+
+    /**
      * @param string     $type
      * @param array      $items
      * @param array      $options

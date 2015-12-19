@@ -32,7 +32,8 @@
         "himiklab/yii2-easy-thumbnail-image-helper": "*",
         "yiisoft/yii2-authclient": "~2.0.0",
         "wbraganca/yii2-dynamicform": "*",
-        "kartik-v/yii2-nav-x": "*"
+        "kartik-v/yii2-nav-x": "*",
+        "beastbytes/yii2-wizard": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

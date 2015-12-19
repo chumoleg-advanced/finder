@@ -11,21 +11,21 @@ class m151102_142433_migrateFromFiles extends Migration
             $this->createTable('auto_part', [
                 'id'          => self::PRIMARY_KEY,
                 'name'        => 'VARCHAR(150)',
-                'date_create' => self::DATE_FIELD
+                'date_create' => self::TIMESTAMP_FIELD
             ], self::TABLE_OPTIONS);
 
             $this->createTable('manufacturer', [
                 'id'          => self::PRIMARY_KEY,
                 'name'        => 'VARCHAR(150)',
                 'type'        => 'TINYINT(2) UNSIGNED NOT NULL',
-                'date_create' => self::DATE_FIELD
+                'date_create' => self::TIMESTAMP_FIELD
             ], self::TABLE_OPTIONS);
 
             $this->createTable('wheel_param', [
                 'id'          => self::PRIMARY_KEY,
                 'type'        => 'TINYINT(2) UNSIGNED NOT NULL',
                 'value'       => 'VARCHAR(50) NOT NULL',
-                'date_create' => self::DATE_FIELD
+                'date_create' => self::TIMESTAMP_FIELD
             ], self::TABLE_OPTIONS);
         } catch (Exception $e) {
         }
