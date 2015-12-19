@@ -1,6 +1,6 @@
 <?php
-use \kartik\widgets\Select2;
-use \common\models\wheelParam\WheelParam;
+use kartik\widgets\Select2;
+use common\models\wheelParam\WheelParam;
 
 $htmlClass = 'col-md-3 col-sm-6 col-xs-12';
 ?>

@@ -11,7 +11,7 @@ $this->title = Yii::t('title', 'Search');
 
 <div class="site-index">
     <div class="col-md-12 text-center">
-        <?php $info = new \common\components\GeoIpInfo(); ?>
+        <?php $info = new common\components\GeoIpInfo(); ?>
         <h3>Ваш город: <?= $info->getValue('city'); ?></h3>
     </div>
 

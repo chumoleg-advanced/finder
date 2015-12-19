@@ -3,7 +3,7 @@
 use yii\bootstrap\Modal;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use frontend\forms\SignupForm;
+use app\forms\SignupForm;
 use yii\helpers\Url;
 
 $this->title = 'Регистрация';

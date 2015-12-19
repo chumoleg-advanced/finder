@@ -1,11 +1,11 @@
 <?php
 
-use \frontend\searchForms\QueryArrayForm;
+use app\searchForms\QueryArrayForm;
 use kartik\widgets\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
-use \common\components\CarData;
-use \kartik\helpers\Html;
-use \frontend\assets\FormPartSearchAsset;
+use common\components\CarData;
+use kartik\helpers\Html;
+use app\assets\FormPartSearchAsset;
 
 if (!isset($buttonText)) {
     $buttonText = 'Добавить еще одну работу';

@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\assets;
+namespace app\assets;
 
 use yii\web\AssetBundle;
 
@@ -16,6 +16,6 @@ class FormPartSearchAsset extends AssetBundle
 
     public $depends
         = [
-            'frontend\assets\AppAsset',
+            'app\assets\AppAsset',
         ];
 }

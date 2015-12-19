@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\ajax;
+namespace app\modules\ajax;
 
 use Yii;
 use \yii\base\Module;
@@ -8,7 +8,7 @@ use yii\web\HttpException;
 
 class AjaxModule extends Module
 {
-    public $controllerNamespace = 'frontend\modules\ajax\controllers';
+    public $controllerNamespace = 'app\modules\ajax\controllers';
 
     public function init()
     {

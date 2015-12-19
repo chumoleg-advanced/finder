@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\ajax\controllers;
+namespace app\modules\ajax\controllers;
 
 use Yii;
 use yii\helpers\ArrayHelper;

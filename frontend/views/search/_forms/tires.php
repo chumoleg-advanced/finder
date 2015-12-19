@@ -1,11 +1,11 @@
 <?php
 
-use \common\components\CarData;
-use \kartik\widgets\Select2;
-use \common\models\manufacturer\Manufacturer;
-use frontend\components\ActiveFormGenerator;
+use common\components\CarData;
+use kartik\widgets\Select2;
+use common\models\manufacturer\Manufacturer;
+use app\components\ActiveFormGenerator;
 
-/** @var $model \frontend\searchForms\WheelDiscForm */
+/** @var $model app\searchForms\WheelDiscForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

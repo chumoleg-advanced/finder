@@ -1,12 +1,11 @@
 <?php
 
-namespace frontend\controllers;
+namespace app\controllers;
 
-use common\components\Role;
-use common\models\user\User;
 use Yii;
-use frontend\forms\ContactForm;
-use frontend\components\Controller;
+use app\forms\ContactForm;
+use yii\helpers\Url;
+use yii\web\Controller;
 use common\models\category\Category;
 
 /**
@@ -17,22 +16,6 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-            if ($this->action->id != 'error' && !Yii::$app->user->isGuest && User::getUserRole(Yii::$app->user->getId()) == Role::USER) {
-                $this->redirect(Yii::$app->homeUrl);
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [
@@ -40,7 +23,7 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class'     => 'frontend\components\CaptchaAction',
+                'class'     => 'app\components\CaptchaAction',
                 'minLength' => 5,
                 'maxLength' => 7,
                 'height'    => 50,
@@ -57,8 +40,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $categories = Category::find()->whereId([1, 2])->all();
-        return $this->render('index', ['categories' => $categories]);
+        return $this->render('index', ['categories' => Category::getList()]);
     }
 
     /**

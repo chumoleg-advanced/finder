@@ -5,7 +5,7 @@
 
 use \yii\helpers\Url;
 use \yii\helpers\Html;
-use \frontend\assets\FormCarSearchAsset;
+use app\assets\FormCarSearchAsset;
 
 FormCarSearchAsset::register($this);
 

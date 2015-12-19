@@ -1,5 +1,5 @@
 <?php
-namespace frontend\forms;
+namespace app\forms;
 
 use common\components\Status;
 use common\models\user\User;
@@ -22,7 +22,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
-                'targetClass' => '\common\models\user\User',
+                'targetClass' => 'common\models\user\User',
                 'filter'      => ['status' => Status::STATUS_ACTIVE],
                 'message'     => 'There is no user with such email.'
             ],

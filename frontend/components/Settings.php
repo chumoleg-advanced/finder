@@ -1,9 +1,7 @@
 <?php
 
-namespace frontend\components;
+namespace app\components;
 
-use common\components\Role;
-use common\models\user\User;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\helpers\Url;
@@ -15,9 +13,16 @@ class Settings implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $baseUrl = Url::to('/cabinet');
-        if (!Yii::$app->user->isGuest && User::getUserRole(Yii::$app->user->getId()) == Role::USER) {
+        if (Yii::$app->user->isGuest) {
+            return;
+        }
+
+        if (Yii::$app->user->can('accessToPersonalCabinet')) {
+            $baseUrl = Url::to('/dashboard');
             Yii::$app->setHomeUrl($baseUrl);
+            Yii::$app->urlManager->addRules(['/' => $baseUrl], false);
+
+            Yii::$app->errorHandler->errorAction = Url::to('/dashboard/index/error');
         }
     }
 }

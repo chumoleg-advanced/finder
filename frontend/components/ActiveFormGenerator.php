@@ -1,9 +1,9 @@
 <?php
 
-namespace frontend\components;
+namespace app\components;
 
 use common\components\ActiveField;
-use \kartik\form\ActiveForm;
+use kartik\form\ActiveForm;
 use yii\helpers\Url;
 
 class ActiveFormGenerator

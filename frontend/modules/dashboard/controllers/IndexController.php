@@ -1,12 +1,12 @@
 <?php
 
-namespace frontend\controllers;
+namespace app\modules\dashboard\controllers;
 
 use Yii;
+use app\modules\dashboard\components\Controller;
 use yii\filters\AccessControl;
-use frontend\components\Controller;
 
-class CabinetController extends Controller
+class IndexController extends Controller
 {
     public function behaviors()
     {
@@ -15,22 +15,25 @@ class CabinetController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'error'],
                         'allow'   => true,
-                        'roles'   => ['accessToPersonalCabinet'],
                     ],
                 ],
             ],
         ];
     }
 
-    public function init()
+    public function actions()
     {
-        $this->layout = 'personalCabinet';
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ]
+        ];
     }
 
     public function actionIndex()
     {
-        return $this->render('index', []);
+        return $this->render('index');
     }
 }

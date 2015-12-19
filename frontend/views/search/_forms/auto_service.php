@@ -1,9 +1,9 @@
 <?php
 
 use common\models\car\CarFirm;
-use frontend\components\ActiveFormGenerator;
+use app\components\ActiveFormGenerator;
 
-/** @var $model \frontend\searchForms\AutoServiceForm */
+/** @var $model app\searchForms\AutoServiceForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

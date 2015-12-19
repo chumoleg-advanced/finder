@@ -16,7 +16,7 @@ $this->title = Yii::t('title', 'User data') . ': ' . $model->email;
         <?php $form = ActiveForm::begin(); ?>
         <?= $form->field($model, 'email')->textInput() ?>
         <?= $form->field($model, 'status')->dropDownList([]); ?>
-        <div class="form-group"><?= \common\helpers\ButtonHelper::getSubmitButton($model); ?></div>
+        <div class="form-group"><?= common\helpers\ButtonHelper::getSubmitButton($model); ?></div>
         <?php ActiveForm::end(); ?>
     </div>
 </div>

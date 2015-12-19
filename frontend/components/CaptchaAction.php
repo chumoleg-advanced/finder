@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\components;
+namespace app\components;
 
 use common\models\Dictionary;
 use Yii;

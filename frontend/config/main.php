@@ -9,10 +9,23 @@ $params = array_merge(
 return [
     'id'                  => 'app-frontend',
     'basePath'            => dirname(__DIR__),
-    'bootstrap'           => ['log', 'thumbnail', 'frontend\components\Settings'],
-    'controllerNamespace' => 'frontend\controllers',
+    'bootstrap'           => ['log', 'thumbnail', 'app\components\Settings'],
+    'controllerNamespace' => 'app\controllers',
     'modules'             => [
-        'ajax' => 'frontend\modules\ajax\AjaxModule',
+        'ajax'      => 'app\modules\ajax\AjaxModule',
+        'dashboard' => [
+            'class'        => 'app\modules\dashboard\Module',
+            'defaultRoute' => 'index',
+            'as access'    => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['accessToPersonalCabinet'],
+                    ]
+                ]
+            ],
+        ],
     ],
     'components'          => [
         'authClientCollection' => [
@@ -52,15 +65,15 @@ return [
         ],
         'urlManager'           => [
             'rules' => [
-                '<module:\w+><controller:\w+>/<action:\w+>/<id:\d+>' => '<module><controller>/<action>',
-                '<controller:\w+>/<action:\w+>/<id:\d+>'             => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>'                      => '<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>'              => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'                       => '<controller>/<action>',
             ]
         ],
         'user'                 => [
             'identityClass'   => 'common\models\user\User',
             'enableAutoLogin' => true,
-            'loginUrl' => ['/']
+            'loginUrl'        => ['/']
         ],
         'log'                  => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

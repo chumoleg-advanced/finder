@@ -1,10 +1,10 @@
 <?php
 
-use \common\components\Status;
+use common\components\Status;
 use common\models\car\CarFirm;
-use frontend\components\ActiveFormGenerator;
+use app\components\ActiveFormGenerator;
 
-/** @var $model \frontend\searchForms\AutoPartForm */
+/** @var $model app\searchForms\AutoPartForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

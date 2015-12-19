@@ -1,5 +1,5 @@
 <?php
-namespace frontend\forms;
+namespace app\forms;
 
 use common\components\Role;
 use common\models\user\User;
@@ -25,12 +25,12 @@ class SignupForm extends Model
             [
                 'email',
                 'unique',
-                'targetClass' => '\common\models\user\User',
+                'targetClass' => 'common\models\user\User',
                 'message'     => 'Указанный email уже занят'
             ],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\user\User', 'message' => 'Указанный email уже занят'],
+            ['email', 'unique', 'targetClass' => 'common\models\user\User', 'message' => 'Указанный email уже занят'],
             ['password', 'string', 'min' => 6],
         ];
     }
@@ -59,7 +59,7 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         if ($user->save()) {
-            Role::assignRoleForUser($user, Role::USER);
+            Role::assignRoleForUser($user);
             return $user;
         }
 

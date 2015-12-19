@@ -61,10 +61,18 @@ class Category extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return Rubric[]
      */
     public function getRubrics()
     {
         return $this->hasMany(Rubric::className(), ['category_id' => 'id']);
+    }
+
+    /**
+     * @return array|Category[]
+     */
+    public static function getList()
+    {
+        return self::find()->with('rubrics')->all();
     }
 }

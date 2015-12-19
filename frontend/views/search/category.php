@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $categories common\models\category\Category[] */
 
-use \frontend\assets\OwlCarouselAsset;
+use app\assets\OwlCarouselAsset;
 use \yii\helpers\Url;
 use himiklab\thumbnail\EasyThumbnailImage;
 

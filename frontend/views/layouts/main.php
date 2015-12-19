@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
+use app\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
 use common\components\Role;
@@ -49,7 +49,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Авторизация', 'url' => '#', 'options' => ['class' => 'loginButton']];
 
     } else {
-        if (User::getUserRole() == Role::ADMIN) {
+        if (Yii::$app->user->can('accessToBackend')) {
             $menuItems[] = ['label' => 'Администрирование', 'url' => Url::toRoute('/backend')];
         }
 
@@ -92,8 +92,8 @@ AppAsset::register($this);
     </div>
 </footer>
 
-<?= $this->render('login'); ?>
-<?= $this->render('register'); ?>
+<?= $this->render('_login'); ?>
+<?= $this->render('_register'); ?>
 
 <?php $this->endBody(); ?>
 </body>

@@ -3,7 +3,7 @@
 use console\components\Migration;
 use \yii\helpers\ArrayHelper;
 use \yii\base\Exception;
-use \common\components\Status;
+use common\components\Status;
 
 class m151101_162310_migrateCars extends Migration
 {

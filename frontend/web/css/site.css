@@ -197,3 +197,11 @@ a.desc:after {
 .verifyCodeBlock .help-block {
     padding-left: 10px;
 }
+
+.navbar-header {
+    margin-right: 30px !important;
+}
+
+.navbar-brand > img {
+    margin-top: -6px;
+}
