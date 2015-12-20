@@ -3,19 +3,19 @@
 use common\components\CarData;
 use kartik\widgets\Select2;
 use common\models\manufacturer\Manufacturer;
-use app\components\ActiveFormGenerator;
+use app\components\SearchFormGenerator;
 
 /** @var $model app\searchForms\WheelDiscForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveFormGenerator::getFormSingle($rubric->id, 'wheel-disc-form');
+$form = SearchFormGenerator::getFormSingle($rubric->id, 'wheel-disc-form');
 ?>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-4 col-sm-5 col-xs-12">
                 <?= $form->field($model, 'manufacturer')->widget(Select2::classname(), [
-                    'data'          => (new Manufacturer())->getListByType(Manufacturer::TYPE_DISC),
+                    'data'          => Manufacturer::getListByType(Manufacturer::TYPE_DISC),
                     'pluginOptions' => ['allowClear' => true],
                     'options'       => [
                         'placeholder' => $model->getAttributeLabel('manufacturer'),

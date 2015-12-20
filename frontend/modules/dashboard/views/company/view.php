@@ -1,5 +1,5 @@
 <?php
-$this->title = 'Мои организации';
+$this->title = 'Организация ...';
 ?>
 
 <div class="news-index">

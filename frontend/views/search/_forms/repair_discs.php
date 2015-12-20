@@ -2,7 +2,7 @@
 
 use common\components\CarData;
 use app\searchForms\QueryArrayForm;
-use app\components\ActiveFormGenerator;
+use app\components\SearchFormGenerator;
 
 /** @var $model app\searchForms\RepairDiscForm */
 /** @var $rubric common\models\rubric\Rubric */
@@ -10,7 +10,7 @@ use app\components\ActiveFormGenerator;
 
 $modelData = new QueryArrayForm();
 
-$form = ActiveFormGenerator::getFormSingle($rubric->id, 'repair-disc-form');
+$form = SearchFormGenerator::getFormSingle($rubric->id, 'repair-disc-form');
 ?>
     <div class="form-group placeListServices">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">

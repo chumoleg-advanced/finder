@@ -2,13 +2,13 @@
 
 use common\components\Status;
 use common\models\car\CarFirm;
-use app\components\ActiveFormGenerator;
+use app\components\SearchFormGenerator;
 
 /** @var $model app\searchForms\AutoPartForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveFormGenerator::getFormFiles($rubric->id);
+$form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
 <?= $this->render('_parts/_partOrServiceRow', [
@@ -24,7 +24,7 @@ $form = ActiveFormGenerator::getFormFiles($rubric->id);
             <?= $this->render('_parts/_carSelect', [
                 'form'                 => $form,
                 'model'                => $model,
-                'carFirms'             => (new CarFirm())->getListByImport(Status::STATUS_DISABLED),
+                'carFirms'             => CarFirm::getListByImport(Status::STATUS_DISABLED),
                 'withoutBodyAndEngine' => true
             ]); ?>
         </div>

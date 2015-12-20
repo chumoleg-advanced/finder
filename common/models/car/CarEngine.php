@@ -96,14 +96,14 @@ class CarEngine extends ActiveRecord
      *
      * @return array
      */
-    public function getListByBody($bodyId)
+    public static function getListByBody($bodyId)
     {
         $bodyId = (int)$bodyId;
         if (empty($bodyId)) {
             return [];
         }
 
-        $data = $this->find()->where('car_body_id = ' . $bodyId)->all();
+        $data = self::find()->where('car_body_id = ' . $bodyId)->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }

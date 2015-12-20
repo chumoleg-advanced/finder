@@ -6,7 +6,7 @@ use Yii;
 use yii\base\BootstrapInterface;
 use yii\helpers\Url;
 
-class Settings implements BootstrapInterface
+class PreLoadSettings implements BootstrapInterface
 {
     /**
      * @param \yii\base\Application $app
@@ -22,7 +22,7 @@ class Settings implements BootstrapInterface
             Yii::$app->setHomeUrl($baseUrl);
             Yii::$app->urlManager->addRules(['/' => $baseUrl], false);
 
-            Yii::$app->errorHandler->errorAction = Url::to('/dashboard/index/error');
+            Yii::$app->errorHandler->errorAction = Url::to($baseUrl . '/index/error');
         }
     }
 }

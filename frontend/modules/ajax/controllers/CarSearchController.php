@@ -14,7 +14,7 @@ class CarSearchController extends Controller
 {
     public function actionCarModel()
     {
-        $data = (new CarModel())->getListByFirm($this->_getId());
+        $data = CarModel::getListByFirm($this->_getId());
         $this->_renderSelect($data);
     }
 
@@ -41,13 +41,13 @@ class CarSearchController extends Controller
 
     public function actionCarBody()
     {
-        $data = (new CarBody())->getListByModel($this->_getId());
+        $data = CarBody::getListByModel($this->_getId());
         $this->_renderSelect($data);
     }
 
     public function actionCarEngine()
     {
-        $data = (new CarEngine())->getListByBody($this->_getId());
+        $data = CarEngine::getListByBody($this->_getId());
         $this->_renderSelect($data);
     }
 }

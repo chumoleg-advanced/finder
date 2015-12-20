@@ -6,16 +6,28 @@ use yii\base\Model;
 
 class RubricData extends Model
 {
-	public $value;
-    public $type;
+    public $typePayment;
+    public $typeDelivery;
+    public $timeWork;
+    public $rubrics;
 
     /**
-    * @inheritdoc
-    */
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['value', 'type'], 'safe']
+            [['typePayment', 'typeDelivery', 'timeWork', 'rubrics'], 'required']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'typePayment'  => 'Способы оплаты',
+            'typeDelivery' => 'Способы доставки',
+            'timeWork'     => 'Время работы',
+            'rubrics'      => 'Сферы деятельности'
         ];
     }
 }

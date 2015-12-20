@@ -1,13 +1,13 @@
 <?php
 
 use common\models\car\CarFirm;
-use app\components\ActiveFormGenerator;
+use app\components\SearchFormGenerator;
 
 /** @var $model app\searchForms\AutoServiceForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = ActiveFormGenerator::getFormFiles($rubric->id);
+$form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
 <?= $this->render('_parts/_partOrServiceRow', ['form' => $form, 'model' => $model]); ?>
@@ -16,7 +16,7 @@ $form = ActiveFormGenerator::getFormFiles($rubric->id);
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <hr/>
             <?= $this->render('_parts/_carSelect',
-                ['form' => $form, 'model' => $model, 'carFirms' => (new CarFirm())->getList()]); ?>
+                ['form' => $form, 'model' => $model, 'carFirms' => CarFirm::getList()]); ?>
         </div>
     </div>
 

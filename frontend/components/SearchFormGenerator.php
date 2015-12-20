@@ -6,7 +6,7 @@ use common\components\ActiveField;
 use kartik\form\ActiveForm;
 use yii\helpers\Url;
 
-class ActiveFormGenerator
+class SearchFormGenerator
 {
     /**
      * @param int    $formId

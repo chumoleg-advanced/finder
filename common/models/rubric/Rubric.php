@@ -88,4 +88,24 @@ class Rubric extends ActiveRecord
     {
         return RubricFormData::geFormModel($this->rubric_form);
     }
+
+    /**
+     * @param $id
+     *
+     * @return Rubric|null
+     */
+    public static function findById($id)
+    {
+        return self::find()->whereId($id)->one();
+    }
+
+    /**
+     * @param $categoryId
+     *
+     * @return array|Rubric[]
+     */
+    public static function findAllByCategory($categoryId)
+    {
+        return self::find()->whereCategoryId($categoryId)->all();
+    }
 }

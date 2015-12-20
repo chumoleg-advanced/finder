@@ -92,14 +92,14 @@ class CarModel extends ActiveRecord
      *
      * @return array
      */
-    public function getListByFirm($firmId)
+    public static function getListByFirm($firmId)
     {
         $firmId = (int)$firmId;
         if (empty($firmId)) {
             return [];
         }
 
-        $data = $this->find()->where('car_firm_id = ' . $firmId)->all();
+        $data = self::find()->where('car_firm_id = ' . $firmId)->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }

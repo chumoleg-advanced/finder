@@ -26,7 +26,7 @@ class SearchController extends Controller
 
     public function actionForm($id)
     {
-        $rubric = Rubric::find()->whereId($id)->one();
+        $rubric = Rubric::findById($id);
         $formModel = $rubric->geFormModelClassName();
 
         /** @var BaseForm $model */
@@ -52,7 +52,7 @@ class SearchController extends Controller
         }
 
         $postData = Yii::$app->request->post();
-        $rubric = Rubric::find()->whereId($id)->one();
+        $rubric = Rubric::findById($id);
         if (empty($rubric) || empty($postData)) {
             return [];
         }
@@ -82,13 +82,13 @@ class SearchController extends Controller
 
     public function actionSearch()
     {
-        $categories = Category::find()->all();
+        $categories = Category::getList();
         return $this->render('category', ['categories' => $categories]);
     }
 
     public function actionCategory($id)
     {
-        $rubrics = Rubric::find()->whereCategoryId($id)->all();
+        $rubrics = Rubric::findAllByCategory($id);
         return $this->render('rubric', ['rubrics' => $rubrics]);
     }
 
@@ -123,7 +123,7 @@ class SearchController extends Controller
     public function actionPartsList($q = null)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        $data = AutoPart::find()->andWhere(['LIKE', 'name', $q])->orderBy('LENGTH(name)')->limit(10)->all();
+        $data = AutoPart::findAllByName($q);
 
         $out = [];
         foreach ($data as $item) {

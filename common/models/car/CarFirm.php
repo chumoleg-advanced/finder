@@ -92,18 +92,18 @@ class CarFirm extends ActiveRecord
      *
      * @return array
      */
-    public function getListByImport($import)
+    public static function getListByImport($import)
     {
-        $data = $this->find()->whereImport($import)->orderBy('name')->all();
+        $data = self::find()->whereImport($import)->orderBy('name')->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 
     /**
      * @return array
      */
-    public function getList()
+    public static function getList()
     {
-        $data = $this->find()->orderBy('name')->all();
+        $data = self::find()->orderBy('name')->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }

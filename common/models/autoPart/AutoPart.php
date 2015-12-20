@@ -53,4 +53,16 @@ class AutoPart extends ActiveRecord
     {
         return new AutoPartQuery(get_called_class());
     }
+
+    /**
+     * @param     $name
+     * @param int $limit
+     *
+     * @return array|AutoPart[]
+     */
+    public static function findAllByName($name, $limit = 10)
+    {
+        return self::find()->andWhere(['LIKE', 'name', $name])
+            ->orderBy('LENGTH(name)')->limit($limit)->all();
+    }
 }

@@ -67,9 +67,9 @@ class Manufacturer extends ActiveRecord
      *
      * @return array
      */
-    public function getListByType($type)
+    public static function getListByType($type)
     {
-        $data = $this->find()->whereType($type)->all();
+        $data = self::find()->whereType($type)->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }

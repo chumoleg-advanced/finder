@@ -16,7 +16,7 @@ class CaptchaAction extends \yii\captcha\CaptchaAction
      */
     protected function generateVerifyCode()
     {
-        return (new Dictionary())->getRandWord();
+        return Dictionary::getRandWord();
     }
 
     /**

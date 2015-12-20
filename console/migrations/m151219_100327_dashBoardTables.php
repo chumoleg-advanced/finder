@@ -1,6 +1,7 @@
 <?php
 
 use console\components\Migration;
+use common\components\Status;
 
 class m151219_100327_dashBoardTables extends Migration
 {
@@ -15,6 +16,12 @@ class m151219_100327_dashBoardTables extends Migration
         $this->_createTableCompanyContactData();
         $this->_createTableCompanyTypePayment();
         $this->_createTableCompanyTypeDelivery();
+
+        $this->insert('city', [
+            'name'        => 'Новосибирск',
+            'status'      => Status::STATUS_ACTIVE,
+            'date_create' => date('Y-m-d H:i:s')
+        ]);
     }
 
     public function down()
@@ -121,12 +128,12 @@ class m151219_100327_dashBoardTables extends Migration
     private function _createTableCompanyContactData()
     {
         $this->createTable('company_contact_data', [
-            'id'          => self::PRIMARY_KEY,
-            'company_id'  => self::INT_FIELD_NOT_NULL,
-            'company_address_id'  => self::INT_FIELD_NOT_NULL,
-            'type'        => 'TINYINT(3) UNSIGNED NOT NULL',
-            'data'        => 'VARCHAR(200)',
-            'date_create' => self::TIMESTAMP_FIELD
+            'id'                 => self::PRIMARY_KEY,
+            'company_id'         => self::INT_FIELD_NOT_NULL,
+            'company_address_id' => self::INT_FIELD_NOT_NULL,
+            'type'               => 'TINYINT(3) UNSIGNED NOT NULL',
+            'data'               => 'VARCHAR(200)',
+            'date_create'        => self::TIMESTAMP_FIELD
         ], self::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_company_contact_data_company_id', 'company_contact_data', 'company_id',

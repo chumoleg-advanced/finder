@@ -231,3 +231,8 @@ a.desc:after {
 .form-row.buttons .btn {
     margin-right: 10px;
 }
+
+.checkBoxButtonFormGroup label,
+.radioButtonFormGroup label {
+    display: block;
+}

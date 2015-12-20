@@ -2,7 +2,7 @@
 
 use common\components\Status;
 use common\models\car\CarFirm;
-use app\components\ActiveFormGenerator;
+use app\components\SearchFormGenerator;
 
 /** @var $model app\searchForms\AutoPartForm */
 /** @var $rubric common\models\rubric\Rubric */
@@ -16,7 +16,7 @@ if ($rubric->id == 10) {
     $selectedCondition = 2;
 }
 
-$form = ActiveFormGenerator::getFormFiles($rubric->id);
+$form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
 <?= $this->render('_parts/_partOrServiceRow', [
@@ -33,7 +33,7 @@ $form = ActiveFormGenerator::getFormFiles($rubric->id);
             <?= $this->render('_parts/_carSelect', [
                 'form'     => $form,
                 'model'    => $model,
-                'carFirms' => (new CarFirm())->getListByImport(Status::STATUS_ACTIVE)
+                'carFirms' => CarFirm::getListByImport(Status::STATUS_ACTIVE)
             ]); ?>
         </div>
     </div>

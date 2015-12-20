@@ -1,7 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 
-$this->title = 'Registration Wizard';
+$this->title = 'Контактные данные';
 
 echo $this->render('_wizardMenu', ['event' => $event]);
 

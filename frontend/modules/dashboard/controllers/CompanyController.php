@@ -2,26 +2,26 @@
 
 namespace app\modules\dashboard\controllers;
 
+use common\models\company\Company;
 use Yii;
 use app\modules\dashboard\components\Controller;
 use beastbytes\wizard\WizardBehavior;
 use beastbytes\wizard\StepEvent;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use kartik\form\ActiveForm;
 
 class CompanyController extends Controller
 {
     public function beforeAction($action)
     {
+
         $this->attachBehavior('wizard', [
             'class'  => WizardBehavior::className(),
-            'steps'  => [
-                'Общая информация'   => 'mainData',
-                'Сфера деятельности' => 'rubricData',
-                'Контактные данные'  => 'contactData'
-            ],
+            'steps'  => Company::getCreateStepList(),
             'events' => [
-                WizardBehavior::EVENT_WIZARD_STEP  => [$this, 'registrationWizardStep'],
-                WizardBehavior::EVENT_AFTER_WIZARD => [$this, 'registrationAfterWizard'],
+                WizardBehavior::EVENT_WIZARD_STEP  => [$this, 'createWizardStep'],
+                WizardBehavior::EVENT_AFTER_WIZARD => [$this, 'createAfterWizard'],
                 WizardBehavior::EVENT_INVALID_STEP => [$this, 'invalidStep']
             ]
         ]);
@@ -44,15 +44,14 @@ class CompanyController extends Controller
      *
      * @throws NotFoundHttpException
      */
-    public function registrationWizardStep($event)
+    public function createWizardStep($event)
     {
         if (!in_array($event->step, $this->steps)) {
             throw new NotFoundHttpException('Страница не найдена');
         }
 
         if (empty($event->stepData)) {
-            $modelName = 'app\\modules\\dashboard\\forms\\company\\' . ucfirst($event->step);
-            $model = new $modelName();
+            $model = $this->_getModelByStep($event->step);
         } else {
             $model = $event->stepData;
         }
@@ -72,6 +71,17 @@ class CompanyController extends Controller
     }
 
     /**
+     * @param string $step
+     *
+     * @return mixed
+     */
+    private function _getModelByStep($step)
+    {
+        $modelName = 'app\\modules\\dashboard\\forms\\company\\' . ucfirst($step);
+        return new $modelName;
+    }
+
+    /**
      * @param StepEvent $event
      */
     public function invalidStep($event)
@@ -83,10 +93,10 @@ class CompanyController extends Controller
     /**
      * @param StepEvent $event
      */
-    public function registrationAfterWizard($event)
+    public function createAfterWizard($event)
     {
         if ($event->step) {
-            $event->data = $this->render('complete', ['data' => $event->stepData]);
+            \yii\helpers\VarDumper::dump($event->stepData, 10, true);
         } else {
             $this->redirect(['create']);
         }
@@ -95,5 +105,22 @@ class CompanyController extends Controller
     public function actionView($id)
     {
         return $this->render('view', []);
+    }
+
+    public function actionValidate($step)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $postData = Yii::$app->request->post();
+        if (!Yii::$app->request->isAjax || empty($postData) || empty($step)) {
+            return [];
+        }
+
+        $model = $this->_getModelByStep($step);
+        if ($model->load($postData)) {
+            return ActiveForm::validate($model);
+        }
+
+        return [];
     }
 }
