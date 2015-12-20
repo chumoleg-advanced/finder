@@ -17,7 +17,7 @@ class RubricData extends Model
     public function rules()
     {
         return [
-            [['typePayment', 'typeDelivery', 'timeWork', 'rubrics'], 'required']
+            [['typePayment', 'typeDelivery', 'rubrics'], 'required']
         ];
     }
 

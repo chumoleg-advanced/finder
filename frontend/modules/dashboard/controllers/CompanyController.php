@@ -96,7 +96,10 @@ class CompanyController extends Controller
     public function createAfterWizard($event)
     {
         if ($event->step) {
-            \yii\helpers\VarDumper::dump($event->stepData, 10, true);
+            // @TODO сохраняем данные о компании здесь
+//
+//            \yii\helpers\VarDumper::dump($event->stepData, 10, true);
+            $this->redirect(['/']);
         } else {
             $this->redirect(['create']);
         }

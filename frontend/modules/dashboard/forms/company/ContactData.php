@@ -6,10 +6,7 @@ use yii\base\Model;
 
 class ContactData extends Model
 {
-    public $street_address;
-    public $locality;
-    public $region;
-    public $postal_code;
+    public $address;
 
     /**
     * @inheritdoc
@@ -17,7 +14,14 @@ class ContactData extends Model
     public function rules()
     {
         return [
-            [['street_address', 'locality', 'region', 'postal_code'], 'safe']
+            [['address'], 'required']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'address'  => 'Адрес',
         ];
     }
 }
