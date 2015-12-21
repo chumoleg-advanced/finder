@@ -1,12 +1,10 @@
 <?php
+/** @var MainData $model */
 
-use kartik\form\ActiveForm;
-use app\assets\DashboardAsset;
-use yii\helpers\Url;
 use common\models\city\City;
 use app\modules\dashboard\forms\company\MainData;
-
-/** @var MainData $model */
+use app\modules\dashboard\components\CompanyCreateForm;
+use app\assets\DashboardAsset;
 
 DashboardAsset::register($this);
 
@@ -18,17 +16,7 @@ if (empty($model->form)){
     $model->form = MainData::FORM_JURIDICAL;
 }
 
-$form = ActiveForm::begin([
-    'type'                   => ActiveForm::TYPE_VERTICAL,
-    'validateOnBlur'         => false,
-    'validateOnChange'       => true,
-    'enableAjaxValidation'   => true,
-    'enableClientValidation' => false,
-    'validationUrl'          => Url::to(['company/validate', 'step' => 'mainData']),
-    'formConfig'             => [
-        'deviceSize' => ActiveForm::SIZE_MEDIUM,
-    ]
-]);
+$form = CompanyCreateForm::getForm($event->step);
 ?>
 
 <div class="row">
@@ -56,8 +44,7 @@ $form = ActiveForm::begin([
             ->textInput(['maxlength' => 15]);
 
         echo $this->render('_buttons', ['visiblePrev' => false]);
-
-        ActiveForm::end();
         ?>
     </div>
 </div>
+<?php $form->end(); ?>

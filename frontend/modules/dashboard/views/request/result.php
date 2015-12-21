@@ -1,5 +1,5 @@
 <?php
-$this->title = 'Создание заявки';
+$this->title = 'Заявка создана успешно!';
 ?>
 
 <div class="news-index">

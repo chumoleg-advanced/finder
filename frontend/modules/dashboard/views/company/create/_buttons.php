@@ -25,7 +25,7 @@ if (!isset($visibleDone)) {
     }
 
     if ($visibleDone) {
-        echo Html::submitButton('Завершить', ['class' => 'btn btn-primary', 'name' => 'next', 'value' => 'next']);
+        echo Html::submitButton('Отправить заявку на регистрацию', ['class' => 'btn btn-primary', 'name' => 'next', 'value' => 'next']);
     }
     ?>
 </div>

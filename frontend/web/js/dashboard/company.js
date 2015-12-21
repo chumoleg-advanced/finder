@@ -20,4 +20,11 @@ $(document).ready(function () {
     $(document).on('change', '.companyFormGroup', function () {
         _toggleFormElements($(this));
     });
+
+    $('.checkAllRubrics').change(function () {
+        var selector = $(this).is(':checked') ? true : false;
+        $(this).closest('.companyRubricsList').find('.categoryRubrics input[type="checkbox"]').each(function () {
+            $(this).prop('checked', selector);
+        });
+    });
 });

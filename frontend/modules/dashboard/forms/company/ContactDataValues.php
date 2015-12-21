@@ -4,9 +4,10 @@ namespace app\modules\dashboard\forms\company;
 
 use yii\base\Model;
 
-class ContactData extends Model
+class ContactDataValues extends Model
 {
-    public $address;
+    public $typeData;
+    public $valueData;
 
     /**
      * @inheritdoc
@@ -14,14 +15,15 @@ class ContactData extends Model
     public function rules()
     {
         return [
-            [['address'], 'required']
+            [['typeData', 'valueData'], 'required']
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'address'     => 'Адрес',
+            'typeData'  => 'Тип',
+            'valueData' => 'Значение',
         ];
     }
 }

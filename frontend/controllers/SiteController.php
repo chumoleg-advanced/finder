@@ -4,8 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\forms\ContactForm;
-use yii\helpers\Url;
-use yii\web\Controller;
+use app\components\Controller;
 use common\models\category\Category;
 
 /**

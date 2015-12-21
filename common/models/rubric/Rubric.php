@@ -6,6 +6,7 @@ use Yii;
 use \yii\db\ActiveRecord;
 use common\models\category\Category;
 use \yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "rubric".
@@ -90,7 +91,7 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @param $id
+     * @param int $id
      *
      * @return Rubric|null
      */
@@ -100,12 +101,23 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @param $categoryId
+     * @param int $categoryId
      *
      * @return array|Rubric[]
      */
     public static function findAllByCategory($categoryId)
     {
         return self::find()->whereCategoryId($categoryId)->all();
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return array
+     */
+    public static function getListByCategory($categoryId)
+    {
+        $data = self::findAllByCategory($categoryId);
+        return ArrayHelper::map($data, 'id', 'name');
     }
 }

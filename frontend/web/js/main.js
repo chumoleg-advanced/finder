@@ -55,7 +55,7 @@ $(document).ready(function () {
         minLength: 3,
         source: function (request, response) {
             $.ajax({
-                url: '/search/address-list',
+                url: '/ajax/search/address-list',
                 dataType: 'json',
                 data: {q: request.term},
                 success: function (data) {

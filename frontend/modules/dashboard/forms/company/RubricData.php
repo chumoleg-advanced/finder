@@ -2,7 +2,9 @@
 
 namespace app\modules\dashboard\forms\company;
 
+use common\models\category\Category;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class RubricData extends Model
 {
@@ -17,7 +19,7 @@ class RubricData extends Model
     public function rules()
     {
         return [
-            [['typePayment', 'typeDelivery', 'rubrics'], 'required']
+            [['typePayment', 'typeDelivery', 'rubrics', 'timeWork'], 'required']
         ];
     }
 
@@ -29,5 +31,13 @@ class RubricData extends Model
             'timeWork'     => 'Время работы',
             'rubrics'      => 'Сферы деятельности'
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeValidate()
+    {
+        return parent::beforeValidate();
     }
 }

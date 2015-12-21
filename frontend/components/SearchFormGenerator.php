@@ -38,7 +38,7 @@ class SearchFormGenerator
             'validateOnChange'       => true,
             'enableAjaxValidation'   => true,
             'enableClientValidation' => false,
-            'validationUrl'          => Url::to(['search/validate', 'id' => $formId]),
+            'validationUrl'          => Url::to(['/ajax/search/validate', 'id' => $formId]),
             'formConfig'             => [
                 'showLabels' => false,
                 'deviceSize' => ActiveForm::SIZE_MEDIUM,

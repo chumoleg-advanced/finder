@@ -146,7 +146,7 @@ function activateAutoComplete() {
         minLength: 2,
         source: function (request, response) {
             $.ajax({
-                url: '/search/parts-list',
+                url: '/ajax/search/parts-list',
                 dataType: 'json',
                 data: {q: request.term},
                 success: function (data) {

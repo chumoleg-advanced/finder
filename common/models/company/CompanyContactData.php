@@ -7,15 +7,15 @@ use Yii;
 /**
  * This is the model class for table "company_contact_data".
  *
- * @property integer $id
- * @property integer $company_id
- * @property integer $company_address_id
- * @property integer $type
- * @property string $data
- * @property string $date_create
+ * @property integer        $id
+ * @property integer        $company_id
+ * @property integer        $company_address_id
+ * @property integer        $type
+ * @property string         $data
+ * @property string         $date_create
  *
  * @property CompanyAddress $companyAddress
- * @property Company $company
+ * @property Company        $company
  */
 class CompanyContactData extends \yii\db\ActiveRecord
 {
@@ -46,12 +46,46 @@ class CompanyContactData extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'company_id' => 'Company ID',
+            'id'                 => 'ID',
+            'company_id'         => 'Company ID',
             'company_address_id' => 'Company Address ID',
-            'type' => 'Type',
-            'data' => 'Data',
-            'date_create' => 'Date Create',
+            'type'               => 'Type',
+            'data'               => 'Data',
+            'date_create'        => 'Date Create',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return CompanyContactDataQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CompanyContactDataQuery(get_called_class());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypeList()
+    {
+        return [
+            'Контакты'        => [
+                1 => 'Телефон',
+                2 => 'Факс',
+                3 => 'E-mail',
+                4 => 'Адрес сайта',
+                5 => 'Skype',
+                6 => 'ICQ',
+                7 => 'Jabber',
+            ],
+            'Социальные сети' => [
+                8  => 'Вконтакте',
+                9  => 'Facebook',
+                10 => 'Instagram',
+                11 => 'Twitter',
+                12 => 'LinkedIn',
+            ]
         ];
     }
 
@@ -69,14 +103,5 @@ class CompanyContactData extends \yii\db\ActiveRecord
     public function getCompany()
     {
         return $this->hasOne(Company::className(), ['id' => 'company_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CompanyContactDataQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CompanyContactDataQuery(get_called_class());
     }
 }

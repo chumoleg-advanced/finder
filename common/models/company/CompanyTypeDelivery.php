@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $company_id
  * @property integer $type
- * @property string $date_create
+ * @property string  $date_create
  *
  * @property Company $company
  */
@@ -42,19 +42,11 @@ class CompanyTypeDelivery extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'company_id' => 'Company ID',
-            'type' => 'Type',
+            'id'          => 'ID',
+            'company_id'  => 'Company ID',
+            'type'        => 'Type',
             'date_create' => 'Date Create',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCompany()
-    {
-        return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
 
     /**
@@ -64,5 +56,25 @@ class CompanyTypeDelivery extends \yii\db\ActiveRecord
     public static function find()
     {
         return new CompanyTypeDeliveryQuery(get_called_class());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTypeList()
+    {
+        return [
+            1 => 'Доставка по городу',
+            2 => 'Доставка межгород',
+            3 => 'Самовывоз'
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCompany()
+    {
+        return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
 }

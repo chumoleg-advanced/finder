@@ -11,7 +11,11 @@ FormCarSearchAsset::register($this);
 
 $this->title = Yii::t('title', 'Search');
 
-echo Html::a('К списку рубрик', Url::toRoute(['/search/category', 'id' => $rubric->category_id]));
-echo Html::tag('div', '&nbsp;');
+echo Html::tag('legend', 'Создание заявки в рубрике "' . $rubric->name . '"');
 
+if (!isset($hideBackLink)) {
+    echo Html::a('К списку рубрик', Url::toRoute(['/search/category', 'id' => $rubric->category_id]));
+}
+
+echo Html::tag('div', '&nbsp;');
 echo $this->render($formView, ['model' => $formModel, 'rubric' => $rubric]);

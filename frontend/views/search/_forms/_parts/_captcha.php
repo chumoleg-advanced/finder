@@ -1,5 +1,5 @@
 <?php
-use \yii\captcha\Captcha;
+use yii\captcha\Captcha;
 
 ?>
 
@@ -9,8 +9,9 @@ use \yii\captcha\Captcha;
         <?= $form->field($model, 'verifyCode', [
             'options' => ['class' => 'verifyCodeBlock form-group']
         ])->widget(Captcha::className(), [
-            'options'  => ['class' => 'form-control verifyCodeInput'],
-            'template' => '<div class="col-md-3 col-sm-4 col-xs-12">{image}</div>
+            'captchaAction' => '/site/captcha',
+            'options'       => ['class' => 'form-control verifyCodeInput'],
+            'template'      => '<div class="col-md-3 col-sm-4 col-xs-12">{image}</div>
                     <div class="col-md-4 col-sm-6 col-xs-12">{input}</div>',
         ]); ?>
     </div>

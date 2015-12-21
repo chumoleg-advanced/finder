@@ -236,3 +236,8 @@ a.desc:after {
 .radioButtonFormGroup label {
     display: block;
 }
+
+.categoryRubrics {
+    margin-left: 40px;
+    margin-top: -9px;
+}

@@ -2,6 +2,9 @@
 
 namespace app\modules\dashboard\controllers;
 
+use app\modules\dashboard\forms\company\ContactData;
+use app\modules\dashboard\forms\company\ContactDataValues;
+use common\components\Model;
 use common\models\company\Company;
 use Yii;
 use app\modules\dashboard\components\Controller;
@@ -121,7 +124,15 @@ class CompanyController extends Controller
 
         $model = $this->_getModelByStep($step);
         if ($model->load($postData)) {
-            return ActiveForm::validate($model);
+            $errors = ActiveForm::validate($model);
+            if (isset($postData['ContactDataValues'])) {
+                $modelRows = Model::createMultiple(ContactDataValues::classname());
+                Model::loadMultiple($modelRows, $postData);
+
+                $errors += ActiveForm::validateMultiple($modelRows);
+            }
+
+            return $errors;
         }
 
         return [];
