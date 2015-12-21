@@ -2,7 +2,6 @@
 
 namespace app\modules\dashboard\controllers;
 
-use app\modules\dashboard\forms\company\ContactData;
 use app\modules\dashboard\forms\company\ContactDataValues;
 use common\components\Model;
 use common\models\company\Company;
@@ -68,6 +67,10 @@ class CompanyController extends Controller
             $event->data = $model;
             $event->handled = true;
 
+            if (isset($post['ContactDataValues'])) {
+                $event->data['contactDataValues'] = $post['ContactDataValues'];
+            }
+
         } else {
             $event->data = $this->render('create/' . $event->step, compact('event', 'model'));
         }
@@ -95,14 +98,19 @@ class CompanyController extends Controller
 
     /**
      * @param StepEvent $event
+     *
+     * @throws NotFoundHttpException
      */
     public function createAfterWizard($event)
     {
         if ($event->step) {
-            // @TODO сохраняем данные о компании здесь
-//
-//            \yii\helpers\VarDumper::dump($event->stepData, 10, true);
-            $this->redirect(['/']);
+            $model = new Company();
+            if ($model->createByStepData($event->stepData)) {
+                $this->redirect(['result']);
+            } else {
+                throw new NotFoundHttpException('Ошибка при сохранении компании!');
+            }
+
         } else {
             $this->redirect(['create']);
         }
@@ -110,7 +118,13 @@ class CompanyController extends Controller
 
     public function actionView($id)
     {
-        return $this->render('view', []);
+        $model = Company::findById($id);
+        return $this->render('view', ['model' => $model]);
+    }
+
+    public function actionResult()
+    {
+        return $this->render('result', []);
     }
 
     public function actionValidate($step)

@@ -70,7 +70,10 @@ $(document).ready(function () {
             });
         },
         select: function (a, b) {
-            initMap(b.item.point, 17, true);
+            try {
+                initMap(b.item.point, 17, true);
+            } catch (e) {
+            }
         }
     });
 

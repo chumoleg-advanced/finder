@@ -72,6 +72,18 @@ class CompanyTypePayment extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param $companyId
+     * @param $type
+     */
+    public static function create($companyId, $type)
+    {
+        $rel = new self();
+        $rel->company_id = $companyId;
+        $rel->type = $type;
+        $rel->save();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCompany()

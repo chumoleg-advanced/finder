@@ -2,6 +2,7 @@
 
 namespace common\models\company;
 
+use common\models\rubric\Rubric;
 use Yii;
 
 /**
@@ -10,10 +11,10 @@ use Yii;
  * @property integer $id
  * @property integer $company_id
  * @property integer $rubric_id
- * @property string $date_create
+ * @property string  $date_create
  *
  * @property Company $company
- * @property Rubric $rubric
+ * @property Rubric  $rubric
  */
 class CompanyRubric extends \yii\db\ActiveRecord
 {
@@ -43,11 +44,32 @@ class CompanyRubric extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'company_id' => 'Company ID',
-            'rubric_id' => 'Rubric ID',
+            'id'          => 'ID',
+            'company_id'  => 'Company ID',
+            'rubric_id'   => 'Rubric ID',
             'date_create' => 'Date Create',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return CompanyRubricQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CompanyRubricQuery(get_called_class());
+    }
+
+    /**
+     * @param $companyId
+     * @param $rubricId
+     */
+    public static function create($companyId, $rubricId)
+    {
+        $rel = new self();
+        $rel->company_id = $companyId;
+        $rel->rubric_id = $rubricId;
+        $rel->save();
     }
 
     /**
@@ -64,14 +86,5 @@ class CompanyRubric extends \yii\db\ActiveRecord
     public function getRubric()
     {
         return $this->hasOne(Rubric::className(), ['id' => 'rubric_id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CompanyRubricQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CompanyRubricQuery(get_called_class());
     }
 }

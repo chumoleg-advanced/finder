@@ -90,6 +90,22 @@ class CompanyContactData extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param $companyId
+     * @param $addressId
+     * @param $type
+     * @param $value
+     */
+    public static function create($companyId, $addressId, $type, $value)
+    {
+        $rel = new self();
+        $rel->company_id = $companyId;
+        $rel->company_address_id = $addressId;
+        $rel->type = $type;
+        $rel->data = $value;
+        $rel->save();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCompanyAddress()

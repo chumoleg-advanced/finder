@@ -7,6 +7,7 @@ use yii\base\Model;
 class ContactData extends Model
 {
     public $address;
+    public $contactDataValues;
 
     /**
      * @inheritdoc

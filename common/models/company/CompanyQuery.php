@@ -2,6 +2,9 @@
 
 namespace common\models\company;
 
+use common\components\activeQueryTraits\CommonQueryTrait;
+use common\components\activeQueryTraits\UserQueryTrait;
+
 /**
  * This is the ActiveQuery class for [[Company]].
  *
@@ -9,27 +12,6 @@ namespace common\models\company;
  */
 class CompanyQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
-    {
-        $this->andWhere('[[status]]=1');
-        return $this;
-    }*/
-
-    /**
-     * @inheritdoc
-     * @return Company[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
-
-    /**
-     * @inheritdoc
-     * @return Company|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
+    use CommonQueryTrait,
+        UserQueryTrait;
 }

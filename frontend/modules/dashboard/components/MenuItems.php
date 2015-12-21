@@ -3,6 +3,7 @@
 namespace app\modules\dashboard\components;
 
 use common\models\category\Category;
+use common\models\company\Company;
 use Yii;
 use yii\helpers\Url;
 
@@ -52,10 +53,10 @@ class MenuItems
     {
         $companyItems = [];
 
-        $companies = [];
+        $companies = Company::findByUser(Yii::$app->user->id);
         foreach ($companies as $company) {
             $companyItems[] = [
-                'label' => $company->name,
+                'label' => $company->legal_name,
                 'url'   => Url::toRoute(['company/view', 'id' => $company->id])
             ];
         }

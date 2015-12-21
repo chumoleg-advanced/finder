@@ -3,6 +3,7 @@
 namespace common\models\company;
 
 use Yii;
+use yii\base\Exception;
 use yii\db\ActiveRecord;
 use common\models\city\City;
 use common\models\user\User;
@@ -95,6 +96,26 @@ class Company extends ActiveRecord
     }
 
     /**
+     * @param $userId
+     *
+     * @return Company[]
+     */
+    public static function findByUser($userId)
+    {
+        return self::find()->whereUserId($userId)->all();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Company
+     */
+    public static function findById($id)
+    {
+        return self::find()->whereId($id)->one();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCity()
@@ -148,5 +169,67 @@ class Company extends ActiveRecord
     public function getCompanyTypePayments()
     {
         return $this->hasMany(CompanyTypePayment::className(), ['company_id' => 'id']);
+    }
+
+    /**
+     * @param array $stepData
+     *
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function createByStepData($stepData = [])
+    {
+        try {
+            $mainData = $stepData['mainData'][0];
+            $rubricData = $stepData['rubricData'][0];
+            $contactData = $stepData['contactData'][0];
+
+        } catch (Exception $e) {
+            return false;
+        }
+
+        $transaction = $this->getDb()->beginTransaction();
+
+        try {
+            $model = new self();
+            $model->setAttributes($mainData->attributes);
+            $model->status = 1;
+            if (!$model->save()) {
+                throw new Exception();
+            }
+
+            $addressId = CompanyAddress::create($model->id, $contactData->address, $rubricData->timeWork);
+            foreach ($contactData->contactDataValues as $item) {
+                CompanyContactData::create($model->id, $addressId, $item['typeData'], $item['valueData']);
+            }
+
+            $this->_saveRubricData($rubricData, $model);
+
+            $transaction->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * @param $rubricData
+     * @param $model
+     */
+    private function _saveRubricData($rubricData, $model)
+    {
+        foreach ($rubricData->typePayment as $type) {
+            CompanyTypePayment::create($model->id, $type);
+        }
+
+        foreach ($rubricData->typeDelivery as $type) {
+            CompanyTypeDelivery::create($model->id, $type);
+        }
+
+        foreach ($rubricData->rubrics as $rubricId) {
+            CompanyRubric::create($model->id, $rubricId);
+        }
     }
 }

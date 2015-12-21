@@ -7,14 +7,14 @@ use Yii;
 /**
  * This is the model class for table "company_address".
  *
- * @property integer $id
- * @property integer $company_id
- * @property string $address
- * @property string $map_coordinates
- * @property string $time_work
- * @property string $date_create
+ * @property integer              $id
+ * @property integer              $company_id
+ * @property string               $address
+ * @property string               $map_coordinates
+ * @property string               $time_work
+ * @property string               $date_create
  *
- * @property Company $company
+ * @property Company              $company
  * @property CompanyContactData[] $companyContactDatas
  */
 class CompanyAddress extends \yii\db\ActiveRecord
@@ -48,13 +48,40 @@ class CompanyAddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'company_id' => 'Company ID',
-            'address' => 'Address',
+            'id'              => 'ID',
+            'company_id'      => 'Company ID',
+            'address'         => 'Address',
             'map_coordinates' => 'Map Coordinates',
-            'time_work' => 'Time Work',
-            'date_create' => 'Date Create',
+            'time_work'       => 'Time Work',
+            'date_create'     => 'Date Create',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return CompanyAddressQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new CompanyAddressQuery(get_called_class());
+    }
+
+    /**
+     * @param $companyId
+     * @param $addressString
+     * @param $timeWork
+     *
+     * @return int
+     */
+    public static function create($companyId, $addressString, $timeWork)
+    {
+        $address = new self();
+        $address->company_id = $companyId;
+        $address->address = $addressString;
+        $address->time_work = $timeWork;
+        $address->save();
+
+        return $address->id;
     }
 
     /**
@@ -71,14 +98,5 @@ class CompanyAddress extends \yii\db\ActiveRecord
     public function getCompanyContactDatas()
     {
         return $this->hasMany(CompanyContactData::className(), ['company_address_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     * @return CompanyAddressQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CompanyAddressQuery(get_called_class());
     }
 }

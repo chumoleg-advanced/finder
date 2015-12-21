@@ -16,7 +16,8 @@ $modelValues = new ContactDataValues();
 
     <div class="row">
         <div class="col-md-8">
-            <?= $form->field($model, 'address'); ?>
+            <?= $form->field($model, 'address')->textInput(['class' => 'form-control deliveryAddress']); ?>
+
             <?php DynamicFormWidget::begin([
                 'widgetContainer' => 'dynamicform_wrapper',
                 'widgetBody'      => '.container-items',
