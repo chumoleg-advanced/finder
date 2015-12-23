@@ -3,10 +3,10 @@
 namespace app\modules\dashboard\controllers;
 
 use app\searchForms\BaseForm;
+use common\components\SaveRequest;
 use common\models\rubric\Rubric;
 use Yii;
 use app\modules\dashboard\components\Controller;
-use yii\helpers\Url;
 
 class RequestController extends Controller
 {
@@ -27,10 +27,8 @@ class RequestController extends Controller
 
         /** @var BaseForm $model */
         $model = new $formModel();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->submitForm()) {
-                return $this->redirect(Url::to(['result']));
-            }
+        if ($url = SaveRequest::save($model, $rubric->id)) {
+            return $this->redirect($url);
         }
 
         return $this->render('//search/form', [

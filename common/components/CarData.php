@@ -58,4 +58,14 @@ class CarData
             1 => 'Оригинал',
             2 => 'Дубликат'
         ];
+
+    /**
+     * @return array
+     */
+    public static function getYearRelease()
+    {
+        $data = range(1970, date('Y'));
+        return array_combine($data, $data);
+    }
+
 }

@@ -4,12 +4,13 @@ namespace app\searchForms;
 
 use Yii;
 use yii\base\Model;
+use common\models\request\Request;
 
 class BaseForm extends Model
 {
-    public $withMe;
-    public $districtData;
     public $verifyCode;
+    public $delivery;
+    public $deliveryAddress;
 
     /**
      * @inheritdoc
@@ -18,28 +19,25 @@ class BaseForm extends Model
     {
         return [
             ['verifyCode', 'captcha'],
+            [['verifyCode', 'delivery', 'deliveryAddress'], 'safe'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'withMe'       => 'Рядом со мной',
-            'districtData' => 'Районы',
-            'verifyCode'   => 'Проверочный код'
+            'verifyCode'      => 'Проверочный код',
+            'delivery'        => 'Необходима доставка',
+            'deliveryAddress' => 'Адрес доставки'
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function submitForm()
+    public function submitForm($rubricId, $queryArrayFormData)
     {
-        if ($this->validate()) {
-            // @TODO создаем заявку здесь
-            return true;
-        }
+        $attributes = $this->attributes;
+        unset($attributes['verifyCode']);
+        unset($attributes['delivery']);
 
-        return false;
+        return (new Request())->createModelFromPost($rubricId, $attributes, $queryArrayFormData);
     }
 }

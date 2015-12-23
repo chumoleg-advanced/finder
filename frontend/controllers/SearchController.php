@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
+use common\components\SaveRequest;
 use Yii;
-use yii\helpers\Url;
 use app\components\Controller;
 use common\models\category\Category;
 use common\models\rubric\Rubric;
@@ -23,10 +23,8 @@ class SearchController extends Controller
 
         /** @var BaseForm $model */
         $model = new $formModel();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->submitForm()) {
-                return $this->redirect(Url::to(['result']));
-            }
+        if ($url = SaveRequest::save($model, $rubric->id)) {
+            return $this->redirect($url);
         }
 
         return $this->render('form', [

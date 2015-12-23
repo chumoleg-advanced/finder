@@ -39,18 +39,12 @@ $dynamicParams = [
     'insertButton'    => '.add-item',
     'deleteButton'    => '.delete-item',
     'model'           => $modelData,
-    'formId'          => 'auto-service-form',
+    'formId'          => \app\components\SearchFormGenerator::FORM_ID,
     'formFields'      => [
         'description',
-        'comment',
-        'image'
+        'comment'
     ],
 ];
-
-if (isset($parts)) {
-    $dynamicParams['formFields'][] = 'condition';
-    $dynamicParams['formFields'][] = 'original';
-}
 ?>
 
 <?php DynamicFormWidget::begin($dynamicParams); ?>
@@ -119,16 +113,15 @@ if (isset($parts)) {
                         'class'    => 'option-value-img'
                     ],
                     'pluginOptions' => [
-                        'afterInsert'     => '_hideCheckBoxButtonMiddle()',
-                        'previewFileType' => 'image',
-                        'showRemove'      => false,
-                        'showCaption'     => false,
-                        'showUpload'      => false,
-                        'browseClass'     => 'btn btn-primary',
-                        'browseIcon'      => '<i class="glyphicon glyphicon-camera"></i>',
-                        'removeIcon'      => '<i class="fa fa-trash"></i>',
-                        'uploadUrl'       => \yii\helpers\Url::to(['/site/file-upload']),
-                        'previewSettings' => [
+                        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+                        'previewFileType'       => 'image',
+                        'showRemove'            => false,
+                        'showCaption'           => false,
+                        'showUpload'            => false,
+                        'browseClass'           => 'btn btn-primary',
+                        'browseIcon'            => '<i class="glyphicon glyphicon-camera"></i>',
+                        'removeIcon'            => '<i class="fa fa-trash"></i>',
+                        'previewSettings'       => [
                             'image' => ['width' => '100px', 'height' => '100px'],
                         ]
                     ]

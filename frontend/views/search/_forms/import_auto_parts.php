@@ -8,7 +8,7 @@ use app\components\SearchFormGenerator;
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-// @TODO костыль с выбором первоначального состояния запчасти
+// костыль с выбором первоначального состояния запчасти
 $selectedCondition = 1;
 if ($rubric->id == 10) {
     $selectedCondition = 3;

@@ -14,7 +14,7 @@ function disableEnterKey(e) {
 }
 
 $(document).ready(function () {
-    $('#auto-service-form').attr('onKeyPress', 'return disableEnterKey(event)');
+    $('#request-form').attr('onKeyPress', 'return disableEnterKey(event)');
 
     $('a.delete-item').hide();
 
@@ -44,16 +44,16 @@ $(document).ready(function () {
                 return $(this).data('value');
             });
 
-            var form = $('#auto-service-form');
+            var form = $('#request-form');
             form.find(".dynamicFormRow").each(function (index) {
                 var attribute = {
-                    enableAjaxValidation: true,
-                    encodeError: true,
                     container: ".field-queryarrayform-" + index + "-condition",
                     error: ".help-block",
                     id: "queryarrayform-" + index + "-condition",
                     input: "#queryarrayform-" + index + "-condition",
                     name: "[" + index + "]condition",
+                    enableAjaxValidation: true,
+                    encodeError: true
                 };
 
                 form.yiiActiveForm('add', attribute);

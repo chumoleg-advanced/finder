@@ -23,7 +23,8 @@ class AutoServiceForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['carFirm', 'carModel'], 'required']
+            [['carFirm', 'carModel'], 'required'],
+            [['carBody', 'carEngine', 'vinNumber', 'yearRelease', 'drive', 'transmission'], 'safe']
         ]);
     }
 

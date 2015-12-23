@@ -7,8 +7,6 @@ use yii\helpers\ArrayHelper;
 
 class WheelDiscForm extends RepairDiscForm
 {
-    public $delivery;
-    public $deliveryAddress;
     public $priceFrom;
     public $priceTo;
 
@@ -21,22 +19,19 @@ class WheelDiscForm extends RepairDiscForm
      */
     public function rules()
     {
-        return [
-            [['type', 'diameter', 'points', 'count'], 'required'],
-            ['verifyCode', 'captcha'],
-        ];
+        return ArrayHelper::merge(parent::rules(), [
+            [['description', 'manufacturer', 'condition'], 'safe']
+        ]);
     }
 
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'delivery'        => 'Необходима доставка',
-            'deliveryAddress' => 'Адрес доставки',
-            'priceFrom'       => 'Стоимость от',
-            'priceTo'         => 'Стоимость до',
-            'condition'       => 'Состояние',
-            'manufacturer'    => 'Производитель',
-            'description'     => 'Описание'
+            'priceFrom'     => 'Стоимость от',
+            'priceTo'       => 'Стоимость до',
+            'condition' => 'Состояние',
+            'manufacturer'  => 'Производитель',
+            'description'   => 'Описание'
         ]);
     }
 }

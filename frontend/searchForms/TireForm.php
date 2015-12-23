@@ -17,8 +17,6 @@ class TireForm extends BaseForm
     public $height;
     public $count;
 
-    public $delivery;
-    public $deliveryAddress;
     public $priceFrom;
     public $priceTo;
 
@@ -31,25 +29,24 @@ class TireForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['diameter', 'width', 'height', 'type', 'count', 'condition'], 'required']
+            [['diameter', 'width', 'height', 'type', 'count', 'condition'], 'required'],
+            [['description', 'priceFrom', 'priceTo', 'manufacturer'], 'safe']
         ]);
     }
 
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'type'            => 'Тип шин',
-            'typeWinter'      => 'Тип зимних шин',
-            'diameter'        => 'Диаметр',
-            'width'           => 'Ширина',
-            'height'          => 'Высота',
-            'count'           => 'Кол-во',
-            'delivery'        => 'Необходима доставка',
-            'deliveryAddress' => 'Адрес доставки',
-            'priceFrom'       => 'Стоимость от',
-            'priceTo'         => 'Стоимость до',
-            'condition'       => 'Состояние',
-            'manufacturer'    => 'Производитель',
+            'type'         => 'Тип шин',
+            'typeWinter'   => 'Тип зимних шин',
+            'diameter'     => 'Диаметр',
+            'width'        => 'Ширина',
+            'height'       => 'Высота',
+            'count'        => 'Кол-во',
+            'priceFrom'    => 'Стоимость от',
+            'priceTo'      => 'Стоимость до',
+            'condition'    => 'Состояние',
+            'manufacturer' => 'Производитель',
         ]);
     }
 }

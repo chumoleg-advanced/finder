@@ -32,6 +32,17 @@ use common\models\user\User;
  */
 class Company extends ActiveRecord
 {
+    const STATUS_ON_MODERATE = 1;
+    const STATUS_ACTIVE = 2;
+    const STATUS_BLOCKED = 3;
+
+    public static $statusList
+        = [
+            self::STATUS_ON_MODERATE => 'На модерации',
+            self::STATUS_ACTIVE      => 'Активная',
+            self::STATUS_BLOCKED     => 'Заблокирована',
+        ];
+
     /**
      * @inheritdoc
      */
@@ -193,7 +204,7 @@ class Company extends ActiveRecord
         try {
             $model = new self();
             $model->setAttributes($mainData->attributes);
-            $model->status = 1;
+            $model->status = self::STATUS_ON_MODERATE;
             if (!$model->save()) {
                 throw new Exception();
             }

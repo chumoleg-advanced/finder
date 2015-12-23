@@ -77,7 +77,7 @@ class AuthController extends Controller
             $model->login();
         }
 
-        return $this->goHome();
+//        return $this->goBack(Yii::$app->homeUrl);
     }
 
     /**

@@ -26,7 +26,7 @@ $model = new LoginForm();
                 'id'                     => 'login-form',
                 'enableAjaxValidation'   => true,
                 'enableClientValidation' => false,
-                'action'                 => Url::to('/auth/login'),
+//                'action'                 => Url::to('/auth/login'),
                 'validationUrl'          => Url::to('/auth/login-validate'),
             ]);
 

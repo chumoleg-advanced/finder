@@ -9,7 +9,7 @@ use app\components\SearchFormGenerator;
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-$form = SearchFormGenerator::getFormSingle($rubric->id, 'tires-form');
+$form = SearchFormGenerator::getFormSingle($rubric->id);
 ?>
 
     <div class="form-group">

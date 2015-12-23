@@ -10,7 +10,7 @@ use app\components\SearchFormGenerator;
 
 $modelData = new QueryArrayForm();
 
-$form = SearchFormGenerator::getFormSingle($rubric->id, 'repair-disc-form');
+$form = SearchFormGenerator::getFormSingle($rubric->id);
 ?>
     <div class="form-group placeListServices">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">

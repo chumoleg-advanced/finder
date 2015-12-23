@@ -21,6 +21,7 @@ class RepairDiscForm extends BaseForm
     {
         return ArrayHelper::merge(parent::rules(), [
             [['type', 'diameter', 'points', 'count'], 'required'],
+            [['width', 'out'], 'safe']
         ]);
     }
 

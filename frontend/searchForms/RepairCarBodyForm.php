@@ -15,4 +15,11 @@ class RepairCarBodyForm extends AutoServiceForm
             'color' => 'Цвет',
         ]);
     }
+
+    public function rules()
+    {
+        return ArrayHelper::merge(parent::rules(), [
+            [['color'], 'safe']
+        ]);
+    }
 }

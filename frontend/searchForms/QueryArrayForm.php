@@ -21,6 +21,9 @@ class QueryArrayForm extends Model
         return [
             [['description'], 'required'],
             [['condition'], 'required', 'on' => ['parts']],
+            [['image'], 'safe'],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, gif, png', 'maxFiles' => 5],
+            [['comment', 'original', 'condition'], 'safe']
         ];
     }
 

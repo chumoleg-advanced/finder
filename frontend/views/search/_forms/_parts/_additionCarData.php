@@ -10,8 +10,13 @@ $htmlClass = 'col-md-3 col-sm-6 col-xs-12';
         ['placeholder' => $model->getAttributeLabel('vinNumber')]); ?>
 </div>
 <div class="<?= $htmlClass; ?>">
-    <?= $form->field($model, 'yearRelease')->textInput(
-        ['placeholder' => $model->getAttributeLabel('yearRelease')]); ?>
+    <?= $form->field($model, 'yearRelease')->widget(Select2::classname(), [
+        'data'          => CarData::getYearRelease(),
+        'pluginOptions' => ['allowClear' => true],
+        'options'       => [
+            'placeholder' => $model->getAttributeLabel('yearRelease')
+        ]
+    ]); ?>
 </div>
 <div class="<?= $htmlClass; ?>">
     <?= $form->field($model, 'drive')->widget(Select2::classname(), [

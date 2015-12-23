@@ -135,6 +135,7 @@ a.desc:after {
 .partsOriginal,
 .tireTypeWinterParams,
 .uploadFilesBlock,
+.uploadFilesBlock .btn-file,
 .file-footer-caption,
 .file-upload-indicator,
 .kv-file-upload {

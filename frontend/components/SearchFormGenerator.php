@@ -8,18 +8,19 @@ use yii\helpers\Url;
 
 class SearchFormGenerator
 {
+    const FORM_ID = 'request-form';
+
     /**
-     * @param int    $formId
-     * @param string $htmlId
+     * @param int $formId
      *
      * @return ActiveForm
      */
-    public static function getFormFiles($formId, $htmlId = 'auto-service-form')
+    public static function getFormFiles($formId)
     {
         $params = self::_getCommonParams($formId);
         $params['options'] = [
             'enctype' => 'multipart/form-data',
-            'id'      => $htmlId
+            'id'      => self::FORM_ID
         ];
 
         return ActiveForm::begin($params);
@@ -47,22 +48,21 @@ class SearchFormGenerator
                 'template' => "{input}\n{hint}\n{error}",
                 'class'    => ActiveField::className()
             ],
-            'options' => [
+            'options'                => [
                 'data-pjax' => true
             ],
         ];
     }
 
     /**
-     * @param int    $formId
-     * @param string $htmlId
+     * @param int $formId
      *
      * @return ActiveForm
      */
-    public static function getFormSingle($formId, $htmlId)
+    public static function getFormSingle($formId)
     {
         $params = self::_getCommonParams($formId);
-        $params['id'] = $htmlId;
+        $params['id'] = self::FORM_ID;
 
         return ActiveForm::begin($params);
     }
