@@ -32,8 +32,18 @@ class BaseForm extends Model
         ];
     }
 
+    /**
+     * @param $rubricId
+     * @param $queryArrayFormData
+     *
+     * @return bool
+     */
     public function submitForm($rubricId, $queryArrayFormData)
     {
+        if (!$this->validate()){
+            return false;
+        }
+
         $attributes = $this->attributes;
         unset($attributes['verifyCode']);
         unset($attributes['delivery']);
