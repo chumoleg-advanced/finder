@@ -113,7 +113,7 @@ $dynamicParams = [
                         'class'    => 'option-value-img'
                     ],
                     'pluginOptions' => [
-                        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+                        'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
                         'previewFileType'       => 'image',
                         'showRemove'            => false,
                         'showCaption'           => false,

@@ -22,7 +22,7 @@ class QueryArrayForm extends Model
             [['description'], 'required'],
             [['condition'], 'required', 'on' => ['parts']],
             [['image'], 'safe'],
-            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, gif, png', 'maxFiles' => 5],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
             [['comment', 'original', 'condition'], 'safe']
         ];
     }
