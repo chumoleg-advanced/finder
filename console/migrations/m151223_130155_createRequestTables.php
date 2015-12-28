@@ -7,15 +7,19 @@ class m151223_130155_createRequestTables extends Migration
     public function up()
     {
         $this->createTable('request', [
-            'id'          => self::PRIMARY_KEY,
-            'rubric_id'   => self::INT_FIELD_NOT_NULL,
-            'data'        => 'TEXT',
-            'user_id'     => self::INT_FIELD_NOT_NULL,
-            'date_create' => self::TIMESTAMP_FIELD
+            'id'                   => self::PRIMARY_KEY,
+            'rubric_id'            => self::INT_FIELD_NOT_NULL,
+            'status'               => 'TINYINT(1) UNSIGNED DEFAULT 1',
+            'data'                 => 'TEXT',
+            'user_id'              => self::INT_FIELD_NOT_NULL,
+            'performer_company_id' => self::INT_FIELD . ' DEFAULT NULL',
+            'date_create'          => self::TIMESTAMP_FIELD
         ], self::TABLE_OPTIONS);
 
         $this->addForeignKey('fk_request_rubric_id', 'request', 'rubric_id', 'rubric', 'id', 'RESTRICT', 'CASCADE');
         $this->addForeignKey('fk_request_user_id', 'request', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_request_performer_company_id', 'request', 'performer_company_id',
+            'company', 'id', 'SET NULL', 'CASCADE');
 
         $this->createTable('request_position', [
             'id'          => self::PRIMARY_KEY,
@@ -37,6 +41,7 @@ class m151223_130155_createRequestTables extends Migration
 
         $this->dropForeignKey('fk_request_user_id', 'request');
         $this->dropForeignKey('fk_request_rubric_id', 'request');
+        $this->dropForeignKey('fk_request_performer_company_id', 'request');
         $this->dropTable('request');
     }
 }

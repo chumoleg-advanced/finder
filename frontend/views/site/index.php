@@ -16,14 +16,14 @@ $this->title = Yii::t('title', 'Search');
     </div>
 
     <div class="col-md-12 text-center">
-        <?php foreach ($categories as $category) : ?>
+        <?php foreach (\common\models\category\Category::getList(true) as $id => $name) : ?>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <a href="<?= Url::toRoute(['/search/category', 'id' => $category->id]); ?>">
+                <a href="<?= Url::toRoute(['/search/category', 'id' => $id]); ?>">
                     <?= EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 400, 200,
                         EasyThumbnailImage::THUMBNAIL_OUTBOUND,
-                        ['class' => 'img-responsive img-thumbnail', 'alt' => $category->name]
+                        ['class' => 'img-responsive img-thumbnail', 'alt' => $name]
                     ); ?><br/>
-                    <?= $category->name; ?>
+                    <?= $name; ?>
                 </a>
             </div>
         <?php endforeach; ?>

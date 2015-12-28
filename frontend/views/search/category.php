@@ -19,14 +19,14 @@ $this->title = Yii::t('title', 'Categories');
 
 <div class="row">
     <div id="owl-demo" class="owl-carousel owl-theme col-lg-4 col-sm-6 col-xs-12">
-        <?php foreach ($categories as $category) : ?>
+        <?php foreach (\common\models\category\Category::getList(true) as $id => $name) : ?>
             <div class="text-center">
-                <a href="<?= Url::toRoute(['/search/category', 'id' => $category->id]); ?>">
+                <a href="<?= Url::toRoute(['/search/category', 'id' => $id]); ?>">
                     <?= EasyThumbnailImage::thumbnailImg('img/NoImage.jpg', 200, 200,
                         EasyThumbnailImage::THUMBNAIL_OUTBOUND,
-                        ['class' => 'img-responsive img-thumbnail', 'alt' => $category->name]
+                        ['class' => 'img-responsive img-thumbnail', 'alt' => $name]
                     ); ?><br/>
-                    <?= $category->name; ?>
+                    <?= $name; ?>
                 </a>
             </div>
         <?php endforeach; ?>

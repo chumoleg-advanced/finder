@@ -3,9 +3,8 @@
 namespace common\models\rubric;
 
 use Yii;
-use \yii\db\ActiveRecord;
+use common\components\ActiveRecord;
 use common\models\category\Category;
-use \yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -66,6 +65,42 @@ class Rubric extends ActiveRecord
     }
 
     /**
+     * @param int $id
+     *
+     * @return Rubric|null
+     */
+    public static function findById($id)
+    {
+        return self::find()->whereId($id)->one();
+    }
+
+    /**
+     * @param null $categoryId
+     *
+     * @return array
+     */
+    public static function getList($categoryId = null)
+    {
+        if (!empty($categoryId)) {
+            $data = self::findAllByCategory($categoryId);
+        } else {
+            $data = self::find()->all();
+        }
+
+        return ArrayHelper::map($data, 'id', 'name');
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return array|Rubric[]
+     */
+    public static function findAllByCategory($categoryId)
+    {
+        return self::find()->whereCategoryId($categoryId)->all();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCategory()
@@ -88,36 +123,5 @@ class Rubric extends ActiveRecord
     public function geFormModelClassName()
     {
         return RubricFormData::geFormModel($this->rubric_form);
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return Rubric|null
-     */
-    public static function findById($id)
-    {
-        return self::find()->whereId($id)->one();
-    }
-
-    /**
-     * @param int $categoryId
-     *
-     * @return array|Rubric[]
-     */
-    public static function findAllByCategory($categoryId)
-    {
-        return self::find()->whereCategoryId($categoryId)->all();
-    }
-
-    /**
-     * @param int $categoryId
-     *
-     * @return array
-     */
-    public static function getListByCategory($categoryId)
-    {
-        $data = self::findAllByCategory($categoryId);
-        return ArrayHelper::map($data, 'id', 'name');
     }
 }

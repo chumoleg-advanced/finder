@@ -36,8 +36,7 @@ class SearchController extends Controller
 
     public function actionSearch()
     {
-        $categories = Category::getList();
-        return $this->render('category', ['categories' => $categories]);
+        return $this->render('category');
     }
 
     public function actionCategory($id)

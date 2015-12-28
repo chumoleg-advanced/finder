@@ -3,7 +3,7 @@
 namespace common\models\car;
 
 use Yii;
-use \yii\db\ActiveRecord;
+use common\components\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**

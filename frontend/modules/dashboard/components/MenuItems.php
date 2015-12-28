@@ -18,7 +18,7 @@ class MenuItems
             ],
             [
                 'label' => 'Мои заявки',
-                'url'   => Url::toRoute('request/index')
+                'url'   => Url::toRoute('request/index-user')
             ],
             [
                 'label' => 'Мои организации',
@@ -53,11 +53,11 @@ class MenuItems
     {
         $companyItems = [];
 
-        $companies = Company::findByUser(Yii::$app->user->id);
-        foreach ($companies as $company) {
+        $companies = Company::getListByUser(Yii::$app->user->id);
+        foreach ($companies as $id => $name) {
             $companyItems[] = [
-                'label' => $company->legal_name,
-                'url'   => Url::toRoute(['company/view', 'id' => $company->id])
+                'label' => $name,
+                'url'   => Url::toRoute(['request/index-company', 'id' => $id])
             ];
         }
 
@@ -72,9 +72,9 @@ class MenuItems
     public static function getCreateRequest()
     {
         $createRequestItems = [];
-        foreach (Category::getList() as $category) {
+        foreach (Category::getList() as $categoryObj) {
             $rubricItems = [];
-            foreach ($category->rubrics as $rubric) {
+            foreach ($categoryObj->rubrics as $rubric) {
                 $rubricItems[] = [
                     'label' => $rubric->name,
                     'url'   => Url::toRoute(['request/create', 'id' => $rubric->id]),
@@ -82,7 +82,7 @@ class MenuItems
             }
 
             $createRequestItems[] = [
-                'label' => $category->name,
+                'label' => $categoryObj->name,
                 'items' => $rubricItems
             ];
         }

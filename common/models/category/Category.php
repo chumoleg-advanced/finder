@@ -3,8 +3,9 @@
 namespace common\models\category;
 
 use Yii;
-use \yii\db\ActiveRecord;
+use common\components\ActiveRecord;
 use common\models\rubric\Rubric;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "category".
@@ -61,18 +62,25 @@ class Category extends ActiveRecord
     }
 
     /**
+     * @param bool $asArray
+     *
+     * @return array|Category[]
+     */
+    public static function getList($asArray = false)
+    {
+        $data = self::find()->with('rubrics')->all();
+        if ($asArray) {
+            $data = ArrayHelper::map($data, 'id', 'name');
+        }
+
+        return $data;
+    }
+
+    /**
      * @return Rubric[]
      */
     public function getRubrics()
     {
         return $this->hasMany(Rubric::className(), ['category_id' => 'id']);
-    }
-
-    /**
-     * @return array|Category[]
-     */
-    public static function getList()
-    {
-        return self::find()->with('rubrics')->all();
     }
 }

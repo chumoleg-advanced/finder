@@ -4,9 +4,10 @@ namespace common\models\company;
 
 use Yii;
 use yii\base\Exception;
-use yii\db\ActiveRecord;
+use common\components\ActiveRecord;
 use common\models\city\City;
 use common\models\user\User;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "company".
@@ -107,16 +108,6 @@ class Company extends ActiveRecord
     }
 
     /**
-     * @param $userId
-     *
-     * @return Company[]
-     */
-    public static function findByUser($userId)
-    {
-        return self::find()->whereUserId($userId)->all();
-    }
-
-    /**
      * @param $id
      *
      * @return Company
@@ -124,6 +115,17 @@ class Company extends ActiveRecord
     public static function findById($id)
     {
         return self::find()->whereId($id)->one();
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return array
+     */
+    public static function getListByUser($userId)
+    {
+        $data = self::find()->whereUserId($userId)->all();
+        return ArrayHelper::map($data, 'id', 'legal_name');
     }
 
     /**

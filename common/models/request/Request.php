@@ -2,28 +2,49 @@
 
 namespace common\models\request;
 
-use common\components\Json;
+use common\models\company\Company;
 use Yii;
 use common\models\rubric\Rubric;
 use common\models\user\User;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
+use common\components\ActiveRecord;
 
 /**
  * This is the model class for table "request".
  *
  * @property integer           $id
  * @property integer           $rubric_id
+ * @property integer           $status
  * @property string            $data
  * @property integer           $user_id
+ * @property integer           $performer_company_id
  * @property string            $date_create
  *
  * @property Rubric            $rubric
  * @property User              $user
  * @property RequestPosition[] $requestPositions
  */
-class Request extends \yii\db\ActiveRecord
+class Request extends ActiveRecord
 {
+    const STATUS_NEW = 1;
+    const STATUS_MODERATE = 2;
+    const STATUS_REJECTED = 3;
+    const STATUS_WAITING = 4;
+    const STATUS_IN_WORK = 5;
+    const STATUS_CLOSED = 6;
+
+    public static $statusList
+        = [
+            self::STATUS_NEW      => 'Новая',
+            self::STATUS_MODERATE => 'На модерации',
+            self::STATUS_REJECTED => 'Отклонена',
+            self::STATUS_WAITING  => 'Отправлена компаниям',
+            self::STATUS_IN_WORK  => 'В обработке',
+            self::STATUS_IN_WORK  => 'Завершена',
+
+        ];
+
     /**
      * @inheritdoc
      */
@@ -39,7 +60,7 @@ class Request extends \yii\db\ActiveRecord
     {
         return [
             [['rubric_id', 'user_id'], 'required'],
-            [['rubric_id', 'user_id'], 'integer'],
+            [['rubric_id', 'user_id', 'performer_company_id', 'status'], 'integer'],
             [['data'], 'string'],
             [['date_create'], 'safe']
         ];
@@ -51,11 +72,13 @@ class Request extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'rubric_id'   => 'Rubric ID',
-            'data'        => 'Data',
-            'user_id'     => 'User ID',
-            'date_create' => 'Date Create',
+            'id'                   => 'ID',
+            'rubric_id'            => 'Rubric ID',
+            'status'               => 'Status',
+            'data'                 => 'Data',
+            'user_id'              => 'User ID',
+            'performer_company_id' => 'Performer Company ID',
+            'date_create'          => 'Date Create',
         ];
     }
 
@@ -81,6 +104,16 @@ class Request extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param $id
+     *
+     * @return null|Request
+     */
+    public static function findById($id)
+    {
+        return self::find()->whereId($id)->one();
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getRubric()
@@ -94,6 +127,14 @@ class Request extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPerformerCompany()
+    {
+        return $this->hasOne(Company::className(), ['id' => 'performer_company_id']);
     }
 
     /**
@@ -137,6 +178,7 @@ class Request extends \yii\db\ActiveRecord
         $request = new self();
         $request->user_id = Yii::$app->user->id;
         $request->rubric_id = $rubricId;
+        $request->status = self::STATUS_NEW;
         $request->data = $attributes;
         $request->save();
 

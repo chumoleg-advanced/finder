@@ -3,18 +3,19 @@
 namespace common\models\user;
 
 use Yii;
+use common\components\ActiveRecord;
 
 /**
  * This is the model class for table "user_setting".
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $data
- * @property string $date_create
+ * @property string  $data
+ * @property string  $date_create
  *
- * @property User $user
+ * @property User    $user
  */
-class UserSetting extends \yii\db\ActiveRecord
+class UserSetting extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -43,19 +44,11 @@ class UserSetting extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'data' => 'Data',
+            'id'          => 'ID',
+            'user_id'     => 'User ID',
+            'data'        => 'Data',
             'date_create' => 'Date Create',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -65,5 +58,13 @@ class UserSetting extends \yii\db\ActiveRecord
     public static function find()
     {
         return new UserSettingQuery(get_called_class());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

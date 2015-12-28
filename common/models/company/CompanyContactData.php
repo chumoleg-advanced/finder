@@ -3,6 +3,7 @@
 namespace common\models\company;
 
 use Yii;
+use common\components\ActiveRecord;
 
 /**
  * This is the model class for table "company_contact_data".
@@ -17,7 +18,7 @@ use Yii;
  * @property CompanyAddress $companyAddress
  * @property Company        $company
  */
-class CompanyContactData extends \yii\db\ActiveRecord
+class CompanyContactData extends ActiveRecord
 {
     /**
      * @inheritdoc

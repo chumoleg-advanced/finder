@@ -2,8 +2,9 @@
 
 namespace common\models\company;
 
-use common\models\rubric\Rubric;
 use Yii;
+use common\components\ActiveRecord;
+use common\models\rubric\Rubric;
 
 /**
  * This is the model class for table "company_rubric".
@@ -16,7 +17,7 @@ use Yii;
  * @property Company $company
  * @property Rubric  $rubric
  */
-class CompanyRubric extends \yii\db\ActiveRecord
+class CompanyRubric extends ActiveRecord
 {
     /**
      * @inheritdoc

@@ -2,6 +2,8 @@
 
 namespace common\models\request;
 
+use common\components\activeQueryTraits\CommonQueryTrait;
+
 /**
  * This is the ActiveQuery class for [[Request]].
  *
@@ -9,4 +11,5 @@ namespace common\models\request;
  */
 class RequestQuery extends \yii\db\ActiveQuery
 {
+    use CommonQueryTrait;
 }

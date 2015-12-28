@@ -10,7 +10,8 @@ class DashboardAsset extends AssetBundle
     public $baseUrl = '@web';
     public $js
         = [
-            '/js/dashboard/company.js'
+            '/js/dashboard/company.js',
+            '/js/dashboard/request.js'
         ];
 
     public $depends

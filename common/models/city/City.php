@@ -3,7 +3,7 @@
 namespace common\models\city;
 
 use Yii;
-use yii\db\ActiveRecord;
+use common\components\ActiveRecord;
 use common\models\company\Company;
 use yii\helpers\ArrayHelper;
 

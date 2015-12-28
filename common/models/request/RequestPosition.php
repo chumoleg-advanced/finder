@@ -3,6 +3,7 @@
 namespace common\models\request;
 
 use Yii;
+use common\components\ActiveRecord;
 
 /**
  * This is the model class for table "request_position".
@@ -16,7 +17,7 @@ use Yii;
  *
  * @property Request $request
  */
-class RequestPosition extends \yii\db\ActiveRecord
+class RequestPosition extends ActiveRecord
 {
     /**
      * @inheritdoc

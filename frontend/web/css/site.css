@@ -242,3 +242,7 @@ a.desc:after {
     margin-left: 40px;
     margin-top: -9px;
 }
+
+.radioList label {
+    display: block;
+}
