@@ -19,7 +19,11 @@ class RequestController extends CrudController
             'reject' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
                 'status' => Request::STATUS_REJECTED
-            ]
+            ],
+            'reset'  => [
+                'class'  => 'common\components\actions\ChangeStatusAction',
+                'status' => Request::STATUS_ON_MODERATE
+            ],
         ];
     }
 

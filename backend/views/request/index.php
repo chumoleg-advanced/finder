@@ -5,6 +5,8 @@ use yii\helpers\Html;
 use common\components\DatePickerFactory;
 use common\components\ManageButton;
 use common\models\request\Request;
+use common\models\category\Category;
+use common\models\rubric\Rubric;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\request\RequestSearch */
@@ -22,7 +24,27 @@ $this->title = 'Управление заявками';
         'filterModel'  => $searchModel,
         'columns'      => [
             'id',
-            'status',
+            [
+                'attribute' => 'categoryId',
+                'filter'    => Category::getList(true),
+                'value'     => function ($data) {
+                    return !empty($data->rubric) ? $data->rubric->category->name : null;
+                }
+            ],
+            [
+                'attribute' => 'rubric_id',
+                'filter'    => Rubric::getList($searchModel->categoryId),
+                'value'     => function ($data) {
+                    return !empty($data->rubric) ? $data->rubric->name : null;
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'filter'    => Request::$statusList,
+                'value'     => function ($data) {
+                    return Request::$statusList[$data->status];
+                }
+            ],
             [
                 'attribute' => 'date_create',
                 'format'    => 'date',

@@ -31,10 +31,9 @@ class Request extends ActiveRecord
 {
     const STATUS_ON_MODERATE = 1;
     const STATUS_REJECTED = 2;
-    const STATUS_WAITING = 3;
-    const STATUS_OFFER_SENT = 4;
-    const STATUS_IN_WORK = 5;
-    const STATUS_CLOSED = 6;
+    const STATUS_OFFER_SENT = 3;
+    const STATUS_IN_WORK = 4;
+    const STATUS_CLOSED = 5;
 
     public static $statusList
         = [
@@ -47,9 +46,9 @@ class Request extends ActiveRecord
 
     public static $statusListCompany
         = [
-            self::STATUS_WAITING => 'Новая',
-            self::STATUS_IN_WORK => 'В обработке',
-            self::STATUS_CLOSED  => 'Завершена',
+            self::STATUS_OFFER_SENT => 'Новая',
+            self::STATUS_IN_WORK    => 'В обработке',
+            self::STATUS_CLOSED     => 'Завершена',
         ];
 
     /**
