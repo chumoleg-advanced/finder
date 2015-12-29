@@ -4,6 +4,7 @@ namespace common\models\request;
 
 use Yii;
 use common\components\ActiveRecord;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "request_position".
@@ -48,11 +49,11 @@ class RequestPosition extends ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'request_id'  => 'Request ID',
-            'description' => 'Description',
-            'comment'     => 'Comment',
+            'request_id'  => 'Заявка',
+            'description' => 'Описание',
+            'comment'     => 'Комментарий',
             'data'        => 'Data',
-            'date_create' => 'Date Create',
+            'date_create' => 'Дата создания',
         ];
     }
 
@@ -67,14 +68,14 @@ class RequestPosition extends ActiveRecord
 
     public function beforeValidate()
     {
-        $this->data = \yii\helpers\Json::encode($this->data);
+        $this->data = Json::encode($this->data);
         return parent::beforeValidate();
     }
 
     public function afterFind()
     {
-        $this->data = \yii\helpers\Json::decode($this->data);
-        return parent::afterFind();
+        $this->data = Json::decode($this->data);
+        parent::afterFind();
     }
 
     /**

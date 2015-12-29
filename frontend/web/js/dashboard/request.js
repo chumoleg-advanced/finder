@@ -16,4 +16,24 @@ $(document).ready(function () {
             data: {'RequestSearch[performer_company_id]': value}
         });
     });
+
+    $(document).on('click', '.viewMainOfferInfo', function () {
+        $('.mainOfferInfoBlock').toggle();
+    });
+
+    $(document).on('click', '.acceptOffer', function () {
+        if (!confirm('Вы уверены, что хотите принять это предложение?')) {
+            return false;
+        }
+
+        var params = {requestId: $('#requestId').val(), requestOfferId: $(this).data('id')};
+        $.post('/ajax/request/accept-offer', params, function (answer) {
+            if (answer.status) {
+                document.location.href = answer.url;
+            } else {
+                alert(answer.msg);
+                return false;
+            }
+        }, 'json');
+    });
 });

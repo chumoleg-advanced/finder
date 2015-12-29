@@ -10,8 +10,6 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
-use common\components\Role;
-use common\models\user\User;
 
 AppAsset::register($this);
 ?>
@@ -38,11 +36,7 @@ AppAsset::register($this);
         ],
     ]);
 
-    $menuItems = [
-        ['label' => 'Home', 'url' => Url::toRoute('/site/index')],
-        ['label' => 'About', 'url' => Url::toRoute('/site/about')],
-        ['label' => 'Contact', 'url' => Url::toRoute('/site/contact')],
-    ];
+    $menuItems = [];
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Регистрация', 'url' => '#', 'options' => ['class' => 'signUpButton']];

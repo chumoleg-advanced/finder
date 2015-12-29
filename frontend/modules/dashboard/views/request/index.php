@@ -17,12 +17,13 @@ $this->title = 'Мои заявки';
 
 <div class="news-index">
     <legend><?= $this->title; ?></legend>
+
+    <?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
         <div class="col-md-3 radioList">
             <?= Html::radioList('categoryId', (int)$searchModel->categoryId, $categories); ?>
         </div>
 
-        <?php Pjax::begin(['id' => 'requestGrid']); ?>
         <div class="col-md-9">
             <?php
             $title = 'Все категории';
@@ -38,6 +39,14 @@ $this->title = 'Мои заявки';
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     'id',
+                    [
+                        'attribute' => 'categoryId',
+                        'filter'    => Category::getList(true),
+                        'visible'   => empty($searchModel->categoryId),
+                        'value'     => function ($data) {
+                            return !empty($data->rubric) ? $data->rubric->category->name : null;
+                        }
+                    ],
                     [
                         'attribute' => 'rubric_id',
                         'filter'    => Rubric::getList($searchModel->categoryId),
@@ -58,13 +67,13 @@ $this->title = 'Мои заявки';
                         'filter'    => DatePickerFactory::getInput($searchModel, 'date_create')
                     ],
                     [
-                        'class'    => 'yii\grid\ActionColumn',
-                        'template' => '{view}'
+                        'class'    => 'common\components\ActionColumn',
+                        'template' => '{view}',
                     ],
                 ],
             ]);
             ?>
         </div>
-        <?php Pjax::end(); ?>
     </div>
+    <?php Pjax::end(); ?>
 </div>

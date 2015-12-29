@@ -9,6 +9,7 @@ use common\models\user\User;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use common\components\ActiveRecord;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "request".
@@ -19,6 +20,7 @@ use common\components\ActiveRecord;
  * @property string            $data
  * @property integer           $user_id
  * @property integer           $performer_company_id
+ * @property integer           $request_offer_id
  * @property string            $date_create
  *
  * @property Rubric            $rubric
@@ -27,22 +29,27 @@ use common\components\ActiveRecord;
  */
 class Request extends ActiveRecord
 {
-    const STATUS_NEW = 1;
-    const STATUS_MODERATE = 2;
-    const STATUS_REJECTED = 3;
-    const STATUS_WAITING = 4;
+    const STATUS_ON_MODERATE = 1;
+    const STATUS_REJECTED = 2;
+    const STATUS_WAITING = 3;
+    const STATUS_OFFER_SENT = 4;
     const STATUS_IN_WORK = 5;
     const STATUS_CLOSED = 6;
 
     public static $statusList
         = [
-            self::STATUS_NEW      => 'Новая',
-            self::STATUS_MODERATE => 'На модерации',
-            self::STATUS_REJECTED => 'Отклонена',
-            self::STATUS_WAITING  => 'Отправлена компаниям',
-            self::STATUS_IN_WORK  => 'В обработке',
-            self::STATUS_IN_WORK  => 'Завершена',
+            self::STATUS_ON_MODERATE => 'На модерации',
+            self::STATUS_REJECTED    => 'Отклонена',
+            self::STATUS_OFFER_SENT  => 'Открыто для предложений',
+            self::STATUS_IN_WORK     => 'В обработке',
+            self::STATUS_CLOSED      => 'Завершена',
+        ];
 
+    public static $statusListCompany
+        = [
+            self::STATUS_WAITING => 'Новая',
+            self::STATUS_IN_WORK => 'В обработке',
+            self::STATUS_CLOSED  => 'Завершена',
         ];
 
     /**
@@ -60,7 +67,7 @@ class Request extends ActiveRecord
     {
         return [
             [['rubric_id', 'user_id'], 'required'],
-            [['rubric_id', 'user_id', 'performer_company_id', 'status'], 'integer'],
+            [['rubric_id', 'user_id', 'performer_company_id', 'request_offer_id', 'status'], 'integer'],
             [['data'], 'string'],
             [['date_create'], 'safe']
         ];
@@ -73,12 +80,13 @@ class Request extends ActiveRecord
     {
         return [
             'id'                   => 'ID',
-            'rubric_id'            => 'Rubric ID',
-            'status'               => 'Status',
+            'rubric_id'            => 'Рубрика',
+            'status'               => 'Статус',
             'data'                 => 'Data',
-            'user_id'              => 'User ID',
-            'performer_company_id' => 'Performer Company ID',
-            'date_create'          => 'Date Create',
+            'user_id'              => 'Пользователь',
+            'performer_company_id' => 'Компания',
+            'request_offer_id'     => 'Выбранное предложение',
+            'date_create'          => 'Дата создания',
         ];
     }
 
@@ -93,13 +101,13 @@ class Request extends ActiveRecord
 
     public function beforeValidate()
     {
-        $this->data = \yii\helpers\Json::encode($this->data);
+        $this->data = Json::encode($this->data);
         return parent::beforeValidate();
     }
 
     public function afterFind()
     {
-        $this->data = \yii\helpers\Json::decode($this->data);
+        $this->data = Json::decode($this->data);
         return parent::afterFind();
     }
 
@@ -135,6 +143,14 @@ class Request extends ActiveRecord
     public function getPerformerCompany()
     {
         return $this->hasOne(Company::className(), ['id' => 'performer_company_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequestOffer()
+    {
+        return $this->hasOne(RequestOffer::className(), ['id' => 'request_offer_id']);
     }
 
     /**
@@ -178,7 +194,7 @@ class Request extends ActiveRecord
         $request = new self();
         $request->user_id = Yii::$app->user->id;
         $request->rubric_id = $rubricId;
-        $request->status = self::STATUS_NEW;
+        $request->status = self::STATUS_ON_MODERATE;
         $request->data = $attributes;
         $request->save();
 

@@ -24,6 +24,15 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_BLOCKED = 2;
+
+    public static $statusList
+        = [
+            self::STATUS_ACTIVE  => 'Активный',
+            self::STATUS_BLOCKED => 'Заблокирован'
+        ];
+
     /**
      * @inheritdoc
      */
@@ -59,6 +68,21 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'id'                   => 'ID',
+            'email'                => 'Email',
+            'password_hash'        => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'phone'                => 'Телефон',
+            'auth_key'             => 'Auth Key',
+            'status'               => 'Статус',
+            'created_at'           => 'Дата создания',
+            'updated_at'           => 'Updated At',
+        ];
+    }
+
     /**
      * @inheritdoc
      * @return UserQuery the active query used by this AR class.
@@ -70,7 +94,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeSave($insert)
     {
-        if ($this->isNewRecord){
+        if ($this->isNewRecord) {
             $this->status = Status::STATUS_ACTIVE;
         }
 
@@ -215,12 +239,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function getUserRole($userId = null)
     {
-        if (empty($userId)){
+        if (empty($userId)) {
             $userId = Yii::$app->user->getId();
         }
 
         $roles = Yii::$app->authManager->getRolesByUser($userId);
-        if (empty($roles)){
+        if (empty($roles)) {
             return null;
         }
 

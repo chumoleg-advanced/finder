@@ -40,23 +40,24 @@ AppAsset::register($this);
             [
                 'label'   => 'Пользователи',
                 'visible' => Yii::$app->user->can('accessToBackend'),
-                'items'   => [
-                    [
-                        'label'   => 'Управление пользователями',
-                        'url'     => Url::toRoute('/management/user/index'),
-                        'visible' => Yii::$app->user->can('userManage')
-                    ],
-                    [
-                        'label'   => 'Распределение ролей',
-                        'url'     => Url::toRoute('/management/role/index'),
-                        'visible' => Yii::$app->user->can('roleManage')
-                    ],
-                    [
-                        'label'   => 'Управление доступом',
-                        'url'     => Url::toRoute('/management/access/index'),
-                        'visible' => Yii::$app->user->can('accessManage')
-                    ],
-                ]
+                'url'     => Url::toRoute('/user/index'),
+//                'items'   => [
+//                    [
+//                        'label'   => 'Управление пользователями',
+//                        'url'     => Url::toRoute('/user/index'),
+//                        'visible' => Yii::$app->user->can('userManage')
+//                    ],
+//                    [
+//                        'label'   => 'Распределение ролей',
+//                        'url'     => Url::toRoute('/management/role/index'),
+//                        'visible' => Yii::$app->user->can('roleManage')
+//                    ],
+//                    [
+//                        'label'   => 'Управление доступом',
+//                        'url'     => Url::toRoute('/management/access/index'),
+//                        'visible' => Yii::$app->user->can('accessManage')
+//                    ],
+//                ]
             ],
             [
                 'label'   => 'Организации',
@@ -68,14 +69,14 @@ AppAsset::register($this);
                 'url'     => Url::toRoute('/request/index'),
                 'visible' => Yii::$app->user->can('accessToBackend'),
             ],
-            [
-                'label'   => 'Справочники',
-                'visible' => Yii::$app->user->can('accessToBackend'),
-                'items'   => [
-                    ['label' => 'Автомобили', 'url' => ['/management/car/index']],
-                    ['label' => 'Запчасти', 'url' => ['/management/auto-part/index']],
-                ]
-            ],
+//            [
+//                'label'   => 'Справочники',
+//                'visible' => Yii::$app->user->can('accessToBackend'),
+//                'items'   => [
+//                    ['label' => 'Автомобили', 'url' => ['/management/car/index']],
+//                    ['label' => 'Запчасти', 'url' => ['/management/auto-part/index']],
+//                ]
+//            ],
             ['label' => 'Перейти на сайт', 'url' => Url::to('/')],
         ];
 

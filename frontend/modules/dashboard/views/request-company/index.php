@@ -11,18 +11,19 @@ use app\assets\DashboardAsset;
 
 DashboardAsset::register($this);
 
-$this->title = 'Заявки для обработки';
+$this->title = 'Заявки';
 
 ?>
 
 <div class="news-index">
     <legend><?= $this->title; ?></legend>
+
+    <?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
         <div class="col-md-3 radioList">
             <?= Html::radioList('companyId', (int)$searchModel->performer_company_id, $companies); ?>
         </div>
 
-        <?php Pjax::begin(['id' => 'requestGrid']); ?>
         <div class="col-md-9">
             <?php
             $title = 'Все компании';
@@ -39,6 +40,14 @@ $this->title = 'Заявки для обработки';
                 'columns'      => [
                     'id',
                     [
+                        'attribute' => 'performer_company_id',
+                        'filter'    => Company::getListByUser(),
+                        'visible'   => empty($searchModel->performer_company_id),
+                        'value'     => function ($data) {
+                            return !empty($data->performerCompany) ? $data->performerCompany->legal_name : null;
+                        }
+                    ],
+                    [
                         'attribute' => 'rubric_id',
                         'filter'    => Rubric::getList($searchModel->categoryId),
                         'value'     => function ($data) {
@@ -47,9 +56,9 @@ $this->title = 'Заявки для обработки';
                     ],
                     [
                         'attribute' => 'status',
-                        'filter'    => Request::$statusList,
+                        'filter'    => Request::$statusListCompany,
                         'value'     => function ($data) {
-                            return Request::$statusList[$data->status];
+                            return Request::$statusListCompany[$data->status];
                         }
                     ],
                     [
@@ -58,13 +67,13 @@ $this->title = 'Заявки для обработки';
                         'filter'    => DatePickerFactory::getInput($searchModel, 'date_create')
                     ],
                     [
-                        'class'    => 'yii\grid\ActionColumn',
+                        'class'    => 'common\components\ActionColumn',
                         'template' => '{view}'
                     ],
                 ],
             ]);
             ?>
         </div>
-        <?php Pjax::end(); ?>
     </div>
+    <?php Pjax::end(); ?>
 </div>

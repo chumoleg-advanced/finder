@@ -88,6 +88,6 @@ class PermissionController extends Controller
             }
         }
 
-        return $this->redirect(Url::toRoute('/management/user/index'));
+        return $this->redirect(Url::toRoute('/user/index'));
     }
 }

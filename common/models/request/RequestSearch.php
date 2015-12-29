@@ -3,6 +3,7 @@
 namespace common\models\request;
 
 use common\models\company\Company;
+use common\models\company\CompanyRubric;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -39,7 +40,7 @@ class RequestSearch extends Request
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $type = 'user')
+    public function search($params, $type = null)
     {
         $query = parent::find();
         $query->joinWith('rubric');
@@ -52,6 +53,10 @@ class RequestSearch extends Request
 
         if (!$this->validate()) {
             return $dataProvider;
+        }
+
+        if ($this->performer_company_id == 0) {
+            $this->performer_company_id = null;
         }
 
         $query->andFilterWhere([
@@ -71,7 +76,14 @@ class RequestSearch extends Request
                 $query->andWhere(['user_id' => Yii::$app->user->id]);
 
             } elseif ($type == 'company') {
-                $query->andWhere(['performer_company_id' => Company::getListByUser(Yii::$app->user->id)]);
+                $query->andWhere(['performer_company_id' => array_keys(Company::getListByUser())]);
+
+            } elseif ($type == 'free') {
+                $myRubrics = CompanyRubric::find()->joinWith('company')
+                    ->andWhere(['company.user_id' => Yii::$app->user->id])->distinct('rubric_id')->all();
+
+                $query->andWhere(['rubric_id' => ArrayHelper::getColumn($myRubrics, 'rubric_id')]);
+                $query->andWhere(['status' => self::STATUS_OFFER_SENT]);
             }
         }
 

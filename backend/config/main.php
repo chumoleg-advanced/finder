@@ -14,7 +14,16 @@ return [
     'modules'             => [
         'management' => [
             'class'        => 'backend\modules\management\ManagementModule',
-            'defaultRoute' => 'user'
+            'defaultRoute' => 'user',
+            'as access'    => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['accessToBackend'],
+                    ]
+                ]
+            ],
         ]
     ],
     'components'          => [

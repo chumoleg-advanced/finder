@@ -18,10 +18,15 @@ class MenuItems
             ],
             [
                 'label' => 'Мои заявки',
-                'url'   => Url::toRoute('request/index-user')
+                'url'   => Url::toRoute('request/index')
             ],
             [
-                'label' => 'Мои организации',
+                'label'   => 'Заявки для предложений',
+                'url'     => Url::toRoute('request-company/free'),
+                'visible' => !empty(Company::getListByUser())
+            ],
+            [
+                'label' => 'Мои компании',
                 'items' => MenuItems::getCompany()
             ],
             [
@@ -29,7 +34,8 @@ class MenuItems
                 'url'   => Url::toRoute('message/index')
             ],
             [
-                'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->email,
+                'label' => '<i class="glyphicon glyphicon-user"></i> '
+                    . Yii::$app->user->identity->email,
                 'items' => [
                     [
                         'label' => 'Профиль',
@@ -47,26 +53,6 @@ class MenuItems
                 ]
             ]
         ];
-    }
-
-    public static function getCompany()
-    {
-        $companyItems = [];
-
-        $companies = Company::getListByUser(Yii::$app->user->id);
-        foreach ($companies as $id => $name) {
-            $companyItems[] = [
-                'label' => $name,
-                'url'   => Url::toRoute(['request/index-company', 'id' => $id])
-            ];
-        }
-
-        $companyItems[] = [
-            'label' => '<i class="glyphicon glyphicon-plus"></i> Создать организацию',
-            'url'   => Url::toRoute('company/create')
-        ];
-
-        return $companyItems;
     }
 
     public static function getCreateRequest()
@@ -88,5 +74,28 @@ class MenuItems
         }
 
         return $createRequestItems;
+    }
+
+    public static function getCompany()
+    {
+        $companyItems = [];
+
+        $companies = Company::getListByUser();
+        foreach ($companies as $id => $name) {
+            $companyItems[] = [
+                'label' => $name,
+                'url'   => Url::toRoute([
+                    'request-company/index',
+                    'RequestSearch[performer_company_id]' => $id
+                ])
+            ];
+        }
+
+        $companyItems[] = [
+            'label' => '<i class="glyphicon glyphicon-plus"></i> Создать организацию',
+            'url'   => Url::toRoute('company/create')
+        ];
+
+        return $companyItems;
     }
 }

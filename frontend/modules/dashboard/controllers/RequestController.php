@@ -7,14 +7,17 @@ use common\components\SaveRequest;
 use common\models\category\Category;
 use common\models\company\Company;
 use common\models\request\Request;
+use common\models\request\RequestOffer;
 use common\models\request\RequestSearch;
 use common\models\rubric\Rubric;
 use Yii;
 use app\modules\dashboard\components\Controller;
+use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 
 class RequestController extends Controller
 {
-    public function actionIndexUser()
+    public function actionIndex()
     {
         $categories = Category::getList(true);
         $categories[0] = 'Все категории';
@@ -23,34 +26,52 @@ class RequestController extends Controller
         $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'user');
 
-        return $this->render('indexUser', [
+        $this->_rememberUrl();
+
+        return $this->render('index', [
             'categories'   => $categories,
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionIndexCompany()
+    private function _rememberUrl()
     {
-        $companies = Company::getListByUser(Yii::$app->user->id);
-        $companies[0] = 'Все компании';
-        ksort($companies);
-
-        $searchModel = new RequestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'company');
-
-        return $this->render('indexCompany', [
-            'companies'    => $companies,
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        Url::remember('', 'requestList');
     }
 
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => Request::findById($id)
-        ]);
+        $model = $this->_loadModel($id);
+        if ($model->status == Request::STATUS_OFFER_SENT) {
+            list($bestOffer, $otherOffers) = RequestOffer::findListByRequest($id);
+            return $this->render('view', [
+                'model'       => $model,
+                'bestOffer'   => $bestOffer,
+                'otherOffers' => $otherOffers
+            ]);
+
+        } else {
+            return $this->render('viewInfo', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Request|null
+     * @throws NotFoundHttpException
+     */
+    private function _loadModel($id)
+    {
+        $model = Request::findById($id);
+        if (empty($model)) {
+            throw new NotFoundHttpException('Заявка не найдена');
+        }
+
+        return $model;
     }
 
     public function actionResult()

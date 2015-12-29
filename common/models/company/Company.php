@@ -62,6 +62,7 @@ class Company extends ActiveRecord
             [['status', 'city_id', 'user_id', 'form'], 'integer'],
             [['date_create'], 'safe'],
             [['legal_name', 'actual_name'], 'string', 'max' => 250],
+            [['inn', 'ogrn'], 'double'],
             [['inn'], 'string', 'max' => 12],
             [['ogrn'], 'string', 'max' => 15]
         ];
@@ -74,15 +75,15 @@ class Company extends ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'status'      => 'Status',
-            'city_id'     => 'City ID',
-            'user_id'     => 'User ID',
-            'legal_name'  => 'Legal Name',
-            'actual_name' => 'Actual Name',
-            'form'        => 'Form',
-            'inn'         => 'Inn',
-            'ogrn'        => 'Ogrn',
-            'date_create' => 'Date Create',
+            'status'      => 'Статус',
+            'city_id'     => 'Город',
+            'user_id'     => 'Пользователь',
+            'legal_name'  => 'Юридическое название',
+            'actual_name' => 'Фактическое название',
+            'form'        => 'Форма организации',
+            'inn'         => 'ИНН',
+            'ogrn'        => 'ОГРН',
+            'date_create' => 'Дата создания',
         ];
     }
 
@@ -122,8 +123,12 @@ class Company extends ActiveRecord
      *
      * @return array
      */
-    public static function getListByUser($userId)
+    public static function getListByUser($userId = null)
     {
+        if (empty($userId)) {
+            $userId = Yii::$app->user->id;
+        }
+
         $data = self::find()->whereUserId($userId)->all();
         return ArrayHelper::map($data, 'id', 'legal_name');
     }
@@ -244,5 +249,20 @@ class Company extends ActiveRecord
         foreach ($rubricData->rubrics as $rubricId) {
             CompanyRubric::create($model->id, $rubricId);
         }
+    }
+
+    /**
+     * @param $status
+     *
+     * @return bool
+     */
+    public function updateStatus($status)
+    {
+        if (empty($this->id)) {
+            return false;
+        }
+
+        $this->status = $status;
+        return $this->save();
     }
 }
