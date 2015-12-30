@@ -8,7 +8,7 @@ use app\assets\DashboardAsset;
 
 DashboardAsset::register($this);
 
-$this->title = 'Заявки для предложений';
+$this->title = 'Заявки от клиентов';
 
 ?>
 

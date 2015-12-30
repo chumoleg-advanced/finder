@@ -21,13 +21,17 @@ class MenuItems
                 'url'   => Url::toRoute('request/index')
             ],
             [
-                'label'   => 'Заявки для предложений',
+                'label'   => 'Заявки от клиентов',
                 'url'     => Url::toRoute('request-company/free'),
                 'visible' => !empty(Company::getListByUser())
             ],
             [
+                'label' => 'Заявки в работе',
+                'items' => MenuItems::getCompanyRequests()
+            ],
+            [
                 'label' => 'Мои компании',
-                'items' => MenuItems::getCompany()
+                'items' => MenuItems::getCompanyManage()
             ],
             [
                 'label' => '<i class="glyphicon glyphicon-bell"></i>',
@@ -76,7 +80,7 @@ class MenuItems
         return $createRequestItems;
     }
 
-    public static function getCompany()
+    public static function getCompanyRequests()
     {
         $companyItems = [];
 
@@ -88,6 +92,21 @@ class MenuItems
                     'request-company/index',
                     'RequestSearch[performer_company_id]' => $id
                 ])
+            ];
+        }
+
+        return $companyItems;
+    }
+
+    public static function getCompanyManage()
+    {
+        $companyItems = [];
+
+        $companies = Company::getListByUser();
+        foreach ($companies as $id => $name) {
+            $companyItems[] = [
+                'label' => $name,
+                'url'   => Url::toRoute(['company/view', 'id' => $id])
             ];
         }
 
