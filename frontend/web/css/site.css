@@ -246,3 +246,11 @@ a.desc:after {
 .radioList label {
     display: block;
 }
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-error {
+    color: red;
+}
