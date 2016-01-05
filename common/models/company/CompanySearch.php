@@ -42,12 +42,8 @@ class CompanySearch extends Company
     public function search($params)
     {
         $query = parent::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
+        $dataProvider = $this->getDataProvider($query);
         $this->load($params);
-
         if (!$this->validate()) {
             return $dataProvider;
         }

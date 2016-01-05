@@ -46,7 +46,7 @@ class RequestOfferSearch extends RequestOffer
         $query = parent::find();
         $query->joinWith('request.rubric.category');
 
-        $dataProvider = new ActiveDataProvider(['query' => $query]);
+        $dataProvider = $this->getDataProvider($query);
         $this->load($params);
         if (!$this->validate()) {
             return $dataProvider;
