@@ -21,10 +21,19 @@ $(document).ready(function () {
         _toggleFormElements($(this));
     });
 
-    $('.checkAllRubrics').change(function () {
+    $(document).on('change', '.checkAllRubrics', function () {
         var selector = $(this).is(':checked') ? true : false;
         $(this).closest('.companyRubricsList').find('.categoryRubrics input[type="checkbox"]').each(function () {
             $(this).prop('checked', selector);
+        });
+    });
+
+    $(document).on('change', 'input[type=radio][name=categoryId]', function () {
+        var value = $(this).val();
+        $.pjax({
+            url: $('#filter-form').attr('action'),
+            container: '#requestGrid',
+            data: {'RequestSearch[categoryId]': value}
         });
     });
 });

@@ -10,9 +10,7 @@ class WheelDiscForm extends RepairDiscForm
     public $priceFrom;
     public $priceTo;
 
-    public $description;
     public $manufacturer;
-    public $condition;
 
     /**
      * @inheritdoc
@@ -20,18 +18,17 @@ class WheelDiscForm extends RepairDiscForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['description', 'manufacturer', 'condition'], 'safe']
+            [['priceFrom', 'priceTo'], 'double', 'min' => 0],
+            [['manufacturer'], 'safe']
         ]);
     }
 
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'priceFrom'     => 'Стоимость от',
-            'priceTo'       => 'Стоимость до',
-            'condition' => 'Состояние',
-            'manufacturer'  => 'Производитель',
-            'description'   => 'Описание'
+            'priceFrom'    => 'Стоимость от',
+            'priceTo'      => 'Стоимость до',
+            'manufacturer' => 'Производитель'
         ]);
     }
 }

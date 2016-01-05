@@ -14,7 +14,7 @@ class RequestController extends CrudController
         return [
             'accept' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => Request::STATUS_OFFER_SENT
+                'status' => Request::STATUS_IN_WORK
             ],
             'reject' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
@@ -22,7 +22,7 @@ class RequestController extends CrudController
             ],
             'reset'  => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => Request::STATUS_ON_MODERATE
+                'status' => Request::STATUS_NEW
             ],
         ];
     }

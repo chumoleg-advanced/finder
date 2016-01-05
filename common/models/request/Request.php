@@ -14,42 +14,36 @@ use yii\helpers\Json;
 /**
  * This is the model class for table "request".
  *
- * @property integer           $id
- * @property integer           $rubric_id
- * @property integer           $status
- * @property string            $data
- * @property integer           $user_id
- * @property integer           $performer_company_id
- * @property integer           $request_offer_id
- * @property string            $date_create
+ * @property integer $id
+ * @property integer $rubric_id
+ * @property string  $description
+ * @property string  $comment
+ * @property integer $status
+ * @property string  $data
+ * @property integer $user_id
+ * @property integer $count_view
+ * @property integer $count_offer
+ * @property string  $date_create
  *
- * @property Rubric            $rubric
- * @property User              $user
- * @property RequestPosition[] $requestPositions
+ * @property Rubric  $rubric
+ * @property User    $user
  */
 class Request extends ActiveRecord
 {
-    const STATUS_ON_MODERATE = 1;
+    const STATUS_NEW = 1;
     const STATUS_REJECTED = 2;
-    const STATUS_OFFER_SENT = 3;
-    const STATUS_IN_WORK = 4;
-    const STATUS_CLOSED = 5;
+    const STATUS_IN_WORK = 3;
+    const STATUS_CLOSED = 4;
 
     public static $statusList
         = [
-            self::STATUS_ON_MODERATE => 'На модерации',
-            self::STATUS_REJECTED    => 'Отклонена',
-            self::STATUS_OFFER_SENT  => 'Открыто для предложений',
-            self::STATUS_IN_WORK     => 'В обработке',
-            self::STATUS_CLOSED      => 'Завершена',
+            self::STATUS_NEW      => 'Новая',
+            self::STATUS_REJECTED => 'Отклонена',
+            self::STATUS_IN_WORK  => 'В обработке',
+            self::STATUS_CLOSED   => 'Завершена',
         ];
 
-    public static $statusListCompany
-        = [
-            self::STATUS_OFFER_SENT => 'Новая',
-            self::STATUS_IN_WORK    => 'В обработке',
-            self::STATUS_CLOSED     => 'Завершена',
-        ];
+    public $categoryId;
 
     /**
      * @inheritdoc
@@ -66,8 +60,8 @@ class Request extends ActiveRecord
     {
         return [
             [['rubric_id', 'user_id'], 'required'],
-            [['rubric_id', 'user_id', 'performer_company_id', 'request_offer_id', 'status'], 'integer'],
-            [['data'], 'string'],
+            [['rubric_id', 'user_id', 'status', 'count_view', 'count_offer'], 'integer'],
+            [['data', 'description', 'comment'], 'string'],
             [['date_create'], 'safe']
         ];
     }
@@ -78,14 +72,17 @@ class Request extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                   => 'ID',
-            'rubric_id'            => 'Рубрика',
-            'status'               => 'Статус',
-            'data'                 => 'Data',
-            'user_id'              => 'Пользователь',
-            'performer_company_id' => 'Компания',
-            'request_offer_id'     => 'Выбранное предложение',
-            'date_create'          => 'Дата создания',
+            'id'          => 'ID',
+            'rubric_id'   => 'Рубрика',
+            'categoryId'  => 'Категория',
+            'description' => 'Описание',
+            'comment'     => 'Комментарий',
+            'status'      => 'Статус',
+            'data'        => 'Data',
+            'user_id'     => 'Пользователь',
+            'count_view'  => 'Кол-во просмотров',
+            'count_offer' => 'Кол-во предложений',
+            'date_create' => 'Дата создания',
         ];
     }
 
@@ -108,6 +105,32 @@ class Request extends ActiveRecord
     {
         $this->data = Json::decode($this->data);
         return parent::afterFind();
+    }
+
+    /**
+     * @param $status
+     *
+     * @return bool
+     */
+    public function updateStatus($status)
+    {
+        if (!parent::updateStatus($status)) {
+            return false;
+        }
+
+        if ($status != self::STATUS_IN_WORK) {
+            return true;
+        }
+
+        $users = User::getListByRubric($this->rubric_id);
+        foreach ($users as $userObj) {
+            $requestOffer = new RequestOffer();
+            $requestOffer->request_id = $this->id;
+            $requestOffer->user_id = $userObj->id;
+            $requestOffer->save();
+        }
+
+        return true;
     }
 
     /**
@@ -137,30 +160,6 @@ class Request extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPerformerCompany()
-    {
-        return $this->hasOne(Company::className(), ['id' => 'performer_company_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRequestOffer()
-    {
-        return $this->hasOne(RequestOffer::className(), ['id' => 'request_offer_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRequestPositions()
-    {
-        return $this->hasMany(RequestPosition::className(), ['request_id' => 'id']);
-    }
-
-    /**
      * @param $rubricId
      * @param $attributes
      * @param $positions
@@ -170,11 +169,25 @@ class Request extends ActiveRecord
     public function createModelFromPost($rubricId, $attributes, $positions)
     {
         try {
-            if (!$requestId = $this->_createNewRequest($rubricId, $attributes)) {
-                return false;
+            foreach ($positions as $posAttr) {
+                $request = new self();
+                $request->user_id = Yii::$app->user->id;
+                $request->rubric_id = $rubricId;
+                $request->description = ArrayHelper::getValue($posAttr, 'description');
+                $request->comment = ArrayHelper::getValue($posAttr, 'comment');
+                $request->status = self::STATUS_NEW;
+                $request->save();
+
+                $requestId = $request->id;
+
+                $posAttr = $this->_saveFiles($posAttr, $requestId);
+
+                unset($posAttr['description']);
+                unset($posAttr['comment']);
+                $request->data = $attributes + $posAttr;
+                $request->save();
             }
 
-            $this->_savePositions($positions, $requestId);
             return true;
 
         } catch (Exception $e) {
@@ -183,68 +196,31 @@ class Request extends ActiveRecord
     }
 
     /**
-     * @param $rubricId
-     * @param $attributes
+     * @param array $posAttr
+     * @param int   $requestId
      *
-     * @return int
+     * @return array
      */
-    private function _createNewRequest($rubricId, $attributes)
+    private function _saveFiles($posAttr, $requestId)
     {
-        $request = new self();
-        $request->user_id = Yii::$app->user->id;
-        $request->rubric_id = $rubricId;
-        $request->status = self::STATUS_ON_MODERATE;
-        $request->data = $attributes;
-        $request->save();
+        if (empty($posAttr['image'])) {
+            return $posAttr;
+        }
 
-        $requestId = $request->id;
-        return $requestId;
-    }
-
-    /**
-     * @param $positions
-     * @param $requestId
-     *
-     * @return \yii\web\UploadedFile
-     */
-    private function _savePositions($positions, $requestId)
-    {
-        foreach ($positions as $posAttr) {
-            if (!empty($posAttr['image'])) {
-                /** @var \yii\web\UploadedFile $fileObj */
-                foreach ($posAttr['image'] as &$fileObj) {
-                    $dir = 'uploads/' . $requestId;
-                    if (!is_dir($dir)) {
-                        mkdir($dir);
-                    }
-
-                    $fileName = $dir . '/' . md5($fileObj->name . '_' . mktime());
-
-                    $fileObj->saveAs($fileName);
-                    $fileObj = $fileName;
-                }
-                unset($fileObj);
+        /** @var \yii\web\UploadedFile $fileObj */
+        foreach ($posAttr['image'] as &$fileObj) {
+            $dir = 'uploads/' . $requestId;
+            if (!is_dir($dir)) {
+                mkdir($dir);
             }
 
-            $this->_savePositionRow($requestId, $posAttr);
+            $fileName = $dir . '/' . md5($fileObj->name . '_' . mktime());
+
+            $fileObj->saveAs($fileName);
+            $fileObj = $fileName;
         }
-    }
+        unset($fileObj);
 
-    /**
-     * @param $requestId
-     * @param $posAttr
-     */
-    private function _savePositionRow($requestId, $posAttr)
-    {
-        $rel = new RequestPosition();
-        $rel->request_id = $requestId;
-        $rel->description = ArrayHelper::getValue($posAttr, 'description');
-        $rel->comment = ArrayHelper::getValue($posAttr, 'comment');
-
-        unset($posAttr['description']);
-        unset($posAttr['comment']);
-
-        $rel->data = $posAttr;
-        $rel->save();
+        return $posAttr;
     }
 }

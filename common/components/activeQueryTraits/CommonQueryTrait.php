@@ -11,7 +11,8 @@ trait CommonQueryTrait
      */
     public function whereId($id)
     {
-        return $this->andWhere(['id' => $id]);
+        $modelClass = $this->modelClass;
+        return $this->andWhere([$modelClass::tableName() . '.id' => $id]);
     }
 
     /**

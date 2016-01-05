@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('title', 'User data') . ': ' . $model->email;
 ?>
 <div class="user-update">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <legend><?= Html::encode($this->title) ?></legend>
 
     <div class="user-form">
         <?php $form = ActiveForm::begin(); ?>

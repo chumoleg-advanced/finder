@@ -2,9 +2,9 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-use app\assets\DashboardAsset;
+use app\assets\DashboardMainAsset;
 
-DashboardAsset::register($this);
+DashboardMainAsset::register($this);
 
 /** @var \common\models\request\Request $model */
 
@@ -21,4 +21,10 @@ if (empty($backUrl)) {
 
     <div>&nbsp;</div>
     <legend><?= $this->title; ?></legend>
+
+    <div class="row">
+        <div class="col-md-12">
+            <?= $this->render('request-detail', ['model' => $model]); ?>
+        </div>
+    </div>
 </div>

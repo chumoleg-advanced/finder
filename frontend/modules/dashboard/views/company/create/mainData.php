@@ -4,9 +4,9 @@
 use common\models\city\City;
 use app\modules\dashboard\forms\company\MainData;
 use app\modules\dashboard\components\CompanyCreateForm;
-use app\assets\DashboardAsset;
+use app\assets\DashboardMainAsset;
 
-DashboardAsset::register($this);
+DashboardMainAsset::register($this);
 
 $this->title = 'Общая информация';
 

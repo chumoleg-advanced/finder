@@ -61,8 +61,8 @@ class ManageButton
     public static function reject($url)
     {
         return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
-            'title'        => 'Заблокировать',
-            'data-confirm' => 'Вы уверены, что хотите заблокировать эту запись',
+            'title'        => 'Отклонить',
+            'data-confirm' => 'Вы уверены, что хотите отклонить эту запись',
             'data-method'  => 'post',
             'data-pjax'    => '0',
             'class'        => self::$cssClass

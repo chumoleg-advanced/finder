@@ -250,19 +250,4 @@ class Company extends ActiveRecord
             CompanyRubric::create($model->id, $rubricId);
         }
     }
-
-    /**
-     * @param $status
-     *
-     * @return bool
-     */
-    public function updateStatus($status)
-    {
-        if (empty($this->id)) {
-            return false;
-        }
-
-        $this->status = $status;
-        return $this->save();
-    }
 }

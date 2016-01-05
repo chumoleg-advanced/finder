@@ -31,7 +31,7 @@ abstract class CrudController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->loadModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
@@ -48,7 +48,7 @@ abstract class CrudController extends Controller
      * @return mixed
      * @throws NotFoundHttpException
      */
-    public function findModel($id)
+    public function loadModel($id)
     {
         $formModel = $this->getModel();
         $model = $formModel::findOne($id);

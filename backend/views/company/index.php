@@ -13,8 +13,7 @@ use common\models\company\Company;
 $this->title = 'Управление компаниями';
 ?>
 <div class="company-index">
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <legend><?= Html::encode($this->title) ?></legend>
     <div>&nbsp;</div>
 
     <?= GridView::widget([

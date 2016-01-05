@@ -7,9 +7,9 @@ use common\models\rubric\Rubric;
 use common\models\request\Request;
 use common\models\company\Company;
 use yii\widgets\Pjax;
-use app\assets\DashboardAsset;
+use app\assets\DashboardMainAsset;
 
-DashboardAsset::register($this);
+DashboardMainAsset::register($this);
 
 $this->title = 'Заявки';
 
@@ -20,33 +20,13 @@ $this->title = 'Заявки';
 
     <?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
-        <div class="col-md-3 radioList">
-            <?= Html::radioList('companyId', (int)$searchModel->performer_company_id, $companies); ?>
-        </div>
-
         <div class="col-md-9">
-            <?php
-            $title = 'Все компании';
-            if (!empty($searchModel->performer_company_id)) {
-                $company = Company::find()->whereId($searchModel->performer_company_id)->one();
-                $title = !empty($company) ? $company->legal_name : 'Компания не найдена';
-            }
-            ?>
-
             <legend><?= $title; ?></legend>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel'  => $searchModel,
                 'columns'      => [
                     'id',
-                    [
-                        'attribute' => 'performer_company_id',
-                        'filter'    => Company::getListByUser(),
-                        'visible'   => empty($searchModel->performer_company_id),
-                        'value'     => function ($data) {
-                            return !empty($data->performerCompany) ? $data->performerCompany->legal_name : null;
-                        }
-                    ],
                     [
                         'attribute' => 'rubric_id',
                         'filter'    => Rubric::getList($searchModel->categoryId),

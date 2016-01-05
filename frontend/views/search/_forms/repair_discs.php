@@ -15,11 +15,11 @@ $form = SearchFormGenerator::getFormSingle($rubric->id);
     <div class="form-group placeListServices">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12 serviceRow">
             <div class="col-md-5 col-sm-6 col-xs-12">
-                <?= $form->field($modelData, 'description')->textInput(
+                <?= $form->field($modelData, '[0]description')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Опишите работу']); ?>
             </div>
             <div class="col-md-7 col-sm-6 col-xs-12">
-                <?= $form->field($modelData, 'comment')->textInput(
+                <?= $form->field($modelData, '[0]comment')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
             </div>
         </div>

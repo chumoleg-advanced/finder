@@ -2,6 +2,7 @@
 
 namespace common\models\request;
 
+use common\models\user\User;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\company\Company;
@@ -11,6 +12,7 @@ use common\models\company\Company;
  *
  * @property integer $id
  * @property integer $request_id
+ * @property integer $user_id
  * @property integer $company_id
  * @property string  $description
  * @property integer $status
@@ -20,9 +22,21 @@ use common\models\company\Company;
  *
  * @property Company $company
  * @property Request $request
+ * @property User    $user
  */
 class RequestOffer extends ActiveRecord
 {
+    const STATUS_NEW = 1;
+    const STATUS_ACTIVE = 2;
+    const STATUS_REJECTED = 3;
+
+    public static $statusList
+        = [
+            self::STATUS_NEW      => 'Новая',
+            self::STATUS_ACTIVE   => 'Обработана',
+            self::STATUS_REJECTED => 'Отклонена'
+        ];
+
     /**
      * @inheritdoc
      */
@@ -37,10 +51,12 @@ class RequestOffer extends ActiveRecord
     public function rules()
     {
         return [
-            [['request_id', 'company_id', 'price'], 'required'],
-            [['request_id', 'company_id', 'status'], 'integer'],
+            [['request_id', 'user_id'], 'required'],
+            [['request_id', 'user_id', 'price', 'company_id'], 'required', 'on' => 'update'],
+            [['request_id', 'company_id', 'status', 'user_id'], 'integer'],
             [['description'], 'string'],
             [['price', 'delivery_price'], 'number'],
+            [['price', 'delivery_price'], 'double', 'min' => 0],
             [['date_create'], 'safe']
         ];
     }
@@ -53,6 +69,7 @@ class RequestOffer extends ActiveRecord
         return [
             'id'             => 'ID',
             'request_id'     => 'Заявка',
+            'user_id'        => 'Пользователь',
             'company_id'     => 'Компания',
             'description'    => 'Описание',
             'status'         => 'Статус',
@@ -73,7 +90,14 @@ class RequestOffer extends ActiveRecord
 
     public static function findListByRequest($requestId)
     {
-        $offers = self::find()->joinWith('company')->andWhere(['request_id' => $requestId])->all();
+        $offers = self::find()
+            ->joinWith('company')
+            ->andWhere([
+                'request_id'           => $requestId,
+                'request_offer.status' => self::STATUS_ACTIVE
+            ])
+            ->all();
+
         if (empty($offers)) {
             return [null, []];
         }
@@ -83,6 +107,29 @@ class RequestOffer extends ActiveRecord
         }
 
         return [array_shift($offers), $offers];
+    }
+
+    /**
+     * @param $id
+     *
+     * @return null|RequestOffer
+     */
+    public static function findById($id)
+    {
+        return self::find()->whereId($id)->joinWith('request')->one();
+    }
+
+    /**
+     * @param int $requestId
+     *
+     * @return RequestOffer
+     */
+    public static function getModelByRequest($requestId)
+    {
+        return self::find()
+            ->andWhere(['request_id' => $requestId])
+            ->andWhere(['user_id' => Yii::$app->user->id])
+            ->one();
     }
 
     /**
@@ -102,12 +149,10 @@ class RequestOffer extends ActiveRecord
     }
 
     /**
-     * @param $id
-     *
-     * @return null|RequestOffer
+     * @return \yii\db\ActiveQuery
      */
-    public static function findById($id)
+    public function getUser()
     {
-        return self::find()->whereId($id)->one();
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

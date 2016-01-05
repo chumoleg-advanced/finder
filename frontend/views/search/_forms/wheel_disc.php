@@ -10,6 +10,7 @@ use app\components\SearchFormGenerator;
 /** @var $this \yii\web\View */
 
 $form = SearchFormGenerator::getFormSingle($rubric->id);
+$modelData = new \app\searchForms\QueryArrayForm();
 ?>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
@@ -23,7 +24,7 @@ $form = SearchFormGenerator::getFormSingle($rubric->id);
                 ]); ?>
             </div>
             <div class="col-md-8 col-sm-7 col-xs-12">
-                <?= $form->field($model, 'description')->textInput(
+                <?= $form->field($modelData, '[0]description')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Укажите название или модель диска']); ?>
             </div>
         </div>
@@ -41,7 +42,7 @@ $form = SearchFormGenerator::getFormSingle($rubric->id);
                 <?= $form->field($model, 'type')->checkboxButtonGroup(CarData::$discTypeList); ?>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'condition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
             </div>
         </div>
     </div>

@@ -5,7 +5,6 @@ namespace app\modules\dashboard\controllers;
 use app\searchForms\BaseForm;
 use common\components\SaveRequest;
 use common\models\category\Category;
-use common\models\company\Company;
 use common\models\request\Request;
 use common\models\request\RequestOffer;
 use common\models\request\RequestSearch;
@@ -17,6 +16,21 @@ use yii\web\NotFoundHttpException;
 
 class RequestController extends Controller
 {
+    public function actions()
+    {
+        return [
+            'reject' => [
+                'class'  => 'common\components\actions\ChangeStatusAction',
+                'status' => Request::STATUS_REJECTED
+            ],
+        ];
+    }
+
+    protected function getModel()
+    {
+        return Request::className();
+    }
+
     public function actionIndex()
     {
         $categories = Category::getList(true);
@@ -42,8 +56,8 @@ class RequestController extends Controller
 
     public function actionView($id)
     {
-        $model = $this->_loadModel($id);
-        if ($model->status == Request::STATUS_OFFER_SENT) {
+        $model = $this->loadModel($id);
+        if ($model->status == Request::STATUS_IN_WORK) {
             list($bestOffer, $otherOffers) = RequestOffer::findListByRequest($id);
             return $this->render('view', [
                 'model'       => $model,
@@ -64,7 +78,7 @@ class RequestController extends Controller
      * @return Request|null
      * @throws NotFoundHttpException
      */
-    private function _loadModel($id)
+    public function loadModel($id)
     {
         $model = Request::findById($id);
         if (empty($model)) {

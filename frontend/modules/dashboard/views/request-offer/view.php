@@ -10,7 +10,7 @@ $this->title = 'Заявка #' . $model->id;
 
 $backUrl = Url::previous('requestList');
 if (empty($backUrl)) {
-    $backUrl = Url::to('/dashboard/request-company/free');
+    $backUrl = Url::toRoute('request-offer/index');
 }
 ?>
 

@@ -20,6 +20,22 @@ use common\components\ActiveRecord;
  */
 class CompanyContactData extends ActiveRecord
 {
+    public static $typeList
+        = [
+            1  => 'Телефон',
+            2  => 'Факс',
+            3  => 'E-mail',
+            4  => 'Адрес сайта',
+            5  => 'Skype',
+            6  => 'ICQ',
+            7  => 'Jabber',
+            8  => 'Вконтакте',
+            9  => 'Facebook',
+            10 => 'Instagram',
+            11 => 'Twitter',
+            12 => 'LinkedIn'
+        ];
+
     /**
      * @inheritdoc
      */
@@ -68,25 +84,11 @@ class CompanyContactData extends ActiveRecord
     /**
      * @return array
      */
-    public static function getTypeList()
+    public static function getGroupedTypeList()
     {
         return [
-            'Контакты'        => [
-                1 => 'Телефон',
-                2 => 'Факс',
-                3 => 'E-mail',
-                4 => 'Адрес сайта',
-                5 => 'Skype',
-                6 => 'ICQ',
-                7 => 'Jabber',
-            ],
-            'Социальные сети' => [
-                8  => 'Вконтакте',
-                9  => 'Facebook',
-                10 => 'Instagram',
-                11 => 'Twitter',
-                12 => 'LinkedIn',
-            ]
+            'Контакты'        => array_intersect_key(self::$typeList, [1, 2, 3, 4, 5, 6, 7]),
+            'Социальные сети' => array_intersect_key(self::$typeList, [8, 9, 10, 11, 12])
         ];
     }
 

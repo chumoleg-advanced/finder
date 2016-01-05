@@ -4,6 +4,7 @@ namespace common\components;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\data\ActiveDataProvider;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
@@ -35,5 +36,18 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
         $this->status = $status;
         return $this->save();
+    }
+
+    /**
+     * @param $query
+     *
+     * @return ActiveDataProvider
+     */
+    protected function getDataProvider($query)
+    {
+        return new ActiveDataProvider([
+            'query' => $query,
+            'sort'  => ['defaultOrder' => ['id' => SORT_DESC]]
+        ]);
     }
 }

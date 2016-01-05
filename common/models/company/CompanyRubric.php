@@ -5,6 +5,7 @@ namespace common\models\company;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\rubric\Rubric;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "company_rubric".
@@ -71,6 +72,25 @@ class CompanyRubric extends ActiveRecord
         $rel->company_id = $companyId;
         $rel->rubric_id = $rubricId;
         $rel->save();
+    }
+
+    /**
+     * @param int  $rubricId
+     * @param bool $user
+     *
+     * @return array
+     */
+    public static function getCompaniesByRubric($rubricId, $user = true)
+    {
+        $data = self::find()
+            ->joinWith('company')
+            ->andWhere(['company_rubric.rubric_id' => $rubricId]);
+
+        if ($user) {
+            $data->andWhere(['company.user_id' => Yii::$app->user->id]);
+        }
+
+        return ArrayHelper::map($data->all(), 'company.id', 'company.legal_name');
     }
 
     /**

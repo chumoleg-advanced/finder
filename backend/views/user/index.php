@@ -14,7 +14,7 @@ use common\components\ManageButton;
 $this->title = 'Управление пользователями';
 ?>
 <div class="user-index">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <legend><?= Html::encode($this->title) ?></legend>
 
     <div>&nbsp;</div>
 

@@ -11,7 +11,7 @@ class ChangeStatusAction extends Action
 
     public function run($id)
     {
-        $model = $this->controller->findModel($id);
+        $model = $this->controller->loadModel($id);
         $model->updateStatus($this->status);
 
         return $this->controller->redirect(['index']);

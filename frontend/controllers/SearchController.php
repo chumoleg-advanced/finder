@@ -5,7 +5,6 @@ namespace app\controllers;
 use common\components\SaveRequest;
 use Yii;
 use app\components\Controller;
-use common\models\category\Category;
 use common\models\rubric\Rubric;
 use app\searchForms\BaseForm;
 

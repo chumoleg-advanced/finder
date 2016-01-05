@@ -1,23 +1,45 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\request\Request */
-/* @var $form yii\widgets\ActiveForm */
 
 $this->title = 'Заявка №' . $model->id;
 ?>
 <div class="request-update">
-    <h1><?= Html::encode($this->title); ?></h1>
+    <div>
+        <legend><?= $this->title; ?></legend>
 
-    <div class="request-form">
-        <?php $form = ActiveForm::begin(); ?>
+        <?= Html::a('Вернуться к списку', \yii\helpers\Url::toRoute('request/index'),
+            ['class' => 'btn btn-default']); ?>
+        <div>&nbsp;</div>
 
-        <div class="form-group">
-            <?= common\helpers\ButtonHelper::getSubmitButton($model); ?>
-        </div>
-        <?php ActiveForm::end(); ?>
+        <?php
+        echo \yii\widgets\DetailView::widget([
+            'model'      => $model,
+            'attributes' => [
+                'id',
+                [
+                    'attribute' => 'user_id',
+                    'value'     => !empty($model->user) ? $model->user->email : null
+                ],
+                [
+                    'attribute' => 'categoryId',
+                    'value'     => !empty($model->rubric) ? $model->rubric->category->name : null
+                ],
+                [
+                    'attribute' => 'rubric_id',
+                    'value'     => !empty($model->rubric) ? $model->rubric->name : null
+                ],
+                'description',
+                'comment',
+                [
+                    'attribute' => 'date_create',
+                    'format'    => 'date',
+                ],
+            ]
+        ]);
+        ?>
     </div>
 </div>

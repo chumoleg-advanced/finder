@@ -15,7 +15,7 @@ use common\models\rubric\Rubric;
 $this->title = 'Управление заявками';
 ?>
 <div class="user-index">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <legend><?= Html::encode($this->title) ?></legend>
 
     <div>&nbsp;</div>
 
@@ -24,6 +24,13 @@ $this->title = 'Управление заявками';
         'filterModel'  => $searchModel,
         'columns'      => [
             'id',
+            [
+                'attribute' => 'user_id',
+                'filter'    => $searchModel->getUserList(),
+                'value'     => function ($data) {
+                    return !empty($data->user) ? $data->user->email : null;
+                }
+            ],
             [
                 'attribute' => 'categoryId',
                 'filter'    => Category::getList(true),
@@ -38,6 +45,7 @@ $this->title = 'Управление заявками';
                     return !empty($data->rubric) ? $data->rubric->name : null;
                 }
             ],
+            'description',
             [
                 'attribute' => 'status',
                 'filter'    => Request::$statusList,
@@ -56,13 +64,13 @@ $this->title = 'Управление заявками';
                 'headerOptions' => ['width' => '127'],
                 'buttons'       => [
                     'reject' => function ($url, $model) {
-                        return $model->status == Request::STATUS_ON_MODERATE ? ManageButton::reject($url) : null;
+                        return $model->status == Request::STATUS_NEW ? ManageButton::reject($url) : null;
                     },
                     'accept' => function ($url, $model) {
-                        return $model->status == Request::STATUS_ON_MODERATE ? ManageButton::accept($url) : null;
+                        return $model->status == Request::STATUS_NEW ? ManageButton::accept($url) : null;
                     },
                     'reset'  => function ($url, $model) {
-                        return $model->status != Request::STATUS_ON_MODERATE ? ManageButton::reset($url) : null;
+                        return $model->status == Request::STATUS_REJECTED ? ManageButton::reset($url) : null;
                     },
                 ],
             ],

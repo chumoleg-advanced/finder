@@ -1,3 +1,7 @@
+<?php
+\app\assets\YandexMapAsset::register($this);
+?>
+
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
         <hr/>

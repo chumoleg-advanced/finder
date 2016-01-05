@@ -5,6 +5,7 @@ namespace app\searchForms;
 use Yii;
 use yii\base\Model;
 use common\models\request\Request;
+use yii\helpers\VarDumper;
 
 class BaseForm extends Model
 {
@@ -40,7 +41,7 @@ class BaseForm extends Model
      */
     public function submitForm($rubricId, $queryArrayFormData)
     {
-        if (!$this->validate()){
+        if (!$this->validate()) {
             return false;
         }
 

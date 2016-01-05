@@ -3,6 +3,10 @@
 namespace common\models\user;
 
 use common\components\Status;
+use common\models\auth\Oauth;
+use common\models\company\Company;
+use common\models\company\CompanyRubric;
+use common\models\request\Request;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -12,15 +16,20 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
- * @property integer $id
- * @property string  $password_hash
- * @property string  $password_reset_token
- * @property string  $email
- * @property string  $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string  $password write-only password
+ * @property integer       $id
+ * @property string        $password_hash
+ * @property string        $password_reset_token
+ * @property string        $email
+ * @property string        $auth_key
+ * @property integer       $status
+ * @property integer       $created_at
+ * @property integer       $updated_at
+ * @property string        $password write-only password
+ *
+ * @property Company[]     $companies
+ * @property Oauth[]       $oauths
+ * @property Request[]     $requests
+ * @property UserSetting[] $userSettings
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -57,14 +66,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['email'], 'required'],
+            [['email', 'auth_key', 'status'], 'required'],
             [['status'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
             [['email'], 'string', 'max' => 64],
             [['password_hash'], 'string', 'max' => 60],
             [['password_reset_token'], 'string', 'max' => 44],
             [['phone'], 'string', 'max' => 14],
-            [['auth_key'], 'string', 'max' => 32],
-            [['created_at', 'updated_at'], 'safe'],
+            [['auth_key'], 'string', 'max' => 32]
         ];
     }
 
@@ -187,6 +196,48 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @param null $userId
+     *
+     * @return mixed|null
+     */
+    public static function getUserRole($userId = null)
+    {
+        if (empty($userId)) {
+            $userId = Yii::$app->user->getId();
+        }
+
+        $roles = Yii::$app->authManager->getRolesByUser($userId);
+        if (empty($roles)) {
+            return null;
+        }
+
+        $obj = current($roles);
+
+        return $obj->name;
+    }
+
+    /**
+     * @param int $rubricId
+     *
+     * @return array|User[]
+     */
+    public static function getListByRubric($rubricId)
+    {
+        $companies = array_keys(CompanyRubric::getCompaniesByRubric($rubricId, false));
+        if (empty($companies)) {
+            return [];
+        }
+
+        return self::find()
+            ->joinWith('companies')
+            ->andWhere(['company.id' => $companies])
+            ->andWhere(['company.status' => Company::STATUS_ACTIVE])
+            ->andWhere(['user.status' => self::STATUS_ACTIVE])
+            ->groupBy('user.id')
+            ->all();
+    }
+
+    /**
      * Validates password
      *
      * @param string $password password to validate
@@ -233,23 +284,34 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param null $userId
-     *
-     * @return mixed|null
+     * @return \yii\db\ActiveQuery
      */
-    public static function getUserRole($userId = null)
+    public function getCompanies()
     {
-        if (empty($userId)) {
-            $userId = Yii::$app->user->getId();
-        }
+        return $this->hasMany(Company::className(), ['user_id' => 'id']);
+    }
 
-        $roles = Yii::$app->authManager->getRolesByUser($userId);
-        if (empty($roles)) {
-            return null;
-        }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOauths()
+    {
+        return $this->hasMany(Oauth::className(), ['user_id' => 'id']);
+    }
 
-        $obj = current($roles);
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequests()
+    {
+        return $this->hasMany(Request::className(), ['user_id' => 'id']);
+    }
 
-        return $obj->name;
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSettings()
+    {
+        return $this->hasMany(UserSetting::className(), ['user_id' => 'id']);
     }
 }

@@ -4,11 +4,11 @@ use app\modules\dashboard\components\CompanyCreateForm;
 use common\models\category\Category;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use app\assets\DashboardAsset;
+use app\assets\DashboardMainAsset;
 use common\models\company\CompanyTypePayment;
 use common\models\company\CompanyTypeDelivery;
 
-DashboardAsset::register($this);
+DashboardMainAsset::register($this);
 
 $this->title = 'Сфера деятельности';
 

@@ -43,7 +43,7 @@ $modelValues = new ContactDataValues();
                                 <?php $modelValues->typeData[0] = $i + 1; ?>
                                 <?= $form->field($modelValues, '[' . $i . ']typeData', [
                                     'template' => "{input}\n{hint}\n{error}"
-                                ])->dropDownList(CompanyContactData::getTypeList()); ?>
+                                ])->dropDownList(CompanyContactData::getGroupedTypeList()); ?>
                             </div>
 
                             <div class="col-md-6 col-sm-6 col-xs-12">

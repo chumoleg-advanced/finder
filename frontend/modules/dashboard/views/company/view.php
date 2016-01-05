@@ -1,8 +1,8 @@
 <?php
-$this->title = 'Кломпания ' . $model->legal_name;
+$this->title = 'Компания ' . $model->legal_name;
 ?>
 
-<div class="news-index">
+<div>
     <legend><?= $this->title; ?></legend>
 
     <?php
@@ -11,7 +11,7 @@ $this->title = 'Кломпания ' . $model->legal_name;
         'attributes' => [
             [
                 'label'   => 'Статус',
-                'format'=>'raw',
+                'format'  => 'raw',
                 'value'   => \yii\helpers\Html::tag('div', \common\models\company\Company::$statusList[$model->status],
                     ['class' => 'text-bold text-error']),
                 'options' => ['class' => 'bold']

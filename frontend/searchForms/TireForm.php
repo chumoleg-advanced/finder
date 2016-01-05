@@ -7,8 +7,6 @@ use yii\helpers\ArrayHelper;
 
 class TireForm extends BaseForm
 {
-    public $description;
-
     public $type;
     public $typeWinter = [];
 
@@ -21,7 +19,6 @@ class TireForm extends BaseForm
     public $priceTo;
 
     public $manufacturer;
-    public $condition = [];
 
     /**
      * @inheritdoc
@@ -29,8 +26,9 @@ class TireForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['diameter', 'width', 'height', 'type', 'count', 'condition'], 'required'],
-            [['description', 'priceFrom', 'priceTo', 'manufacturer'], 'safe']
+            [['diameter', 'width', 'height', 'type', 'count'], 'required'],
+            [['priceFrom', 'priceTo'], 'double', 'min' => 0],
+            [['manufacturer'], 'safe']
         ]);
     }
 
@@ -45,7 +43,6 @@ class TireForm extends BaseForm
             'count'        => 'Кол-во',
             'priceFrom'    => 'Стоимость от',
             'priceTo'      => 'Стоимость до',
-            'condition'    => 'Состояние',
             'manufacturer' => 'Производитель',
         ]);
     }

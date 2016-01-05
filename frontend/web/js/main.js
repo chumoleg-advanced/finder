@@ -1,7 +1,7 @@
-$(document).ready(function () {
-    var myMap = null;
+var myMap = null;
 
-    function initMap(coords, zoom, redraw) {
+function initMap(coords, zoom, redraw) {
+    ymaps.ready(function () {
         if (redraw) {
             myCollection.removeAll();
         } else {
@@ -12,14 +12,16 @@ $(document).ready(function () {
             });
         }
 
-        var myPlacemark = new ymaps.Placemark(coords);
+        var myPlaceMark = new ymaps.Placemark(coords);
         myCollection = new ymaps.GeoObjectCollection();
-        myCollection.add(myPlacemark);
+        myCollection.add(myPlaceMark);
 
         myMap.geoObjects.add(myCollection);
         myMap.setCenter(coords, zoom);
-    }
+    });
+}
 
+$(document).ready(function () {
     $('.loginButton').click(function () {
         $('#loginForm').modal();
     });
@@ -125,7 +127,7 @@ $(document).ready(function () {
                 if (form.length > 0) {
                     form.submit();
                 } else {
-                    document.location.href= '/';
+                    document.location.href = '/';
                 }
             }
         });

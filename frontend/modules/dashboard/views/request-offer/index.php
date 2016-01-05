@@ -1,63 +1,63 @@
 <?php
 
-/** @var \common\models\request\RequestSearch $searchModel */
+/** @var \common\models\request\RequestOfferSearch $searchModel */
 
-use yii\helpers\Html;
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
-use common\models\rubric\Rubric;
-use common\models\request\Request;
-use common\models\category\Category;
 use yii\widgets\Pjax;
 use app\assets\DashboardMainAsset;
+use common\models\request\RequestOffer;
 use common\components\ManageButton;
 
 DashboardMainAsset::register($this);
 
-$this->title = 'Мои заявки';
+$this->title = 'Заявки от клиентов';
 
-$title = 'Все категории';
-if (!empty($searchModel->categoryId)) {
-    $category = Category::find()->whereId($searchModel->categoryId)->one();
-    $title = !empty($category) ? $category->name : 'Категория не найдена';
-}
 ?>
 
 <div class="news-index">
+    <legend><?= $this->title; ?></legend>
+
     <?php Pjax::begin(['id' => 'requestGrid']); ?>
-    <legend><?= $this->title . '. ' . $title; ?></legend>
-
     <div class="row">
-        <div class="col-md-3 radioList">
-            <?= Html::radioList('categoryId', (int)$searchModel->categoryId, $categories); ?>
-        </div>
-
-        <div class="col-md-9">
+        <div class="col-md-12">
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel'  => $searchModel,
                 'columns'      => [
-                    'id',
-                    [
-                        'attribute' => 'categoryId',
-                        'filter'    => Category::getList(true),
-                        'visible'   => empty($searchModel->categoryId),
-                        'value'     => function ($data) {
-                            return !empty($data->rubric) ? $data->rubric->category->name : null;
-                        }
-                    ],
-                    [
-                        'attribute' => 'rubric_id',
-                        'filter'    => Rubric::getList($searchModel->categoryId),
-                        'value'     => function ($data) {
-                            return !empty($data->rubric) ? $data->rubric->name : null;
-                        }
-                    ],
+                    'request_id',
                     [
                         'attribute' => 'status',
-                        'filter'    => Request::$statusList,
+                        'filter'    => RequestOffer::$statusList,
                         'value'     => function ($data) {
-                            return Request::$statusList[$data->status];
+                            return RequestOffer::$statusList[$data->status];
+                        }
+                    ],
+                    [
+                        'attribute' => 'company_id',
+                        'filter'    => $searchModel->getListCompanies(),
+                        'value'     => function ($data) {
+                            return !empty($data->company) ? $data->company->legal_name : null;
+                        }
+                    ],
+                    [
+                        'attribute' => 'categoryId',
+                        'filter'    => $searchModel->getListCategories(),
+                        'value'     => function ($data) {
+                            return !empty($data->request) ? $data->request->rubric->category->name : null;
+                        }
+                    ],
+                    [
+                        'attribute' => 'rubricId',
+                        'filter'    => $searchModel->getListRubrics(),
+                        'value'     => function ($data) {
+                            return !empty($data->request) ? $data->request->rubric->name : null;
+                        }
+                    ],
+                    [
+                        'attribute' => 'description',
+                        'value'     => function ($data) {
+                            return $data->request->description;
                         }
                     ],
                     [
@@ -69,20 +69,20 @@ if (!empty($searchModel->categoryId)) {
                         'label'         => '',
                         'filter'        => false,
                         'format'        => 'raw',
-                        'headerOptions' => ['width' => '120'],
+                        'headerOptions' => ['width' => '50'],
                         'value'         => function ($data) {
                             return $data->getStatisticRow();
                         }
                     ],
                     [
                         'class'         => 'common\components\ActionColumn',
-                        'template'      => '{view} {reject}',
+                        'template'      => '{offer} {reject}',
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
                             'reject' => function ($url, $model) {
-                                return $model->status == Request::STATUS_IN_WORK
+                                return $model->status == RequestOffer::STATUS_NEW
                                     ? ManageButton::reject($url) : null;
-                            },
+                            }
                         ],
                     ],
                 ],

@@ -4,6 +4,7 @@ namespace app\modules\dashboard\components;
 
 use common\models\category\Category;
 use common\models\company\Company;
+use kartik\helpers\Html;
 use Yii;
 use yii\helpers\Url;
 
@@ -22,16 +23,12 @@ class MenuItems
             ],
             [
                 'label'   => 'Заявки от клиентов',
-                'url'     => Url::toRoute('request-company/free'),
+                'url'     => Url::toRoute('request-offer/index'),
                 'visible' => !empty(Company::getListByUser())
             ],
             [
-                'label' => 'Заявки в работе',
-                'items' => MenuItems::getCompanyRequests()
-            ],
-            [
                 'label' => 'Мои компании',
-                'items' => MenuItems::getCompanyManage()
+                'items' => MenuItems::getCompanyManage(),
             ],
             [
                 'label' => '<i class="glyphicon glyphicon-bell"></i>',
@@ -78,24 +75,6 @@ class MenuItems
         }
 
         return $createRequestItems;
-    }
-
-    public static function getCompanyRequests()
-    {
-        $companyItems = [];
-
-        $companies = Company::getListByUser();
-        foreach ($companies as $id => $name) {
-            $companyItems[] = [
-                'label' => $name,
-                'url'   => Url::toRoute([
-                    'request-company/index',
-                    'RequestSearch[performer_company_id]' => $id
-                ])
-            ];
-        }
-
-        return $companyItems;
     }
 
     public static function getCompanyManage()
