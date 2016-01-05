@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\forms\PasswordResetRequestForm;
 use app\forms\ResetPasswordForm;
-use app\forms\SignupForm;
 use kartik\form\ActiveForm;
 use Yii;
 use yii\base\InvalidParamException;
@@ -28,13 +27,8 @@ class AuthController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => ['logout', 'signup'],
+                'only'  => ['logout'],
                 'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow'   => true,
-                        'roles'   => ['?'],
-                    ],
                     [
                         'actions' => ['logout'],
                         'allow'   => true,
@@ -100,41 +94,6 @@ class AuthController extends Controller
     }
 
     /**
-     * @return array
-     */
-    public function actionSignupValidate()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        if (!\Yii::$app->user->isGuest) {
-            return [];
-        }
-
-        $errors = [];
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            $errors = ActiveForm::validate($model);
-        }
-
-        return $errors;
-    }
-
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-        $model->load(Yii::$app->request->post());
-        if ($model->validate()) {
-            $model->signup();
-        }
-
-        return $this->goHome();
-    }
-
-    /**
      * @param BaseClient $client
      */
     public function onAuthSuccess($client)
@@ -148,10 +107,12 @@ class AuthController extends Controller
         ])->one();
 
         if (Yii::$app->user->isGuest) {
-            if ($auth) { // login
+            if ($auth) {
+            // login
                 $user = $auth->user;
                 Yii::$app->user->login($user);
-            } else { // signup
+            } else {
+            // signup
                 if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app',

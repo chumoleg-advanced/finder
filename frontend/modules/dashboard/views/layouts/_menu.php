@@ -4,6 +4,9 @@ use kartik\nav\NavX;
 use yii\bootstrap\NavBar;
 use app\modules\dashboard\components\MenuItems;
 use kartik\helpers\Html;
+use yii\widgets\Pjax;
+
+Pjax::begin(['id' => 'mainMenu']);
 
 NavBar::begin([
     'brandLabel' => Html::img('@web/img/Drawing.png', ['alt' => Yii::$app->name]),
@@ -21,3 +24,4 @@ echo NavX::widget([
 ]);
 
 NavBar::end();
+Pjax::end();

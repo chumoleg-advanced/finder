@@ -2,6 +2,7 @@
 
 namespace common\forms;
 
+use common\components\Role;
 use Yii;
 use yii\base\Model;
 use common\models\user\User;
@@ -23,9 +24,12 @@ class LoginForm extends Model
     public function rules()
     {
         return [
+            [['email', 'password'], 'filter', 'filter' => 'trim'],
             [['email', 'password'], 'required'],
             ['rememberMe', 'boolean'],
-            ['password', 'validatePassword'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['password', 'string', 'min' => 6],
         ];
     }
 
@@ -38,28 +42,16 @@ class LoginForm extends Model
         ];
     }
 
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array  $params    the additional name-value pairs given in the rule
-     */
-    public function validatePassword($attribute, $params)
+    public function afterValidate()
     {
-        if ($this->hasErrors()) {
-            return;
-        }
+        parent::afterValidate();
 
         $user = $this->getUser();
-        if (!$user){
-            $this->addError('email', 'Указанный email не зарегистрирован или заблокирован');
-            return;
+        if (empty($user)) {
+            $this->signUp(false);
         }
 
-        if (!$user->validatePassword($this->password)) {
-            $this->addError($attribute, 'Неверный пароль');
-        }
+        return true;
     }
 
     /**
@@ -75,16 +67,51 @@ class LoginForm extends Model
     }
 
     /**
+     * @param bool|true $validate
+     *
+     * @return User|null
+     */
+    public function signUp($validate = true)
+    {
+        if ($validate && !$this->validate()) {
+            return null;
+        }
+
+        $user = new User();
+        $user->email = $this->email;
+        $user->status = User::STATUS_ACTIVE;
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        if ($user->save()) {
+            Role::assignRoleForUser($user);
+            return $user;
+        }
+
+        return null;
+    }
+
+    /**
      * Logs in a user using the provided email and password.
      *
      * @return boolean whether the user is logged in successfully
      */
     public function login()
     {
-        if ($this->validate()) {
+        if ($this->validate() && $this->validatePassword()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
 
         return false;
+    }
+
+    public function validatePassword()
+    {
+        $user = $this->getUser();
+        if ($user && !$user->validatePassword($this->password)) {
+            $this->addError('password', 'Неверный пароль');
+            return false;
+        }
+
+        return true;
     }
 }

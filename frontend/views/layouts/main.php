@@ -10,6 +10,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 AppAsset::register($this);
 ?>
@@ -27,6 +28,7 @@ AppAsset::register($this);
 <?php $this->beginBody(); ?>
 
 <div class="wrap">
+    <?php Pjax::begin(['id' => 'mainMenu']); ?>
     <?php
     NavBar::begin([
         'brandLabel' => 'My Company',
@@ -39,7 +41,6 @@ AppAsset::register($this);
     $menuItems = [];
 
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Регистрация', 'url' => '#', 'options' => ['class' => 'signUpButton']];
         $menuItems[] = ['label' => 'Авторизация', 'url' => '#', 'options' => ['class' => 'loginButton']];
 
     } else {
@@ -68,12 +69,10 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]); ?>
-        <?= Alert::widget(); ?>
+    <?php Pjax::end(); ?>
 
+    <div class="container">
+        <?= Alert::widget(); ?>
         <?= $content; ?>
     </div>
 </div>
@@ -87,7 +86,6 @@ AppAsset::register($this);
 </footer>
 
 <?= $this->render('_login'); ?>
-<?= $this->render('_register'); ?>
 
 <?php $this->endBody(); ?>
 </body>

@@ -9,7 +9,7 @@ class m151011_163946_addAdminUser extends Migration
     {
         try {
             $data = [
-                'SignupForm' => [
+                'LoginForm' => [
                     'username' => 'chumakov.o',
                     'email'    => 'chumakov.o@thor-dev.ru',
                     'password' => '123456',
@@ -17,9 +17,9 @@ class m151011_163946_addAdminUser extends Migration
                 ]
             ];
 
-            $model = new \app\forms\SignupForm();
+            $model = new \common\forms\LoginForm();
             if ($model->load($data)) {
-                $model->signup();
+                $model->signUp();
             }
 
             $rbac = new \console\components\RbacManager();

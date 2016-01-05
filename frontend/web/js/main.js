@@ -26,10 +26,6 @@ $(document).ready(function () {
         $('#loginForm').modal();
     });
 
-    $('.signUpButton').click(function () {
-        $('#signUpForm').modal();
-    });
-
     $('.showAdditionOptions').click(function () {
         $('.additionOptions').toggle();
     });
@@ -125,6 +121,7 @@ $(document).ready(function () {
 
                 var form = $('form#request-form');
                 if (form.length > 0) {
+                    $.pjax({url: '/', container: '#mainMenu'});
                     form.submit();
                 } else {
                     document.location.href = '/';
