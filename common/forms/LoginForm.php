@@ -13,7 +13,7 @@ use common\models\user\User;
 class LoginForm extends Model
 {
     public $email;
-    public $password;
+    public $password = '';
     public $rememberMe = true;
 
     private $_user;
@@ -30,6 +30,7 @@ class LoginForm extends Model
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['password', 'string', 'min' => 6],
+            ['password', 'validatePassword'],
         ];
     }
 
@@ -42,16 +43,23 @@ class LoginForm extends Model
         ];
     }
 
-    public function afterValidate()
+    /**
+     * Logs in a user using the provided email and password.
+     *
+     * @return boolean whether the user is logged in successfully
+     */
+    public function login()
     {
-        parent::afterValidate();
+        if ($this->validate()) {
+            $user = $this->getUser();
+            if (empty($user)) {
+                $this->signUp();
+            }
 
-        $user = $this->getUser();
-        if (empty($user)) {
-            $this->signUp(false);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -67,13 +75,11 @@ class LoginForm extends Model
     }
 
     /**
-     * @param bool|true $validate
-     *
      * @return User|null
      */
-    public function signUp($validate = true)
+    public function signUp()
     {
-        if ($validate && !$this->validate()) {
+        if ($this->hasErrors()) {
             return null;
         }
 
@@ -90,28 +96,15 @@ class LoginForm extends Model
         return null;
     }
 
-    /**
-     * Logs in a user using the provided email and password.
-     *
-     * @return boolean whether the user is logged in successfully
-     */
-    public function login()
+    public function validatePassword($attribute, $params)
     {
-        if ($this->validate() && $this->validatePassword()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        if ($this->hasErrors()) {
+            return;
         }
 
-        return false;
-    }
-
-    public function validatePassword()
-    {
         $user = $this->getUser();
-        if ($user && !$user->validatePassword($this->password)) {
-            $this->addError('password', 'Неверный пароль');
-            return false;
+        if (!empty($user) && !$user->validatePassword($this->password)) {
+            $this->addError($attribute, 'Неверный пароль');
         }
-
-        return true;
     }
 }
