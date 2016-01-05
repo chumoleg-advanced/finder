@@ -55,9 +55,13 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                         <div class="col-md-6">
                             <h3><?= $bestOffer->company->actual_name; ?></h3>
                             <?php
-                            foreach ($bestOffer->company->companyAddresses as $address) {
-                                echo 'Адрес: ' . $address->address . '<br />';
-                                foreach ($address->companyContactDatas as $contact) {
+                            if (!empty($bestOffer->company->companyAddresses)) {
+                                $firstAddress = $bestOffer->company->companyAddresses[0];
+                                echo Html::hiddenInput('addressCoordinates', $firstAddress->map_coordinates,
+                                    ['class' => 'addressCoordinates']);
+
+                                echo 'Адрес: ' . $firstAddress->address . '<br />';
+                                foreach ($firstAddress->companyContactDatas as $contact) {
                                     echo CompanyContactData::$typeList[$contact->type] . ': '
                                         . $contact->data . '<br />';
                                 }

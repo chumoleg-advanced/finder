@@ -69,16 +69,17 @@ class CompanyAddress extends ActiveRecord
 
     /**
      * @param $companyId
-     * @param $addressString
+     * @param $contactData
      * @param $timeWork
      *
      * @return int
      */
-    public static function create($companyId, $addressString, $timeWork)
+    public static function create($companyId, $contactData, $timeWork)
     {
         $address = new self();
         $address->company_id = $companyId;
-        $address->address = $addressString;
+        $address->address = $contactData->address;
+        $address->map_coordinates = $contactData->addressCoordinates;
         $address->time_work = $timeWork;
         $address->save();
 

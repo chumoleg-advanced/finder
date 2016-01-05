@@ -68,6 +68,8 @@ $(document).ready(function () {
             });
         },
         select: function (a, b) {
+            $('.addressCoordinates').val(b.item.point);
+
             try {
                 initMap(b.item.point, 17, true);
             } catch (e) {
@@ -121,7 +123,6 @@ $(document).ready(function () {
 
                 var form = $('form#request-form');
                 if (form.length > 0) {
-                    $.pjax({url: '/', container: '#mainMenu'});
                     form.submit();
                 } else {
                     document.location.href = '/';

@@ -28,7 +28,6 @@ AppAsset::register($this);
 <?php $this->beginBody(); ?>
 
 <div class="wrap">
-    <?php Pjax::begin(['id' => 'mainMenu']); ?>
     <?php
     NavBar::begin([
         'brandLabel' => 'My Company',
@@ -68,8 +67,6 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
-    <?php Pjax::end(); ?>
 
     <div class="container">
         <?= Alert::widget(); ?>

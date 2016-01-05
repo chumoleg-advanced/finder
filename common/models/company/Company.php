@@ -216,7 +216,7 @@ class Company extends ActiveRecord
                 throw new Exception();
             }
 
-            $addressId = CompanyAddress::create($model->id, $contactData->address, $rubricData->timeWork);
+            $addressId = CompanyAddress::create($model->id, $contactData, $rubricData->timeWork);
             foreach ($contactData->contactDataValues as $item) {
                 CompanyContactData::create($model->id, $addressId, $item['typeData'], $item['valueData']);
             }

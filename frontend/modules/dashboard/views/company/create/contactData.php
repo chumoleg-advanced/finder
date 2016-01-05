@@ -4,6 +4,7 @@ use app\modules\dashboard\components\CompanyCreateForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 use common\models\company\CompanyContactData;
 use app\modules\dashboard\forms\company\ContactDataValues;
+use yii\helpers\Html;
 
 $this->title = 'Контактные данные';
 
@@ -13,6 +14,8 @@ $form = CompanyCreateForm::getForm($event->step, ['id' => 'contact-data-form']);
 
 $modelValues = new ContactDataValues();
 ?>
+
+<?= Html::hiddenInput('ContactData[addressCoordinates]', null, ['class' => 'addressCoordinates']); ?>
 
     <div class="row">
         <div class="col-md-8">
@@ -37,36 +40,31 @@ $modelValues = new ContactDataValues();
 
             <div class="form-group form-options-body">
                 <div class="container-items">
-                    <?php for ($i = 0; $i < 3; $i++) : ?>
-                        <div class="row item">
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <?php $modelValues->typeData[0] = $i + 1; ?>
-                                <?= $form->field($modelValues, '[' . $i . ']typeData', [
-                                    'template' => "{input}\n{hint}\n{error}"
-                                ])->dropDownList(CompanyContactData::getGroupedTypeList()); ?>
-                            </div>
-
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <?= $form->field($modelValues, '[' . $i . ']valueData', [
-                                    'template' => "{input}\n{hint}\n{error}"
-                                ])->textInput(['placeholder' => 'Введите значение ...']); ?>
-                            </div>
-
-                            <div class="col-md-1 col-sm-1 col-xs-6 text-right">
-                                <a class="btn btn-default add-item">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                </a>
-                            </div>
-
-                            <div class="col-md-1 col-sm-1 col-xs-6 text-right">
-                                <?php if ($i > 0) : ?>
-                                    <a class="btn btn-default remove-item">
-                                        <i class="glyphicon glyphicon-minus"></i>
-                                    </a>
-                                <?php endif; ?>
-                            </div>
+                    <div class="row item">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <?= $form->field($modelValues, '[0]typeData', [
+                                'template' => "{input}\n{hint}\n{error}"
+                            ])->dropDownList(CompanyContactData::getGroupedTypeList()); ?>
                         </div>
-                    <?php endfor; ?>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?= $form->field($modelValues, '[0]valueData', [
+                                'template' => "{input}\n{hint}\n{error}"
+                            ])->textInput(['placeholder' => 'Введите значение ...']); ?>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-6 text-right">
+                            <a class="btn btn-default add-item">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </a>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-6 text-right">
+                            <a class="btn btn-default remove-item">
+                                <i class="glyphicon glyphicon-minus"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <?php DynamicFormWidget::end(); ?>

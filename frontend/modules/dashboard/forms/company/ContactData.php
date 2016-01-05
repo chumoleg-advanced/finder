@@ -7,6 +7,7 @@ use yii\base\Model;
 class ContactData extends Model
 {
     public $address;
+    public $addressCoordinates;
     public $contactDataValues;
 
     /**
@@ -15,14 +16,16 @@ class ContactData extends Model
     public function rules()
     {
         return [
-            [['address'], 'required']
+            [['address'], 'required'],
+            [['addressCoordinates'], 'safe'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'address'     => 'Адрес',
+            'address'            => 'Адрес',
+            'addressCoordinates' => 'Координаты'
         ];
     }
 }
