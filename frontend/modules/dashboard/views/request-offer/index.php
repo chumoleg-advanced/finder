@@ -76,12 +76,16 @@ $this->title = 'Заявки от клиентов';
                     ],
                     [
                         'class'         => 'common\components\ActionColumn',
-                        'template'      => '{offer} {reject}',
+                        'template'      => '{offer} {reject} {reset}',
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
                             'reject' => function ($url, $model) {
-                                return $model->status == RequestOffer::STATUS_NEW
+                                return $model->status != RequestOffer::STATUS_REJECTED
                                     ? ManageButton::reject($url) : null;
+                            },
+                            'reset' => function ($url, $model) {
+                                return $model->status == RequestOffer::STATUS_REJECTED
+                                    ? ManageButton::reset($url) : null;
                             }
                         ],
                     ],

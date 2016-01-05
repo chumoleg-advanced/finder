@@ -89,8 +89,9 @@ class RequestSearch extends Request
 
     public function getStatisticRow()
     {
+        $countOffers = count($this->requestOffers);
         return '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i> ' . $this->count_view
         . ' <i class="glyphicon glyphicon-certificate" style="margin-left: 5px;" title="Предложений"></i> '
-        . $this->count_offer . ' <i class="glyphicon glyphicon-comment" style="margin-left: 5px;" title="Сообщений"></i> 0';
+        . $countOffers . ' <i class="glyphicon glyphicon-comment" style="margin-left: 5px;" title="Сообщений"></i> 0';
     }
 }

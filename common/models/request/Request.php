@@ -14,19 +14,19 @@ use yii\helpers\Json;
 /**
  * This is the model class for table "request".
  *
- * @property integer $id
- * @property integer $rubric_id
- * @property string  $description
- * @property string  $comment
- * @property integer $status
- * @property string  $data
- * @property integer $user_id
- * @property integer $count_view
- * @property integer $count_offer
- * @property string  $date_create
+ * @property integer        $id
+ * @property integer        $rubric_id
+ * @property string         $description
+ * @property string         $comment
+ * @property integer        $status
+ * @property string         $data
+ * @property integer        $user_id
+ * @property integer        $count_view
+ * @property string         $date_create
  *
- * @property Rubric  $rubric
- * @property User    $user
+ * @property Rubric         $rubric
+ * @property User           $user
+ * @property RequestOffer[] $requestOffers
  */
 class Request extends ActiveRecord
 {
@@ -58,7 +58,7 @@ class Request extends ActiveRecord
     {
         return [
             [['rubric_id', 'user_id'], 'required'],
-            [['rubric_id', 'user_id', 'status', 'count_view', 'count_offer'], 'integer'],
+            [['rubric_id', 'user_id', 'status', 'count_view'], 'integer'],
             [['data', 'description', 'comment'], 'string'],
             [['date_create'], 'safe']
         ];
@@ -79,7 +79,6 @@ class Request extends ActiveRecord
             'data'        => 'Data',
             'user_id'     => 'Пользователь',
             'count_view'  => 'Кол-во просмотров',
-            'count_offer' => 'Кол-во предложений',
             'date_create' => 'Дата создания',
         ];
     }
@@ -123,6 +122,7 @@ class Request extends ActiveRecord
         $users = User::getListByRubric($this->rubric_id);
         foreach ($users as $userObj) {
             $companies = $userObj->companies;
+
             $requestOffer = new RequestOffer();
             $requestOffer->request_id = $this->id;
             $requestOffer->user_id = $userObj->id;
@@ -160,6 +160,15 @@ class Request extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequestOffers()
+    {
+        return $this->hasMany(RequestOffer::className(), ['request_id' => 'id'])
+            ->andWhere(['status' => RequestOffer::STATUS_ACTIVE]);
     }
 
     /**

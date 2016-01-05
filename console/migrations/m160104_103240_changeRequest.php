@@ -36,7 +36,6 @@ class m160104_103240_changeRequest extends Migration
         $this->alterColumn('request_offer', 'company_id', self::INT_FIELD . ' DEFAULT NULL');
 
         $this->addColumn('request', 'count_view', self::INT_FIELD . ' DEFAULT 0 AFTER user_id');
-        $this->addColumn('request', 'count_offer', self::INT_FIELD . ' DEFAULT 0 AFTER count_view');
     }
 
     public function down()
@@ -48,6 +47,5 @@ class m160104_103240_changeRequest extends Migration
         $this->dropColumn('request_offer', 'user_id');
 
         $this->dropColumn('request', 'count_view');
-        $this->dropColumn('request', 'count_offer');
     }
 }

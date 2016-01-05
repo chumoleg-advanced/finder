@@ -6,7 +6,6 @@ use common\models\request\RequestView;
 use Yii;
 use app\modules\dashboard\components\Controller;
 use yii\helpers\Url;
-use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
 use common\models\request\RequestOffer;
 use common\models\request\RequestOfferSearch;
@@ -19,6 +18,10 @@ class RequestOfferController extends Controller
             'reject' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
                 'status' => RequestOffer::STATUS_REJECTED
+            ],
+            'reset'  => [
+                'class'  => 'common\components\actions\ChangeStatusAction',
+                'status' => RequestOffer::STATUS_NEW
             ],
         ];
     }
@@ -54,8 +57,6 @@ class RequestOfferController extends Controller
             if ($formModel->load(Yii::$app->request->post()) && $formModel->validate()) {
                 $formModel->status = RequestOffer::STATUS_ACTIVE;
                 $formModel->save();
-
-                $formModel->request->updateCounters(['count_offer' => 1]);
 
                 return $this->redirect(['index']);
             }

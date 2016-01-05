@@ -23,6 +23,10 @@ class RequestController extends Controller
                 'class'  => 'common\components\actions\ChangeStatusAction',
                 'status' => Request::STATUS_CLOSED
             ],
+            'reset' => [
+                'class'  => 'common\components\actions\ChangeStatusAction',
+                'status' => Request::STATUS_IN_WORK
+            ],
         ];
     }
 

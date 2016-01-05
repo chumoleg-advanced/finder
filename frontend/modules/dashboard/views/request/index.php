@@ -76,13 +76,17 @@ if (!empty($searchModel->categoryId)) {
                     ],
                     [
                         'class'         => 'common\components\ActionColumn',
-                        'template'      => '{view} {close}',
+                        'template'      => '{view} {close} {reset}',
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
                             'close' => function ($url, $model) {
                                 return $model->status != Request::STATUS_CLOSED
                                     ? ManageButton::close($url) : null;
                             },
+                            'reset' => function ($url, $model) {
+                                return $model->status == Request::STATUS_CLOSED
+                                    ? ManageButton::reset($url) : null;
+                            }
                         ],
                     ],
                 ],
