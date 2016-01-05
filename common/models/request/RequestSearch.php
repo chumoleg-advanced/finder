@@ -75,6 +75,18 @@ class RequestSearch extends Request
             'user.id', 'user.email');
     }
 
+    public function getCategoryList()
+    {
+        return ArrayHelper::map(self::find()->joinWith('rubric.category')->distinct('rubric_id')->all(),
+            'rubric.category.id', 'rubric.category.name');
+    }
+
+    public function getRubricList()
+    {
+        return ArrayHelper::map(self::find()->joinWith('rubric')->distinct('rubric_id')->all(),
+            'rubric.id', 'rubric.name');
+    }
+
     public function getStatisticRow()
     {
         return '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i> ' . $this->count_view

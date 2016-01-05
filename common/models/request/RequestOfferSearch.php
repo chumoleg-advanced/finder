@@ -66,7 +66,7 @@ class RequestOfferSearch extends RequestOffer
 
         if (Yii::$app->user->can('accessToPersonalCabinet')) {
             $query->andWhere(['request_offer.user_id' => Yii::$app->user->id]);
-            $query->andWhere(['<>', 'request.status', Request::STATUS_REJECTED]);
+            $query->andWhere(['<>', 'request.status', Request::STATUS_CLOSED]);
         }
 
         return $dataProvider;

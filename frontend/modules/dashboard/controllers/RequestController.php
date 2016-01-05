@@ -19,9 +19,9 @@ class RequestController extends Controller
     public function actions()
     {
         return [
-            'reject' => [
+            'close' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => Request::STATUS_REJECTED
+                'status' => Request::STATUS_CLOSED
             ],
         ];
     }

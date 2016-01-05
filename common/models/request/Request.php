@@ -31,16 +31,14 @@ use yii\helpers\Json;
 class Request extends ActiveRecord
 {
     const STATUS_NEW = 1;
-    const STATUS_REJECTED = 2;
     const STATUS_IN_WORK = 3;
     const STATUS_CLOSED = 4;
 
     public static $statusList
         = [
-            self::STATUS_NEW      => 'Новая',
-            self::STATUS_REJECTED => 'Отклонена',
-            self::STATUS_IN_WORK  => 'В обработке',
-            self::STATUS_CLOSED   => 'Завершена',
+            self::STATUS_NEW     => 'Новая',
+            self::STATUS_IN_WORK => 'В обработке',
+            self::STATUS_CLOSED  => 'Закрыта',
         ];
 
     public $categoryId;
@@ -124,9 +122,14 @@ class Request extends ActiveRecord
 
         $users = User::getListByRubric($this->rubric_id);
         foreach ($users as $userObj) {
+            $companies = $userObj->companies;
             $requestOffer = new RequestOffer();
             $requestOffer->request_id = $this->id;
             $requestOffer->user_id = $userObj->id;
+            if (count($companies) == 1) {
+                $requestOffer->company_id = $companies[0]->id;
+            }
+
             $requestOffer->save();
         }
 

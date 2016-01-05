@@ -5,7 +5,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
-use common\models\rubric\Rubric;
 use common\models\request\Request;
 use common\models\category\Category;
 use yii\widgets\Pjax;
@@ -40,7 +39,7 @@ if (!empty($searchModel->categoryId)) {
                     'id',
                     [
                         'attribute' => 'categoryId',
-                        'filter'    => Category::getList(true),
+                        'filter'    => $searchModel->getCategoryList(),
                         'visible'   => empty($searchModel->categoryId),
                         'value'     => function ($data) {
                             return !empty($data->rubric) ? $data->rubric->category->name : null;
@@ -48,11 +47,12 @@ if (!empty($searchModel->categoryId)) {
                     ],
                     [
                         'attribute' => 'rubric_id',
-                        'filter'    => Rubric::getList($searchModel->categoryId),
+                        'filter'    =>  $searchModel->getRubricList(),
                         'value'     => function ($data) {
                             return !empty($data->rubric) ? $data->rubric->name : null;
                         }
                     ],
+                    'description',
                     [
                         'attribute' => 'status',
                         'filter'    => Request::$statusList,
@@ -76,12 +76,12 @@ if (!empty($searchModel->categoryId)) {
                     ],
                     [
                         'class'         => 'common\components\ActionColumn',
-                        'template'      => '{view} {reject}',
+                        'template'      => '{view} {close}',
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
-                            'reject' => function ($url, $model) {
-                                return $model->status == Request::STATUS_IN_WORK
-                                    ? ManageButton::reject($url) : null;
+                            'close' => function ($url, $model) {
+                                return $model->status != Request::STATUS_CLOSED
+                                    ? ManageButton::close($url) : null;
                             },
                         ],
                     ],

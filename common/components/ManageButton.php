@@ -40,7 +40,7 @@ class ManageButton
     {
         return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
             'title'        => 'Удалить',
-            'data-confirm' => 'Вы уверены, что хотите удалить эту запись',
+            'data-confirm' => 'Вы уверены, что хотите удалить эту запись?',
             'data-method'  => 'post',
             'data-pjax'    => '0',
             'class'        => self::$cssClass
@@ -51,7 +51,7 @@ class ManageButton
     {
         return Html::a('<span class="glyphicon glyphicon-repeat"></span>', $url, [
             'title'        => 'Сбросить',
-            'data-confirm' => 'Вы уверены, что хотите сбросить статус этой записи',
+            'data-confirm' => 'Вы уверены, что хотите сбросить статус этой записи?',
             'data-method'  => 'post',
             'data-pjax'    => '0',
             'class'        => self::$cssClass
@@ -62,7 +62,7 @@ class ManageButton
     {
         return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
             'title'        => 'Отклонить',
-            'data-confirm' => 'Вы уверены, что хотите отклонить эту запись',
+            'data-confirm' => 'Вы уверены, что хотите отклонить эту запись?',
             'data-method'  => 'post',
             'data-pjax'    => '0',
             'class'        => self::$cssClass
@@ -73,7 +73,18 @@ class ManageButton
     {
         return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, [
             'title'        => 'Одобрить',
-            'data-confirm' => 'Вы уверены, что хотите одобрить эту запись',
+            'data-confirm' => 'Вы уверены, что хотите одобрить эту запись?',
+            'data-method'  => 'post',
+            'data-pjax'    => '0',
+            'class'        => self::$cssClass
+        ]);
+    }
+
+    public static function close($url)
+    {
+        return Html::a('<span class="glyphicon glyphicon-off"></span>', $url, [
+            'title'        => 'Закрыть',
+            'data-confirm' => 'Вы уверены, что хотите закрыть эту заявку?',
             'data-method'  => 'post',
             'data-pjax'    => '0',
             'class'        => self::$cssClass

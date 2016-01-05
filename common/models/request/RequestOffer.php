@@ -52,6 +52,7 @@ class RequestOffer extends ActiveRecord
     {
         return [
             [['request_id', 'user_id'], 'required'],
+            ['request_id', 'unique', 'targetAttribute' => ['request_id', 'company_id'], 'on' => 'update'],
             [['request_id', 'user_id', 'price', 'company_id'], 'required', 'on' => 'update'],
             [['request_id', 'company_id', 'status', 'user_id'], 'integer'],
             [['description'], 'string'],
