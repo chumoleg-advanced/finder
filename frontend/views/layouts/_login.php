@@ -11,35 +11,36 @@ $model = new LoginForm();
 ?>
 
 <?php Modal::begin(['id' => 'loginForm', 'header' => Html::tag('h3', $this->title)]); ?>
+
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <?php
-            echo yii\authclient\widgets\AuthChoice::widget([
-                'baseAuthUrl' => ['auth/index'],
-                'popupMode'   => true,
-                'options'     => [
-                    'class' => 'auth-clients-modal'
-                ]
-            ]);
+            <div>
+                <?= Html::a('Я еще не зарегистрирован!', '#', ['class' => 'loginIfRegister']); ?>
+            </div>
+            <div>&nbsp;</div>
 
+            <?php
             $form = ActiveForm::begin([
                 'id'                     => 'login-form',
                 'enableAjaxValidation'   => true,
                 'enableClientValidation' => false,
-//                'action'                 => Url::to('/auth/login'),
+                'validateOnBlur'         => false,
+                'validateOnChange'       => false,
+                'validateOnSubmit'       => true,
                 'validationUrl'          => Url::to('/auth/login-validate'),
             ]);
-
-            echo $form->field($model, 'email')->textInput(
-                ['placeholder' => $model->getAttributeLabel('email')]);
-            echo $form->field($model, 'password')->passwordInput(
-                ['placeholder' => $model->getAttributeLabel('password')]);
-            echo $form->field($model, 'rememberMe')->checkbox();
             ?>
+
+            <?= $form->field($model, 'email')->textInput(
+                ['placeholder' => $model->getAttributeLabel('email')]); ?>
+            <?= $form->field($model, 'password')->passwordInput(
+                ['placeholder' => $model->getAttributeLabel('password')]); ?>
 
             <div style="color:#999;margin:1em 0">
                 <?= Html::a('Забыли пароль?', ['auth/request-password-reset']); ?>
             </div>
+
+            <?= $form->field($model, 'rememberMe')->checkbox(); ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>

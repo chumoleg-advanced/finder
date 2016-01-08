@@ -90,7 +90,7 @@ class MenuItems
         }
 
         $companyItems[] = [
-            'label' => '<i class="glyphicon glyphicon-plus"></i> Создать организацию',
+            'label' => '<i class="glyphicon glyphicon-plus"></i> Создать компанию',
             'url'   => Url::toRoute('company/create')
         ];
 

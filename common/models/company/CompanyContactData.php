@@ -86,9 +86,15 @@ class CompanyContactData extends ActiveRecord
      */
     public static function getGroupedTypeList()
     {
+        $contacts = [1, 2, 3, 4, 5, 6, 7];
+        $contacts = array_combine($contacts, $contacts);
+
+        $social = [8, 9, 10, 11, 12];
+        $social = array_combine($social, $social);
+
         return [
-            'Контакты'        => array_intersect_key(self::$typeList, [1, 2, 3, 4, 5, 6, 7]),
-            'Социальные сети' => array_intersect_key(self::$typeList, [8, 9, 10, 11, 12])
+            'Контакты'        => array_intersect_key(self::$typeList, $contacts),
+            'Социальные сети' => array_intersect_key(self::$typeList, $social)
         ];
     }
 

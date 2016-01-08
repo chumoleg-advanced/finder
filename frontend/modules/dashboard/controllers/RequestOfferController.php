@@ -15,9 +15,9 @@ class RequestOfferController extends Controller
     public function actions()
     {
         return [
-            'reject' => [
+            'close' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => RequestOffer::STATUS_REJECTED
+                'status' => RequestOffer::STATUS_CLOSED
             ],
             'reset'  => [
                 'class'  => 'common\components\actions\ChangeStatusAction',

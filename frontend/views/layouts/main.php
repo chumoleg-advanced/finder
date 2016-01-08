@@ -83,6 +83,7 @@ AppAsset::register($this);
 </footer>
 
 <?= $this->render('_login'); ?>
+<?= $this->render('_register'); ?>
 
 <?php $this->endBody(); ?>
 </body>

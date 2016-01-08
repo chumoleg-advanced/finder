@@ -1,11 +1,15 @@
 var myMap = null;
 
-function initMap(coords, zoom, redraw) {
+function initMap(coords, zoom, redraw, divId) {
     ymaps.ready(function () {
         if (redraw) {
             myCollection.removeAll();
         } else {
-            myMap = new ymaps.Map('yandexMap', {
+            if (!divId){
+                divId = 'yandexMap';
+            }
+
+            myMap = new ymaps.Map(divId, {
                 center: coords,
                 zoom: zoom,
                 controls: ['zoomControl']
@@ -24,6 +28,11 @@ function initMap(coords, zoom, redraw) {
 $(document).ready(function () {
     $('.loginButton').click(function () {
         $('#loginForm').modal();
+    });
+
+    $('.loginIfRegister').click(function () {
+        $("#loginForm").modal('hide');
+        $('#signUpForm').modal();
     });
 
     $('.showAdditionOptions').click(function () {
@@ -105,10 +114,18 @@ $(document).ready(function () {
     });
 
     $(document).on('beforeSubmit', 'form#login-form', function (event) {
-        var data = $(this).serialize();
+        return _checkRequestForm($(this), 'login', $('#loginForm'));
+    });
+
+    $(document).on('beforeSubmit', 'form#signup-form', function (event) {
+        return _checkRequestForm($(this), 'signup', $('#signUpForm'));
+    });
+
+    function _checkRequestForm(obj, action, modalObj) {
+        var data = obj.serialize();
 
         $.ajax({
-            url: '/ajax/auth/login',
+            url: '/ajax/auth/' + action,
             dataType: 'json',
             async: false,
             type: "POST",
@@ -119,7 +136,7 @@ $(document).ready(function () {
                     return false;
                 }
 
-                $("#loginForm").modal('hide');
+                modalObj.modal('hide');
 
                 var form = $('form#request-form');
                 if (form.length > 0) {
@@ -131,7 +148,7 @@ $(document).ready(function () {
         });
 
         return false;
-    });
+    }
 
     $(document).on('beforeSubmit', 'form#request-form', function (event) {
         var status = false;

@@ -35,16 +35,16 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
             <?= $this->render('request-detail', ['model' => $model]); ?>
         </div>
     </div>
-    <div>&nbsp;</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-3">
-                <div id="yandexMap"></div>
-            </div>
-            <div class="col-md-9">
-                <legend>Лучшее предложение</legend>
-                <?php if (!empty($bestOffer)) : ?>
+    <?php if (!empty($bestOffer)) : ?>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div id="yandexMap"></div>
+                </div>
+                <div class="col-md-9">
+                    <legend>Лучшее предложение</legend>
                     <div class="row">
                         <div class="col-md-6">
                             <h3>Стоимость: <?= $bestOffer->price; ?></h3>
@@ -81,39 +81,34 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                             </div>
                         </div>
                     </div>
-
-                <?php else : ?>
-                    Пока предложений не было!
-                <?php endif; ?>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div>&nbsp;</div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-3">&nbsp;</div>
-            <div class="col-md-9">
-                <legend>Предложения других организаций</legend>
-                <?php if (!empty($otherOffers)) : ?>
-                    <?php foreach ($otherOffers as $offer) : ?>
-                        <div class="row">
-                            <div class="col-md-8">
-                                Компания: <?= $offer->company->actual_name; ?><br/>
-                                <?= $offer->description; ?>
+        <?php if (!empty($otherOffers)) : ?>
+            <div>&nbsp;</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">&nbsp;</div>
+                    <div class="col-md-9">
+                        <legend>Предложения других организаций</legend>
+
+                        <?php foreach ($otherOffers as $offer) : ?>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    Компания: <?= $offer->company->actual_name; ?><br/>
+                                    <?= $offer->description; ?>
+                                </div>
+
+                                <div class="col-md-4">
+                                    Цена: <?= $offer->price; ?><br/>
+                                    Доставка: <?= $offer->delivery_price; ?>
+                                </div>
                             </div>
-
-                            <div class="col-md-4">
-                                Цена: <?= $offer->price; ?><br/>
-                                Доставка: <?= $offer->delivery_price; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-
-                <?php else : ?>
-                    Пока предложений не было!
-                <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        <?php endif; ?>
+    <?php endif; ?>
 </div>

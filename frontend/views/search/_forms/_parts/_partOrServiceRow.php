@@ -20,11 +20,6 @@ FormPartSearchAsset::register($this);
 $modelData = new QueryArrayForm();
 
 if (isset($parts)) {
-    $this->registerJs("$(document).ready(function(){
-            $('.buttonListPartsCondition').find('input[value=" . $parts . "]')
-            .trigger('click').trigger('change');});",
-        \yii\web\View::POS_END, 'searchFormFirstSelect');
-
     $this->registerJs("$(document).ready(function(){activateAutoComplete();});",
         \yii\web\View::POS_END, 'searchFormInitAutoComplete');
 

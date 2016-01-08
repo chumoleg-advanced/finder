@@ -52,6 +52,17 @@ class RequestOfferSearch extends RequestOffer
             return $dataProvider;
         }
 
+        if (!empty($this->status)) {
+            $query->andWhere([
+                'request_offer.status' => [
+                    self::STATUS_NEW,
+                    self::STATUS_ACTIVE,
+                ]
+            ]);
+        } else {
+            $query->andWhere(['<>', 'request.status', Request::STATUS_CLOSED]);
+        }
+
         $query->andFilterWhere([
             'request_offer.id'                => $this->id,
             'request_offer.status'            => $this->status,
@@ -66,7 +77,6 @@ class RequestOfferSearch extends RequestOffer
 
         if (Yii::$app->user->can('accessToPersonalCabinet')) {
             $query->andWhere(['request_offer.user_id' => Yii::$app->user->id]);
-            $query->andWhere(['<>', 'request.status', Request::STATUS_CLOSED]);
         }
 
         return $dataProvider;
@@ -74,19 +84,34 @@ class RequestOfferSearch extends RequestOffer
 
     public function getListCategories()
     {
-        $data = self::find()->joinWith('request.rubric.category')->distinct('rubric.category_id')->all();
+        $data = self::find()
+            ->joinWith('request.rubric.category')
+            ->distinct('rubric.category_id')
+            ->andWhere(['request_offer.user_id' => Yii::$app->user->id])
+            ->all();
+
         return ArrayHelper::map($data, 'request.rubric.category_id', 'request.rubric.category.name');
     }
 
     public function getListRubrics()
     {
-        $data = self::find()->joinWith('request.rubric')->distinct('rubric.id')->all();
+        $data = self::find()
+            ->joinWith('request.rubric')
+            ->distinct('rubric.id')
+            ->andWhere(['request_offer.user_id' => Yii::$app->user->id])
+            ->all();
+
         return ArrayHelper::map($data, 'request.rubric_id', 'request.rubric.name');
     }
 
     public function getListCompanies()
     {
-        $data = self::find()->joinWith('company')->andWhere('company.id IS NOT NULL')->all();
+        $data = self::find()
+            ->joinWith('company')
+            ->andWhere('company.id IS NOT NULL')
+            ->andWhere(['request_offer.user_id' => Yii::$app->user->id])
+            ->all();
+
         return ArrayHelper::map($data, 'company_id', 'company.legal_name');
     }
 

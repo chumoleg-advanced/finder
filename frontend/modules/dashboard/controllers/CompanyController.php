@@ -132,7 +132,7 @@ class CompanyController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $postData = Yii::$app->request->post();
-        if (!Yii::$app->request->isAjax || empty($postData) || empty($step)) {
+        if (!Yii::$app->request->isAjax || empty($postData) || empty($step) || !empty($postData['prev'])) {
             return [];
         }
 

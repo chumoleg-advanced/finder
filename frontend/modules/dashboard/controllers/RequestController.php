@@ -30,24 +30,14 @@ class RequestController extends Controller
         ];
     }
 
-    protected function getModel()
-    {
-        return Request::className();
-    }
-
     public function actionIndex()
     {
-        $categories = Category::getList(true);
-        $categories[0] = 'Все категории';
-        ksort($categories);
-
         $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'user');
 
         $this->_rememberUrl();
 
         return $this->render('index', [
-            'categories'   => $categories,
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -61,19 +51,18 @@ class RequestController extends Controller
     public function actionView($id)
     {
         $model = $this->loadModel($id);
-        if ($model->status == Request::STATUS_IN_WORK) {
-            list($bestOffer, $otherOffers) = RequestOffer::findListByRequest($id);
-            return $this->render('view', [
-                'model'       => $model,
-                'bestOffer'   => $bestOffer,
-                'otherOffers' => $otherOffers
-            ]);
 
-        } else {
-            return $this->render('viewInfo', [
-                'model' => $model,
-            ]);
+        $bestOffer = null;
+        $otherOffers = [];
+        if ($model->status != Request::STATUS_NEW) {
+            list($bestOffer, $otherOffers) = RequestOffer::findListByRequest($id);
         }
+
+        return $this->render('view', [
+            'model'       => $model,
+            'bestOffer'   => $bestOffer,
+            'otherOffers' => $otherOffers
+        ]);
     }
 
     /**
@@ -114,5 +103,10 @@ class RequestController extends Controller
             'formView'     => $rubric->getViewName(),
             'formModel'    => $model
         ]);
+    }
+
+    protected function getModel()
+    {
+        return Request::className();
     }
 }

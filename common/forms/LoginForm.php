@@ -2,7 +2,6 @@
 
 namespace common\forms;
 
-use common\components\Role;
 use Yii;
 use yii\base\Model;
 use common\models\user\User;
@@ -51,11 +50,6 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            $user = $this->getUser();
-            if (empty($user)) {
-                $this->signUp();
-            }
-
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
 
@@ -74,31 +68,15 @@ class LoginForm extends Model
         return $this->_user;
     }
 
-    /**
-     * @return User|null
-     */
-    public function signUp()
-    {
-        if ($this->hasErrors()) {
-            return null;
-        }
-
-        $user = new User();
-        $user->email = $this->email;
-        $user->status = User::STATUS_ACTIVE;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        if ($user->save()) {
-            Role::assignRoleForUser($user);
-            return $user;
-        }
-
-        return null;
-    }
-
     public function validatePassword($attribute, $params)
     {
         if ($this->hasErrors()) {
+            return;
+        }
+
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addError('email', 'Указанный email не зарегистрирован или заблокирован');
             return;
         }
 

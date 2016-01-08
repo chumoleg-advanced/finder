@@ -64,8 +64,7 @@ class CarData
      */
     public static function getYearRelease()
     {
-        $data = range(1970, date('Y'));
+        $data = range(date('Y'), 1970);
         return array_combine($data, $data);
     }
-
 }

@@ -28,13 +28,13 @@ class RequestOffer extends ActiveRecord
 {
     const STATUS_NEW = 1;
     const STATUS_ACTIVE = 2;
-    const STATUS_REJECTED = 3;
+    const STATUS_CLOSED = 3;
 
     public static $statusList
         = [
-            self::STATUS_NEW      => 'Новая',
-            self::STATUS_ACTIVE   => 'Обработана',
-            self::STATUS_REJECTED => 'Отклонена'
+            self::STATUS_NEW    => 'Новая',
+            self::STATUS_ACTIVE => 'Обработана',
+            self::STATUS_CLOSED => 'Закрыта'
         ];
 
     /**
@@ -53,7 +53,7 @@ class RequestOffer extends ActiveRecord
         return [
             [['request_id', 'user_id'], 'required'],
             [
-                'company_id',
+                'user_id',
                 'unique',
                 'targetAttribute' => ['request_id', 'user_id'],
                 'message'         => 'Данная заявка уже была обработана'

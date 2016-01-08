@@ -8,14 +8,6 @@ use app\components\SearchFormGenerator;
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
-// костыль с выбором первоначального состояния запчасти
-$selectedCondition = 1;
-if ($rubric->id == 10) {
-    $selectedCondition = 3;
-} elseif ($rubric->id == 11) {
-    $selectedCondition = 2;
-}
-
 $form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
@@ -24,7 +16,7 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
     'model'       => $model,
     'buttonText'  => 'Добавить еще одну запчасть',
     'placeholder' => 'Наименование запчасти или ОЕМ номер',
-    'parts'       => $selectedCondition
+    'parts'       => true
 ]); ?>
 
     <div class="form-group">

@@ -5,11 +5,15 @@ $(document).ready(function () {
         $('.mainOfferInfoBlock').toggle();
     });
 
+    $(document).on('click', '.requestInfoView', function () {
+        $('.requestInfo').toggle();
+    });
+
     function initRequestMap() {
         var coordinates = $('.addressCoordinates').val();
         if (coordinates) {
             coordinates = coordinates.split(',');
-            initMap(coordinates, 16);
+            initMap(coordinates, 17);
         }
     }
 });

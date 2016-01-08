@@ -76,15 +76,15 @@ $this->title = 'Заявки от клиентов';
                     ],
                     [
                         'class'         => 'common\components\ActionColumn',
-                        'template'      => '{offer} {reject} {reset}',
+                        'template'      => '{offer} {close} {reset}',
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
-                            'reject' => function ($url, $model) {
-                                return $model->status != RequestOffer::STATUS_REJECTED
-                                    ? ManageButton::reject($url) : null;
+                            'close' => function ($url, $model) {
+                                return $model->status != RequestOffer::STATUS_CLOSED
+                                    ? ManageButton::close($url) : null;
                             },
                             'reset' => function ($url, $model) {
-                                return $model->status == RequestOffer::STATUS_REJECTED
+                                return $model->status == RequestOffer::STATUS_CLOSED
                                     ? ManageButton::reset($url) : null;
                             }
                         ],

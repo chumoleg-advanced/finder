@@ -51,7 +51,7 @@ class ManageButton
     {
         return Html::a('<span class="glyphicon glyphicon-repeat"></span>', $url, [
             'title'        => 'Сбросить',
-            'data-confirm' => 'Вы уверены, что хотите сбросить статус этой записи?',
+            'data-confirm' => 'Вы уверены, что хотите активировать заявку?',
             'data-method'  => 'post',
             'data-pjax'    => '0',
             'class'        => self::$cssClass

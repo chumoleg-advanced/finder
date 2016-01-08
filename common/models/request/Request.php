@@ -2,7 +2,6 @@
 
 namespace common\models\request;
 
-use common\models\company\Company;
 use Yii;
 use common\models\rubric\Rubric;
 use common\models\user\User;
@@ -15,6 +14,8 @@ use yii\helpers\Json;
  * This is the model class for table "request".
  *
  * @property integer        $id
+ * @property integer        $main_request_id
+ * @property string         $id_for_client
  * @property integer        $rubric_id
  * @property string         $description
  * @property string         $comment
@@ -27,6 +28,8 @@ use yii\helpers\Json;
  * @property Rubric         $rubric
  * @property User           $user
  * @property RequestOffer[] $requestOffers
+ * @property MainRequest    $mainRequest
+ * @property RequestView[]  $requestViews
  */
 class Request extends ActiveRecord
 {
@@ -57,10 +60,12 @@ class Request extends ActiveRecord
     public function rules()
     {
         return [
-            [['rubric_id', 'user_id'], 'required'],
-            [['rubric_id', 'user_id', 'status', 'count_view'], 'integer'],
-            [['data', 'description', 'comment'], 'string'],
-            [['date_create'], 'safe']
+            [['main_request_id', 'id_for_client', 'rubric_id', 'user_id'], 'required'],
+            [['main_request_id', 'rubric_id', 'user_id', 'status', 'count_view'], 'integer'],
+            [['description', 'comment', 'data'], 'string'],
+            [['date_create'], 'safe'],
+            [['id_for_client'], 'string', 'max' => 15],
+            [['id_for_client'], 'unique']
         ];
     }
 
@@ -70,16 +75,18 @@ class Request extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'rubric_id'   => 'Рубрика',
-            'categoryId'  => 'Категория',
-            'description' => 'Описание',
-            'comment'     => 'Комментарий',
-            'status'      => 'Статус',
-            'data'        => 'Data',
-            'user_id'     => 'Пользователь',
-            'count_view'  => 'Кол-во просмотров',
-            'date_create' => 'Дата создания',
+            'id'              => 'ID',
+            'main_request_id' => 'Main Request ID',
+            'id_for_client'   => 'Номер',
+            'rubric_id'       => 'Рубрика',
+            'categoryId'      => 'Категория',
+            'description'     => 'Описание',
+            'comment'         => 'Комментарий',
+            'status'          => 'Статус',
+            'data'            => 'Data',
+            'user_id'         => 'Пользователь',
+            'count_view'      => 'Кол-во просмотров',
+            'date_create'     => 'Дата создания',
         ];
     }
 
@@ -115,8 +122,15 @@ class Request extends ActiveRecord
             return false;
         }
 
-        if ($status != self::STATUS_IN_WORK) {
-            return true;
+        $this->_createRequestOffers();
+
+        return true;
+    }
+
+    private function _createRequestOffers()
+    {
+        if ($this->status != self::STATUS_IN_WORK) {
+            return;
         }
 
         $users = User::getListByRubric($this->rubric_id);
@@ -132,8 +146,6 @@ class Request extends ActiveRecord
 
             $requestOffer->save();
         }
-
-        return true;
     }
 
     /**
@@ -144,6 +156,14 @@ class Request extends ActiveRecord
     public static function findById($id)
     {
         return self::find()->whereId($id)->one();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMainRequest()
+    {
+        return $this->hasOne(MainRequest::className(), ['id' => 'main_request_id']);
     }
 
     /**
@@ -172,6 +192,14 @@ class Request extends ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequestViews()
+    {
+        return $this->hasMany(RequestView::className(), ['request_id' => 'id']);
+    }
+
+    /**
      * @param $rubricId
      * @param $attributes
      * @param $positions
@@ -181,8 +209,14 @@ class Request extends ActiveRecord
     public function createModelFromPost($rubricId, $attributes, $positions)
     {
         try {
-            foreach ($positions as $posAttr) {
+            if (!$mainRequestId = MainRequest::create($rubricId)) {
+                return false;
+            }
+
+            foreach ($positions as $k => $posAttr) {
                 $request = new self();
+                $request->main_request_id = $mainRequestId;
+                $request->id_for_client = $mainRequestId . '-' . ($k + 1);
                 $request->user_id = Yii::$app->user->id;
                 $request->rubric_id = $rubricId;
                 $request->description = ArrayHelper::getValue($posAttr, 'description');
@@ -190,9 +224,7 @@ class Request extends ActiveRecord
                 $request->status = self::STATUS_NEW;
                 $request->save();
 
-                $requestId = $request->id;
-
-                $posAttr = $this->_saveFiles($posAttr, $requestId);
+                $posAttr = $this->_saveFiles($posAttr, $request->id);
 
                 unset($posAttr['description']);
                 unset($posAttr['comment']);
