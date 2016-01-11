@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\dashboard\components;
+namespace frontend\modules\dashboard\components;
 
 use Yii;
 use kartik\form\ActiveForm;

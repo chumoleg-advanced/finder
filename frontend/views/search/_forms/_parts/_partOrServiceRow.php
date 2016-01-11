@@ -1,11 +1,11 @@
 <?php
 
-use app\searchForms\QueryArrayForm;
+use frontend\searchForms\QueryArrayForm;
 use kartik\widgets\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 use common\components\CarData;
 use kartik\helpers\Html;
-use app\assets\FormPartSearchAsset;
+use frontend\assets\FormPartSearchAsset;
 
 if (!isset($buttonText)) {
     $buttonText = 'Добавить еще одну работу';
@@ -34,7 +34,7 @@ $dynamicParams = [
     'insertButton'    => '.add-item',
     'deleteButton'    => '.delete-item',
     'model'           => $modelData,
-    'formId'          => \app\components\SearchFormGenerator::FORM_ID,
+    'formId'          => \frontend\components\SearchFormGenerator::FORM_ID,
     'formFields'      => [
         'description',
         'comment'

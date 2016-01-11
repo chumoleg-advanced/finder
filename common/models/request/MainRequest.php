@@ -6,6 +6,7 @@ use Yii;
 use common\components\ActiveRecord;
 use common\models\rubric\Rubric;
 use common\models\user\User;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "main_request".
@@ -68,16 +69,30 @@ class MainRequest extends ActiveRecord
         return new MainRequestQuery(get_called_class());
     }
 
+    public function beforeValidate()
+    {
+        $this->data = Json::encode($this->data);
+        return parent::beforeValidate();
+    }
+
+    public function afterFind()
+    {
+        $this->data = Json::decode($this->data);
+        return parent::afterFind();
+    }
+
     /**
-     * @param int $rubricId
+     * @param int   $rubricId
+     * @param array $attributes
      *
      * @return bool|int
      */
-    public static function create($rubricId)
+    public static function create($rubricId, array $attributes)
     {
         $model = new self();
         $model->rubric_id = $rubricId;
         $model->user_id = Yii::$app->user->id;
+        $model->data = $attributes;
 
         return $model->save() ? $model->id : false;
     }

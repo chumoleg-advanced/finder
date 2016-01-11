@@ -1,11 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace frontend\controllers;
 
 use Yii;
-use app\forms\ContactForm;
-use app\components\Controller;
-use common\models\category\Category;
+use frontend\forms\ContactForm;
+use yii\web\Controller;
 
 /**
  * Site controller
@@ -22,7 +21,7 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class'     => 'app\components\CaptchaAction',
+                'class'     => 'frontend\components\CaptchaAction',
                 'minLength' => 5,
                 'maxLength' => 7,
                 'height'    => 50,

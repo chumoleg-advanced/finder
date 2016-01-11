@@ -1,18 +1,17 @@
 <?php
 
-namespace app\modules\dashboard\controllers;
+namespace frontend\modules\dashboard\controllers;
 
-use app\searchForms\BaseForm;
+use Yii;
+use yii\web\Controller;
+use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
+use frontend\searchForms\BaseForm;
 use common\components\SaveRequest;
-use common\models\category\Category;
 use common\models\request\Request;
 use common\models\request\RequestOffer;
 use common\models\request\RequestSearch;
 use common\models\rubric\Rubric;
-use Yii;
-use app\modules\dashboard\components\Controller;
-use yii\helpers\Url;
-use yii\web\NotFoundHttpException;
 
 class RequestController extends Controller
 {
@@ -25,7 +24,7 @@ class RequestController extends Controller
             ],
             'reset' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => Request::STATUS_IN_WORK
+                'status' => Request::STATUS_NEW
             ],
         ];
     }

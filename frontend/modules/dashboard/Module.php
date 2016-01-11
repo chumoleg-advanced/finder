@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\dashboard;
+namespace frontend\modules\dashboard;
 
 use Yii;
 use yii\helpers\Url;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\dashboard\controllers';
+    public $controllerNamespace = 'frontend\modules\dashboard\controllers';
 
     public function init()
     {

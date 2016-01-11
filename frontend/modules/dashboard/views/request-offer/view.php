@@ -14,10 +14,5 @@ if (empty($backUrl)) {
 }
 ?>
 
-<div class="news-index">
-    <?= \yii\helpers\Html::a('Вернуться к списку', $backUrl,
-        ['class' => 'btn btn-default']); ?>
-
-    <div>&nbsp;</div>
-    <legend><?= $this->title; ?></legend>
-</div>
+<?= \yii\helpers\Html::a('Вернуться к списку', $backUrl,
+    ['class' => 'btn btn-default']); ?>

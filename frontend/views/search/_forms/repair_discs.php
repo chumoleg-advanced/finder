@@ -1,10 +1,10 @@
 <?php
 
 use common\components\CarData;
-use app\searchForms\QueryArrayForm;
-use app\components\SearchFormGenerator;
+use frontend\searchForms\QueryArrayForm;
+use frontend\components\SearchFormGenerator;
 
-/** @var $model app\searchForms\RepairDiscForm */
+/** @var $model frontend\searchForms\RepairDiscForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

@@ -3,9 +3,9 @@
 /* @var $this yii\web\View */
 /* @var $categories common\models\category\Category[] */
 
-use app\assets\OwlCarouselAsset;
-use \yii\helpers\Url;
-use \yii\helpers\Html;
+use frontend\assets\OwlCarouselAsset;
+use yii\helpers\Url;
+use yii\helpers\Html;
 use himiklab\thumbnail\EasyThumbnailImage;
 
 OwlCarouselAsset::register($this);

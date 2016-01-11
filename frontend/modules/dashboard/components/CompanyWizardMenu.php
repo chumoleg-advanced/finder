@@ -1,12 +1,14 @@
 <?php
 
-namespace app\modules\dashboard\components\wizard;
+namespace frontend\modules\dashboard\components;
+
+use beastbytes\wizard\WizardMenu;
 
 /**
  * WizardMenu class.
  * Creates a menu from the wizard steps.
  */
-class CompanyWizardMenu extends \beastbytes\wizard\WizardMenu
+class CompanyWizardMenu extends WizardMenu
 {
     /**
      * Initialise the widget

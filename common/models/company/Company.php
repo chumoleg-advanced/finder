@@ -5,7 +5,6 @@ namespace common\models\company;
 use Yii;
 use yii\base\Exception;
 use common\components\ActiveRecord;
-use common\models\city\City;
 use common\models\user\User;
 use yii\helpers\ArrayHelper;
 
@@ -14,7 +13,6 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer               $id
  * @property integer               $status
- * @property integer               $city_id
  * @property integer               $user_id
  * @property string                $legal_name
  * @property string                $actual_name
@@ -23,7 +21,6 @@ use yii\helpers\ArrayHelper;
  * @property string                $ogrn
  * @property string                $date_create
  *
- * @property City                  $city
  * @property User                  $user
  * @property CompanyAddress[]      $companyAddresses
  * @property CompanyContactData[]  $companyContactDatas
@@ -58,8 +55,8 @@ class Company extends ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'city_id', 'user_id', 'form'], 'required'],
-            [['status', 'city_id', 'user_id', 'form'], 'integer'],
+            [['status', 'user_id', 'form'], 'required'],
+            [['status', 'user_id', 'form'], 'integer'],
             [['date_create'], 'safe'],
             [['legal_name', 'actual_name'], 'string', 'max' => 250],
             [['inn', 'ogrn'], 'double'],
@@ -76,7 +73,6 @@ class Company extends ActiveRecord
         return [
             'id'          => 'ID',
             'status'      => 'Статус',
-            'city_id'     => 'Город',
             'user_id'     => 'Пользователь',
             'legal_name'  => 'Юридическое название',
             'actual_name' => 'Фактическое название',
@@ -94,6 +90,15 @@ class Company extends ActiveRecord
     public static function find()
     {
         return new CompanyQuery(get_called_class());
+    }
+
+    public function beforeValidate()
+    {
+        if (empty($this->user_id)) {
+            $this->user_id = Yii::$app->user->id;
+        }
+
+        return parent::beforeValidate();
     }
 
     /**
@@ -131,14 +136,6 @@ class Company extends ActiveRecord
 
         $data = self::find()->whereUserId($userId)->all();
         return ArrayHelper::map($data, 'id', 'legal_name');
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCity()
-    {
-        return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 
     /**
@@ -197,39 +194,41 @@ class Company extends ActiveRecord
      */
     public function createByStepData($stepData = [])
     {
-        try {
-            $mainData = $stepData['mainData'][0];
-            $rubricData = $stepData['rubricData'][0];
-            $contactData = $stepData['contactData'][0];
+//        try {
+        $mainData = $stepData['mainData'][0];
+        $rubricData = $stepData['rubricData'][0];
+        $contactData = $stepData['contactData'][0];
 
-        } catch (Exception $e) {
-            return false;
-        }
+//        } catch (Exception $e) {
+//            return false;
+//        }
 
         $transaction = $this->getDb()->beginTransaction();
 
-        try {
-            $model = new self();
-            $model->setAttributes($mainData->attributes);
-            $model->status = self::STATUS_ON_MODERATE;
-            if (!$model->save()) {
-                throw new Exception();
-            }
-
-            $addressId = CompanyAddress::create($model->id, $contactData, $rubricData->timeWork);
-            foreach ($contactData->contactDataValues as $item) {
-                CompanyContactData::create($model->id, $addressId, $item['typeData'], $item['valueData']);
-            }
-
-            $this->_saveRubricData($rubricData, $model);
-
-            $transaction->commit();
-            return true;
-
-        } catch (Exception $e) {
-            $transaction->rollBack();
-            return false;
+//        try {
+        $model = new self();
+        $model->setAttributes($mainData->attributes);
+        $model->status = self::STATUS_ON_MODERATE;
+        if (!$model->save()) {
+            print_r($model->errors);
+            die;
+            throw new Exception();
         }
+
+        $addressId = CompanyAddress::create($model->id, $contactData);
+        foreach ($contactData->contactDataValues as $item) {
+            CompanyContactData::create($model->id, $addressId, $item['type'], $item['data']);
+        }
+
+        $this->_saveRubricData($rubricData, $model);
+
+        $transaction->commit();
+        return true;
+
+//        } catch (Exception $e) {
+//            $transaction->rollBack();
+//            return false;
+//        }
     }
 
     /**
@@ -238,16 +237,56 @@ class Company extends ActiveRecord
      */
     private function _saveRubricData($rubricData, $model)
     {
+        CompanyTypePayment::deleteAll('company_id = ' . $model->id);
         foreach ($rubricData->typePayment as $type) {
             CompanyTypePayment::create($model->id, $type);
         }
 
+        CompanyTypeDelivery::deleteAll('company_id = ' . $model->id);
         foreach ($rubricData->typeDelivery as $type) {
             CompanyTypeDelivery::create($model->id, $type);
         }
 
+        CompanyRubric::deleteAll('company_id = ' . $model->id);
         foreach ($rubricData->rubrics as $rubricId) {
             CompanyRubric::create($model->id, $rubricId);
+        }
+    }
+
+    /**
+     * @param $mainData
+     * @param $rubricData
+     * @param $contactData
+     *
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function updateModel($mainData, $rubricData, $contactData)
+    {
+        $transaction = $this->getDb()->beginTransaction();
+
+        try {
+            $this->setAttributes($mainData->attributes);
+            $this->status = self::STATUS_ON_MODERATE;
+            if (!$this->save()) {
+                throw new Exception();
+            }
+
+            $addressId = CompanyAddress::updateByCompany($this->id, $contactData);
+
+            CompanyContactData::deleteAll('company_id = ' . $this->id);
+            foreach ($contactData->contactDataValues as $item) {
+                CompanyContactData::create($this->id, $addressId, $item['type'], $item['data']);
+            }
+
+            $this->_saveRubricData($rubricData, $this);
+
+            $transaction->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            return false;
         }
     }
 }

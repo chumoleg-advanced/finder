@@ -1,27 +1,20 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
 use common\models\rubric\Rubric;
 use common\models\request\Request;
-use common\models\company\Company;
 use yii\widgets\Pjax;
-use app\assets\DashboardMainAsset;
+use frontend\assets\DashboardMainAsset;
 
 DashboardMainAsset::register($this);
 
 $this->title = 'Заявки';
-
 ?>
 
-<div class="news-index">
-    <legend><?= $this->title; ?></legend>
-
-    <?php Pjax::begin(['id' => 'requestGrid']); ?>
+<?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
         <div class="col-md-9">
-            <legend><?= $title; ?></legend>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel'  => $searchModel,
@@ -55,5 +48,4 @@ $this->title = 'Заявки';
             ?>
         </div>
     </div>
-    <?php Pjax::end(); ?>
-</div>
+<?php Pjax::end(); ?>

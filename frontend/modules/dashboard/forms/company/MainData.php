@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\dashboard\forms\company;
+namespace frontend\modules\dashboard\forms\company;
 
 use Yii;
 use yii\base\Model;
@@ -11,7 +11,6 @@ class MainData extends Model
     const FORM_INDIVIDUAL = 2;
     const FORM_PHYSICAL = 3;
 
-    public $city_id;
     public $form;
     public $legal_name;
     public $actual_name;
@@ -19,7 +18,7 @@ class MainData extends Model
     public $ogrn;
     public $ogrnip;
     public $fio;
-    public $user_id;
+    public $companyId;
 
     /**
      * @return array
@@ -40,16 +39,20 @@ class MainData extends Model
     {
         return [
             [['legal_name', 'actual_name', 'fio', 'inn', 'ogrn', 'ogrnip'], 'filter', 'filter' => 'trim'],
-            [['user_id', 'city_id', 'form', 'inn', 'legal_name', 'fio'], 'required'],
+            [['form', 'inn', 'legal_name', 'fio'], 'required'],
             [
                 'inn',
                 'unique',
-                'targetAttribute' => ['inn', 'ogrn'],
-                'targetClass'     => 'common\models\company\Company',
-                'message'         => 'Компания с указанными данными уже зарегистрирована'
+                'targetClass' => 'common\models\company\Company',
+                'message'     => 'Компания с указанным ИНН уже зарегистрирована',
+                'filter'      => function ($query) {
+                    if (!empty($this->companyId)) {
+                        $query->andWhere(['<>', 'company.id', $this->companyId]);
+                    }
+                }
             ],
             [['legal_name', 'actual_name', 'fio'], 'string', 'max' => 250],
-            [['city_id', 'form', 'user_id'], 'integer'],
+            [['form', 'companyId'], 'integer'],
             [['inn', 'ogrn'], 'double'],
             ['inn', 'string', 'length' => [10, 12]],
             ['ogrn', 'string', 'length' => [15, 15]],
@@ -59,7 +62,6 @@ class MainData extends Model
     public function attributeLabels()
     {
         return [
-            'city_id'     => 'Город',
             'form'        => 'Форма организации',
             'legal_name'  => 'Юридическое название',
             'actual_name' => 'Фактическое название',
@@ -75,10 +77,6 @@ class MainData extends Model
      */
     public function beforeValidate()
     {
-        if (empty($this->user_id)) {
-            $this->user_id = Yii::$app->user->id;
-        }
-
         if ($this->form == self::FORM_INDIVIDUAL) {
             $this->ogrn = $this->ogrnip;
         }
@@ -87,6 +85,7 @@ class MainData extends Model
             $this->legal_name = $this->fio;
             $this->actual_name = null;
             $this->ogrn = null;
+
         } else {
             $this->fio = $this->legal_name;
         }

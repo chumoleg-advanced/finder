@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    initRequestMap();
+    initMainOfferMap();
 
     $(document).on('click', '.viewMainOfferInfo', function () {
         $('.mainOfferInfoBlock').toggle();
@@ -9,11 +9,11 @@ $(document).ready(function () {
         $('.requestInfo').toggle();
     });
 
-    function initRequestMap() {
+    function initMainOfferMap() {
         var coordinates = $('.addressCoordinates').val();
         if (coordinates) {
             coordinates = coordinates.split(',');
-            initMap(coordinates, 17);
+            initMap(coordinates, 17, false, 'yandexMapCompany');
         }
     }
 });

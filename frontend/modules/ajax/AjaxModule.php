@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\ajax;
+namespace frontend\modules\ajax;
 
 use Yii;
 use \yii\base\Module;
@@ -8,11 +8,11 @@ use yii\web\HttpException;
 
 class AjaxModule extends Module
 {
-    public $controllerNamespace = 'app\modules\ajax\controllers';
+    public $controllerNamespace = 'frontend\modules\ajax\controllers';
 
     public function init()
     {
-        if (!Yii::$app->request->isAjax){
+        if (!Yii::$app->request->isAjax) {
             throw new HttpException(403, 'Access denied');
         }
 

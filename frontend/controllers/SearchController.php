@@ -1,12 +1,12 @@
 <?php
 
-namespace app\controllers;
+namespace frontend\controllers;
 
 use common\components\SaveRequest;
 use Yii;
-use app\components\Controller;
+use yii\web\Controller;
 use common\models\rubric\Rubric;
-use app\searchForms\BaseForm;
+use frontend\searchForms\BaseForm;
 
 class SearchController extends Controller
 {

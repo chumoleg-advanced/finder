@@ -1,17 +1,17 @@
 <?php
 
-namespace app\searchForms;
+namespace frontend\searchForms;
 
 use Yii;
 use yii\base\Model;
 use common\models\request\Request;
-use yii\helpers\VarDumper;
 
 class BaseForm extends Model
 {
     public $verifyCode;
     public $delivery;
     public $deliveryAddress;
+    public $addressCoordinates;
 
     /**
      * @inheritdoc
@@ -20,16 +20,17 @@ class BaseForm extends Model
     {
         return [
             ['verifyCode', 'captcha'],
-            [['verifyCode', 'delivery', 'deliveryAddress'], 'safe'],
+            [['verifyCode', 'delivery', 'deliveryAddress', 'addressCoordinates'], 'safe'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'verifyCode'      => 'Проверочный код',
-            'delivery'        => 'Необходима доставка',
-            'deliveryAddress' => 'Адрес доставки'
+            'verifyCode'         => 'Проверочный код',
+            'delivery'           => 'Необходима доставка',
+            'deliveryAddress'    => 'Адрес доставки',
+            'addressCoordinates' => 'Координаты адреса'
         ];
     }
 

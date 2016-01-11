@@ -2,7 +2,7 @@
 
 use kartik\nav\NavX;
 use yii\bootstrap\NavBar;
-use app\modules\dashboard\components\MenuItems;
+use frontend\modules\dashboard\components\MenuItems;
 use kartik\helpers\Html;
 use yii\widgets\Pjax;
 

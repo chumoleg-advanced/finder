@@ -62,14 +62,6 @@ class City extends ActiveRecord
         return new CityQuery(get_called_class());
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCompanies()
-    {
-        return $this->hasMany(Company::className(), ['city_id' => 'id']);
-    }
-
     public static function getList()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');

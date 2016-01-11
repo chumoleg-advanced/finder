@@ -50,7 +50,7 @@ class CompanyContactData extends ActiveRecord
     public function rules()
     {
         return [
-            [['company_id', 'company_address_id', 'type'], 'required'],
+            [['type', 'data'], 'required'],
             [['company_id', 'company_address_id', 'type'], 'integer'],
             [['date_create'], 'safe'],
             [['data'], 'string', 'max' => 200]
@@ -66,8 +66,8 @@ class CompanyContactData extends ActiveRecord
             'id'                 => 'ID',
             'company_id'         => 'Company ID',
             'company_address_id' => 'Company Address ID',
-            'type'               => 'Type',
-            'data'               => 'Data',
+            'type'               => 'Тип',
+            'data'               => 'Значение',
             'date_create'        => 'Date Create',
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\assets;
+namespace frontend\assets;
 
 use yii\web\AssetBundle;
 use yii\web\View;
@@ -16,8 +16,8 @@ class DashboardRequestAsset extends AssetBundle
 
     public $depends
         = [
-            'app\assets\AppAsset',
-            'app\assets\YandexMapAsset'
+            'frontend\assets\AppAsset',
+            'frontend\assets\YandexMapAsset'
         ];
 
     public $jsOptions = ['position' => View::POS_END];

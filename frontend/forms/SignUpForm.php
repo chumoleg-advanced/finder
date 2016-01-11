@@ -1,5 +1,5 @@
 <?php
-namespace app\forms;
+namespace frontend\forms;
 
 use Yii;
 use common\components\Role;

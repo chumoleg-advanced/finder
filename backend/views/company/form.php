@@ -9,16 +9,10 @@ use yii\widgets\ActiveForm;
 
 $this->title = $model->legal_name;
 ?>
-<div class="company-update">
-    <legend><?= Html::encode($this->title); ?></legend>
+<?php $form = ActiveForm::begin(); ?>
+<?= $form->field($model, 'legal_name')->textInput() ?>
 
-    <div class="company-form">
-        <?php $form = ActiveForm::begin(); ?>
-        <?= $form->field($model, 'legal_name')->textInput() ?>
-
-        <div class="form-group">
-            <?= common\helpers\ButtonHelper::getSubmitButton($model); ?>
-        </div>
-        <?php ActiveForm::end(); ?>
-    </div>
+<div class="form-group">
+    <?= common\helpers\ButtonHelper::getSubmitButton($model); ?>
 </div>
+<?php ActiveForm::end(); ?>

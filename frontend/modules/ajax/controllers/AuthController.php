@@ -1,8 +1,8 @@
 <?php
 
-namespace app\modules\ajax\controllers;
+namespace frontend\modules\ajax\controllers;
 
-use app\forms\SignUpForm;
+use frontend\forms\SignUpForm;
 use Yii;
 use yii\web\Controller;
 use common\forms\LoginForm;

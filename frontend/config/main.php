@@ -9,12 +9,12 @@ $params = array_merge(
 return [
     'id'                  => 'app-frontend',
     'basePath'            => dirname(__DIR__),
-    'bootstrap'           => ['log', 'thumbnail', 'app\components\PreLoadSettings'],
-    'controllerNamespace' => 'app\controllers',
+    'bootstrap'           => ['log', 'thumbnail', 'frontend\components\PreLoadSettings'],
+    'controllerNamespace' => 'frontend\controllers',
     'modules'             => [
-        'ajax'      => 'app\modules\ajax\AjaxModule',
+        'ajax'      => 'frontend\modules\ajax\AjaxModule',
         'dashboard' => [
-            'class'        => 'app\modules\dashboard\Module',
+            'class'        => 'frontend\modules\dashboard\Module',
             'defaultRoute' => 'index',
             'as access'    => [
                 'class' => 'yii\filters\AccessControl',

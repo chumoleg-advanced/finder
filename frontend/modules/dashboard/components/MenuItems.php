@@ -1,10 +1,9 @@
 <?php
 
-namespace app\modules\dashboard\components;
+namespace frontend\modules\dashboard\components;
 
 use common\models\category\Category;
 use common\models\company\Company;
-use kartik\helpers\Html;
 use Yii;
 use yii\helpers\Url;
 
@@ -85,13 +84,13 @@ class MenuItems
         foreach ($companies as $id => $name) {
             $companyItems[] = [
                 'label' => $name,
-                'url'   => Url::toRoute(['company/view', 'id' => $id])
+                'url'   => Url::toRoute(['company/update', 'id' => $id])
             ];
         }
 
         $companyItems[] = [
             'label' => '<i class="glyphicon glyphicon-plus"></i> Создать компанию',
-            'url'   => Url::toRoute('company/create')
+            'url'   => Url::toRoute('company-create/index')
         ];
 
         return $companyItems;

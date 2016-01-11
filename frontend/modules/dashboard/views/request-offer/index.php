@@ -5,20 +5,16 @@
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
 use yii\widgets\Pjax;
-use app\assets\DashboardMainAsset;
+use frontend\assets\DashboardMainAsset;
 use common\models\request\RequestOffer;
 use common\components\ManageButton;
 
 DashboardMainAsset::register($this);
 
 $this->title = 'Заявки от клиентов';
-
 ?>
 
-<div class="news-index">
-    <legend><?= $this->title; ?></legend>
-
-    <?php Pjax::begin(['id' => 'requestGrid']); ?>
+<?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
         <div class="col-md-12">
             <?= GridView::widget([
@@ -94,5 +90,4 @@ $this->title = 'Заявки от клиентов';
             ?>
         </div>
     </div>
-    <?php Pjax::end(); ?>
-</div>
+<?php Pjax::end(); ?>

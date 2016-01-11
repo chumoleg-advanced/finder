@@ -1,5 +1,5 @@
 <?php
-\app\assets\YandexMapAsset::register($this);
+frontend\assets\YandexMapAsset::register($this);
 ?>
 
 <div class="form-group">
@@ -22,4 +22,6 @@
             <div id="yandexMap"></div>
         </div>
     </div>
+
+    <?= $form->field($model, 'addressCoordinates')->hiddenInput(['class' => 'addressCoordinates']); ?>
 </div>

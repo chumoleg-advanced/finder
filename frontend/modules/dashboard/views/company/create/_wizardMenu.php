@@ -1,5 +1,5 @@
 <?php
-use app\modules\dashboard\components\wizard\CompanyWizardMenu;
+use frontend\modules\dashboard\components\CompanyWizardMenu;
 
 ?>
 

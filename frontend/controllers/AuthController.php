@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace frontend\controllers;
 
-use app\forms\PasswordResetRequestForm;
-use app\forms\ResetPasswordForm;
-use app\forms\SignUpForm;
+use frontend\forms\PasswordResetRequestForm;
+use frontend\forms\ResetPasswordForm;
+use frontend\forms\SignUpForm;
 use kartik\form\ActiveForm;
 use Yii;
 use yii\base\InvalidParamException;

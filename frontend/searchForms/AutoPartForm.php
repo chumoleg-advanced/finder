@@ -1,6 +1,6 @@
 <?php
 
-namespace app\searchForms;
+namespace frontend\searchForms;
 
 use Yii;
 

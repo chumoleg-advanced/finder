@@ -2,8 +2,8 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-use app\assets\DashboardMainAsset;
-use app\assets\DashboardRequestAsset;
+use frontend\assets\DashboardMainAsset;
+use frontend\assets\DashboardRequestAsset;
 use common\models\company\CompanyContactData;
 
 DashboardMainAsset::register($this);
@@ -24,11 +24,8 @@ if (empty($backUrl)) {
 echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 ?>
 
-<div class="news-index">
-    <?= Html::a('Вернуться к списку', $backUrl, ['class' => 'btn btn-default']); ?>
-
+<?= Html::a('Вернуться к списку', $backUrl, ['class' => 'btn btn-default']); ?>
     <div>&nbsp;</div>
-    <legend><?= $this->title; ?></legend>
 
     <div class="row">
         <div class="col-md-12">
@@ -36,79 +33,73 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
         </div>
     </div>
 
-    <?php if (!empty($bestOffer)) : ?>
-        <div>&nbsp;</div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-3">
-                    <div id="yandexMap"></div>
+<?php if (!empty($bestOffer)) : ?>
+    <div>&nbsp;</div>
+    <div class="row">
+        <div class="col-md-4">
+            <div id="yandexMapCompany"></div>
+        </div>
+        <div class="col-md-8">
+            <legend>Лучшее предложение</legend>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Стоимость: <?= $bestOffer->price; ?></h3>
+
+                    <h3>Доставка: <?= $bestOffer->delivery_price; ?></h3>
                 </div>
-                <div class="col-md-9">
-                    <legend>Лучшее предложение</legend>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3>Стоимость: <?= $bestOffer->price; ?></h3>
 
-                            <h3>Доставка: <?= $bestOffer->delivery_price; ?></h3>
-                        </div>
+                <div class="col-md-6">
+                    <h3><?= $bestOffer->company->actual_name; ?></h3>
+                    <?php
+                    if (!empty($bestOffer->company->companyAddresses)) {
+                        $firstAddress = $bestOffer->company->companyAddresses[0];
+                        echo Html::hiddenInput('addressCoordinates', $firstAddress->map_coordinates,
+                            ['class' => 'addressCoordinates']);
 
-                        <div class="col-md-6">
-                            <h3><?= $bestOffer->company->actual_name; ?></h3>
-                            <?php
-                            if (!empty($bestOffer->company->companyAddresses)) {
-                                $firstAddress = $bestOffer->company->companyAddresses[0];
-                                echo Html::hiddenInput('addressCoordinates', $firstAddress->map_coordinates,
-                                    ['class' => 'addressCoordinates']);
+                        echo 'Адрес: ' . $firstAddress->address . '<br />';
+                        foreach ($firstAddress->companyContactDatas as $contact) {
+                            echo CompanyContactData::$typeList[$contact->type] . ': '
+                                . $contact->data . '<br />';
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
 
-                                echo 'Адрес: ' . $firstAddress->address . '<br />';
-                                foreach ($firstAddress->companyContactDatas as $contact) {
-                                    echo CompanyContactData::$typeList[$contact->type] . ': '
-                                        . $contact->data . '<br />';
-                                }
-                            }
-                            ?>
-                        </div>
-                    </div>
+            <div>&nbsp;</div>
 
-                    <div>&nbsp;</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="javascript:;" class="viewMainOfferInfo">Посмотреть предложение</a>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="javascript:;" class="viewMainOfferInfo">Посмотреть предложение</a>
-
-                            <div class="mainOfferInfoBlock" style="display: none;">
-                                <?= $bestOffer->description; ?>
-                            </div>
-                        </div>
+                    <div class="mainOfferInfoBlock" style="display: none;">
+                        <?= $bestOffer->description; ?>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <?php if (!empty($otherOffers)) : ?>
-            <div>&nbsp;</div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-3">&nbsp;</div>
-                    <div class="col-md-9">
-                        <legend>Предложения других организаций</legend>
+    <?php if (!empty($otherOffers)) : ?>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="col-md-12">
+                <legend>Предложения других организаций</legend>
 
-                        <?php foreach ($otherOffers as $offer) : ?>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    Компания: <?= $offer->company->actual_name; ?><br/>
-                                    <?= $offer->description; ?>
-                                </div>
+                <?php foreach ($otherOffers as $offer) : ?>
+                    <div class="row">
+                        <div class="col-md-8">
+                            Компания: <?= $offer->company->actual_name; ?><br/>
+                            <?= $offer->description; ?>
+                        </div>
 
-                                <div class="col-md-4">
-                                    Цена: <?= $offer->price; ?><br/>
-                                    Доставка: <?= $offer->delivery_price; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                        <div class="col-md-4">
+                            Цена: <?= $offer->price; ?><br/>
+                            Доставка: <?= $offer->delivery_price; ?>
+                        </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             </div>
-        <?php endif; ?>
+        </div>
     <?php endif; ?>
-</div>
+<?php endif; ?>

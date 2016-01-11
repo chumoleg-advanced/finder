@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\dashboard\controllers;
+namespace frontend\modules\dashboard\controllers;
 
 use Yii;
-use app\modules\dashboard\components\Controller;
+use yii\web\Controller;
 use yii\filters\AccessControl;
 
 class IndexController extends Controller

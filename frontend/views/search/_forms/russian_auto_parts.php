@@ -2,9 +2,9 @@
 
 use common\components\Status;
 use common\models\car\CarFirm;
-use app\components\SearchFormGenerator;
+use frontend\components\SearchFormGenerator;
 
-/** @var $model app\searchForms\AutoPartForm */
+/** @var $model frontend\searchForms\AutoPartForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

@@ -1,14 +1,16 @@
 <?php
 
-namespace app\modules\dashboard\forms\company;
+namespace frontend\modules\dashboard\forms\company;
 
 use yii\base\Model;
 
 class ContactData extends Model
 {
     public $address;
+    public $city_id;
     public $addressCoordinates;
     public $contactDataValues;
+    public $timeWork;
 
     /**
      * @inheritdoc
@@ -16,7 +18,8 @@ class ContactData extends Model
     public function rules()
     {
         return [
-            [['address'], 'required'],
+            [['address', 'city_id', 'timeWork'], 'required'],
+            [['city_id'], 'integer'],
             [['addressCoordinates'], 'safe'],
         ];
     }
@@ -24,8 +27,10 @@ class ContactData extends Model
     public function attributeLabels()
     {
         return [
+            'city_id'            => 'Город',
             'address'            => 'Адрес',
-            'addressCoordinates' => 'Координаты'
+            'addressCoordinates' => 'Координаты',
+            'timeWork'           => 'Время работы',
         ];
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace app\forms;
+namespace frontend\forms;
 
 use common\components\Status;
 use common\models\user\User;

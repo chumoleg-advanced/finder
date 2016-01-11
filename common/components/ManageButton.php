@@ -50,7 +50,7 @@ class ManageButton
     public static function reset($url)
     {
         return Html::a('<span class="glyphicon glyphicon-repeat"></span>', $url, [
-            'title'        => 'Сбросить',
+            'title'        => 'Активировать',
             'data-confirm' => 'Вы уверены, что хотите активировать заявку?',
             'data-method'  => 'post',
             'data-pjax'    => '0',

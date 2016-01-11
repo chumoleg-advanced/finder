@@ -2,10 +2,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'Invalid Step';
+$this->title = 'Некорректный шаг';
+?>
 
-echo Html::tag('h1', $this->title);
-echo Html::tag('div', strtr('Указанный шаг недопустим ({step}).', [
-    '{step}' => $event->step
-]));
-echo Html::a('Продолжить', Url::toRoute('company/create'));
+<div><?= 'Указанный шаг (' . $event->step  . ') недопустим!'; ?></div>
+<div>&nbsp;</div>
+<?= Html::a('Вернуться', Url::toRoute('company-create/index'), ['class' => 'btn btn-default']); ?>

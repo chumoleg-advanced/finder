@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\dashboard\controllers;
+namespace frontend\modules\dashboard\controllers;
 
 use common\models\request\RequestView;
 use Yii;
-use app\modules\dashboard\components\Controller;
+use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use common\models\request\RequestOffer;

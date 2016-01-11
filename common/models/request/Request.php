@@ -30,6 +30,7 @@ use yii\helpers\Json;
  * @property RequestOffer[] $requestOffers
  * @property MainRequest    $mainRequest
  * @property RequestView[]  $requestViews
+ * @property RequestImage[] $requestImages
  */
 class Request extends ActiveRecord
 {
@@ -194,6 +195,14 @@ class Request extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getRequestImages()
+    {
+        return $this->hasMany(RequestImage::className(), ['request_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getRequestViews()
     {
         return $this->hasMany(RequestView::className(), ['request_id' => 'id']);
@@ -209,27 +218,22 @@ class Request extends ActiveRecord
     public function createModelFromPost($rubricId, $attributes, $positions)
     {
         try {
-            if (!$mainRequestId = MainRequest::create($rubricId)) {
+            if (!$mainRequestId = MainRequest::create($rubricId, $attributes)) {
                 return false;
             }
 
-            foreach ($positions as $k => $posAttr) {
+            foreach ($positions as $k => $positionAttr) {
                 $request = new self();
                 $request->main_request_id = $mainRequestId;
                 $request->id_for_client = $mainRequestId . '-' . ($k + 1);
                 $request->user_id = Yii::$app->user->id;
                 $request->rubric_id = $rubricId;
-                $request->description = ArrayHelper::getValue($posAttr, 'description');
-                $request->comment = ArrayHelper::getValue($posAttr, 'comment');
+                $request->description = ArrayHelper::getValue($positionAttr, 'description');
+                $request->comment = ArrayHelper::getValue($positionAttr, 'comment');
                 $request->status = self::STATUS_NEW;
                 $request->save();
 
-                $posAttr = $this->_saveFiles($posAttr, $request->id);
-
-                unset($posAttr['description']);
-                unset($posAttr['comment']);
-                $request->data = $attributes + $posAttr;
-                $request->save();
+                $this->_saveFiles($positionAttr, $request->id);
             }
 
             return true;
@@ -242,29 +246,29 @@ class Request extends ActiveRecord
     /**
      * @param array $posAttr
      * @param int   $requestId
-     *
-     * @return array
      */
     private function _saveFiles($posAttr, $requestId)
     {
         if (empty($posAttr['image'])) {
-            return $posAttr;
+            return;
         }
 
         /** @var \yii\web\UploadedFile $fileObj */
-        foreach ($posAttr['image'] as &$fileObj) {
+        foreach ($posAttr['image'] as $fileObj) {
             $dir = 'uploads/' . $requestId;
             if (!is_dir($dir)) {
                 mkdir($dir);
             }
 
             $fileName = $dir . '/' . md5($fileObj->name . '_' . mktime());
+            if (!$fileObj->saveAs($fileName)) {
+                continue;
+            }
 
-            $fileObj->saveAs($fileName);
-            $fileObj = $fileName;
+            $img = new RequestImage();
+            $img->request_id = $requestId;
+            $img->name = $fileName;
+            $img->save();
         }
-        unset($fileObj);
-
-        return $posAttr;
     }
 }

@@ -1,79 +1,134 @@
 <?php
 
-namespace app\modules\dashboard\controllers;
+namespace frontend\modules\dashboard\controllers;
 
-use app\modules\dashboard\forms\company\ContactDataValues;
-use common\components\Model;
-use common\models\company\Company;
 use Yii;
-use app\modules\dashboard\components\Controller;
-use beastbytes\wizard\WizardBehavior;
-use beastbytes\wizard\StepEvent;
+use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use kartik\form\ActiveForm;
+use frontend\modules\dashboard\forms\company\ContactData;
+use frontend\modules\dashboard\forms\company\MainData;
+use frontend\modules\dashboard\forms\company\RubricData;
+use common\components\Model;
+use common\models\company\Company;
+use common\models\company\CompanyContactData;
 
 class CompanyController extends Controller
 {
-    public function beforeAction($action)
+    public function actionUpdate($id)
     {
+        $model = $this->_loadModel($id);
 
-        $this->attachBehavior('wizard', [
-            'class'  => WizardBehavior::className(),
-            'steps'  => Company::getCreateStepList(),
-            'events' => [
-                WizardBehavior::EVENT_WIZARD_STEP  => [$this, 'createWizardStep'],
-                WizardBehavior::EVENT_AFTER_WIZARD => [$this, 'createAfterWizard'],
-                WizardBehavior::EVENT_INVALID_STEP => [$this, 'invalidStep']
-            ]
-        ]);
+        $postData = Yii::$app->request->post();
+        if (!empty($postData) && empty($this->_validateAllModels())) {
+            $mainModel = new MainData();
+            $rubricModel = new RubricData();
+            $contactModel = new ContactData();
 
-        return parent::beforeAction($action);
+            $mainModel->load($postData);
+            $mainModel->validate();
+
+            $rubricModel->load($postData);
+            $rubricModel->validate();
+
+            $contactModel->load($postData);
+            $contactModel->contactDataValues = ArrayHelper::getValue($postData, 'CompanyContactData');
+
+            if ($model->updateModel($mainModel, $rubricModel, $contactModel)) {
+                Yii::$app->getSession()->setFlash('success', 'Данные успешно обновлены!');
+                return $this->refresh();
+            }
+        }
+
+        return $this->render('update', ['model' => $model]);
     }
 
     /**
-     * @param null $step
+     * @param $id
      *
-     * @return mixed
-     */
-    public function actionCreate($step = null)
-    {
-        return $this->step($step);
-    }
-
-    /**
-     * @param StepEvent $event
-     *
+     * @return Company
      * @throws NotFoundHttpException
      */
-    public function createWizardStep($event)
+    private function _loadModel($id)
     {
-        if (!in_array($event->step, $this->steps)) {
-            throw new NotFoundHttpException('Страница не найдена');
+        $model = Company::findById($id);
+        if (empty($model)) {
+            throw new NotFoundHttpException('Компания не найдена');
         }
 
-        if (empty($event->stepData)) {
-            $model = $this->_getModelByStep($event->step);
+        return $model;
+    }
+
+    /**
+     * @return array
+     */
+    private function _validateAllModels()
+    {
+        $postData = Yii::$app->request->post();
+
+        $mainModel = new MainData();
+        $rubricModel = new RubricData();
+        $contactModel = new ContactData();
+
+        if ($mainModel->load($postData)
+            && $rubricModel->load($postData)
+            && $contactModel->load($postData)
+        ) {
+            $errors = ActiveForm::validate($mainModel);
+            $errors += ActiveForm::validate($rubricModel);
+            $errors += ActiveForm::validate($contactModel);
+            $errors += $this->_checkCompanyContacts($postData, []);
+
+            return $errors;
+        }
+
+        return [];
+    }
+
+    /**
+     * @param $postData
+     * @param $errors
+     *
+     * @return array
+     */
+    private function _checkCompanyContacts($postData, $errors)
+    {
+        if (isset($postData['CompanyContactData'])) {
+            $modelRows = Model::createMultiple(CompanyContactData::classname());
+            Model::loadMultiple($modelRows, $postData);
+            $errors += ActiveForm::validateMultiple($modelRows);
+        }
+
+        return $errors;
+    }
+
+    public function actionValidate($step = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $postData = Yii::$app->request->post();
+        if (!Yii::$app->request->isAjax || empty($postData) || !empty($postData['prev'])) {
+            return [];
+        }
+
+        if (empty($step)) {
+            return $this->_validateAllModels();
+
         } else {
-            $model = $event->stepData;
-        }
+            $modelName = $this->_getModelNameByStep($step);
 
-        $post = Yii::$app->request->post();
-        if (isset($post['prev'])) {
-            $event->nextStep = WizardBehavior::DIRECTION_BACKWARD;
-            $event->handled = true;
+            $model = new $modelName;
+            if ($model->load($postData)) {
+                $errors = ActiveForm::validate($model);
+                $errors = $this->_checkCompanyContacts($postData, $errors);
 
-        } elseif ($model->load($post) && $model->validate()) {
-            $event->data = $model;
-            $event->handled = true;
-
-            if (isset($post['ContactDataValues'])) {
-                $event->data['contactDataValues'] = $post['ContactDataValues'];
+                return $errors;
             }
-
-        } else {
-            $event->data = $this->render('create/' . $event->step, compact('event', 'model'));
         }
+
+        return [];
     }
 
     /**
@@ -81,74 +136,8 @@ class CompanyController extends Controller
      *
      * @return mixed
      */
-    private function _getModelByStep($step)
+    private function _getModelNameByStep($step)
     {
-        $modelName = 'app\\modules\\dashboard\\forms\\company\\' . ucfirst($step);
-        return new $modelName;
-    }
-
-    /**
-     * @param StepEvent $event
-     */
-    public function invalidStep($event)
-    {
-        $event->data = $this->render('invalidStep', compact('event'));
-        $event->continue = false;
-    }
-
-    /**
-     * @param StepEvent $event
-     *
-     * @throws NotFoundHttpException
-     */
-    public function createAfterWizard($event)
-    {
-        if ($event->step) {
-            $model = new Company();
-            if ($model->createByStepData($event->stepData)) {
-                $this->redirect(['result']);
-            } else {
-                throw new NotFoundHttpException('Ошибка при сохранении компании!');
-            }
-
-        } else {
-            $this->redirect(['create']);
-        }
-    }
-
-    public function actionView($id)
-    {
-        $model = Company::findById($id);
-        return $this->render('view', ['model' => $model]);
-    }
-
-    public function actionResult()
-    {
-        return $this->render('result', []);
-    }
-
-    public function actionValidate($step)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        $postData = Yii::$app->request->post();
-        if (!Yii::$app->request->isAjax || empty($postData) || empty($step) || !empty($postData['prev'])) {
-            return [];
-        }
-
-        $model = $this->_getModelByStep($step);
-        if ($model->load($postData)) {
-            $errors = ActiveForm::validate($model);
-            if (isset($postData['ContactDataValues'])) {
-                $modelRows = Model::createMultiple(ContactDataValues::classname());
-                Model::loadMultiple($modelRows, $postData);
-
-                $errors += ActiveForm::validateMultiple($modelRows);
-            }
-
-            return $errors;
-        }
-
-        return [];
+        return 'frontend\\modules\\dashboard\\forms\\company\\' . ucfirst($step);
     }
 }

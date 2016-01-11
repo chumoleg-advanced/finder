@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace frontend\components;
 
 use common\components\ActiveField;
 use kartik\form\ActiveForm;

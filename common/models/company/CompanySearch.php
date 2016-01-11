@@ -18,7 +18,6 @@ class CompanySearch extends Company
                 [
                     'id',
                     'status',
-                    'city_id',
                     'user_id',
                     'form',
                     'date_create',

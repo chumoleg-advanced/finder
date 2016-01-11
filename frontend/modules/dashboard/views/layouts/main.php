@@ -4,8 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
-use app\assets\AppAsset;
+use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
@@ -28,6 +27,7 @@ AppAsset::register($this);
     <?= $this->render('_menu'); ?>
 
     <div class="container">
+        <legend><?= Html::encode($this->title); ?></legend>
         <?= Alert::widget(); ?>
         <?= $content; ?>
     </div>
