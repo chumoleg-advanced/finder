@@ -7,7 +7,7 @@ use frontend\modules\dashboard\forms\company\RubricData;
 use frontend\assets\DashboardMainAsset;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use frontend\modules\dashboard\components\CompanyCreateForm;
+use frontend\modules\dashboard\components\CompanyFormGenerator;
 
 DashboardMainAsset::register($this);
 
@@ -19,7 +19,7 @@ $this->title = 'Компания ' . $model->legal_name;
     <div class="text-bold text-error"><?= Company::$statusList[$model->status]; ?></div>
     <div>&nbsp;</div>
 
-<?php $form = CompanyCreateForm::getForm(null, ['id' => 'company-data-form']); ?>
+<?php $form = CompanyFormGenerator::getForm(null, ['id' => 'company-data-form']); ?>
     <div class="row well">
         <div class="col-md-6">
             <legend>Основная информация</legend>

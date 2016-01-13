@@ -16,4 +16,9 @@ $(document).ready(function () {
             initMap(coordinates, 17, false, 'yandexMapCompany');
         }
     }
+
+    $(".fancybox").fancybox({
+        openEffect: 'elastic',
+        closeEffect: 'elastic'
+    });
 });

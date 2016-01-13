@@ -50,4 +50,20 @@ class ActiveRecord extends \yii\db\ActiveRecord
             'sort'  => ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
     }
+
+    /**
+     * @param int $id
+     *
+     * @return null|string
+     */
+    public static function getNameById($id)
+    {
+        $id = (int)$id;
+        if (empty($id)) {
+            return null;
+        }
+
+        $model = self::find()->andWhere(['id' => $id])->one();
+        return !empty($model) ? $model->name : null;
+    }
 }

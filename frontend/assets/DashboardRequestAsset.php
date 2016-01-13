@@ -17,7 +17,8 @@ class DashboardRequestAsset extends AssetBundle
     public $depends
         = [
             'frontend\assets\AppAsset',
-            'frontend\assets\YandexMapAsset'
+            'frontend\assets\YandexMapAsset',
+            'newerton\fancybox\FancyBoxAsset'
         ];
 
     public $jsOptions = ['position' => View::POS_END];

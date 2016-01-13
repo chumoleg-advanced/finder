@@ -33,7 +33,8 @@
         "yiisoft/yii2-authclient": "~2.0.0",
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-nav-x": "*",
-        "beastbytes/yii2-wizard": "*"
+        "beastbytes/yii2-wizard": "*",
+        "newerton/yii2-fancybox": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -64,6 +64,26 @@ class CarFirm extends ActiveRecord
     }
 
     /**
+     * @param int $import
+     *
+     * @return array
+     */
+    public static function getListByImport($import)
+    {
+        $data = self::find()->whereImport($import)->orderBy('name')->all();
+        return ArrayHelper::map($data, 'id', 'name');
+    }
+
+    /**
+     * @return array
+     */
+    public static function getList()
+    {
+        $data = self::find()->orderBy('name')->all();
+        return ArrayHelper::map($data, 'id', 'name');
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCarBodies()
@@ -85,25 +105,5 @@ class CarFirm extends ActiveRecord
     public function getCarEngines()
     {
         return $this->hasMany(CarEngine::className(), ['car_firm_id' => 'id']);
-    }
-
-    /**
-     * @param int $import
-     *
-     * @return array
-     */
-    public static function getListByImport($import)
-    {
-        $data = self::find()->whereImport($import)->orderBy('name')->all();
-        return ArrayHelper::map($data, 'id', 'name');
-    }
-
-    /**
-     * @return array
-     */
-    public static function getList()
-    {
-        $data = self::find()->orderBy('name')->all();
-        return ArrayHelper::map($data, 'id', 'name');
     }
 }

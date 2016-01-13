@@ -6,7 +6,7 @@ use Yii;
 use kartik\form\ActiveForm;
 use yii\helpers\Url;
 
-class CompanyCreateForm
+class CompanyFormGenerator
 {
     /**
      * @param string $step

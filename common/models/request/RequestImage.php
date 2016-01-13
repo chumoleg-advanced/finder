@@ -11,6 +11,7 @@ use common\components\ActiveRecord;
  * @property integer $id
  * @property integer $request_id
  * @property string  $name
+ * @property string  $thumb_name
  * @property string  $date_create
  *
  * @property Request $request
@@ -31,10 +32,10 @@ class RequestImage extends ActiveRecord
     public function rules()
     {
         return [
-            [['request_id', 'name'], 'required'],
+            [['request_id', 'name', 'thumb_name'], 'required'],
             [['request_id'], 'integer'],
             [['date_create'], 'safe'],
-            [['name'], 'string', 'max' => 100]
+            [['name', 'thumb_name'], 'string', 'max' => 100]
         ];
     }
 
@@ -47,6 +48,7 @@ class RequestImage extends ActiveRecord
             'id'          => 'ID',
             'request_id'  => 'Request ID',
             'name'        => 'Name',
+            'thumb_name'  => 'Thumb Name',
             'date_create' => 'Date Create',
         ];
     }

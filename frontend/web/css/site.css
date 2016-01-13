@@ -259,3 +259,7 @@ a.desc:after {
 .text-error {
     color: red;
 }
+
+.imageBlock {
+    padding: 10px;
+}

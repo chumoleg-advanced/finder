@@ -1,12 +1,12 @@
 <?php
 
-use frontend\modules\dashboard\components\CompanyCreateForm;
+use frontend\modules\dashboard\components\CompanyFormGenerator;
 
 $this->title = 'Контактные данные';
 
 echo $this->render('_wizardMenu', ['event' => $event]);
 
-$form = CompanyCreateForm::getForm($event->step, ['id' => 'company-data-form']);
+$form = CompanyFormGenerator::getForm($event->step, ['id' => 'company-data-form']);
 ?>
     <div class="row">
         <div class="col-md-8">

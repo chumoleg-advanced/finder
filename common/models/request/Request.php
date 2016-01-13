@@ -2,6 +2,8 @@
 
 namespace common\models\request;
 
+use himiklab\thumbnail\EasyThumbnailImage;
+use Imagine\Image\ManipulatorInterface;
 use Yii;
 use common\models\rubric\Rubric;
 use common\models\user\User;
@@ -9,6 +11,7 @@ use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use common\components\ActiveRecord;
 use yii\helpers\Json;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "request".
@@ -255,20 +258,32 @@ class Request extends ActiveRecord
 
         /** @var \yii\web\UploadedFile $fileObj */
         foreach ($posAttr['image'] as $fileObj) {
-            $dir = 'uploads/' . $requestId;
-            if (!is_dir($dir)) {
-                mkdir($dir);
-            }
+            try {
+                $dir = 'uploads/' . $requestId;
+                if (!is_dir($dir)) {
+                    mkdir($dir);
+                }
 
-            $fileName = $dir . '/' . md5($fileObj->name . '_' . mktime());
-            if (!$fileObj->saveAs($fileName)) {
+                $baseName = md5($fileObj->name . '_' . mktime()) . '.' . $fileObj->extension;
+                $fileName = $dir . '/' . $baseName;
+                if (!$fileObj->saveAs($fileName)) {
+                    continue;
+                }
+
+                Image::thumbnail($fileName, 1000, 1000, ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
+
+                $thumbName = $dir . '/thumb_' . $baseName;
+                Image::thumbnail($fileName, 200, 200, ManipulatorInterface::THUMBNAIL_INSET)->save($thumbName);
+
+                $img = new RequestImage();
+                $img->request_id = $requestId;
+                $img->name = $fileName;
+                $img->thumb_name = $thumbName;
+                $img->save();
+
+            } catch (Exception $e) {
                 continue;
             }
-
-            $img = new RequestImage();
-            $img->request_id = $requestId;
-            $img->name = $fileName;
-            $img->save();
         }
     }
 }

@@ -2,7 +2,7 @@
 /** @var MainData $model */
 
 use frontend\modules\dashboard\forms\company\MainData;
-use frontend\modules\dashboard\components\CompanyCreateForm;
+use frontend\modules\dashboard\components\CompanyFormGenerator;
 use frontend\assets\DashboardMainAsset;
 
 DashboardMainAsset::register($this);
@@ -19,7 +19,7 @@ if (empty($model->form)) {
 <div class="row">
     <div class="col-md-6">
         <?php
-        $form = CompanyCreateForm::getForm($event->step);
+        $form = CompanyFormGenerator::getForm($event->step);
         echo $this->render('/company/common/mainData', ['form' => $form, 'model' => $model]);
         echo $this->render('_buttons', ['visiblePrev' => false]);
         $form->end();

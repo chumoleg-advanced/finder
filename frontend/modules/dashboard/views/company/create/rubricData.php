@@ -1,6 +1,6 @@
 <?php
 
-use frontend\modules\dashboard\components\CompanyCreateForm;
+use frontend\modules\dashboard\components\CompanyFormGenerator;
 use frontend\assets\DashboardMainAsset;
 
 DashboardMainAsset::register($this);
@@ -9,7 +9,7 @@ $this->title = 'Сфера деятельности';
 
 echo $this->render('_wizardMenu', ['event' => $event]);
 
-$form = CompanyCreateForm::getForm($event->step);
+$form = CompanyFormGenerator::getForm($event->step);
 ?>
 
 <?= $this->render('/company/common/rubricData', ['form' => $form, 'model' => $model]); ?>
