@@ -40,16 +40,16 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'type[]')->checkboxButtonGroup(CarData::$tireTypeList,
+                <?= $form->field($model, 'tireType[]')->checkboxButtonGroup(CarData::$tireTypeList,
                     ['class' => 'buttonListTireType']); ?>
             </div>
 
             <div class="tireTypeWinterParams col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'typeWinter[]')->checkboxButtonGroup(CarData::$tireTypeWinterList); ?>
+                <?= $form->field($model, 'tireTypeWinter[]')->checkboxButtonGroup(CarData::$tireTypeWinterList); ?>
             </div>
 
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
             </div>
         </div>
     </div>

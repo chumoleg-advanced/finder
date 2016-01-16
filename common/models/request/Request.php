@@ -2,7 +2,6 @@
 
 namespace common\models\request;
 
-use himiklab\thumbnail\EasyThumbnailImage;
 use Imagine\Image\ManipulatorInterface;
 use Yii;
 use common\models\rubric\Rubric;
@@ -10,30 +9,29 @@ use common\models\user\User;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use common\components\ActiveRecord;
-use yii\helpers\Json;
 use yii\imagine\Image;
 
 /**
  * This is the model class for table "request".
  *
- * @property integer        $id
- * @property integer        $main_request_id
- * @property string         $id_for_client
- * @property integer        $rubric_id
- * @property string         $description
- * @property string         $comment
- * @property integer        $status
- * @property string         $data
- * @property integer        $user_id
- * @property integer        $count_view
- * @property string         $date_create
+ * @property integer            $id
+ * @property integer            $main_request_id
+ * @property string             $id_for_client
+ * @property integer            $rubric_id
+ * @property string             $description
+ * @property string             $comment
+ * @property integer            $status
+ * @property integer            $user_id
+ * @property integer            $count_view
+ * @property string             $date_create
  *
- * @property Rubric         $rubric
- * @property User           $user
- * @property RequestOffer[] $requestOffers
- * @property MainRequest    $mainRequest
- * @property RequestView[]  $requestViews
- * @property RequestImage[] $requestImages
+ * @property MainRequest        $mainRequest
+ * @property Rubric             $rubric
+ * @property User               $user
+ * @property RequestAttribute[] $requestAttributes
+ * @property RequestImage[]     $requestImages
+ * @property RequestOffer[]     $requestOffers
+ * @property RequestView[]      $requestViews
  */
 class Request extends ActiveRecord
 {
@@ -66,7 +64,7 @@ class Request extends ActiveRecord
         return [
             [['main_request_id', 'id_for_client', 'rubric_id', 'user_id'], 'required'],
             [['main_request_id', 'rubric_id', 'user_id', 'status', 'count_view'], 'integer'],
-            [['description', 'comment', 'data'], 'string'],
+            [['description', 'comment'], 'string'],
             [['date_create'], 'safe'],
             [['id_for_client'], 'string', 'max' => 15],
             [['id_for_client'], 'unique']
@@ -87,7 +85,6 @@ class Request extends ActiveRecord
             'description'     => 'Описание',
             'comment'         => 'Комментарий',
             'status'          => 'Статус',
-            'data'            => 'Data',
             'user_id'         => 'Пользователь',
             'count_view'      => 'Кол-во просмотров',
             'date_create'     => 'Дата создания',
@@ -101,18 +98,6 @@ class Request extends ActiveRecord
     public static function find()
     {
         return new RequestQuery(get_called_class());
-    }
-
-    public function beforeValidate()
-    {
-        $this->data = Json::encode($this->data);
-        return parent::beforeValidate();
-    }
-
-    public function afterFind()
-    {
-        $this->data = Json::decode($this->data);
-        return parent::afterFind();
     }
 
     /**
@@ -212,38 +197,52 @@ class Request extends ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequestAttributes()
+    {
+        return $this->hasMany(RequestAttribute::className(), ['request_id' => 'id']);
+    }
+
+    /**
      * @param $rubricId
-     * @param $attributes
+     * @param $commonAttributes
      * @param $positions
      *
      * @return bool
      */
-    public function createModelFromPost($rubricId, $attributes, $positions)
+    public function createModelFromPost($rubricId, $commonAttributes, $positions)
     {
-        try {
-            if (!$mainRequestId = MainRequest::create($rubricId, $attributes)) {
-                return false;
-            }
-
-            foreach ($positions as $k => $positionAttr) {
-                $request = new self();
-                $request->main_request_id = $mainRequestId;
-                $request->id_for_client = $mainRequestId . '-' . ($k + 1);
-                $request->user_id = Yii::$app->user->id;
-                $request->rubric_id = $rubricId;
-                $request->description = ArrayHelper::getValue($positionAttr, 'description');
-                $request->comment = ArrayHelper::getValue($positionAttr, 'comment');
-                $request->status = self::STATUS_NEW;
-                $request->save();
-
-                $this->_saveFiles($positionAttr, $request->id);
-            }
-
-            return true;
-
-        } catch (Exception $e) {
+//        try {
+        if (!$mainRequestId = MainRequest::create($rubricId)) {
             return false;
         }
+
+        foreach ($positions as $k => $positionAttr) {
+            $request = new self();
+            $request->main_request_id = $mainRequestId;
+            $request->id_for_client = $mainRequestId . '-' . ($k + 1);
+            $request->user_id = Yii::$app->user->id;
+            $request->rubric_id = $rubricId;
+            $request->description = ArrayHelper::getValue($positionAttr, 'description');
+            $request->comment = ArrayHelper::getValue($positionAttr, 'comment');
+            $request->status = self::STATUS_NEW;
+            $request->save();
+
+            $this->_saveFiles($positionAttr, $request->id);
+
+            unset($positionAttr['description']);
+            unset($positionAttr['comment']);
+            unset($positionAttr['image']);
+
+            RequestAttribute::create($request->id, ArrayHelper::merge($commonAttributes, $positionAttr));
+        }
+
+        return true;
+
+//        } catch (Exception $e) {
+//            return false;
+//        }
     }
 
     /**
@@ -285,5 +284,18 @@ class Request extends ActiveRecord
                 continue;
             }
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestAttributesData()
+    {
+        $array = [];
+        foreach ($this->requestAttributes as $obj) {
+            $array[$obj->attribute_name] = $obj->value;
+        }
+
+        return $array;
     }
 }

@@ -90,14 +90,14 @@ $dynamicParams = [
 
             <?php if (isset($parts)) : ?>
                 <div class="col-md-5 col-sm-6 col-xs-12">
-                    <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(CarData::$partsCondition, [
+                    <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$partsCondition, [
                         'class'       => 'btn-group buttonListPartsCondition',
                         'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
                     ]); ?>
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-12 partsOriginal">
-                    <?= $form->field($modelData, '[0]original')->checkboxButtonGroup(CarData::$partsOriginal, [
+                    <?= $form->field($modelData, '[0]partsOriginal')->checkboxButtonGroup(CarData::$partsOriginal, [
                         'class'       => 'btn-group',
                         'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
                     ]); ?>

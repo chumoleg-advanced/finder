@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 
 class RepairDiscForm extends BaseForm
 {
-    public $type;
+    public $discType;
     public $diameter;
     public $points;
     public $width;
@@ -20,7 +20,7 @@ class RepairDiscForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['type', 'diameter', 'points', 'count'], 'required'],
+            [['discType', 'diameter', 'points', 'count'], 'required'],
             [['width', 'out'], 'safe']
         ]);
     }
@@ -28,7 +28,7 @@ class RepairDiscForm extends BaseForm
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'type'     => 'Тип диска',
+            'discType' => 'Типы дисков',
             'diameter' => 'Диаметр',
             'points'   => 'Сверловка',
             'width'    => 'Ширина',

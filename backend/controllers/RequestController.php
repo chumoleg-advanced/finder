@@ -36,4 +36,22 @@ class RequestController extends CrudController
     {
         return RequestSearch::className();
     }
+
+    /**
+     * @param $id
+     *
+     * @return string|\yii\web\Response
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->loadModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('form', [
+                'model' => $model
+            ]);
+        }
+    }
 }

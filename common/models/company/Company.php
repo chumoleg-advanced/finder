@@ -267,7 +267,10 @@ class Company extends ActiveRecord
 
         try {
             $this->setAttributes($mainData->attributes);
-            $this->status = self::STATUS_ON_MODERATE;
+            if (!Yii::$app->user->can('accessToBackend')) {
+                $this->status = self::STATUS_ON_MODERATE;
+            }
+
             if (!$this->save()) {
                 throw new Exception();
             }

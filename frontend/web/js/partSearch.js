@@ -47,11 +47,11 @@ $(document).ready(function () {
             var form = $('#request-form');
             form.find(".dynamicFormRow").each(function (index) {
                 var attribute = {
-                    container: ".field-queryarrayform-" + index + "-condition",
+                    container: ".field-queryarrayform-" + index + "-partsCondition",
                     error: ".help-block",
-                    id: "queryarrayform-" + index + "-condition",
-                    input: "#queryarrayform-" + index + "-condition",
-                    name: "[" + index + "]condition",
+                    id: "queryarrayform-" + index + "-partsCondition",
+                    input: "#queryarrayform-" + index + "-partsCondition",
+                    name: "[" + index + "]partsCondition",
                     enableAjaxValidation: true,
                     encodeError: true
                 };

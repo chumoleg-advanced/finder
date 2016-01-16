@@ -39,10 +39,10 @@ $modelData = new \frontend\searchForms\QueryArrayForm();
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'type')->checkboxButtonGroup(CarData::$discTypeList); ?>
+                <?= $form->field($model, 'discType')->checkboxButtonGroup(CarData::$discTypeList); ?>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($modelData, '[0]condition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
             </div>
         </div>
     </div>

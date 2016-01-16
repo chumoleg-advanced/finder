@@ -15,7 +15,6 @@ use yii\helpers\Json;
  * @property integer   $user_id
  * @property integer   $rubric_id
  * @property integer   $status
- * @property string    $data
  * @property string    $date_create
  *
  * @property Rubric    $rubric
@@ -40,7 +39,6 @@ class MainRequest extends ActiveRecord
         return [
             [['user_id', 'rubric_id'], 'required'],
             [['user_id', 'rubric_id', 'status'], 'integer'],
-            [['data'], 'string'],
             [['date_create'], 'safe']
         ];
     }
@@ -55,7 +53,6 @@ class MainRequest extends ActiveRecord
             'user_id'     => 'User ID',
             'rubric_id'   => 'Rubric ID',
             'status'      => 'Status',
-            'data'        => 'Data',
             'date_create' => 'Date Create',
         ];
     }
@@ -69,30 +66,16 @@ class MainRequest extends ActiveRecord
         return new MainRequestQuery(get_called_class());
     }
 
-    public function beforeValidate()
-    {
-        $this->data = Json::encode($this->data);
-        return parent::beforeValidate();
-    }
-
-    public function afterFind()
-    {
-        $this->data = Json::decode($this->data);
-        return parent::afterFind();
-    }
-
     /**
-     * @param int   $rubricId
-     * @param array $attributes
+     * @param int $rubricId
      *
      * @return bool|int
      */
-    public static function create($rubricId, array $attributes)
+    public static function create($rubricId)
     {
         $model = new self();
         $model->rubric_id = $rubricId;
         $model->user_id = Yii::$app->user->id;
-        $model->data = $attributes;
 
         return $model->save() ? $model->id : false;
     }

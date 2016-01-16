@@ -1,5 +1,11 @@
 $(document).ready(function () {
-    initMainOfferMap();
+    if ($('#yandexMapCompany').length > 0) {
+        initMainOfferMap();
+    }
+
+    if ($('#yandexMapRequest').length > 0) {
+        initMainRequestMap();
+    }
 
     $(document).on('click', '.viewMainOfferInfo', function () {
         $('.mainOfferInfoBlock').toggle();
@@ -14,6 +20,14 @@ $(document).ready(function () {
         if (coordinates) {
             coordinates = coordinates.split(',');
             initMap(coordinates, 17, false, 'yandexMapCompany');
+        }
+    }
+
+    function initMainRequestMap() {
+        var coordinates = $('#addressCoordinatesRequest').val();
+        if (coordinates) {
+            coordinates = coordinates.split(',');
+            initMap(coordinates, 17, false, 'yandexMapRequest');
         }
     }
 

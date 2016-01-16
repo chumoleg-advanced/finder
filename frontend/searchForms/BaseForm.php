@@ -27,6 +27,11 @@ class BaseForm extends Model
     public function attributeLabels()
     {
         return [
+            'description'        => 'Описание',
+            'comment'            => 'Комментарий',
+            'image'              => 'Фото',
+            'partsCondition'     => 'Состояние',
+            'partsOriginal'      => 'Оригинальность',
             'verifyCode'         => 'Проверочный код',
             'delivery'           => 'Необходима доставка',
             'deliveryAddress'    => 'Адрес доставки',

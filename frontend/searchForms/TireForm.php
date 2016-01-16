@@ -7,8 +7,8 @@ use yii\helpers\ArrayHelper;
 
 class TireForm extends BaseForm
 {
-    public $type;
-    public $typeWinter = [];
+    public $tireType;
+    public $tireTypeWinter = [];
 
     public $diameter;
     public $width;
@@ -26,24 +26,24 @@ class TireForm extends BaseForm
     public function rules()
     {
         return ArrayHelper::merge(parent::rules(), [
-            [['diameter', 'width', 'height', 'type', 'count'], 'required'],
+            [['diameter', 'width', 'height', 'tireType', 'count'], 'required'],
             [['priceFrom', 'priceTo'], 'double', 'min' => 0],
-            [['manufacturer'], 'safe']
+            [['manufacturer', 'tireTypeWinter'], 'safe']
         ]);
     }
 
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'type'         => 'Тип шин',
-            'typeWinter'   => 'Тип зимних шин',
-            'diameter'     => 'Диаметр',
-            'width'        => 'Ширина',
-            'height'       => 'Высота',
-            'count'        => 'Кол-во',
-            'priceFrom'    => 'Стоимость от',
-            'priceTo'      => 'Стоимость до',
-            'manufacturer' => 'Производитель',
+            'tireType'       => 'Типы шин',
+            'tireTypeWinter' => 'Типы зимних шин',
+            'diameter'       => 'Диаметр',
+            'width'          => 'Ширина',
+            'height'         => 'Высота',
+            'count'          => 'Кол-во',
+            'priceFrom'      => 'Стоимость от',
+            'priceTo'        => 'Стоимость до',
+            'manufacturer'   => 'Производитель',
         ]);
     }
 }

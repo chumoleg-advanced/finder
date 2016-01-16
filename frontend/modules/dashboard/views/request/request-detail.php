@@ -1,20 +1,25 @@
 <?php
 
 /** @var \common\models\request\Request $model */
+/** @var yii\web\View $this */
 
 use frontend\assets\DashboardRequestAsset;
 use yii\widgets\DetailView;
-use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
-use common\models\car\CarFirm;
-use common\models\car\CarModel;
-use common\models\car\CarBody;
-use common\models\car\CarEngine;
-use common\components\CarData;
+use common\models\request\RequestAttribute;
 
 DashboardRequestAsset::register($this);
 
-$mainData = $model->mainRequest->data;
+$formModelClass = $model->rubric->geFormModelClassName();
+$formModel = new $formModelClass();
+
+$requestAttributes = $model->getRequestAttributesData();
+$carData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_CAR);
+$wheelData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_WHEEL);
+$partData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_PART);
+$priceData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_PRICE);
+$deliveryData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_DELIVERY);
 ?>
 
 <a href="javascript:;" class="requestInfoView">Информация по заявке</a>
@@ -44,72 +49,84 @@ $mainData = $model->mainRequest->data;
                 ]
             ]);
             ?>
+            <div>&nbsp;</div>
 
-            <div>&nbsp;</div>
-            <legend>Информация о доставке</legend>
-            <?= ArrayHelper::getValue($mainData, 'deliveryAddress'); ?>
+            <?php if (!empty($partData)) : ?>
+                <legend>Дополнительная информация</legend>
+                <table class="table table-striped table-condensed table-bordered detail-view">
+                    <?php foreach ($partData as $label => $value) : ?>
+                        <tr>
+                            <th><?= $label; ?></th>
+                            <td><?= $value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <div>&nbsp;</div>
+            <?php endif; ?>
 
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <legend>Изображения</legend>
-            <?php foreach ($model->requestImages as $requestImage) : ?>
-                <a class="fancybox imageBlock" rel="gallery1" href="<?= '/' . $requestImage->name; ?>">
-                    <img src="<?= '/' . $requestImage->thumb_name; ?>" alt=""/>
-                </a>
-            <?php endforeach; ?>
+            <?php if (!empty($model->requestImages)) : ?>
+                <legend>Изображения</legend>
+                <?php foreach ($model->requestImages as $requestImage) : ?>
+                    <div class="col-md-6">
+                        <a class="fancybox imageBlock" rel="gallery1" href="<?= '/' . $requestImage->name; ?>">
+                            <img src="<?= '/' . $requestImage->thumb_name; ?>" alt=""/>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+                <div>&nbsp;</div>
+            <?php endif; ?>
         </div>
 
         <div class="col-md-6">
-            <?php $carBrand = CarFirm::getNameById(ArrayHelper::getValue($mainData, 'carFirm')); ?>
-            <?php if (!empty($carBrand)) : ?>
-                <?php
-                $carModel = CarModel::getNameById(ArrayHelper::getValue($mainData, 'carModel'));
-                $carBody = CarBody::getNameById(ArrayHelper::getValue($mainData, 'carBody'));
-                $carEngine = CarEngine::getNameById(ArrayHelper::getValue($mainData, 'carEngine'));
-                ?>
+            <?php if (!empty($carData)) : ?>
                 <legend>Для автомобиля</legend>
 
-                <table class="table table-striped table-bordered detail-view">
-                    <tr>
-                        <th>Марка</th>
-                        <td><?= $carBrand; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Модель</th>
-                        <td><?= $carModel; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Кузов</th>
-                        <td><?= $carBody; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Двигатель</th>
-                        <td><?= $carEngine; ?></td>
-                    </tr>
+                <table class="table table-striped table-condensed table-bordered detail-view">
+                    <?php foreach ($carData as $label => $value) : ?>
+                        <tr>
+                            <th><?= $label; ?></th>
+                            <td><?= $value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
                 </table>
+                <div>&nbsp;</div>
             <?php endif; ?>
 
-            <legend>Дополнительная информация</legend>
-            <table class="table table-striped table-bordered detail-view">
-                <tr>
-                    <th>VIN или FRAME</th>
-                    <td><?= ArrayHelper::getValue($mainData, 'vinNumber'); ?></td>
-                </tr>
-                <tr>
-                    <th>Год выпуска</th>
-                    <td><?= ArrayHelper::getValue($mainData, 'yearRelease'); ?></td>
-                </tr>
-                <tr>
-                    <th>Привод</th>
-                    <td><?= ArrayHelper::getValue(CarData::$driveList,
-                            ArrayHelper::getValue($mainData, 'drive')); ?></td>
-                </tr>
-                <tr>
-                    <th>Коробка передач</th>
-                    <td><?= ArrayHelper::getValue(CarData::$transmissionList,
-                            ArrayHelper::getValue($mainData, 'transmission')); ?></td>
-                </tr>
-            </table>
+            <?php if (!empty($wheelData)) : ?>
+                <legend>Параметры шины/диска</legend>
+
+                <table class="table table-striped table-condensed table-bordered detail-view">
+                    <?php foreach ($wheelData as $label => $value) : ?>
+                        <tr>
+                            <th><?= $label; ?></th>
+                            <td><?= $value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <div>&nbsp;</div>
+            <?php endif; ?>
+
+            <?php if (!empty($priceData)) : ?>
+                <legend>Цена</legend>
+                <table class="table table-striped table-condensed table-bordered detail-view">
+                    <?php foreach ($priceData as $label => $value) : ?>
+                        <tr>
+                            <th><?= $label; ?></th>
+                            <td><?= $value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <div>&nbsp;</div>
+            <?php endif; ?>
+
+            <?php if (!empty($deliveryData)) : ?>
+                <legend>Информация о доставке</legend>
+                <b>Адрес:</b> <?= $deliveryData['deliveryAddress']; ?>
+                <div>&nbsp;</div>
+                <?= Html::hiddenInput('addressCoordinatesRequest', $deliveryData['addressCoordinates'],
+                    ['id' => 'addressCoordinatesRequest']); ?>
+                <div id="yandexMapRequest"></div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

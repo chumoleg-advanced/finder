@@ -10,8 +10,8 @@ class QueryArrayForm extends Model
     public $description;
     public $comment;
     public $image = [];
-    public $condition = [];
-    public $original = [];
+    public $partsCondition = [];
+    public $partsOriginal = [];
 
     /**
      * @inheritdoc
@@ -20,22 +20,16 @@ class QueryArrayForm extends Model
     {
         return [
             [['description'], 'required'],
-            [['condition'], 'required', 'on' => 'parts'],
+            [['partsCondition'], 'required', 'on' => 'parts'],
             [['image'], 'safe'],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
-            [['comment', 'original', 'condition'], 'safe']
+            [['comment', 'partsOriginal', 'partsCondition'], 'safe']
         ];
     }
 
     public function attributeLabels()
     {
-        return [
-            'description' => 'Описание',
-            'comment'     => 'Комментарий',
-            'image'       => 'Фото',
-            'condition'   => 'Состояние',
-            'original'    => 'Оригинальность',
-        ];
+        return (new BaseForm())->attributeLabels();
     }
 
     public function beforeValidate()
@@ -47,12 +41,12 @@ class QueryArrayForm extends Model
 
     private function _checkOriginal()
     {
-        if ($this->scenario != 'parts' || empty($this->condition)) {
+        if ($this->scenario != 'parts' || empty($this->partsCondition)) {
             return;
         }
 
-        if (in_array(1, $this->condition) && empty($this->original)) {
-            $this->addError('original', 'Необходимо заполнить «Оригинальность».');
+        if (in_array(1, $this->partsCondition) && empty($this->partsOriginal)) {
+            $this->addError('partsOriginal', 'Необходимо заполнить «Оригинальность».');
         }
     }
 }

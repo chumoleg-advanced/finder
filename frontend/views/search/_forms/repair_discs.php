@@ -35,8 +35,8 @@ $form = SearchFormGenerator::getFormSingle($rubric->id);
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-6 col-sm-12 col-xs-12">
-                <?php $model->type = 1; ?>
-                <?= $form->field($model, 'type')->checkboxButtonGroup(CarData::$discTypeList); ?>
+                <?php $model->discType = 1; ?>
+                <?= $form->field($model, 'discType')->checkboxButtonGroup(CarData::$discTypeList); ?>
             </div>
         </div>
     </div>
