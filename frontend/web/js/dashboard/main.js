@@ -36,4 +36,12 @@ $(document).ready(function () {
             data: {'RequestSearch[categoryId]': value}
         });
     });
+
+    $(document).on('beforeSubmit', 'form#company-data-form', function (event) {
+        if (!confirm('Статус компании изменится на "На модерации"! Продолжить?')) {
+            return false;
+        }
+
+        return true;
+    });
 });
