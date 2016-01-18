@@ -57,13 +57,13 @@ class RequestOfferController extends Controller
         if (!empty($postData)) {
             /** @var RequestOfferForm[] $modelRows */
             $oldIDs = ArrayHelper::map($model->requestOffers, 'id', 'id');
-            $modelRows = Model::createMultiple(RequestOfferForm::classname(), $model->requestOffers);
+            $modelRows = Model::createMultiple(RequestOfferForm::classname());
             Model::loadMultiple($modelRows, Yii::$app->request->post());
 
-            $deletedIds = array_diff($oldIDs, array_filter(ArrayHelper::map($modelRows, 'id', 'id')));
-            if (!empty($deletedIds)) {
-                RequestOffer::deleteAll(['id' => $deletedIds]);
-            }
+//            $deletedIds = array_diff($oldIDs, array_filter(ArrayHelper::map($modelRows, 'id', 'id')));
+//            if (!empty($deletedIds)) {
+//                RequestOffer::deleteAll(['id' => $deletedIds]);
+//            }
 
             foreach ($modelRows as $k => $requestOffer) {
                 $requestOffer->mainRequestOffer = $model;

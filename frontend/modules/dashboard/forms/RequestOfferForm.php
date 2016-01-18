@@ -38,7 +38,7 @@ class RequestOfferForm extends Model
             [['companyId'], 'integer'],
             [['imageData'], 'safe'],
             [['imageData'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
-            [['comment', 'partsOriginal', 'partsCondition'], 'safe']
+            [['id', 'comment', 'partsOriginal', 'partsCondition'], 'safe']
         ];
     }
 
@@ -71,23 +71,21 @@ class RequestOfferForm extends Model
 //        RequestAttribute::create($requestOffer->id, $this->attributes);
     }
 
+    public function update()
+    {
+        $requestOffer = RequestOffer::findById($this->id);
+        $this->_saveAttributes($requestOffer);
+
+        $this->_saveFiles($requestOffer->id);
+    }
+
     /**
      * @return RequestOffer
      */
     private function _createNewRequestOffer()
     {
         $requestOffer = new RequestOffer();
-        $requestOffer->main_request_offer_id = $this->mainRequestOffer->id;
-        $requestOffer->user_id = Yii::$app->user->id;
-        $requestOffer->request_id = $this->mainRequestOffer->request_id;
-        $requestOffer->company_id = $this->companyId;
-        $requestOffer->description = $this->description;
-        $requestOffer->comment = $this->comment;
-        $requestOffer->price = $this->price;
-        $requestOffer->status = RequestOffer::STATUS_ACTIVE;
-        $requestOffer->save();
-
-        return $requestOffer;
+        return $this->_saveAttributes($requestOffer);
     }
 
     /**
@@ -104,6 +102,9 @@ class RequestOfferForm extends Model
             try {
                 $dir = 'uploads/offer/' . $requestOfferId;
                 if (!is_dir($dir)) {
+                    mkdir($dir);
+                } else {
+                    rmdir($dir);
                     mkdir($dir);
                 }
 
@@ -127,5 +128,23 @@ class RequestOfferForm extends Model
                 continue;
             }
         }
+    }
+
+    /**
+     * @param $requestOffer
+     */
+    private function _saveAttributes($requestOffer)
+    {
+        $requestOffer->main_request_offer_id = $this->mainRequestOffer->id;
+        $requestOffer->user_id = Yii::$app->user->id;
+        $requestOffer->request_id = $this->mainRequestOffer->request_id;
+        $requestOffer->company_id = $this->companyId;
+        $requestOffer->description = $this->description;
+        $requestOffer->comment = $this->comment;
+        $requestOffer->price = $this->price;
+        $requestOffer->status = RequestOffer::STATUS_ACTIVE;
+        $requestOffer->save();
+
+        return $requestOffer;
     }
 }
