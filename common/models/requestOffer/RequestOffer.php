@@ -1,40 +1,44 @@
 <?php
 
-namespace common\models\request;
+namespace common\models\requestOffer;
 
-use common\models\user\User;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\company\Company;
+use common\models\request\Request;
+use common\models\user\User;
 
 /**
  * This is the model class for table "request_offer".
  *
- * @property integer $id
- * @property integer $request_id
- * @property integer $user_id
- * @property integer $company_id
- * @property string  $description
- * @property integer $status
- * @property string  $price
- * @property string  $delivery_price
- * @property string  $date_create
+ * @property integer                 $id
+ * @property integer                 $main_request_offer_id
+ * @property integer                 $request_id
+ * @property integer                 $user_id
+ * @property integer                 $company_id
+ * @property string                  $description
+ * @property string                  $comment
+ * @property integer                 $status
+ * @property string                  $price
+ * @property string                  $delivery_price
+ * @property string                  $date_create
  *
- * @property Company $company
- * @property Request $request
- * @property User    $user
+ * @property Company                 $company
+ * @property MainRequestOffer        $mainRequestOffer
+ * @property Request                 $request
+ * @property User                    $user
+ * @property RequestOfferAttribute[] $requestOfferAttributes
+ * @property RequestOfferImage[]     $requestOfferImages
  */
 class RequestOffer extends ActiveRecord
 {
-    const STATUS_NEW = 1;
-    const STATUS_ACTIVE = 2;
-    const STATUS_CLOSED = 3;
+    const STATUS_ACTIVE = 1;
+    const STATUS_CLOSED = 2;
 
     public static $statusList
         = [
-            self::STATUS_NEW    => 'Новая',
-            self::STATUS_ACTIVE => 'Обработана',
-            self::STATUS_CLOSED => 'Закрыта'
+            self::STATUS_ACTIVE => 'Открыто',
+            self::STATUS_CLOSED => 'Закрыто'
         ];
 
     /**
@@ -51,16 +55,10 @@ class RequestOffer extends ActiveRecord
     public function rules()
     {
         return [
-            [['request_id', 'user_id'], 'required'],
-            [
-                'user_id',
-                'unique',
-                'targetAttribute' => ['request_id', 'user_id'],
-                'message'         => 'Данная заявка уже была обработана'
-            ],
-            [['request_id', 'user_id', 'price', 'company_id'], 'required', 'on' => 'update'],
+            [['main_request_offer_id', 'request_id', 'user_id', 'company_id'], 'required'],
+            [['main_request_offer_id', 'request_id', 'user_id', 'price', 'company_id'], 'required', 'on' => 'update'],
             [['request_id', 'company_id', 'status', 'user_id'], 'integer'],
-            [['description'], 'string'],
+            [['description', 'comment'], 'string'],
             [['price', 'delivery_price'], 'number'],
             [['price', 'delivery_price'], 'double', 'min' => 0],
             [['date_create'], 'safe']
@@ -78,6 +76,7 @@ class RequestOffer extends ActiveRecord
             'user_id'        => 'Пользователь',
             'company_id'     => 'Компания',
             'description'    => 'Описание',
+            'comment'        => 'Комментарий',
             'status'         => 'Статус',
             'price'          => 'Цена',
             'delivery_price' => 'Стоимость доставки',
@@ -98,9 +97,10 @@ class RequestOffer extends ActiveRecord
     {
         $offers = self::find()
             ->joinWith('company')
+            ->joinWith('mainRequest')
             ->andWhere([
-                'request_id'           => $requestId,
-                'request_offer.status' => self::STATUS_ACTIVE
+                'mainRequest.request_id' => $requestId,
+                'request_offer.status'   => self::STATUS_ACTIVE
             ])
             ->all();
 
@@ -126,24 +126,19 @@ class RequestOffer extends ActiveRecord
     }
 
     /**
-     * @param int $requestId
-     *
-     * @return RequestOffer
-     */
-    public static function getModelByRequest($requestId)
-    {
-        return self::find()
-            ->andWhere(['request_id' => $requestId])
-            ->andWhere(['user_id' => Yii::$app->user->id])
-            ->one();
-    }
-
-    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCompany()
     {
         return $this->hasOne(Company::className(), ['id' => 'company_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMainRequestOffer()
+    {
+        return $this->hasOne(MainRequestOffer::className(), ['id' => 'main_request_offer_id']);
     }
 
     /**
@@ -160,5 +155,21 @@ class RequestOffer extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequestOfferAttributes()
+    {
+        return $this->hasMany(RequestOfferAttribute::className(), ['request_offer_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRequestOfferImages()
+    {
+        return $this->hasMany(RequestOfferImage::className(), ['request_offer_id' => 'id']);
     }
 }

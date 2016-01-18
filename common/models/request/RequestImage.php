@@ -44,13 +44,7 @@ class RequestImage extends ActiveRecord
      */
     public function attributeLabels()
     {
-        return [
-            'id'          => 'ID',
-            'request_id'  => 'Request ID',
-            'name'        => 'Name',
-            'thumb_name'  => 'Thumb Name',
-            'date_create' => 'Date Create',
-        ];
+        return [];
     }
 
     /**

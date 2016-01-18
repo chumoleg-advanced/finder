@@ -2,14 +2,12 @@
 
 namespace common\models\request;
 
-use Imagine\Image\ManipulatorInterface;
+use common\models\requestOffer\MainRequestOffer;
 use Yii;
 use common\models\rubric\Rubric;
 use common\models\user\User;
-use yii\base\Exception;
-use yii\helpers\ArrayHelper;
 use common\components\ActiveRecord;
-use yii\imagine\Image;
+use common\models\requestOffer\RequestOffer;
 
 /**
  * This is the model class for table "request".
@@ -124,15 +122,9 @@ class Request extends ActiveRecord
 
         $users = User::getListByRubric($this->rubric_id);
         foreach ($users as $userObj) {
-            $companies = $userObj->companies;
-
-            $requestOffer = new RequestOffer();
+            $requestOffer = new MainRequestOffer();
             $requestOffer->request_id = $this->id;
             $requestOffer->user_id = $userObj->id;
-            if (count($companies) == 1) {
-                $requestOffer->company_id = $companies[0]->id;
-            }
-
             $requestOffer->save();
         }
     }
@@ -202,88 +194,6 @@ class Request extends ActiveRecord
     public function getRequestAttributes()
     {
         return $this->hasMany(RequestAttribute::className(), ['request_id' => 'id']);
-    }
-
-    /**
-     * @param $rubricId
-     * @param $commonAttributes
-     * @param $positions
-     *
-     * @return bool
-     */
-    public function createModelFromPost($rubricId, $commonAttributes, $positions)
-    {
-//        try {
-        if (!$mainRequestId = MainRequest::create($rubricId)) {
-            return false;
-        }
-
-        foreach ($positions as $k => $positionAttr) {
-            $request = new self();
-            $request->main_request_id = $mainRequestId;
-            $request->id_for_client = $mainRequestId . '-' . ($k + 1);
-            $request->user_id = Yii::$app->user->id;
-            $request->rubric_id = $rubricId;
-            $request->description = ArrayHelper::getValue($positionAttr, 'description');
-            $request->comment = ArrayHelper::getValue($positionAttr, 'comment');
-            $request->status = self::STATUS_NEW;
-            $request->save();
-
-            $this->_saveFiles($positionAttr, $request->id);
-
-            unset($positionAttr['description']);
-            unset($positionAttr['comment']);
-            unset($positionAttr['image']);
-
-            RequestAttribute::create($request->id, ArrayHelper::merge($commonAttributes, $positionAttr));
-        }
-
-        return true;
-
-//        } catch (Exception $e) {
-//            return false;
-//        }
-    }
-
-    /**
-     * @param array $posAttr
-     * @param int   $requestId
-     */
-    private function _saveFiles($posAttr, $requestId)
-    {
-        if (empty($posAttr['image'])) {
-            return;
-        }
-
-        /** @var \yii\web\UploadedFile $fileObj */
-        foreach ($posAttr['image'] as $fileObj) {
-            try {
-                $dir = 'uploads/' . $requestId;
-                if (!is_dir($dir)) {
-                    mkdir($dir);
-                }
-
-                $baseName = md5($fileObj->name . '_' . mktime()) . '.' . $fileObj->extension;
-                $fileName = $dir . '/' . $baseName;
-                if (!$fileObj->saveAs($fileName)) {
-                    continue;
-                }
-
-                Image::thumbnail($fileName, 1000, 1000, ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
-
-                $thumbName = $dir . '/thumb_' . $baseName;
-                Image::thumbnail($fileName, 200, 200, ManipulatorInterface::THUMBNAIL_INSET)->save($thumbName);
-
-                $img = new RequestImage();
-                $img->request_id = $requestId;
-                $img->name = $fileName;
-                $img->thumb_name = $thumbName;
-                $img->save();
-
-            } catch (Exception $e) {
-                continue;
-            }
-        }
     }
 
     /**

@@ -2,13 +2,18 @@
 
 namespace frontend\modules\dashboard\controllers;
 
+use common\components\Model;
 use common\models\request\RequestView;
+use common\models\requestOffer\RequestOffer;
+use frontend\modules\dashboard\forms\RequestOfferForm;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
-use common\models\request\RequestOffer;
-use common\models\request\RequestOfferSearch;
+use common\models\requestOffer\MainRequestOffer;
+use common\models\requestOffer\MainRequestOfferSearch;
+use yii\web\UploadedFile;
 
 class RequestOfferController extends Controller
 {
@@ -17,18 +22,18 @@ class RequestOfferController extends Controller
         return [
             'close' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => RequestOffer::STATUS_CLOSED
+                'status' => MainRequestOffer::STATUS_CLOSED
             ],
-            'reset'  => [
+            'reset' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => RequestOffer::STATUS_NEW
+                'status' => MainRequestOffer::STATUS_NEW
             ],
         ];
     }
 
     public function actionIndex()
     {
-        $searchModel = new RequestOfferSearch();
+        $searchModel = new MainRequestOfferSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $this->_rememberUrl();
@@ -46,36 +51,57 @@ class RequestOfferController extends Controller
 
     public function actionOffer($id)
     {
-        $formModel = $this->loadModel($id);
-        if ($formModel->status == RequestOffer::STATUS_NEW) {
-            $checkView = RequestView::findByUserIp($formModel->request_id);
-            if (!$checkView) {
-                $formModel->request->updateCounters(['count_view' => 1]);
+        $model = $this->loadModel($id);
+
+        $postData = Yii::$app->request->post();
+        if (!empty($postData)) {
+            /** @var RequestOfferForm[] $modelRows */
+            $oldIDs = ArrayHelper::map($model->requestOffers, 'id', 'id');
+            $modelRows = Model::createMultiple(RequestOfferForm::classname(), $model->requestOffers);
+            Model::loadMultiple($modelRows, Yii::$app->request->post());
+
+            $deletedIds = array_diff($oldIDs, array_filter(ArrayHelper::map($modelRows, 'id', 'id')));
+            if (!empty($deletedIds)) {
+                RequestOffer::deleteAll(['id' => $deletedIds]);
             }
 
-            $formModel->scenario = 'update';
-            if ($formModel->load(Yii::$app->request->post()) && $formModel->validate()) {
-                $formModel->status = RequestOffer::STATUS_ACTIVE;
-                $formModel->save();
+            foreach ($modelRows as $k => $requestOffer) {
+                $requestOffer->mainRequestOffer = $model;
+                $requestOffer->imageData = UploadedFile::getInstances(
+                    $requestOffer, '[' . $k . ']imageData');
 
-                return $this->redirect(['index']);
+                if (!empty($requestOffer->id)) {
+                    $requestOffer->update();
+                } else {
+                    $requestOffer->create();
+                }
             }
+
+            $model->status = MainRequestOffer::STATUS_ACTIVE;
+            $model->save();
+
+            return $this->redirect(['index']);
+        }
+
+        $checkView = RequestView::findByUserIp($model->request_id);
+        if (!$checkView) {
+            $model->request->updateCounters(['count_view' => 1]);
         }
 
         return $this->render('form', [
-            'formModel' => $formModel
+            'model' => $model
         ]);
     }
 
     /**
      * @param $id
      *
-     * @return RequestOffer|null
+     * @return MainRequestOffer|null
      * @throws NotFoundHttpException
      */
     public function loadModel($id)
     {
-        $model = RequestOffer::findById($id);
+        $model = MainRequestOffer::findById($id);
         if (empty($model)) {
             throw new NotFoundHttpException('Заявка не найдена');
         }
@@ -85,6 +111,6 @@ class RequestOfferController extends Controller
 
     protected function getModel()
     {
-        return RequestOffer::className();
+        return MainRequestOffer::className();
     }
 }

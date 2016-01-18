@@ -142,7 +142,8 @@ $dynamicParams = [
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <?= Html::button($buttonText, ['class' => 'add-item btn btn-success btn-sm']); ?>
+                <?= Html::button('<i class="glyphicon glyphicon-plus"></i> ' . $buttonText,
+                    ['class' => 'add-item btn btn-success btn-sm']); ?>
             </div>
         </div>
     </div>

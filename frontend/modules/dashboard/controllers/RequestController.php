@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 use frontend\searchForms\BaseForm;
 use common\components\SaveRequest;
 use common\models\request\Request;
-use common\models\request\RequestOffer;
+use common\models\requestOffer\RequestOffer;
 use common\models\request\RequestSearch;
 use common\models\rubric\Rubric;
 

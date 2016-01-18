@@ -3,8 +3,8 @@
 use yii\helpers\Url;
 
 /** @var \common\models\request\Request $model */
-/** @var \common\models\request\RequestOffer $bestOffer */
-/** @var \common\models\request\RequestOffer[] $otherOffers */
+/** @var \common\models\requestOffer\RequestOffer $bestOffer */
+/** @var \common\models\requestOffer\RequestOffer[] $otherOffers */
 
 $this->title = 'Заявка #' . $model->id;
 

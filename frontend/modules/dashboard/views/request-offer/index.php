@@ -1,12 +1,12 @@
 <?php
 
-/** @var \common\models\request\RequestOfferSearch $searchModel */
+/** @var \common\models\requestOffer\MainRequestOfferSearch $searchModel */
 
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
 use yii\widgets\Pjax;
 use frontend\assets\DashboardMainAsset;
-use common\models\request\RequestOffer;
+use common\models\requestOffer\MainRequestOffer;
 use common\components\ManageButton;
 
 DashboardMainAsset::register($this);
@@ -24,16 +24,9 @@ $this->title = 'Заявки от клиентов';
                     'request_id',
                     [
                         'attribute' => 'status',
-                        'filter'    => RequestOffer::$statusList,
+                        'filter'    => MainRequestOffer::$statusList,
                         'value'     => function ($data) {
-                            return RequestOffer::$statusList[$data->status];
-                        }
-                    ],
-                    [
-                        'attribute' => 'company_id',
-                        'filter'    => $searchModel->getListCompanies(),
-                        'value'     => function ($data) {
-                            return !empty($data->company) ? $data->company->legal_name : null;
+                            return MainRequestOffer::$statusList[$data->status];
                         }
                     ],
                     [
@@ -76,11 +69,11 @@ $this->title = 'Заявки от клиентов';
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
                             'close' => function ($url, $model) {
-                                return $model->status != RequestOffer::STATUS_CLOSED
+                                return $model->status != MainRequestOffer::STATUS_CLOSED
                                     ? ManageButton::close($url) : null;
                             },
                             'reset' => function ($url, $model) {
-                                return $model->status == RequestOffer::STATUS_CLOSED
+                                return $model->status == MainRequestOffer::STATUS_CLOSED
                                     ? ManageButton::reset($url) : null;
                             }
                         ],

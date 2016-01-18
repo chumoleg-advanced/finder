@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\request;
+namespace common\models\requestOffer;
 
 use common\components\activeQueryTraits\CommonQueryTrait;
 use yii\db\ActiveQuery;

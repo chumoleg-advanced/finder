@@ -6,7 +6,6 @@ use Yii;
 use common\components\ActiveRecord;
 use common\models\rubric\Rubric;
 use common\models\user\User;
-use yii\helpers\Json;
 
 /**
  * This is the model class for table "main_request".
@@ -55,15 +54,6 @@ class MainRequest extends ActiveRecord
             'status'      => 'Status',
             'date_create' => 'Date Create',
         ];
-    }
-
-    /**
-     * @inheritdoc
-     * @return MainRequestQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new MainRequestQuery(get_called_class());
     }
 
     /**

@@ -1,12 +1,13 @@
 <?php
 
-namespace common\models\request;
+namespace common\models\requestOffer;
 
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
+use common\models\request\Request;
 
-class RequestOfferSearch extends RequestOffer
+class MainRequestOfferSearch extends MainRequestOffer
 {
     public $rubricId;
     public $categoryId;
@@ -18,7 +19,7 @@ class RequestOfferSearch extends RequestOffer
     public function rules()
     {
         return [
-            [['request_id', 'status', 'categoryId', 'rubricId', 'company_id'], 'integer'],
+            [['request_id', 'status', 'categoryId', 'rubricId'], 'integer'],
             [['date_create', 'description'], 'safe']
         ];
     }
@@ -29,8 +30,9 @@ class RequestOfferSearch extends RequestOffer
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'categoryId' => 'Категория',
-            'rubricId'   => 'Рубрика',
+            'categoryId'  => 'Категория',
+            'rubricId'    => 'Рубрика',
+            'description' => 'Описание',
         ]);
     }
 
@@ -54,7 +56,7 @@ class RequestOfferSearch extends RequestOffer
 
         if (!empty($this->status)) {
             $query->andWhere([
-                'request_offer.status' => [
+                'main_request_offer.status' => [
                     self::STATUS_NEW,
                     self::STATUS_ACTIVE,
                 ]
@@ -64,19 +66,18 @@ class RequestOfferSearch extends RequestOffer
         }
 
         $query->andFilterWhere([
-            'request_offer.id'                => $this->id,
-            'request_offer.status'            => $this->status,
-            'request_offer.company_id'        => $this->company_id,
-            'request_offer.request_id'        => $this->request_id,
-            'request.rubric_id'               => $this->rubricId,
-            'rubric.category_id'              => $this->categoryId,
-            'DATE(request_offer.date_create)' => $this->date_create
+            'main_request_offer.id'                => $this->id,
+            'main_request_offer.status'            => $this->status,
+            'main_request_offer.request_id'        => $this->request_id,
+            'request.rubric_id'                    => $this->rubricId,
+            'rubric.category_id'                   => $this->categoryId,
+            'DATE(main_request_offer.date_create)' => $this->date_create
         ]);
 
         $query->andFilterWhere(['like', 'request.description', $this->description]);
 
         if (Yii::$app->user->can('accessToPersonalCabinet')) {
-            $query->andWhere(['request_offer.user_id' => Yii::$app->user->id]);
+            $query->andWhere(['main_request_offer.user_id' => Yii::$app->user->id]);
         }
 
         return $dataProvider;
@@ -87,7 +88,7 @@ class RequestOfferSearch extends RequestOffer
         $data = self::find()
             ->joinWith('request.rubric.category')
             ->distinct('rubric.category_id')
-            ->andWhere(['request_offer.user_id' => Yii::$app->user->id])
+            ->andWhere(['main_request_offer.user_id' => Yii::$app->user->id])
             ->all();
 
         return ArrayHelper::map($data, 'request.rubric.category_id', 'request.rubric.category.name');
@@ -98,21 +99,10 @@ class RequestOfferSearch extends RequestOffer
         $data = self::find()
             ->joinWith('request.rubric')
             ->distinct('rubric.id')
-            ->andWhere(['request_offer.user_id' => Yii::$app->user->id])
+            ->andWhere(['main_request_offer.user_id' => Yii::$app->user->id])
             ->all();
 
         return ArrayHelper::map($data, 'request.rubric_id', 'request.rubric.name');
-    }
-
-    public function getListCompanies()
-    {
-        $data = self::find()
-            ->joinWith('company')
-            ->andWhere('company.id IS NOT NULL')
-            ->andWhere(['request_offer.user_id' => Yii::$app->user->id])
-            ->all();
-
-        return ArrayHelper::map($data, 'company_id', 'company.legal_name');
     }
 
     public function getStatisticRow()

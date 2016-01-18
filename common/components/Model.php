@@ -32,16 +32,17 @@ class Model extends \yii\base\Model
         if ($post && is_array($post)) {
             foreach ($post as $i => $item) {
                 if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {
-                    $models[] = $multipleModels[$item['id']];
+                    $obj = $multipleModels[$item['id']];
                 } else {
-                    /** @var Model $obj */
                     $obj = new $modelClass;
-                    if (!empty($scenario)) {
-                        $obj->setScenario($scenario);
-                    }
-
-                    $models[] = $obj;
                 }
+
+                /** @var Model $obj */
+                if (!empty($scenario)) {
+                    $obj->setScenario($scenario);
+                }
+
+                $models[] = $obj;
             }
         }
 

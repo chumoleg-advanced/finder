@@ -18,6 +18,8 @@ use yii\helpers\ArrayHelper;
  */
 class Category extends ActiveRecord
 {
+    const SERVICE = 1;
+    const PARTS = 2;
     const COUNT_ON_MAIN_PAGE = 9;
 
     /**
