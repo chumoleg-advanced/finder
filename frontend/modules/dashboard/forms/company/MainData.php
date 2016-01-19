@@ -40,17 +40,6 @@ class MainData extends Model
         return [
             [['legal_name', 'actual_name', 'fio', 'inn', 'ogrn', 'ogrnip'], 'filter', 'filter' => 'trim'],
             [['form', 'inn', 'legal_name', 'fio'], 'required'],
-            [
-                'inn',
-                'unique',
-                'targetClass' => 'common\models\company\Company',
-                'message'     => 'Компания с указанным ИНН уже зарегистрирована',
-                'filter'      => function ($query) {
-                    if (!empty($this->companyId)) {
-                        $query->andWhere(['<>', 'company.id', $this->companyId]);
-                    }
-                }
-            ],
             [['legal_name', 'actual_name', 'fio'], 'string', 'max' => 250],
             [['form', 'companyId'], 'integer'],
             [['inn', 'ogrn'], 'double'],

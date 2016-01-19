@@ -3,6 +3,7 @@
 namespace frontend\modules\dashboard\controllers;
 
 use common\components\Model;
+use common\models\category\Category;
 use common\models\request\RequestView;
 use common\models\requestOffer\RequestOffer;
 use frontend\modules\dashboard\forms\RequestOfferForm;
@@ -14,6 +15,7 @@ use yii\web\NotFoundHttpException;
 use common\models\requestOffer\MainRequestOffer;
 use common\models\requestOffer\MainRequestOfferSearch;
 use yii\web\UploadedFile;
+use yii\widgets\ActiveForm;
 
 class RequestOfferController extends Controller
 {
@@ -55,6 +57,10 @@ class RequestOfferController extends Controller
 
         $postData = Yii::$app->request->post();
         if (!empty($postData)) {
+            $scenario = 'default';
+            if ($model->request->rubric->category_id != Category::SERVICE) {
+                $scenario = 'parts';
+            }
             /** @var RequestOfferForm[] $modelRows */
             $oldIDs = ArrayHelper::map($model->requestOffers, 'id', 'id');
             $modelRows = Model::createMultiple(RequestOfferForm::classname());
@@ -65,22 +71,27 @@ class RequestOfferController extends Controller
 //                RequestOffer::deleteAll(['id' => $deletedIds]);
 //            }
 
-            foreach ($modelRows as $k => $requestOffer) {
-                $requestOffer->mainRequestOffer = $model;
-                $requestOffer->imageData = UploadedFile::getInstances(
-                    $requestOffer, '[' . $k . ']imageData');
+            $modelRows = Model::createMultiple(RequestOfferForm::classname(), [], $scenario);
+            Model::loadMultiple($modelRows, Yii::$app->request->post());
+            $errors = ActiveForm::validateMultiple($modelRows);
+            if (empty($errors)){
+                foreach ($modelRows as $k => $requestOffer) {
+                    $requestOffer->mainRequestOffer = $model;
+                    $requestOffer->imageData = UploadedFile::getInstances(
+                        $requestOffer, '[' . $k . ']imageData');
 
-                if (!empty($requestOffer->id)) {
-                    $requestOffer->update();
-                } else {
-                    $requestOffer->create();
+                    if (!empty($requestOffer->id)) {
+                        $requestOffer->update();
+                    } else {
+                        $requestOffer->create();
+                    }
                 }
+
+                $model->status = MainRequestOffer::STATUS_ACTIVE;
+                $model->save();
+
+                return $this->redirect(['index']);
             }
-
-            $model->status = MainRequestOffer::STATUS_ACTIVE;
-            $model->save();
-
-            return $this->redirect(['index']);
         }
 
         $checkView = RequestView::findByUserIp($model->request_id);
