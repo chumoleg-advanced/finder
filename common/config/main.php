@@ -5,6 +5,7 @@ require(__DIR__ . DIRECTORY_SEPARATOR . 'container.php');
 return [
     'language'   => 'ru-RU',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'bootstrap'  => ['log'],
     'components' => [
         'urlManager'  => [
             'enablePrettyUrl' => true,
@@ -53,6 +54,23 @@ return [
         'thumbnail'   => [
             'class'      => 'himiklab\thumbnail\EasyThumbnail',
             'cacheAlias' => 'assets/thumbnails',
-        ]
+        ],
+        'log'         => [
+            'targets' => [
+                [
+                    'class'  => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+                [
+                    'class'   => 'yii\log\EmailTarget',
+                    'levels'  => ['error', 'warning'],
+                    'message' => [
+                        'from'    => ['error@finder.thorxml.com'],
+                        'to'      => ['chumoleg@yandex.ru'],
+                        'subject' => 'Error finder',
+                    ],
+                ],
+            ],
+        ],
     ],
 ];

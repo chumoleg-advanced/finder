@@ -10,7 +10,6 @@ return [
     'id'                  => 'app-backend',
     'basePath'            => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap'           => ['log'],
     'modules'             => [
         'management' => [
             'class'        => 'backend\modules\management\ManagementModule',
@@ -30,15 +29,6 @@ return [
         'user'         => [
             'identityClass'   => 'common\models\user\User',
             'enableAutoLogin' => true,
-        ],
-        'log'          => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets'    => [
-                [
-                    'class'  => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
