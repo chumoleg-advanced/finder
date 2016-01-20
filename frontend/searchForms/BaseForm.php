@@ -20,6 +20,8 @@ class BaseForm extends Model
     public $deliveryAddress;
     public $addressCoordinates;
 
+    private $_commonAttributes = [];
+
     /**
      * @inheritdoc
      */
@@ -58,8 +60,9 @@ class BaseForm extends Model
             return false;
         }
 
-        unset($this->attributes['verifyCode']);
-        unset($this->attributes['delivery']);
+        $this->_commonAttributes = $this->attributes;
+        unset($this->_commonAttributes['verifyCode']);
+        unset($this->_commonAttributes['delivery']);
 
         return $this->_createModelFromPost($rubricId, $queryArrayFormData);
     }
@@ -94,7 +97,7 @@ class BaseForm extends Model
             unset($positionAttr['image']);
 
             RequestAttribute::create($request->id,
-                ArrayHelper::merge($this->attributes, $positionAttr));
+                ArrayHelper::merge($this->_commonAttributes, $positionAttr));
         }
 
         return true;

@@ -73,7 +73,7 @@ class RequestController extends Controller
     public function loadModel($id)
     {
         $model = Request::findById($id);
-        if (empty($model)) {
+        if (empty($model) || $model->user_id != Yii::$app->user->id) {
             throw new NotFoundHttpException('Заявка не найдена');
         }
 

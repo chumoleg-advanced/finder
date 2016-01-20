@@ -17,10 +17,11 @@ class RequestOfferForm extends Model
     public $comment;
     public $price;
     public $companyId;
-
     public $imageData = [];
-    public $partsCondition = [];
-    public $partsOriginal = [];
+
+    public $availability;
+    public $partsCondition;
+    public $partsOriginal;
 
     /**
      * @var \common\models\requestOffer\MainRequestOffer
@@ -33,12 +34,13 @@ class RequestOfferForm extends Model
     public function rules()
     {
         return [
-            [['description', 'companyId', 'price'], 'required'],
+            [['description', 'companyId', 'price', 'partsOriginal', 'partsCondition', 'availability'], 'required'],
             [['price'], 'double'],
             [['companyId'], 'integer'],
             [['imageData'], 'safe'],
             [['imageData'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
-            [['id', 'comment', 'partsOriginal', 'partsCondition'], 'safe']
+            [['id', 'comment'], 'safe'],
+            [['partsOriginal', 'partsCondition', 'availability'], 'safe', 'on' => 'parts'],
         ];
     }
 
@@ -51,13 +53,8 @@ class RequestOfferForm extends Model
             'companyId'      => 'Компания',
             'partsCondition' => 'Состояние',
             'partsOriginal'  => 'Оригинальность',
-
+            'availability'   => 'Наличие',
         ];
-    }
-
-    public function beforeValidate()
-    {
-        return parent::beforeValidate();
     }
 
     public function create()
@@ -69,14 +66,6 @@ class RequestOfferForm extends Model
         $this->_saveFiles($requestOffer->id);
 
 //        RequestAttribute::create($requestOffer->id, $this->attributes);
-    }
-
-    public function update()
-    {
-        $requestOffer = RequestOffer::findById($this->id);
-        $this->_saveAttributes($requestOffer);
-
-        $this->_saveFiles($requestOffer->id);
     }
 
     /**
@@ -146,5 +135,13 @@ class RequestOfferForm extends Model
         $requestOffer->save();
 
         return $requestOffer;
+    }
+
+    public function update()
+    {
+        $requestOffer = RequestOffer::findById($this->id);
+        $this->_saveAttributes($requestOffer);
+
+        $this->_saveFiles($requestOffer->id);
     }
 }

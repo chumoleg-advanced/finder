@@ -97,10 +97,9 @@ class RequestOffer extends ActiveRecord
     {
         $offers = self::find()
             ->joinWith('company')
-            ->joinWith('mainRequest')
             ->andWhere([
-                'mainRequest.request_id' => $requestId,
-                'request_offer.status'   => self::STATUS_ACTIVE
+                'request_offer.request_id' => $requestId,
+                'request_offer.status'     => self::STATUS_ACTIVE
             ])
             ->all();
 

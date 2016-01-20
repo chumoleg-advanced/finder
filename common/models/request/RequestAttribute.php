@@ -95,7 +95,12 @@ class RequestAttribute extends ActiveRecord
                 $label = $name;
             }
 
-            $array[$label] = self::getValueForDetail($name, $requestAttributes[$name]);
+            $value = self::getValueForDetail($name, $requestAttributes[$name]);
+            if (is_array($value)) {
+                $array[$label] = implode(',<br />', $value);
+            } else {
+                $array[$label] = $value;
+            }
         }
 
         return $array;
@@ -132,7 +137,7 @@ class RequestAttribute extends ActiveRecord
                     }
                     unset($val);
 
-                    return implode(',<br />', $value);
+                    return $value;
 
                 } else {
                     return ArrayHelper::getValue($modelByAttribute, $value);
@@ -146,7 +151,7 @@ class RequestAttribute extends ActiveRecord
                         }
                         unset($val);
 
-                        return implode(',<br />', $value);
+                        return $value;
 
                     } else {
                         return $modelByAttribute::getNameById($value);
@@ -183,6 +188,26 @@ class RequestAttribute extends ActiveRecord
             $model->value = $value;
             $model->save();
         }
+    }
+
+    /**
+     * @param $requestId
+     * @param $name
+     *
+     * @return mixed
+     */
+    public static function getValueByRequest($requestId, $name)
+    {
+        if (empty($requestId) || empty($name)) {
+            return null;
+        }
+
+        $data = self::find()
+            ->andWhere(['request_id' => $requestId])
+            ->andWhere(['attribute_name' => $name])
+            ->one();
+
+        return self::getValueForDetail($name, $data->value);
     }
 
     public function behaviors()

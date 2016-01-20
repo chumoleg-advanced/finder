@@ -4,6 +4,7 @@ use common\models\company\CompanyRubric;
 use yii\helpers\Html;
 use common\models\category\Category;
 use kartik\widgets\FileInput;
+use common\models\request\RequestAttribute;
 
 $service = $request->rubric->category_id == Category::SERVICE;
 
@@ -102,6 +103,21 @@ if (!$service) {
                     CompanyRubric::getCompaniesByRubric($request->rubric_id),
                     ['prompt' => 'Компания']); ?>
             </div>
+
+            <?php if (!$service) : ?>
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <?= $form->field($modelData, '[0]availability')->dropDownList(
+                        [1 => 'В наличии', 2 => 'Под заказ'], ['prompt' => 'Наличие']); ?>
+
+                    <?= $form->field($modelData, '[0]partsCondition')->dropDownList(
+                        RequestAttribute::getValueByRequest($request->id, 'partsCondition'),
+                        ['prompt' => 'Состояние']); ?>
+
+                    <?= $form->field($modelData, '[0]partsOriginal')->dropDownList(
+                        RequestAttribute::getValueByRequest($request->id, 'partsOriginal'),
+                        ['prompt' => 'Оригинальность']); ?>
+                </div>
+            <?php endif; ?>
 
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <hr/>
