@@ -5,7 +5,6 @@ namespace frontend\modules\dashboard\controllers;
 use common\components\Model;
 use common\models\category\Category;
 use common\models\request\RequestView;
-use common\models\requestOffer\RequestOffer;
 use frontend\modules\dashboard\forms\RequestOfferForm;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -61,6 +60,7 @@ class RequestOfferController extends Controller
             if ($model->request->rubric->category_id != Category::SERVICE) {
                 $scenario = 'parts';
             }
+
             /** @var RequestOfferForm[] $modelRows */
             $oldIDs = ArrayHelper::map($model->requestOffers, 'id', 'id');
             $modelRows = Model::createMultiple(RequestOfferForm::classname());

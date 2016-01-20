@@ -2,12 +2,14 @@
 
 namespace frontend\modules\dashboard\forms;
 
+use common\models\requestOffer\RequestOfferAttribute;
 use common\models\requestOffer\RequestOfferImage;
 use Yii;
 use yii\base\Model;
 use common\models\requestOffer\RequestOffer;
 use Imagine\Image\ManipulatorInterface;
 use yii\base\Exception;
+use yii\helpers\BaseFileHelper;
 use yii\imagine\Image;
 
 class RequestOfferForm extends Model
@@ -20,8 +22,14 @@ class RequestOfferForm extends Model
     public $imageData = [];
 
     public $availability;
+    public $deliveryDayFrom;
+    public $deliveryDayTo;
+
     public $partsCondition;
     public $partsOriginal;
+    public $discType;
+    public $tireType;
+    public $tireTypeWinter;
 
     /**
      * @var \common\models\requestOffer\MainRequestOffer
@@ -40,7 +48,11 @@ class RequestOfferForm extends Model
             [['imageData'], 'safe'],
             [['imageData'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
             [['id', 'comment'], 'safe'],
-            [['partsOriginal', 'partsCondition', 'availability'], 'safe', 'on' => 'parts'],
+            [
+                ['partsOriginal', 'partsCondition', 'availability', 'deliveryDayFrom', 'deliveryDayTo'],
+                'safe',
+                'on' => 'parts'
+            ],
         ];
     }
 
@@ -64,8 +76,7 @@ class RequestOfferForm extends Model
         }
 
         $this->_saveFiles($requestOffer->id);
-
-//        RequestAttribute::create($requestOffer->id, $this->attributes);
+        $this->_saveRequestOfferAttributes($requestOffer->id);
     }
 
     /**
@@ -74,7 +85,7 @@ class RequestOfferForm extends Model
     private function _createNewRequestOffer()
     {
         $requestOffer = new RequestOffer();
-        return $this->_saveAttributes($requestOffer);
+        return $this->_saveMainAttributes($requestOffer);
     }
 
     /**
@@ -91,10 +102,10 @@ class RequestOfferForm extends Model
             try {
                 $dir = 'uploads/offer/' . $requestOfferId;
                 if (!is_dir($dir)) {
-                    mkdir($dir);
+                    BaseFileHelper::createDirectory($dir);
                 } else {
-                    rmdir($dir);
-                    mkdir($dir);
+                    BaseFileHelper::removeDirectory($dir);
+                    BaseFileHelper::createDirectory($dir);
                 }
 
                 $baseName = md5($fileObj->name . '_' . mktime()) . '.' . $fileObj->extension;
@@ -120,9 +131,39 @@ class RequestOfferForm extends Model
     }
 
     /**
+     * @param $requestOfferId
+     */
+    private function _saveRequestOfferAttributes($requestOfferId)
+    {
+        $attributes = [
+            'availability',
+            'deliveryDayFrom',
+            'deliveryDayTo',
+            'partsCondition',
+            'partsOriginal',
+            'discType',
+            'tireType',
+            'tireTypeWinter'
+        ];
+
+        RequestOfferAttribute::deleteAll('request_offer_id = ' . $requestOfferId);
+        foreach ($attributes as $attribute) {
+            if (is_null($this->{$attribute})) {
+                continue;
+            }
+
+            $model = new RequestOfferAttribute();
+            $model->request_offer_id = $requestOfferId;
+            $model->attribute_name = $attribute;
+            $model->value = $this->{$attribute};
+            $model->save();
+        }
+    }
+
+    /**
      * @param $requestOffer
      */
-    private function _saveAttributes($requestOffer)
+    private function _saveMainAttributes($requestOffer)
     {
         $requestOffer->main_request_offer_id = $this->mainRequestOffer->id;
         $requestOffer->user_id = Yii::$app->user->id;
@@ -140,8 +181,8 @@ class RequestOfferForm extends Model
     public function update()
     {
         $requestOffer = RequestOffer::findById($this->id);
-        $this->_saveAttributes($requestOffer);
-
+        $this->_saveMainAttributes($requestOffer);
         $this->_saveFiles($requestOffer->id);
+        $this->_saveRequestOfferAttributes($requestOffer->id);
     }
 }

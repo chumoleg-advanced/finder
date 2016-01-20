@@ -31,6 +31,11 @@ class CompanySearch extends Company
         ];
     }
 
+    public function beforeValidate()
+    {
+        return true;
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -50,7 +55,13 @@ class CompanySearch extends Company
         $query->andFilterWhere([
             'id'          => $this->id,
             'status'      => $this->status,
-            'date_create' => $this->date_create
+            'date_create' => $this->date_create,
+            'user_id'     => $this->user_id,
+            'form'        => $this->form,
+            'legal_name'  => $this->legal_name,
+            'actual_name' => $this->actual_name,
+            'inn'         => $this->inn,
+            'ogrn'        => $this->ogrn,
         ]);
 
         return $dataProvider;

@@ -15,6 +15,16 @@ $(document).ready(function () {
         $('.requestInfo').toggle();
     });
 
+    $(document).on('change', '.buttonListAvailability', function () {
+        var value = $(this).find('.active input').val();
+        var obj = $(this).closest('.dynamicFormRow').find('.deliveryDays');
+        if (value == 1) {
+            obj.hide();
+        } else {
+            obj.show();
+        }
+    });
+
     function initMainOfferMap() {
         var coordinates = $('.addressCoordinates').val();
         if (coordinates) {
@@ -34,5 +44,9 @@ $(document).ready(function () {
     $(".fancybox").fancybox({
         openEffect: 'elastic',
         closeEffect: 'elastic'
+    });
+
+    $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
+        console.log("afterInsert");
     });
 });

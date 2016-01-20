@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 use common\models\request\RequestAttribute;
 use Imagine\Image\ManipulatorInterface;
 use yii\base\Exception;
+use yii\helpers\BaseFileHelper;
 use yii\imagine\Image;
 use common\models\request\RequestImage;
 
@@ -118,7 +119,7 @@ class BaseForm extends Model
             try {
                 $dir = 'uploads/request/' . $requestId;
                 if (!is_dir($dir)) {
-                    mkdir($dir);
+                    BaseFileHelper::createDirectory($dir);
                 }
 
                 $baseName = md5($fileObj->name . '_' . mktime()) . '.' . $fileObj->extension;

@@ -16,7 +16,7 @@ function disableEnterKey(e) {
 $(document).ready(function () {
     $('#request-form').attr('onKeyPress', 'return disableEnterKey(event)');
 
-    $('a.delete-item').hide();
+    $('.dynamicform_wrapper a.delete-item:first').hide();
 
     $.extend($.ui.autocomplete.prototype, {
         _renderItem: function (ul, item) {

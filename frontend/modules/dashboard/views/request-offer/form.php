@@ -28,7 +28,8 @@ if (empty($backUrl)) {
 
 <div class="request-offer-form">
     <?php
-    $scenario = $model->request->rubric->category_id == Category::PARTS ? 'parts' : 'default';
+    $service = $model->request->rubric->category_id == Category::SERVICE;
+    $scenario = !$service ? 'parts' : 'default';
     $form = SearchFormGenerator::getFormRequestOffer($scenario);
 
     $modelData = new RequestOfferForm();
@@ -49,32 +50,47 @@ if (empty($backUrl)) {
     ];
 
     DynamicFormWidget::begin($dynamicParams);
+    ?>
 
-    if (empty($model->requestOffers)) {
-        echo $this->render('_row', [
-            'form'      => $form,
-            'request'   => $model->request,
-            'modelData' => $modelData
-        ]);
-    } else {
-        foreach ($model->requestOffers as $i => $requestOffer) {
-            $modelData = new RequestOfferForm();
-            $modelData->attributes = $requestOffer->attributes;
-            $modelData->companyId = $requestOffer->company_id;
-            $modelData->id = $requestOffer->id;
-            $modelData->imageData = $requestOffer->requestOfferImages;
-
+    <div class="form-options-body">
+        <?php
+        if (empty($model->requestOffers)) {
             echo $this->render('_row', [
-                'i' => $i,
                 'form'      => $form,
+                'service'   => $service,
                 'request'   => $model->request,
                 'modelData' => $modelData
             ]);
-        }
-    }
+        } else {
+            foreach ($model->requestOffers as $i => $requestOffer) {
+                $modelData = new RequestOfferForm();
+                $modelData->attributes = $requestOffer->attributes;
+                $modelData->companyId = $requestOffer->company_id;
+                $modelData->id = $requestOffer->id;
+                $modelData->imageData = $requestOffer->requestOfferImages;
 
-    DynamicFormWidget::end();
-    ?>
+                echo $this->render('_row', [
+                    'i'         => $i,
+                    'service'   => $service,
+                    'form'      => $form,
+                    'request'   => $model->request,
+                    'modelData' => $modelData
+                ]);
+            }
+        }
+        ?>
+    </div>
+
+    <?php if (!$service) : ?>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <?= Html::button('<i class="glyphicon glyphicon-plus"></i> Добавить еще одно предложение',
+                    ['class' => 'add-item btn btn-success btn-sm']); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php DynamicFormWidget::end(); ?>
 
     <div>&nbsp;</div>
     <div class="row">

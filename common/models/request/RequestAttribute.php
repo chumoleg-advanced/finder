@@ -132,12 +132,12 @@ class RequestAttribute extends ActiveRecord
             $modelByAttribute = $attributes[$attributeName];
             if (is_array($modelByAttribute)) {
                 if (is_array($value)) {
-                    foreach ($value as &$val) {
-                        $val = ArrayHelper::getValue($modelByAttribute, $val);
+                    $newArray = [];
+                    foreach ($value as $val) {
+                        $newArray[$val] = ArrayHelper::getValue($modelByAttribute, $val);
                     }
-                    unset($val);
 
-                    return $value;
+                    return $newArray;
 
                 } else {
                     return ArrayHelper::getValue($modelByAttribute, $value);
@@ -146,12 +146,12 @@ class RequestAttribute extends ActiveRecord
             } else {
                 try {
                     if (is_array($value)) {
-                        foreach ($value as &$val) {
-                            $val = $modelByAttribute::getNameById($val);
+                        $newArray = [];
+                        foreach ($value as $val) {
+                            $newArray[$val] = $modelByAttribute::getNameById($val);
                         }
-                        unset($val);
 
-                        return $value;
+                        return $newArray;
 
                     } else {
                         return $modelByAttribute::getNameById($value);

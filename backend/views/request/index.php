@@ -27,14 +27,14 @@ echo GridView::widget([
         ],
         [
             'attribute' => 'categoryId',
-            'filter'    => Category::getList(true),
+            'filter'    => $searchModel->getCategoryList(),
             'value'     => function ($data) {
                 return !empty($data->rubric) ? $data->rubric->category->name : null;
             }
         ],
         [
             'attribute' => 'rubric_id',
-            'filter'    => Rubric::getList($searchModel->categoryId),
+            'filter'    => $searchModel->getRubricList(),
             'value'     => function ($data) {
                 return !empty($data->rubric) ? $data->rubric->name : null;
             }
