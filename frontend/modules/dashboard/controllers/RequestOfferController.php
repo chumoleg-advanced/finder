@@ -3,11 +3,9 @@
 namespace frontend\modules\dashboard\controllers;
 
 use common\components\Model;
-use common\models\category\Category;
 use common\models\request\RequestView;
 use frontend\modules\dashboard\forms\RequestOfferForm;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -47,7 +45,7 @@ class RequestOfferController extends Controller
 
     private function _rememberUrl()
     {
-        Url::remember('', 'requestList');
+        Url::remember('', 'requestOfferList');
     }
 
     public function actionOffer($id)
@@ -56,22 +54,9 @@ class RequestOfferController extends Controller
 
         $postData = Yii::$app->request->post();
         if (!empty($postData)) {
-            $scenario = 'default';
-            if ($model->request->rubric->category_id != Category::SERVICE) {
-                $scenario = 'parts';
-            }
 
             /** @var RequestOfferForm[] $modelRows */
-            $oldIDs = ArrayHelper::map($model->requestOffers, 'id', 'id');
             $modelRows = Model::createMultiple(RequestOfferForm::classname());
-            Model::loadMultiple($modelRows, Yii::$app->request->post());
-
-//            $deletedIds = array_diff($oldIDs, array_filter(ArrayHelper::map($modelRows, 'id', 'id')));
-//            if (!empty($deletedIds)) {
-//                RequestOffer::deleteAll(['id' => $deletedIds]);
-//            }
-
-            $modelRows = Model::createMultiple(RequestOfferForm::classname(), [], $scenario);
             Model::loadMultiple($modelRows, Yii::$app->request->post());
             $errors = ActiveForm::validateMultiple($modelRows);
             if (empty($errors)){

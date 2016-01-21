@@ -4,6 +4,7 @@ namespace common\models\requestOffer;
 
 use common\components\ActiveRecord;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "request_offer_attribute".
@@ -17,6 +18,42 @@ use Yii;
  */
 class RequestOfferAttribute extends ActiveRecord
 {
+    /**
+     * @param $requestOfferId
+     * @param $name
+     *
+     * @return mixed
+     */
+    public static function getValueByOffer($requestOfferId, $name)
+    {
+        if (empty($requestOfferId) || empty($name)) {
+            return null;
+        }
+
+        $data = self::find()
+            ->andWhere(['request_offer_id' => $requestOfferId])
+            ->andWhere(['attribute_name' => $name])
+            ->one();
+
+        return !empty($data) ? $data->value : null;
+    }
+
+    /**
+     * @param $requestOfferId
+     *
+     * @return mixed
+     */
+    public static function findAllByOffer($requestOfferId)
+    {
+        if (empty($requestOfferId)) {
+            return null;
+        }
+
+        $data = self::find()->andWhere(['request_offer_id' => $requestOfferId])->all();
+
+        return ArrayHelper::map($data, 'attribute_name', 'value');
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();

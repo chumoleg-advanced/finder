@@ -47,6 +47,7 @@ class MainRequestOfferSearch extends MainRequestOffer
     {
         $query = parent::find();
         $query->joinWith('request.rubric.category');
+        $query->joinWith('requestOffers');
 
         $dataProvider = $this->getDataProvider($query);
         $this->load($params);
@@ -107,6 +108,8 @@ class MainRequestOfferSearch extends MainRequestOffer
 
     public function getStatisticRow()
     {
-        return '<i class="glyphicon glyphicon-comment" title="Сообщений"></i> 0';
+        $countOffers = count($this->requestOffers);
+        return '<i class="glyphicon glyphicon-certificate" style="margin-left: 5px;" title="Моих предложений"></i> '
+        . $countOffers . ' <i class="glyphicon glyphicon-comment" style="margin-left: 5px;" title="Сообщений"></i> 0';
     }
 }

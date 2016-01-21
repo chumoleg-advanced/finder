@@ -4,7 +4,7 @@ use common\models\company\CompanyContactData;
 ?>
 
 <?php DynamicFormWidget::begin([
-    'widgetContainer' => 'dynamicform_wrapper',
+    'widgetContainer' => 'companyContactDataDynamic',
     'widgetBody'      => '.container-items',
     'widgetItem'      => '.item',
     'limit'           => 12,

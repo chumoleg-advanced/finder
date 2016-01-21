@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use frontend\assets\DashboardMainAsset;
 use frontend\assets\DashboardRequestAsset;
 use common\models\company\CompanyContactData;
+use frontend\modules\dashboard\forms\RequestOfferForm;
 
 DashboardMainAsset::register($this);
 DashboardRequestAsset::register($this);
@@ -22,6 +23,8 @@ if (empty($backUrl)) {
 }
 
 echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
+
+$offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
 ?>
 
 <?= Html::a('Вернуться к списку', $backUrl, ['class' => 'btn btn-default']); ?>
@@ -44,8 +47,6 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
             <div class="row">
                 <div class="col-md-6">
                     <h3>Стоимость: <?= $bestOffer->price; ?></h3>
-
-                    <h3>Доставка: <?= $bestOffer->delivery_price; ?></h3>
                 </div>
 
                 <div class="col-md-6">
@@ -67,16 +68,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
             </div>
 
             <div>&nbsp;</div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="javascript:;" class="viewMainOfferInfo">Посмотреть предложение</a>
-
-                    <div class="mainOfferInfoBlock" style="display: none;">
-                        <?= $bestOffer->description; ?>
-                    </div>
-                </div>
-            </div>
+            <?= $this->render('_rowOffer', ['model' => $bestOffer, 'labels' => $offerAttributeLabels]); ?>
         </div>
     </div>
 
@@ -95,9 +87,11 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 
                         <div class="col-md-4">
                             Цена: <?= $offer->price; ?><br/>
-                            Доставка: <?= $offer->delivery_price; ?>
                         </div>
                     </div>
+
+                    <?= $this->render('_rowOffer', ['model' => $offer, 'labels' => $offerAttributeLabels]); ?>
+                    <div>&nbsp;</div>
                 <?php endforeach; ?>
             </div>
         </div>

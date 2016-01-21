@@ -14,6 +14,8 @@ class Module extends \yii\base\Module
         parent::init();
 
         $this->layout = 'main';
-        \Yii::$app->errorHandler->errorAction = Url::to('/' . $this->id . '/index/error');
+        if (Yii::$app->user->can('accessToPersonalCabinet')) {
+            Yii::$app->errorHandler->errorAction = Url::to('/' . $this->id . '/index/error');
+        }
     }
 }

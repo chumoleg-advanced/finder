@@ -11,7 +11,7 @@ use frontend\modules\dashboard\forms\RequestOfferForm;
 
 class RequestOfferController extends Controller
 {
-    public function actionValidate($scenario)
+    public function actionValidate()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (!Yii::$app->request->isAjax) {
@@ -23,7 +23,7 @@ class RequestOfferController extends Controller
             return [];
         }
 
-        $modelRows = Model::createMultiple(RequestOfferForm::classname(), [], $scenario);
+        $modelRows = Model::createMultiple(RequestOfferForm::classname());
         Model::loadMultiple($modelRows, Yii::$app->request->post());
 
         return ActiveForm::validateMultiple($modelRows);

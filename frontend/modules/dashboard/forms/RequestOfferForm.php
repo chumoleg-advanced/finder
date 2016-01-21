@@ -44,28 +44,60 @@ class RequestOfferForm extends Model
         return [
             [['description', 'companyId', 'price', 'partsOriginal', 'partsCondition', 'availability'], 'required'],
             [['price'], 'double'],
+            [['deliveryDayFrom', 'deliveryDayTo'], 'integer'],
             [['companyId'], 'integer'],
             [['imageData'], 'safe'],
             [['imageData'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
             [['id', 'comment'], 'safe'],
-            [
-                ['partsOriginal', 'partsCondition', 'availability', 'deliveryDayFrom', 'deliveryDayTo'],
-                'safe',
-                'on' => 'parts'
-            ],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'description'    => 'Описание',
-            'comment'        => 'Комментарий',
-            'price'          => 'Цена',
-            'companyId'      => 'Компания',
-            'partsCondition' => 'Состояние',
-            'partsOriginal'  => 'Оригинальность',
-            'availability'   => 'Наличие',
+            'description'     => 'Описание',
+            'comment'         => 'Комментарий',
+            'price'           => 'Цена',
+            'companyId'       => 'Компания',
+            'partsCondition'  => 'Состояние',
+            'partsOriginal'   => 'Оригинальность',
+            'availability'    => 'Наличие',
+            'deliveryDayFrom' => 'Срок доставки от',
+            'deliveryDayTo'   => 'Срок доставки до',
+        ];
+    }
+
+    public function beforeValidate()
+    {
+        $attributes = $this->_getAttributeListForSave();
+        foreach ($attributes as $name) {
+            if (empty($this->{$name})) {
+                $this->{$name} = null;
+            }
+        }
+
+        if ($this->availability == 1) {
+            $this->deliveryDayFrom = null;
+            $this->deliveryDayTo = null;
+        }
+
+        return parent::beforeValidate();
+    }
+
+    /**
+     * @return array
+     */
+    private function _getAttributeListForSave()
+    {
+        return [
+            'availability',
+            'deliveryDayFrom',
+            'deliveryDayTo',
+            'partsCondition',
+            'partsOriginal',
+            'discType',
+            'tireType',
+            'tireTypeWinter'
         ];
     }
 
@@ -97,17 +129,17 @@ class RequestOfferForm extends Model
             return;
         }
 
+        $dir = 'uploads/offer/' . $requestOfferId;
+        if (!is_dir($dir)) {
+            BaseFileHelper::createDirectory($dir);
+        } else {
+            BaseFileHelper::removeDirectory($dir);
+            BaseFileHelper::createDirectory($dir);
+        }
+
         /** @var \yii\web\UploadedFile $fileObj */
         foreach ($this->imageData as $fileObj) {
             try {
-                $dir = 'uploads/offer/' . $requestOfferId;
-                if (!is_dir($dir)) {
-                    BaseFileHelper::createDirectory($dir);
-                } else {
-                    BaseFileHelper::removeDirectory($dir);
-                    BaseFileHelper::createDirectory($dir);
-                }
-
                 $baseName = md5($fileObj->name . '_' . mktime()) . '.' . $fileObj->extension;
                 $fileName = $dir . '/' . $baseName;
                 if (!$fileObj->saveAs($fileName)) {
@@ -135,16 +167,7 @@ class RequestOfferForm extends Model
      */
     private function _saveRequestOfferAttributes($requestOfferId)
     {
-        $attributes = [
-            'availability',
-            'deliveryDayFrom',
-            'deliveryDayTo',
-            'partsCondition',
-            'partsOriginal',
-            'discType',
-            'tireType',
-            'tireTypeWinter'
-        ];
+        $attributes = $this->_getAttributeListForSave();
 
         RequestOfferAttribute::deleteAll('request_offer_id = ' . $requestOfferId);
         foreach ($attributes as $attribute) {

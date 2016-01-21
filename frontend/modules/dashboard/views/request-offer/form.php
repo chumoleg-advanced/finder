@@ -7,6 +7,11 @@ use frontend\modules\dashboard\forms\RequestOfferForm;
 use common\models\category\Category;
 use wbraganca\dynamicform\DynamicFormWidget;
 use frontend\assets\FormPartSearchAsset;
+use common\models\company\CompanyRubric;
+use common\models\request\RequestAttribute;
+use yii\helpers\ArrayHelper;
+use common\components\CarData;
+
 
 /** @var \common\models\requestOffer\MainRequestOffer $model */
 
@@ -14,7 +19,7 @@ FormPartSearchAsset::register($this);
 
 $this->title = 'Заявка #' . $model->request->id;
 
-$backUrl = Url::previous('requestList');
+$backUrl = Url::previous('requestOfferList');
 if (empty($backUrl)) {
     $backUrl = Url::toRoute('request-offer/index');
 }
@@ -29,13 +34,12 @@ if (empty($backUrl)) {
 <div class="request-offer-form">
     <?php
     $service = $model->request->rubric->category_id == Category::SERVICE;
-    $scenario = !$service ? 'parts' : 'default';
-    $form = SearchFormGenerator::getFormRequestOffer($scenario);
+    $form = SearchFormGenerator::getFormRequestOffer();
 
     $modelData = new RequestOfferForm();
 
     $dynamicParams = [
-        'widgetContainer' => 'dynamicform_wrapper',
+        'widgetContainer' => 'requestOfferDynamicForm',
         'widgetBody'      => '.form-options-body',
         'widgetItem'      => '.dynamicFormRow',
         'min'             => 1,
@@ -54,28 +58,51 @@ if (empty($backUrl)) {
 
     <div class="form-options-body">
         <?php
+        $companiesList = CompanyRubric::getCompaniesByRubric($model->request->rubric_id);
+        $partsCondition = RequestAttribute::getValueByRequest($model->request->id, 'partsCondition');
+        $partsOriginal = RequestAttribute::getValueByRequest($model->request->id, 'partsOriginal');
+        $availability = CarData::$availability;
+
+        $viewParams = [
+            'availability'   => $availability,
+            'companiesList'  => $companiesList,
+            'partsCondition' => $partsCondition,
+            'partsOriginal'  => $partsOriginal,
+            'service'        => $service,
+            'form'           => $form,
+            'request'        => $model->request,
+        ];
+
         if (empty($model->requestOffers)) {
-            echo $this->render('_row', [
-                'form'      => $form,
-                'service'   => $service,
-                'request'   => $model->request,
+            $modelData = new RequestOfferForm();
+            $modelData->companyId = current(array_keys($companiesList));
+            $modelData->availability = current(array_keys($availability));
+            if (!empty($partsCondition)) {
+                $modelData->partsCondition = current(array_keys($partsCondition));
+            }
+
+            if (!empty($partsOriginal)) {
+                $modelData->partsOriginal = current(array_keys($partsOriginal));
+            }
+
+            echo $this->render('_row', ArrayHelper::merge([
                 'modelData' => $modelData
-            ]);
+            ], $viewParams));
+
         } else {
             foreach ($model->requestOffers as $i => $requestOffer) {
+                $attributes = ArrayHelper::map($requestOffer->requestOfferAttributes, 'attribute_name', 'value');
+
                 $modelData = new RequestOfferForm();
-                $modelData->attributes = $requestOffer->attributes;
+                $modelData->attributes = ArrayHelper::merge($requestOffer->attributes, $attributes);
                 $modelData->companyId = $requestOffer->company_id;
                 $modelData->id = $requestOffer->id;
                 $modelData->imageData = $requestOffer->requestOfferImages;
 
-                echo $this->render('_row', [
+                echo $this->render('_row', ArrayHelper::merge([
                     'i'         => $i,
-                    'service'   => $service,
-                    'form'      => $form,
-                    'request'   => $model->request,
                     'modelData' => $modelData
-                ]);
+                ], $viewParams));
             }
         }
         ?>

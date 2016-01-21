@@ -134,7 +134,6 @@ a.desc:after {
 .deliveryAddressBlock,
 .additionOptions,
 .partsOriginal,
-.deliveryDays,
 .tireTypeWinterParams,
 .uploadFilesBlock,
 .uploadFilesBlock .btn-file,
@@ -269,4 +268,13 @@ a.desc:after {
 
 .requestInfo table {
     table-layout: fixed;
+}
+
+.dynamicFormRow {
+    padding: 10px;
+    border: 2px solid lightgrey;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    margin-bottom: 50px;
 }

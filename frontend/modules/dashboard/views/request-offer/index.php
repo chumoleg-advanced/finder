@@ -58,7 +58,7 @@ $this->title = 'Заявки от клиентов';
                         'label'         => '',
                         'filter'        => false,
                         'format'        => 'raw',
-                        'headerOptions' => ['width' => '50'],
+                        'headerOptions' => ['width' => '90'],
                         'value'         => function ($data) {
                             return $data->getStatisticRow();
                         }

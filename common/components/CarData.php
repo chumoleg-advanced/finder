@@ -59,6 +59,8 @@ class CarData
             2 => 'Дубликат'
         ];
 
+    public static $availability =  [1 => 'В наличии', 2 => 'Под заказ'];
+
     /**
      * @return array
      */

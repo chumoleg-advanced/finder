@@ -55,14 +55,12 @@ class SearchFormGenerator
     }
 
     /**
-     * @param string $scenario
-     *
      * @return ActiveForm
      */
-    public static function getFormRequestOffer($scenario = 'default')
+    public static function getFormRequestOffer()
     {
         $params = self::_getCommonParams(null);
-        $params['validationUrl'] = ['/ajax/request-offer/validate', 'scenario' => $scenario];
+        $params['validationUrl'] = ['/ajax/request-offer/validate'];
         $params['options'] = [
             'enctype' => 'multipart/form-data',
             'id'      => self::FORM_ID

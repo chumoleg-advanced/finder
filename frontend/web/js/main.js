@@ -1,28 +1,31 @@
 var myMap = null;
 
 function initMap(coords, zoom, redraw, divId) {
-    ymaps.ready(function () {
-        if (redraw) {
-            myCollection.removeAll();
-        } else {
-            if (!divId){
-                divId = 'yandexMap';
+    try {
+        ymaps.ready(function () {
+            if (redraw) {
+                myCollection.removeAll();
+            } else {
+                if (!divId) {
+                    divId = 'yandexMap';
+                }
+
+                myMap = new ymaps.Map(divId, {
+                    center: coords,
+                    zoom: zoom,
+                    controls: ['zoomControl']
+                });
             }
 
-            myMap = new ymaps.Map(divId, {
-                center: coords,
-                zoom: zoom,
-                controls: ['zoomControl']
-            });
-        }
+            var myPlaceMark = new ymaps.Placemark(coords);
+            myCollection = new ymaps.GeoObjectCollection();
+            myCollection.add(myPlaceMark);
 
-        var myPlaceMark = new ymaps.Placemark(coords);
-        myCollection = new ymaps.GeoObjectCollection();
-        myCollection.add(myPlaceMark);
-
-        myMap.geoObjects.add(myCollection);
-        myMap.setCenter(coords, zoom);
-    });
+            myMap.geoObjects.add(myCollection);
+            myMap.setCenter(coords, zoom);
+        });
+    } catch (e) {
+    }
 }
 
 $(document).ready(function () {
@@ -169,3 +172,25 @@ $(document).ready(function () {
         return status;
     });
 });
+
+function preLoaderShow() {
+    var body = $('body');
+    var bodyH = $(window).height() / 2 - 90;
+    body.css('opacity', 0.6).css('overflow', 'hidden');
+    body.append('<div id="preLoader" style="position:fixed;'
+        + 'top:0px; left:0px; width:100%; height:100%;'
+        + 'z-index:99999999; color:#fff; padding-top:' + bodyH + 'px;"'
+        + 'align="center">'
+        + '<img src="/img/bigPreLoader.gif"'
+        + ' alt="Пожалуйста, подождите..." /></div>');
+}
+
+function preLoaderHide() {
+    setTimeout(function () {
+        var obj = $('body #preLoader');
+        obj.fadeOut('slow', function () {
+            obj.remove();
+            $('body').css('opacity', '').css('overflow', 'auto');
+        });
+    }, 200);
+}

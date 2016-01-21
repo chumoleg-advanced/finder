@@ -126,6 +126,7 @@ class RequestAttribute extends ActiveRecord
             'discType'       => CarData::$discTypeList,
             'tireType'       => CarData::$tireTypeList,
             'tireTypeWinter' => CarData::$tireTypeWinterList,
+            'availability'   => CarData::$availability
         ];
 
         if (isset($attributes[$attributeName])) {
@@ -206,6 +207,10 @@ class RequestAttribute extends ActiveRecord
             ->andWhere(['request_id' => $requestId])
             ->andWhere(['attribute_name' => $name])
             ->one();
+
+        if (empty($data)) {
+            return null;
+        }
 
         return self::getValueForDetail($name, $data->value);
     }

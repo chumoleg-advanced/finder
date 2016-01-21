@@ -32,7 +32,7 @@ if (isset($parts)) {
 }
 
 $dynamicParams = [
-    'widgetContainer' => 'dynamicform_wrapper',
+    'widgetContainer' => 'partsSearchDynamicForm',
     'widgetBody'      => '.form-options-body',
     'widgetItem'      => '.dynamicFormRow',
     'min'             => 1,

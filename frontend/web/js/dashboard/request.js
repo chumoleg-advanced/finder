@@ -1,3 +1,19 @@
+function addInputForValidation(form, index, fieldName) {
+    var lowerName = fieldName.toLowerCase();
+
+    var attribute = {
+        container: ".field-requestofferform-" + index + "-" + lowerName,
+        error: ".help-block",
+        id: "requestofferform-" + index + "-" + lowerName,
+        input: "#requestofferform-" + index + "-" + lowerName,
+        name: "[" + index + "]" + fieldName,
+        enableAjaxValidation: true,
+        encodeError: true
+    };
+
+    form.yiiActiveForm('add', attribute);
+}
+
 $(document).ready(function () {
     if ($('#yandexMapCompany').length > 0) {
         initMainOfferMap();
@@ -8,7 +24,7 @@ $(document).ready(function () {
     }
 
     $(document).on('click', '.viewMainOfferInfo', function () {
-        $('.mainOfferInfoBlock').toggle();
+        $(this).closest('.rowOffer').find('.mainOfferInfoBlock').toggle();
     });
 
     $(document).on('click', '.requestInfoView', function () {
@@ -46,7 +62,25 @@ $(document).ready(function () {
         closeEffect: 'elastic'
     });
 
-    $(".dynamicform_wrapper").on("afterInsert", function(e, item) {
-        console.log("afterInsert");
+    $(".requestOfferDynamicForm").on("beforeInsert", function (e, item) {
+        preLoaderShow();
+    });
+
+    $(".requestOfferDynamicForm").on("afterInsert", function (e, item) {
+        var obj = $('.requestOfferDynamicForm .dynamicFormRow:last');
+        obj.find('input[type=checkbox], input[type=radio]').val(function (i, val) {
+            return $(this).data('value');
+        });
+
+        obj.find('.imagesPreview').html('').hide();
+
+        var form = $('#request-form');
+        form.find(".dynamicFormRow").each(function (index) {
+            addInputForValidation(form, index, 'partsCondition');
+            addInputForValidation(form, index, 'partsOriginal');
+            addInputForValidation(form, index, 'availability');
+        });
+
+        preLoaderHide();
     });
 });

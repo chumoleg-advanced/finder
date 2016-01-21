@@ -16,7 +16,7 @@ function disableEnterKey(e) {
 $(document).ready(function () {
     $('#request-form').attr('onKeyPress', 'return disableEnterKey(event)');
 
-    $('.dynamicform_wrapper a.delete-item:first').hide();
+    $('.partsSearchDynamicForm a.delete-item:first').hide();
 
     $.extend($.ui.autocomplete.prototype, {
         _renderItem: function (ul, item) {
@@ -36,7 +36,7 @@ $(document).ready(function () {
         }
     });
 
-    $(".dynamicform_wrapper").on("afterInsert", function (e, item) {
+    $(".partsSearchDynamicForm").on("afterInsert", function (e, item) {
         try {
             activateAutoComplete();
 
@@ -47,10 +47,10 @@ $(document).ready(function () {
             var form = $('#request-form');
             form.find(".dynamicFormRow").each(function (index) {
                 var attribute = {
-                    container: ".field-queryarrayform-" + index + "-partsCondition",
+                    container: ".field-queryarrayform-" + index + "-partscondition",
                     error: ".help-block",
-                    id: "queryarrayform-" + index + "-partsCondition",
-                    input: "#queryarrayform-" + index + "-partsCondition",
+                    id: "queryarrayform-" + index + "-partscondition",
+                    input: "#queryarrayform-" + index + "-partscondition",
                     name: "[" + index + "]partsCondition",
                     enableAjaxValidation: true,
                     encodeError: true

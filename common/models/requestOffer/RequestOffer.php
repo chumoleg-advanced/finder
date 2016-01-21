@@ -2,6 +2,7 @@
 
 namespace common\models\requestOffer;
 
+use common\models\request\RequestAttribute;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\company\Company;
@@ -170,5 +171,15 @@ class RequestOffer extends ActiveRecord
     public function getRequestOfferImages()
     {
         return $this->hasMany(RequestOfferImage::className(), ['request_offer_id' => 'id']);
+    }
+
+    public function getAttributesData()
+    {
+        $array = [];
+        foreach ($this->requestOfferAttributes as $attr) {
+            $array[$attr->attribute_name] = RequestAttribute::getValueForDetail($attr->attribute_name, $attr->value);
+        }
+
+        return $array;
     }
 }
