@@ -68,8 +68,12 @@ $(document).ready(function () {
 
     $(".requestOfferDynamicForm").on("afterInsert", function (e, item) {
         var obj = $('.requestOfferDynamicForm .dynamicFormRow:last');
-        obj.find('input[type=checkbox], input[type=radio]').val(function (i, val) {
-            return $(this).data('value');
+        $.each(obj.find('input[type=checkbox], input[type=radio]'), function () {
+            $(this).val(function (i, val) {
+                return $(this).data('value');
+            });
+
+            $(this).prop('checked', false);
         });
 
         obj.find('.imagesPreview').html('').hide();
