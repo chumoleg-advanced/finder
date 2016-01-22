@@ -67,19 +67,16 @@ $(document).ready(function () {
     });
 
     $(".requestOfferDynamicForm").on("afterInsert", function (e, item) {
-        var obj = $('.requestOfferDynamicForm .dynamicFormRow:last');
-        $.each(obj.find('input[type=checkbox], input[type=radio]'), function () {
-            $(this).val(function (i, val) {
-                return $(this).data('value');
-            });
-
-            $(this).prop('checked', false);
+        $('input[type=checkbox], input[type=radio]').val(function (i, val) {
+            return $(this).data('value');
         });
 
-        obj.find('.imagesPreview').html('').hide();
+        $('.requestOfferDynamicForm .dynamicFormRow:last').find('.imagesPreview').html('').hide();
 
         var form = $('#request-form');
         var index = $('.requestOfferDynamicForm .dynamicFormRow').length - 1;
+        console.log(index);
+
         addInputForValidation(form, index, 'partsCondition');
         addInputForValidation(form, index, 'partsOriginal');
         addInputForValidation(form, index, 'availability');
