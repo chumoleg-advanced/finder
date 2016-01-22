@@ -75,11 +75,10 @@ $(document).ready(function () {
         obj.find('.imagesPreview').html('').hide();
 
         var form = $('#request-form');
-        form.find(".dynamicFormRow").each(function (index) {
-            addInputForValidation(form, index, 'partsCondition');
-            addInputForValidation(form, index, 'partsOriginal');
-            addInputForValidation(form, index, 'availability');
-        });
+        var index = $('.requestOfferDynamicForm .dynamicFormRow').length - 1;
+        addInputForValidation(form, index, 'partsCondition');
+        addInputForValidation(form, index, 'partsOriginal');
+        addInputForValidation(form, index, 'availability');
 
         preLoaderHide();
     });
