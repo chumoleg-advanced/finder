@@ -71,11 +71,10 @@ $(document).ready(function () {
             return $(this).data('value');
         });
 
-        $('.requestOfferDynamicForm .dynamicFormRow:last').find('.imagesPreview').html('').hide();
+        $('.requestOfferDynamicForm .dynamicFormRow:last .imagesPreview').html('').hide();
 
         var form = $('#request-form');
         var index = $('.requestOfferDynamicForm .dynamicFormRow').length - 1;
-        console.log(index);
 
         addInputForValidation(form, index, 'partsCondition');
         addInputForValidation(form, index, 'partsOriginal');
