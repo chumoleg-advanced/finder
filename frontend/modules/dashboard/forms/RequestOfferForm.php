@@ -81,6 +81,10 @@ class RequestOfferForm extends Model
             $this->deliveryDayTo = null;
         }
 
+        if ($this->partsCondition != 1) {
+            $this->partsOriginal = null;
+        }
+
         return parent::beforeValidate();
     }
 

@@ -11,7 +11,7 @@ use common\models\company\CompanyRubric;
 use common\models\request\RequestAttribute;
 use yii\helpers\ArrayHelper;
 use common\components\CarData;
-
+use common\models\request\Request;
 
 /** @var \common\models\requestOffer\MainRequestOffer $model */
 
@@ -28,61 +28,66 @@ if (empty($backUrl)) {
 <?= Html::a('Вернуться к списку', $backUrl, ['class' => 'btn btn-default']); ?>
 <div>&nbsp;</div>
 
-<?= $this->render('/request/request-detail', ['model' => $model->request]); ?>
+<?php
+$requestClosed = false;
+if ($model->request->status == Request::STATUS_CLOSED) {
+    $requestClosed = true;
+}
+?>
+
+<?php if ($requestClosed) : ?>
+    <div class="text-error text-bold">Заявка закрыта клиентом!</div>
+    <div>&nbsp;</div>
+<?php endif; ?>
+
+<?= $this->render('/request/request-detail', ['model' => $model->request, 'viewToggleLink' => true]); ?>
 <div>&nbsp;</div>
 
 <div class="request-offer-form">
     <?php
     $service = $model->request->rubric->category_id == Category::SERVICE;
     $form = SearchFormGenerator::getFormRequestOffer();
-
-    $modelData = new RequestOfferForm();
-
-    $dynamicParams = [
-        'widgetContainer' => 'requestOfferDynamicForm',
-        'widgetBody'      => '.form-options-body',
-        'widgetItem'      => '.dynamicFormRow',
-        'min'             => 1,
-        'insertButton'    => '.add-item',
-        'deleteButton'    => '.delete-item',
-        'model'           => $modelData,
-        'formId'          => SearchFormGenerator::FORM_ID,
-        'formFields'      => [
-            'description',
-            'comment'
-        ],
-    ];
-
-    DynamicFormWidget::begin($dynamicParams);
     ?>
 
     <div class="form-options-body">
         <?php
         $companiesList = CompanyRubric::getCompaniesByRubric($model->request->rubric_id);
-        $partsCondition = RequestAttribute::getValueByRequest($model->request->id, 'partsCondition');
-        $partsOriginal = RequestAttribute::getValueByRequest($model->request->id, 'partsOriginal');
-        $availability = CarData::$availability;
 
-        $viewParams = [
-            'availability'   => $availability,
-            'companiesList'  => $companiesList,
-            'partsCondition' => $partsCondition,
-            'partsOriginal'  => $partsOriginal,
-            'service'        => $service,
-            'form'           => $form,
-            'request'        => $model->request,
+        $availability = CarData::$availability;
+        $attributesList = [
+            'partsCondition',
+            'partsOriginal',
+            'discType',
+            'tireType',
+            'tireTypeWinter'
         ];
+
+        $offerFormAttributes = [];
+        foreach ($attributesList as $attributeName) {
+            $offerFormAttributes[$attributeName] = RequestAttribute::getValueByRequest(
+                $model->request->id, $attributeName);
+        }
+
+        $viewParams = ArrayHelper::merge([
+            'availability'  => $availability,
+            'companiesList' => $companiesList,
+            'service'       => $service,
+            'form'          => $form,
+            'request'       => $model->request,
+        ], $offerFormAttributes);
 
         if (empty($model->requestOffers)) {
             $modelData = new RequestOfferForm();
             $modelData->companyId = current(array_keys($companiesList));
             $modelData->availability = current(array_keys($availability));
-            if (!empty($partsCondition)) {
-                $modelData->partsCondition = current(array_keys($partsCondition));
-            }
 
-            if (!empty($partsOriginal)) {
-                $modelData->partsOriginal = current(array_keys($partsOriginal));
+            foreach ($offerFormAttributes as $attributeName => $valueFromRequest) {
+                if (empty($valueFromRequest)) {
+                    continue;
+                }
+
+                $modelData->{$attributeName} = is_array($valueFromRequest)
+                    ? current(array_keys($valueFromRequest)) : $valueFromRequest;
             }
 
             echo $this->render('_row', ArrayHelper::merge([
@@ -108,7 +113,7 @@ if (empty($backUrl)) {
         ?>
     </div>
 
-    <?php if (!$service) : ?>
+    <?php if (!$service && !$requestClosed) : ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <?= Html::button('<i class="glyphicon glyphicon-plus"></i> Добавить еще одно предложение',
@@ -117,13 +122,14 @@ if (empty($backUrl)) {
         </div>
     <?php endif; ?>
 
-    <?php DynamicFormWidget::end(); ?>
-
-    <div>&nbsp;</div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= common\helpers\ButtonHelper::getSubmitButton($model); ?>
+    <?php if (!$requestClosed) : ?>
+        <div>&nbsp;</div>
+        <div class="row">
+            <div class="col-md-12">
+                <?= common\helpers\ButtonHelper::getSubmitButton($model); ?>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
+
     <?php $form->end(); ?>
 </div>

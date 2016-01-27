@@ -117,10 +117,12 @@ $(document).ready(function () {
     });
 
     $(document).on('beforeSubmit', 'form#login-form', function (event) {
+        preLoaderShow();
         return _checkRequestForm($(this), 'login', $('#loginForm'));
     });
 
     $(document).on('beforeSubmit', 'form#signup-form', function (event) {
+        preLoaderShow();
         return _checkRequestForm($(this), 'signup', $('#signUpForm'));
     });
 
@@ -144,16 +146,20 @@ $(document).ready(function () {
                 var form = $('form#request-form');
                 if (form.length > 0) {
                     form.submit();
+                    preLoaderHide();
                 } else {
                     document.location.href = '/';
                 }
             }
         });
 
+        preLoaderHide();
+
         return false;
     }
 
     $(document).on('beforeSubmit', 'form#request-form', function (event) {
+        preLoaderShow();
         var status = false;
         $.ajax({
             url: '/ajax/check/user',
@@ -169,6 +175,7 @@ $(document).ready(function () {
             }
         });
 
+        preLoaderHide();
         return status;
     });
 });

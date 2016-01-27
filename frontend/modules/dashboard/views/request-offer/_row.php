@@ -17,21 +17,27 @@ if (!$service) {
         $i = 0;
     }
 
+    $isNewRecord = true;
     if (!empty($modelData->id)) {
         echo Html::activeHiddenInput($modelData, '[' . $i . ']id');
+        $isNewRecord = false;
     }
     ?>
 
     <div class="col-md-5 col-sm-5 col-xs-12">
         <?= $form->field($modelData, '[' . $i . ']description')->textInput([
             'placeholder' => $descriptionLabel,
-            'class'       => 'form-control descriptionQuery'
+            'class'       => 'form-control descriptionQuery',
+            'readonly'    => !$isNewRecord
         ]); ?>
     </div>
 
     <div class="col-md-5 col-sm-5 col-xs-8">
-        <?= $form->field($modelData, '[' . $i . ']comment')->textInput(
-            ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
+        <?= $form->field($modelData, '[' . $i . ']comment')->textInput([
+            'class'       => 'form-control',
+            'placeholder' => 'Комментарий',
+            'readonly'    => !$isNewRecord
+        ]); ?>
     </div>
 
     <div class="col-md-1 col-sm-1 col-xs-2">
@@ -60,7 +66,6 @@ if (!$service) {
         ],
         'pluginOptions' => [
             'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
-            'maxFileSize'           => 5000000,
             'maxFileCount'          => 5,
             'previewFileType'       => 'image',
             'showRemove'            => false,
@@ -72,7 +77,7 @@ if (!$service) {
             'previewSettings'       => [
                 'image' => ['width' => '100px', 'height' => '100px'],
             ],
-        ]
+        ],
     ];
     ?>
 
@@ -93,55 +98,75 @@ if (!$service) {
     <div class="col-md-2 col-sm-2 col-xs-6">
         <div class="row">
             <div class="col-md-12">
-                <?= $form->field($modelData, '[' . $i . ']price')->textInput(
-                    ['class' => 'form-control', 'placeholder' => $priceLabel]); ?>
+                <?= $form->field($modelData, '[' . $i . ']price')->textInput([
+                    'class'       => 'form-control',
+                    'placeholder' => $priceLabel,
+                    'readonly'    => !$isNewRecord
+                ]); ?>
             </div>
 
             <div class="col-md-12">
-                <?= $form->field($modelData, '[' . $i . ']companyId')->dropDownList($companiesList); ?>
+                <?= $form->field($modelData, '[' . $i . ']companyId')->dropDownList($companiesList, [
+                    'disabled' => !$isNewRecord
+                ]); ?>
             </div>
         </div>
     </div>
 
     <?php if (!$service) : ?>
-        <div class="col-md-5 col-sm-5 col-xs-6">
-            <?= $form->field($modelData, '[' . $i . ']availability')->radioButtonGroup($availability, [
-                'class'       => 'btn-group buttonListAvailability',
-                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
-            ]); ?>
+        <?php if (!empty($availability)) : ?>
+            <div class="col-md-5 col-sm-5 col-xs-6">
+                <?php
+                echo $form->field($modelData, '[' . $i . ']availability')->radioButtonGroup($availability, [
+                    'class'       => 'btn-group buttonListAvailability',
+                    'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                ]);
 
-            <?php
-            $visibleDeliveryDays = 'none';
-            if ($modelData->availability == 2) {
-                $visibleDeliveryDays = 'block';
-            }
-            ?>
-            <div class="row deliveryDays" style="display: <?= $visibleDeliveryDays; ?>;">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <?= $form->field($modelData, '[' . $i . ']deliveryDayFrom')
-                        ->textInput(['placeholder' => 'Срок от']); ?>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <?= $form->field($modelData, '[' . $i . ']deliveryDayTo')
-                        ->textInput(['placeholder' => 'до']); ?>
+                $visibleDeliveryDays = 'none';
+                if ($modelData->availability == 2) {
+                    $visibleDeliveryDays = 'block';
+                }
+                ?>
+                <div class="row deliveryDays" style="display: <?= $visibleDeliveryDays; ?>;">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?= $form->field($modelData, '[' . $i . ']deliveryDayFrom')
+                            ->textInput(['placeholder' => 'Срок от', 'readonly' => !$isNewRecord]); ?>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?= $form->field($modelData, '[' . $i . ']deliveryDayTo')
+                            ->textInput(['placeholder' => 'до', 'readonly' => !$isNewRecord]); ?>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
 
         <div class="col-md-5 col-sm-5 col-xs-6">
             <div class="row">
-                <div class="col-md-12">
-                    <?= $form->field($modelData, '[' . $i . ']partsCondition')->radioButtonGroup($partsCondition, [
-                        'class'       => 'btn-group',
-                        'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
-                    ]); ?>
-                </div>
-                <div class="col-md-12">
-                    <?= $form->field($modelData, '[' . $i . ']partsOriginal')->radioButtonGroup($partsOriginal, [
-                        'class'       => 'btn-group',
-                        'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
-                    ]); ?>
-                </div>
+                <?php if (!empty($partsCondition)) : ?>
+                    <div class="col-md-12">
+                        <?= $form->field($modelData, '[' . $i . ']partsCondition')
+                            ->radioButtonGroup($partsCondition, [
+                                'class'       => 'btn-group buttonListPartsCondition',
+                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                            ]); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($partsOriginal)) : ?>
+                    <?php
+                    $visiblePartsOriginal = 'none';
+                    if ($modelData->partsCondition == 1) {
+                        $visiblePartsOriginal = 'block';
+                    }
+                    ?>
+
+                    <div class="col-md-12 partsOriginalBlock" style="display: <?= $visiblePartsOriginal; ?>;">
+                        <?= $form->field($modelData, '[' . $i . ']partsOriginal')->radioButtonGroup($partsOriginal, [
+                            'class'       => 'btn-group',
+                            'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                        ]); ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     <?php endif; ?>

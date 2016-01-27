@@ -19,12 +19,12 @@ class RequestOfferController extends Controller
         }
 
         $postData = Yii::$app->request->post();
-        if (empty($postData)) {
+        if (empty($postData['RequestOfferForm'])) {
             return [];
         }
 
-        $modelRows = Model::createMultiple(RequestOfferForm::classname());
-        Model::loadMultiple($modelRows, Yii::$app->request->post());
+        $modelRows = Model::createMultiple(RequestOfferForm::classname(), [], null, true);
+        Model::loadMultiple($modelRows, $postData);
 
         return ActiveForm::validateMultiple($modelRows);
     }

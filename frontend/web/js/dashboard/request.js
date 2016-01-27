@@ -15,6 +15,8 @@ function addInputForValidation(form, index, fieldName) {
 }
 
 $(document).ready(function () {
+    $('.dynamicFormRow a.delete-item').hide();
+
     if ($('#yandexMapCompany').length > 0) {
         initMainOfferMap();
     }
@@ -28,7 +30,15 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.requestInfoView', function () {
-        $('.requestInfo').toggle();
+        var obj = $('.requestInfo');
+        obj.toggle();
+
+        var text = 'Скрыть информацию по заявке';
+        if (!obj.is(':visible')) {
+            text = 'Показать информацию по заявке';
+        }
+
+        $(this).text(text);
     });
 
     $(document).on('change', '.buttonListAvailability', function () {
@@ -38,6 +48,16 @@ $(document).ready(function () {
             obj.hide();
         } else {
             obj.show();
+        }
+    });
+
+    $(document).on('change', '.buttonListPartsCondition', function () {
+        var value = $(this).find('.active input').val();
+        var obj = $(this).closest('.dynamicFormRow').find('.partsOriginalBlock');
+        if (value == 1) {
+            obj.show();
+        } else {
+            obj.hide();
         }
     });
 
@@ -75,6 +95,8 @@ $(document).ready(function () {
 
         var form = $('#request-form');
         var index = $('.requestOfferDynamicForm .dynamicFormRow').length - 1;
+
+        form.find('.dynamicFormRow:last').find('input, select').prop('readonly', false).prop('disabled', false);
 
         addInputForValidation(form, index, 'partsCondition');
         addInputForValidation(form, index, 'partsOriginal');

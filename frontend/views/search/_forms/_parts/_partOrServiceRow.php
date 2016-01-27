@@ -114,7 +114,6 @@ $dynamicParams = [
                     ],
                     'pluginOptions' => [
                         'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
-                        'maxFileSize'           => 5000000,
                         'maxFileCount'          => 5,
                         'previewFileType'       => 'image',
                         'showRemove'            => false,

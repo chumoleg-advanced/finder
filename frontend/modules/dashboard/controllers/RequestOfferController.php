@@ -53,30 +53,26 @@ class RequestOfferController extends Controller
         $model = $this->loadModel($id);
 
         $postData = Yii::$app->request->post();
-        if (!empty($postData)) {
-
+        if (!empty($postData['RequestOfferForm'])) {
             /** @var RequestOfferForm[] $modelRows */
-            $modelRows = Model::createMultiple(RequestOfferForm::classname());
+            $modelRows = Model::createMultiple(RequestOfferForm::classname(), [], null, true);
             Model::loadMultiple($modelRows, Yii::$app->request->post());
-            $errors = ActiveForm::validateMultiple($modelRows);
-            if (empty($errors)){
-                foreach ($modelRows as $k => $requestOffer) {
-                    $requestOffer->mainRequestOffer = $model;
-                    $requestOffer->imageData = UploadedFile::getInstances(
-                        $requestOffer, '[' . $k . ']imageData');
+            ActiveForm::validateMultiple($modelRows);
 
-                    if (!empty($requestOffer->id)) {
-                        $requestOffer->update();
-                    } else {
-                        $requestOffer->create();
-                    }
+            foreach ($modelRows as $k => $requestOffer) {
+                if (!empty($requestOffer->id)) {
+                    continue;
                 }
 
-                $model->status = MainRequestOffer::STATUS_ACTIVE;
-                $model->save();
-
-                return $this->redirect(['index']);
+                $requestOffer->mainRequestOffer = $model;
+                $requestOffer->imageData = UploadedFile::getInstances($requestOffer, '[' . $k . ']imageData');
+                $requestOffer->create();
             }
+
+            $model->status = MainRequestOffer::STATUS_ACTIVE;
+            $model->save();
+
+            return $this->redirect(['index']);
         }
 
         $checkView = RequestView::findByUserIp($model->request_id);

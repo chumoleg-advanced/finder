@@ -32,7 +32,7 @@ class RequestController extends Controller
     public function actionIndex()
     {
         $searchModel = new RequestSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'user');
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $this->_rememberUrl();
 

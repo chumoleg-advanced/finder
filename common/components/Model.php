@@ -13,10 +13,11 @@ class Model extends \yii\base\Model
      * @param string      $modelClass
      * @param array       $multipleModels
      * @param string|null $scenario
+     * @param bool        $onlyNewRecords
      *
      * @return array
      */
-    public static function createMultiple($modelClass, $multipleModels = [], $scenario = null)
+    public static function createMultiple($modelClass, $multipleModels = [], $scenario = null, $onlyNewRecords = false)
     {
         /** @var Model $model */
         $model = new $modelClass;
@@ -31,6 +32,10 @@ class Model extends \yii\base\Model
 
         if ($post && is_array($post)) {
             foreach ($post as $i => $item) {
+                if ($onlyNewRecords && isset($item['id']) && !empty($item['id'])) {
+                    continue;
+                }
+
                 if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {
                     $obj = $multipleModels[$item['id']];
                 } else {
@@ -42,7 +47,7 @@ class Model extends \yii\base\Model
                     $obj->setScenario($scenario);
                 }
 
-                $models[] = $obj;
+                $models[$i] = $obj;
             }
         }
 

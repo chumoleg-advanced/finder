@@ -44,9 +44,8 @@ return [
             'port'     => 6379
         ],
         'mailer'      => [
-            'class'            => 'yii\swiftmailer\Mailer',
-            'viewPath'         => '@common/mail',
-            'useFileTransport' => true,
+            'class'    => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/mail',
         ],
         'curl'        => [
             'class' => 'linslin\yii2\curl\Curl'
@@ -62,9 +61,16 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
                 [
-                    'class'   => 'yii\log\EmailTarget',
-                    'levels'  => ['error', 'warning'],
-                    'message' => [
+                    'class'      => 'yii\log\EmailTarget',
+                    'levels'     => ['error', 'warning'],
+                    'categories' => [
+                        'yii\db\*',
+                        'yii\web\HttpException:*',
+                    ],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                    ],
+                    'message'    => [
                         'from'    => ['error@finder.thorxml.com'],
                         'to'      => ['chumoleg@yandex.ru'],
                         'subject' => 'Error finder',

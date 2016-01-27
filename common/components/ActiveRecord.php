@@ -8,6 +8,22 @@ use yii\data\ActiveDataProvider;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    /**
+     * @param int $id
+     *
+     * @return null|string
+     */
+    public static function getNameById($id)
+    {
+        $id = (int)$id;
+        if (empty($id)) {
+            return null;
+        }
+
+        $model = self::find()->andWhere(['id' => $id])->one();
+        return !empty($model) ? $model->name : null;
+    }
+
     public function behaviors()
     {
         return [
@@ -39,31 +55,33 @@ class ActiveRecord extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $query
-     *
-     * @return ActiveDataProvider
+     * @param        $query
+     * @param string $field
      */
-    protected function getDataProvider($query)
+    public function andWhereUser($query, $field = 'user_id')
     {
-        return new ActiveDataProvider([
-            'query' => $query,
-            'sort'  => ['defaultOrder' => ['id' => SORT_DESC]]
-        ]);
+        if (Yii::$app->user->can('accessToBackend')) {
+            return;
+        }
+
+        $query->andWhere([$field => Yii::$app->user->id]);
     }
 
     /**
-     * @param int $id
+     * @param        $query
+     * @param array  $defaultOrder
      *
-     * @return null|string
+     * @return ActiveDataProvider
      */
-    public static function getNameById($id)
+    protected function getDataProvider($query, $defaultOrder = [])
     {
-        $id = (int)$id;
-        if (empty($id)) {
-            return null;
+        if (empty($defaultOrder)) {
+            $defaultOrder = ['id' => SORT_DESC];
         }
 
-        $model = self::find()->andWhere(['id' => $id])->one();
-        return !empty($model) ? $model->name : null;
+        return new ActiveDataProvider([
+            'query' => $query,
+            'sort'  => ['defaultOrder' => $defaultOrder]
+        ]);
     }
 }

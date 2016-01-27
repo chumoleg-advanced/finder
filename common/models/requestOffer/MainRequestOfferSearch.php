@@ -55,17 +55,6 @@ class MainRequestOfferSearch extends MainRequestOffer
             return $dataProvider;
         }
 
-        if (!empty($this->status)) {
-            $query->andWhere([
-                'main_request_offer.status' => [
-                    self::STATUS_NEW,
-                    self::STATUS_ACTIVE,
-                ]
-            ]);
-        } else {
-            $query->andWhere(['<>', 'request.status', Request::STATUS_CLOSED]);
-        }
-
         $query->andFilterWhere([
             'main_request_offer.id'                => $this->id,
             'main_request_offer.status'            => $this->status,
@@ -77,33 +66,25 @@ class MainRequestOfferSearch extends MainRequestOffer
 
         $query->andFilterWhere(['like', 'request.description', $this->description]);
 
-        if (Yii::$app->user->can('accessToPersonalCabinet')) {
-            $query->andWhere(['main_request_offer.user_id' => Yii::$app->user->id]);
-        }
+        $this->andWhereUser($query, 'main_request_offer.user_id');
 
         return $dataProvider;
     }
 
     public function getListCategories()
     {
-        $data = self::find()
-            ->joinWith('request.rubric.category')
-            ->distinct('rubric.category_id')
-            ->andWhere(['main_request_offer.user_id' => Yii::$app->user->id])
-            ->all();
+        $query = self::find()->joinWith('request.rubric.category')->distinct('rubric.category_id');
+        $this->andWhereUser($query, 'main_request_offer.user_id');
 
-        return ArrayHelper::map($data, 'request.rubric.category_id', 'request.rubric.category.name');
+        return ArrayHelper::map($query->all(), 'request.rubric.category_id', 'request.rubric.category.name');
     }
 
     public function getListRubrics()
     {
-        $data = self::find()
-            ->joinWith('request.rubric')
-            ->distinct('rubric.id')
-            ->andWhere(['main_request_offer.user_id' => Yii::$app->user->id])
-            ->all();
+        $query = self::find()->joinWith('request.rubric')->distinct('rubric.id');
+        $this->andWhereUser($query, 'main_request_offer.user_id');
 
-        return ArrayHelper::map($data, 'request.rubric_id', 'request.rubric.name');
+        return ArrayHelper::map($query->all(), 'request.rubric_id', 'request.rubric.name');
     }
 
     public function getStatisticRow()
