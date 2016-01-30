@@ -15,7 +15,7 @@ function addInputForValidation(form, index, fieldName) {
 }
 
 $(document).ready(function () {
-    $('.dynamicFormRow a.delete-item').hide();
+    $('.dynamicFormRow a.deleteItem').hide();
 
     if ($('#yandexMapCompany').length > 0) {
         initMainOfferMap();
@@ -82,6 +82,32 @@ $(document).ready(function () {
         closeEffect: 'elastic'
     });
 
+    function _getAttributesForm() {
+        return [
+            'description',
+            'comment',
+            'price',
+            'companyId',
+            'imageData',
+            'availability',
+            'deliveryDayFrom',
+            'deliveryDayTo',
+            'partsCondition',
+            'partsOriginal',
+            'discType',
+            'tireType',
+            'tireTypeWinter'
+        ];
+    }
+
+    $(".requestOfferDynamicForm").on("beforeDelete", function (e, item) {
+        preLoaderShow();
+    });
+
+    $(".requestOfferDynamicForm").on("afterDelete", function (e, item) {
+        preLoaderHide();
+    });
+
     $(".requestOfferDynamicForm").on("beforeInsert", function (e, item) {
         preLoaderShow();
     });
@@ -91,6 +117,8 @@ $(document).ready(function () {
             return $(this).data('value');
         });
 
+        $('label.active').trigger('click');
+
         $('.requestOfferDynamicForm .dynamicFormRow:last .imagesPreview').html('').hide();
 
         var form = $('#request-form');
@@ -98,9 +126,9 @@ $(document).ready(function () {
 
         form.find('.dynamicFormRow:last').find('input, select').prop('readonly', false).prop('disabled', false);
 
-        addInputForValidation(form, index, 'partsCondition');
-        addInputForValidation(form, index, 'partsOriginal');
-        addInputForValidation(form, index, 'availability');
+        $.each(_getAttributesForm(), function (i, name) {
+            addInputForValidation(form, index, name);
+        });
 
         preLoaderHide();
     });

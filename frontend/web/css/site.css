@@ -269,7 +269,7 @@ a.desc:after {
     table-layout: fixed;
 }
 
-.dynamicFormRow {
+.dynamicFormRow, .dynamicFormRowView {
     padding: 10px;
     border: 2px solid lightgrey;
     -webkit-border-radius: 10px;

@@ -2,7 +2,9 @@
 
 namespace frontend\components;
 
+use Yii;
 use common\components\ActiveField;
+use frontend\modules\dashboard\forms\RequestOfferForm;
 use kartik\form\ActiveForm;
 use yii\helpers\Url;
 
@@ -57,7 +59,7 @@ class SearchFormGenerator
     /**
      * @return ActiveForm
      */
-    public static function getFormRequestOffer()
+    public static function getFormParamsRequestOffer()
     {
         $params = self::_getCommonParams(null);
         $params['validationUrl'] = ['/ajax/request-offer/validate'];

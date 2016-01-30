@@ -3,9 +3,12 @@
 namespace frontend\modules\dashboard\controllers;
 
 use common\components\Model;
+use common\models\request\Request;
 use common\models\request\RequestView;
+use frontend\components\SearchFormGenerator;
 use frontend\modules\dashboard\forms\RequestOfferForm;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;

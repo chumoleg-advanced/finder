@@ -2,6 +2,11 @@
 
 namespace frontend\modules\dashboard\forms;
 
+use common\components\CarData;
+use common\models\category\Category;
+use common\models\company\CompanyRubric;
+use common\models\request\Request;
+use common\models\request\RequestAttribute;
 use common\models\requestOffer\RequestOfferAttribute;
 use common\models\requestOffer\RequestOfferImage;
 use Yii;
@@ -11,6 +16,7 @@ use Imagine\Image\ManipulatorInterface;
 use yii\base\Exception;
 use yii\helpers\BaseFileHelper;
 use yii\imagine\Image;
+use yii\helpers\ArrayHelper;
 
 class RequestOfferForm extends Model
 {
@@ -36,13 +42,70 @@ class RequestOfferForm extends Model
      */
     public $mainRequestOffer;
 
+    public static function getAttributesDataByRequest(Request $request, $form)
+    {
+        $service = $request->rubric->category_id == Category::SERVICE;
+        $companiesList = CompanyRubric::getCompaniesByRubric($request->rubric_id);
+
+        $availability = CarData::$availability;
+        $attributesList = [
+            'partsCondition',
+            'partsOriginal',
+            'discType',
+            'tireType',
+            'tireTypeWinter'
+        ];
+
+        $offerFormAttributes = [];
+        foreach ($attributesList as $attributeName) {
+            $offerFormAttributes[$attributeName] = RequestAttribute::getValueByRequest(
+                $request->id, $attributeName);
+        }
+
+        $viewParams = ArrayHelper::merge([
+            'availability'  => $availability,
+            'companiesList' => $companiesList,
+            'service'       => $service,
+            'form'          => $form,
+            'request'       => $request,
+        ], $offerFormAttributes);
+
+        $modelData = new RequestOfferForm();
+        $modelData->companyId = current(array_keys($companiesList));
+        $modelData->availability = current(array_keys($availability));
+
+        foreach ($offerFormAttributes as $attributeName => $valueFromRequest) {
+            if (empty($valueFromRequest)) {
+                continue;
+            }
+
+            $modelData->{$attributeName} = is_array($valueFromRequest)
+                ? current(array_keys($valueFromRequest)) : $valueFromRequest;
+        }
+
+        return ArrayHelper::merge(['modelData' => $modelData], $viewParams);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['description', 'companyId', 'price', 'partsOriginal', 'partsCondition', 'availability'], 'required'],
+            [
+                [
+                    'description',
+                    'companyId',
+                    'price',
+                    'partsOriginal',
+                    'partsCondition',
+                    'availability',
+                    'discType',
+                    'tireType',
+                    'tireTypeWinter'
+                ],
+                'required'
+            ],
             [['price'], 'double'],
             [['deliveryDayFrom', 'deliveryDayTo'], 'integer'],
             [['companyId'], 'integer'],
@@ -64,6 +127,9 @@ class RequestOfferForm extends Model
             'availability'    => 'Наличие',
             'deliveryDayFrom' => 'Срок доставки от',
             'deliveryDayTo'   => 'Срок доставки до',
+            'discType'        => 'Тип дисков',
+            'tireType'        => 'Тип шин',
+            'tireTypeWinter'  => 'Тип зимних шин',
         ];
     }
 
@@ -82,10 +148,27 @@ class RequestOfferForm extends Model
         }
 
         if ($this->partsCondition != 1) {
-            $this->partsOriginal = null;
+            $this->partsOriginal = 1;
+        }
+
+        if ($this->tireType != 2) {
+            $this->tireTypeWinter = 1;
         }
 
         return parent::beforeValidate();
+    }
+
+    public function afterValidate()
+    {
+        if ($this->partsCondition != 1) {
+            $this->partsOriginal = null;
+        }
+
+        if ($this->tireType != 2) {
+            $this->tireTypeWinter = null;
+        }
+
+        return parent::afterValidate();
     }
 
     /**

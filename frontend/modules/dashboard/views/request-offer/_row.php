@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use kartik\widgets\FileInput;
 
 $descriptionLabel = 'Опишите работу';
@@ -16,19 +15,12 @@ if (!$service) {
     if (!isset($i)) {
         $i = 0;
     }
-
-    $isNewRecord = true;
-    if (!empty($modelData->id)) {
-        echo Html::activeHiddenInput($modelData, '[' . $i . ']id');
-        $isNewRecord = false;
-    }
     ?>
 
     <div class="col-md-5 col-sm-5 col-xs-12">
         <?= $form->field($modelData, '[' . $i . ']description')->textInput([
             'placeholder' => $descriptionLabel,
             'class'       => 'form-control descriptionQuery',
-            'readonly'    => !$isNewRecord
         ]); ?>
     </div>
 
@@ -36,7 +28,6 @@ if (!$service) {
         <?= $form->field($modelData, '[' . $i . ']comment')->textInput([
             'class'       => 'form-control',
             'placeholder' => 'Комментарий',
-            'readonly'    => !$isNewRecord
         ]); ?>
     </div>
 
@@ -48,7 +39,7 @@ if (!$service) {
 
     <?php if (!$service) : ?>
         <div class="col-md-1 col-sm-1 col-xs-2 deleteServiceDiv">
-            <a class="btn btn-default delete-item">
+            <a class="btn btn-default deleteItem">
                 <i class="glyphicon glyphicon-minus"></i>
             </a>
         </div>
@@ -101,14 +92,11 @@ if (!$service) {
                 <?= $form->field($modelData, '[' . $i . ']price')->textInput([
                     'class'       => 'form-control',
                     'placeholder' => $priceLabel,
-                    'readonly'    => !$isNewRecord
                 ]); ?>
             </div>
 
             <div class="col-md-12">
-                <?= $form->field($modelData, '[' . $i . ']companyId')->dropDownList($companiesList, [
-                    'disabled' => !$isNewRecord
-                ]); ?>
+                <?= $form->field($modelData, '[' . $i . ']companyId')->dropDownList($companiesList); ?>
             </div>
         </div>
     </div>
@@ -130,11 +118,11 @@ if (!$service) {
                 <div class="row deliveryDays" style="display: <?= $visibleDeliveryDays; ?>;">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?= $form->field($modelData, '[' . $i . ']deliveryDayFrom')
-                            ->textInput(['placeholder' => 'Срок от', 'readonly' => !$isNewRecord]); ?>
+                            ->textInput(['placeholder' => 'Срок от']); ?>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?= $form->field($modelData, '[' . $i . ']deliveryDayTo')
-                            ->textInput(['placeholder' => 'до', 'readonly' => !$isNewRecord]); ?>
+                            ->textInput(['placeholder' => 'до']); ?>
                     </div>
                 </div>
             </div>
@@ -144,11 +132,10 @@ if (!$service) {
             <div class="row">
                 <?php if (!empty($partsCondition)) : ?>
                     <div class="col-md-12">
-                        <?= $form->field($modelData, '[' . $i . ']partsCondition')
-                            ->radioButtonGroup($partsCondition, [
-                                'class'       => 'btn-group buttonListPartsCondition',
-                                'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
-                            ]); ?>
+                        <?= $form->field($modelData, '[' . $i . ']partsCondition')->radioButtonGroup($partsCondition, [
+                            'class'       => 'btn-group buttonListPartsCondition',
+                            'itemOptions' => ['labelOptions' => ['class' => 'btn btn-default']]
+                        ]); ?>
                     </div>
                 <?php endif; ?>
 
