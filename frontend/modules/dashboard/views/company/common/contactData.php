@@ -1,6 +1,9 @@
 <?php
 use wbraganca\dynamicform\DynamicFormWidget;
 use common\models\company\CompanyContactData;
+use frontend\assets\CompanyAsset;
+
+CompanyAsset::register($this);
 ?>
 
 <?php DynamicFormWidget::begin([
