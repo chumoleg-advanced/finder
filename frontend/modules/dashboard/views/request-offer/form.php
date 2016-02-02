@@ -38,7 +38,7 @@ if ($model->request->status == Request::STATUS_CLOSED) {
 <?php endif; ?>
 
 <?= Html::hiddenInput('requestId', $model->request_id, ['id' => 'requestId']); ?>
-<?= $this->render('/request/request-detail', ['model' => $model->request, 'viewToggleLink' => true]); ?>
+<?= $this->render('/request/request-detail', ['model' => $model->request]); ?>
 <div>&nbsp;</div>
 
 <div class="request-offer-form">

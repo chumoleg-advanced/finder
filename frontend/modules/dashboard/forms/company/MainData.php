@@ -33,6 +33,24 @@ class MainData extends Model
     }
 
     /**
+     * @return array
+     */
+    public static function getWeekDays()
+    {
+        $data = [
+            'Пн',
+            'Вт',
+            'Ср',
+            'Чт',
+            'Пт',
+            'Сб',
+            'Вс'
+        ];
+
+        return array_combine($data, $data);
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()

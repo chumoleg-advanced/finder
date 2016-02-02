@@ -1,7 +1,7 @@
 $(document).ready(function () {
     function _checkInputMask(type, obj) {
         if (type == 1) {
-            obj.inputmask('(999) 999-9999');
+            obj.inputmask('+7 (999) 999-9999');
         } else if (type == 3) {
             obj.inputmask('email');
         } else if (type == 4) {

@@ -10,7 +10,7 @@ class ContactData extends Model
     public $city_id;
     public $addressCoordinates;
     public $contactDataValues;
-    public $timeWork;
+    public $timeWork = [];
 
     /**
      * @inheritdoc
@@ -18,10 +18,18 @@ class ContactData extends Model
     public function rules()
     {
         return [
-            [['address', 'city_id', 'timeWork'], 'required'],
+            [['address', 'city_id'], 'required'],
             [['city_id'], 'integer'],
+            ['timeWork', 'checkTimeWork'],
             [['addressCoordinates'], 'safe'],
         ];
+    }
+
+    public function checkTimeWork()
+    {
+        if (empty($this->timeWork['workdays']) && empty($this->timeWork['holidays'])){
+            $this->addError('timeWork[workdays]', 'Заполните время работы');
+        }
     }
 
     public function attributeLabels()

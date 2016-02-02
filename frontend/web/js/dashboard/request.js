@@ -113,18 +113,22 @@ $(document).ready(function () {
     });
 
     $(".requestOfferDynamicForm").on("afterInsert", function (e, item) {
+        var itemObj = $('.requestOfferDynamicForm .dynamicFormRow:last');
+        var destination = itemObj.offset().top - 60;
+        $('html, body').animate({scrollTop: destination}, 500);
+
         $('input[type=checkbox], input[type=radio]').val(function (i, val) {
             return $(this).data('value');
         });
 
         $('label.active').trigger('click');
 
-        $('.requestOfferDynamicForm .dynamicFormRow:last .imagesPreview').html('').hide();
+        itemObj.find('.imagesPreview').html('').hide();
 
         var form = $('#request-form');
         var index = $('.requestOfferDynamicForm .dynamicFormRow').length - 1;
 
-        form.find('.dynamicFormRow:last').find('input, select').prop('readonly', false).prop('disabled', false);
+        itemObj.find('input, select').prop('readonly', false).prop('disabled', false);
 
         $.each(_getAttributesForm(), function (i, name) {
             addInputForValidation(form, index, name);

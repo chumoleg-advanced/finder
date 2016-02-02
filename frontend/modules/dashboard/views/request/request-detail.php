@@ -22,9 +22,7 @@ $priceData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, 
 $deliveryData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_DELIVERY);
 ?>
 
-<?php if (!empty($viewToggleLink)) : ?>
-    <a href="javascript:;" class="requestInfoView">Скрыть информацию по заявке</a>
-<?php endif; ?>
+<a href="javascript:;" class="requestInfoView">Скрыть информацию по заявке</a>
 
 <div class="requestInfo">
     <div class="row well">
