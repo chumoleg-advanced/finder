@@ -88,7 +88,6 @@ $(document).ready(function () {
             'comment',
             'price',
             'companyId',
-            'imageData',
             'availability',
             'deliveryDayFrom',
             'deliveryDayTo',

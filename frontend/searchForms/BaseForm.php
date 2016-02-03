@@ -132,6 +132,8 @@ class BaseForm extends Model
                 Image::thumbnail($fileName, 200, 200, ManipulatorInterface::THUMBNAIL_INSET)
                     ->save($thumbName);
 
+                Image::thumbnail($fileName, 1000, 1000, ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
+
                 $img = new RequestImage();
                 $img->request_id = $requestId;
                 $img->name = $fileName;

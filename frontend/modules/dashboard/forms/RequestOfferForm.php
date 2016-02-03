@@ -110,7 +110,6 @@ class RequestOfferForm extends Model
             [['deliveryDayFrom', 'deliveryDayTo'], 'integer'],
             [['companyId'], 'integer'],
             [['imageData'], 'safe'],
-            [['imageData'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
             [['id', 'comment'], 'safe'],
         ];
     }
@@ -236,6 +235,8 @@ class RequestOfferForm extends Model
                 $thumbName = $dir . '/thumb_' . $baseName;
                 Image::thumbnail($fileName, 200, 200, ManipulatorInterface::THUMBNAIL_INSET)
                     ->save($thumbName);
+
+                Image::thumbnail($fileName, 1000, 1000, ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
 
                 $img = new RequestOfferImage();
                 $img->request_offer_id = $requestOfferId;
