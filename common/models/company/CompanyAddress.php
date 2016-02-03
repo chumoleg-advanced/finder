@@ -196,9 +196,9 @@ class CompanyAddress extends ActiveRecord
             $stringData[] = implode(', ', $stringItems) . ' - c ' . $item->time_from . ' до ' . $item->time_to;
         }
 
-        $final = implode('<br />', $stringData);
+        $final = implode(';<br />', $stringData);
         if (!empty($free)) {
-            $final .= '<br />' . implode(', ', $free) . ' - Выходной';
+            $final .= ';<br />' . implode(', ', $free) . ' - Выходной';
         }
 
         return $final;
