@@ -37,15 +37,26 @@ class MainData extends Model
      */
     public static function getWeekDays()
     {
-        $data = [
-            'Пн',
-            'Вт',
-            'Ср',
-            'Чт',
-            'Пт',
-            'Сб',
-            'Вс'
+        return [
+            1 => 'Пн',
+            2 => 'Вт',
+            3 => 'Ср',
+            4 => 'Чт',
+            5 => 'Пт',
+            6 => 'Сб',
+            7 => 'Вс'
         ];
+    }
+
+    /**
+     * @param int $from
+     * @param int $to
+     *
+     * @return array
+     */
+    public static function getRange($from = 0, $to = 24)
+    {
+        $data = range($from, $to);
 
         return array_combine($data, $data);
     }

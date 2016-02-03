@@ -12,6 +12,7 @@ $form = CompanyFormGenerator::getForm($event->step, ['id' => 'company-data-form'
         <div class="col-md-8">
             <?= $this->render('/company/common/addressData', ['form' => $form, 'model' => $model]); ?>
             <?= $this->render('/company/common/contactData', ['form' => $form, 'model' => $model]); ?>
+            <?= $this->render('/company/common/timeWorkData', ['form' => $form, 'model' => $model]); ?>
         </div>
     </div>
 

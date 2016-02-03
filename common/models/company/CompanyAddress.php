@@ -2,24 +2,26 @@
 
 namespace common\models\company;
 
+use frontend\modules\dashboard\forms\company\MainData;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\city\City;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "company_address".
  *
- * @property integer              $id
- * @property integer              $company_id
- * @property integer              $city_id
- * @property string               $address
- * @property string               $map_coordinates
- * @property string               $time_work
- * @property string               $date_create
+ * @property integer                  $id
+ * @property integer                  $company_id
+ * @property integer                  $city_id
+ * @property string                   $address
+ * @property string                   $map_coordinates
+ * @property string                   $date_create
  *
- * @property Company              $company
- * @property City                 $city
- * @property CompanyContactData[] $companyContactDatas
+ * @property Company                  $company
+ * @property City                     $city
+ * @property CompanyContactData[]     $companyContactDatas
+ * @property CompanyAddressTimeWork[] $companyAddressTimeWorks
  */
 class CompanyAddress extends ActiveRecord
 {
@@ -39,7 +41,6 @@ class CompanyAddress extends ActiveRecord
         return [
             [['company_id', 'city_id', 'address'], 'required'],
             [['company_id', 'city_id'], 'integer'],
-            [['time_work'], 'string'],
             [['date_create'], 'safe'],
             [['address'], 'string', 'max' => 400],
             [['map_coordinates'], 'string', 'max' => 200]
@@ -57,7 +58,6 @@ class CompanyAddress extends ActiveRecord
             'city_id'         => 'Город',
             'address'         => 'Address',
             'map_coordinates' => 'Map Coordinates',
-            'time_work'       => 'Time Work',
             'date_create'     => 'Date Create',
         ];
     }
@@ -107,15 +107,14 @@ class CompanyAddress extends ActiveRecord
     }
 
     /**
-     * @param $addressData
-     * @param $address
+     * @param                $addressData
+     * @param CompanyAddress $address
      */
     private static function _setAttributesByForm($addressData, $address)
     {
         $address->city_id = $addressData->city_id;
         $address->address = $addressData->address;
         $address->map_coordinates = $addressData->addressCoordinates;
-        $address->time_work = $addressData->timeWork;
     }
 
     /**
@@ -140,5 +139,68 @@ class CompanyAddress extends ActiveRecord
     public function getCompanyContactDatas()
     {
         return $this->hasMany(CompanyContactData::className(), ['company_address_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCompanyAddressTimeWorks()
+    {
+        return $this->hasMany(CompanyAddressTimeWork::className(), ['company_address_id' => 'id']);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTimeWorkData()
+    {
+        $data = $this->companyAddressTimeWorks;
+
+        $array = [];
+        foreach ($data as $item) {
+            $array[$item->type]['days'] = Json::decode($item->days_list);
+            $array[$item->type]['timeFrom'] = $item->time_from;
+            $array[$item->type]['timeTo'] = $item->time_to;
+        }
+
+        return $array;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTimeWorkDataAsString()
+    {
+        $data = $this->companyAddressTimeWorks;
+        if (empty($data)) {
+            return null;
+        }
+
+        $free = MainData::getWeekDays();
+        foreach ($data as $item) {
+            $days = Json::decode($item->days_list);
+            foreach ($days as $day) {
+                unset($free[$day]);
+            }
+        }
+
+        $weekDays = MainData::getWeekDays();
+        $stringData = [];
+        foreach ($data as $item) {
+            $stringItems = [];
+            $days = Json::decode($item->days_list);
+            foreach ($days as $day) {
+                $stringItems[] = $weekDays[$day];
+            }
+
+            $stringData[] = implode(', ', $stringItems) . ' - c ' . $item->time_from . ' до ' . $item->time_to;
+        }
+
+        $final = implode('<br />', $stringData);
+        if (!empty($free)) {
+            $final .= '<br />' . implode(', ', $free) . ' - Выходной';
+        }
+
+        return $final;
     }
 }

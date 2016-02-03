@@ -3,6 +3,7 @@
 namespace frontend\modules\dashboard\forms\company;
 
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 class ContactData extends Model
 {
@@ -25,13 +26,6 @@ class ContactData extends Model
         ];
     }
 
-    public function checkTimeWork()
-    {
-        if (empty($this->timeWork['workdays']) && empty($this->timeWork['holidays'])){
-            $this->addError('timeWork[workdays]', 'Заполните время работы');
-        }
-    }
-
     public function attributeLabels()
     {
         return [
@@ -40,5 +34,27 @@ class ContactData extends Model
             'addressCoordinates' => 'Координаты',
             'timeWork'           => 'Время работы',
         ];
+    }
+
+    public function checkTimeWork()
+    {
+        $workDays = ArrayHelper::getValue($this->timeWork, '0.days');
+        $holidays = ArrayHelper::getValue($this->timeWork, '1.days');
+        if (empty($workDays) && empty($holidays)) {
+            $this->addError('timeWork[0][days]', 'Время работы указано некорректно!');
+        }
+
+        foreach ($this->timeWork as $items) {
+            if (empty($items['days'])) {
+                continue;
+            }
+
+            $timeFrom = (int)ArrayHelper::getValue($items, 'timeFrom');
+            $timeTo = (int)ArrayHelper::getValue($items, 'timeTo');
+            if ($timeFrom >= $timeTo) {
+                $this->addError('timeWork[0][days]', 'Время работы указано некорректно!');
+                break;
+            }
+        }
     }
 }

@@ -58,7 +58,7 @@ $this->title = 'Компания ' . $model->legal_name;
             $contactForm->city_id = $model->companyAddresses[0]->city_id;
             $contactForm->address = $model->companyAddresses[0]->address;
             $contactForm->addressCoordinates = $model->companyAddresses[0]->map_coordinates;
-            $contactForm->timeWork = $model->companyAddresses[0]->time_work;
+            $contactForm->timeWork = $model->companyAddresses[0]->getTimeWorkData();
 
             echo $this->render('common/addressData', ['form' => $form, 'model' => $contactForm]);
             ?>
@@ -66,6 +66,12 @@ $this->title = 'Компания ' . $model->legal_name;
             <div>&nbsp;</div>
             <?= $this->render('common/contactData',
                 ['form' => $form, 'model' => $contactForm, 'modelCompany' => $model]); ?>
+
+            <?= $this->render('common/timeWorkData', [
+                'form'     => $form,
+                'model'    => $contactForm,
+                'asString' => $model->companyAddresses[0]->getTimeWorkDataAsString()
+            ]); ?>
         </div>
 
         <div class="col-md-offset-1 col-md-5">

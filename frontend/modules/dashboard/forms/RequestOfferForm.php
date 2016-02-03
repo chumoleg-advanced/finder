@@ -271,7 +271,9 @@ class RequestOfferForm extends Model
     }
 
     /**
-     * @param $requestOffer
+     * @param RequestOffer $requestOffer
+     *
+     * @return RequestOffer
      */
     private function _saveMainAttributes($requestOffer)
     {

@@ -28,4 +28,17 @@ $(document).ready(function () {
         var obj = $('.maskedInput:last');
         _checkInputMask(type, obj);
     });
+
+    $(document).on('change', '.weekDaysGroup input', function () {
+        var obj = $('.field-timeWork-1');
+        if ($(this).closest('.weekDaysGroup').hasClass('field-timeWork-1')) {
+            obj = $('.field-timeWork-0');
+        }
+
+        if ($(this).is(':checked')) {
+            var input = obj.find('.active input[value="' + $(this).val() + '"]');
+            input.parent().removeClass('active');
+            input.prop('checked', false);
+        }
+    });
 });

@@ -73,7 +73,7 @@ if (!$service) {
 
                 <?php if (!empty($partsOriginal)) : ?>
                     <div class="col-md-12">
-                        Ориинальность: <?= ArrayHelper::getValue(CarData::$partsOriginal, $partsOriginal); ?>
+                        Оригинальность: <?= ArrayHelper::getValue(CarData::$partsOriginal, $partsOriginal); ?>
                     </div>
                 <?php endif; ?>
 

@@ -194,62 +194,84 @@ class Company extends ActiveRecord
      */
     public function createByStepData($stepData = [])
     {
-//        try {
-        $mainData = $stepData['mainData'][0];
-        $rubricData = $stepData['rubricData'][0];
-        $contactData = $stepData['contactData'][0];
+        try {
+            $mainData = $stepData['mainData'][0];
+            $rubricData = $stepData['rubricData'][0];
+            $contactData = $stepData['contactData'][0];
 
-//        } catch (Exception $e) {
-//            return false;
-//        }
+        } catch (Exception $e) {
+            return false;
+        }
 
         $transaction = $this->getDb()->beginTransaction();
 
-//        try {
-        $model = new self();
-        $model->setAttributes($mainData->attributes);
-        $model->status = self::STATUS_ON_MODERATE;
-        if (!$model->save()) {
-            print_r($model->errors);
-            die;
-            throw new Exception();
-        }
+        try {
+            $model = new self();
+            $model->setAttributes($mainData->attributes);
+            $model->status = self::STATUS_ON_MODERATE;
+            if (!$model->save()) {
+                $transaction->rollBack();
+                return false;
+            }
 
-        $addressId = CompanyAddress::create($model->id, $contactData);
+            $addressId = CompanyAddress::create($model->id, $contactData);
+            $this->_saveContactData($contactData, $model->id, $addressId);
+            $this->_saveRubricData($rubricData, $model->id);
+            $this->_saveTimeWorkData($contactData, $addressId);
+
+            $transaction->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * @param $contactData
+     * @param $companyId
+     * @param $addressId
+     */
+    private function _saveContactData($contactData, $companyId, $addressId)
+    {
+        CompanyContactData::deleteAll('company_id = ' . $companyId);
         foreach ($contactData->contactDataValues as $item) {
-            CompanyContactData::create($model->id, $addressId, $item['type'], $item['data']);
+            CompanyContactData::create($companyId, $addressId, $item['type'], $item['data']);
         }
-
-        $this->_saveRubricData($rubricData, $model);
-
-        $transaction->commit();
-        return true;
-
-//        } catch (Exception $e) {
-//            $transaction->rollBack();
-//            return false;
-//        }
     }
 
     /**
      * @param $rubricData
-     * @param $model
+     * @param $companyId
      */
-    private function _saveRubricData($rubricData, $model)
+    private function _saveRubricData($rubricData, $companyId)
     {
-        CompanyTypePayment::deleteAll('company_id = ' . $model->id);
+        CompanyTypePayment::deleteAll('company_id = ' . $companyId);
         foreach ($rubricData->typePayment as $type) {
-            CompanyTypePayment::create($model->id, $type);
+            CompanyTypePayment::create($companyId, $type);
         }
 
-        CompanyTypeDelivery::deleteAll('company_id = ' . $model->id);
+        CompanyTypeDelivery::deleteAll('company_id = ' . $companyId);
         foreach ($rubricData->typeDelivery as $type) {
-            CompanyTypeDelivery::create($model->id, $type);
+            CompanyTypeDelivery::create($companyId, $type);
         }
 
-        CompanyRubric::deleteAll('company_id = ' . $model->id);
+        CompanyRubric::deleteAll('company_id = ' . $companyId);
         foreach ($rubricData->rubrics as $rubricId) {
-            CompanyRubric::create($model->id, $rubricId);
+            CompanyRubric::create($companyId, $rubricId);
+        }
+    }
+
+    /**
+     * @param $contactData
+     * @param $addressId
+     */
+    private function _saveTimeWorkData($contactData, $addressId)
+    {
+        CompanyAddressTimeWork::deleteAll('company_address_id = ' . $addressId);
+        foreach ($contactData->timeWork as $k => $item) {
+            CompanyAddressTimeWork::create($addressId, $k, $item['days'], $item['timeFrom'], $item['timeTo']);
         }
     }
 
@@ -276,13 +298,9 @@ class Company extends ActiveRecord
             }
 
             $addressId = CompanyAddress::updateByCompany($this->id, $contactData);
-
-            CompanyContactData::deleteAll('company_id = ' . $this->id);
-            foreach ($contactData->contactDataValues as $item) {
-                CompanyContactData::create($this->id, $addressId, $item['type'], $item['data']);
-            }
-
-            $this->_saveRubricData($rubricData, $this);
+            $this->_saveRubricData($rubricData, $this->id);
+            $this->_saveContactData($contactData, $this->id, $addressId);
+            $this->_saveTimeWorkData($contactData, $addressId);
 
             $transaction->commit();
             return true;
