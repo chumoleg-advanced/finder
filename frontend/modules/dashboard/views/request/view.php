@@ -15,7 +15,7 @@ DashboardRequestAsset::register($this);
 /** @var \common\models\requestOffer\RequestOffer $bestOffer */
 /** @var \common\models\requestOffer\RequestOffer[] $otherOffers */
 
-$this->title = 'Заявка #' . $model->id;
+$this->title = 'Заявка #' . $model->id . '. ' . $model->description;
 
 $backUrl = Url::previous('requestList');
 if (empty($backUrl)) {
