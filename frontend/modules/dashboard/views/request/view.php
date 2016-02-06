@@ -2,12 +2,10 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-use frontend\assets\DashboardMainAsset;
 use frontend\assets\DashboardRequestAsset;
 use common\models\company\CompanyContactData;
 use frontend\modules\dashboard\forms\RequestOfferForm;
 
-DashboardMainAsset::register($this);
 DashboardRequestAsset::register($this);
 
 

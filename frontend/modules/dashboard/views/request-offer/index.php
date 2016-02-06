@@ -5,11 +5,8 @@
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
 use yii\widgets\Pjax;
-use frontend\assets\DashboardMainAsset;
 use common\models\requestOffer\MainRequestOffer;
 use common\components\ManageButton;
-
-DashboardMainAsset::register($this);
 
 $this->title = 'Заявки от клиентов';
 ?>

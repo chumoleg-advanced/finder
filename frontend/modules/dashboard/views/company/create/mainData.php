@@ -3,9 +3,6 @@
 
 use frontend\modules\dashboard\forms\company\MainData;
 use frontend\modules\dashboard\components\CompanyFormGenerator;
-use frontend\assets\DashboardMainAsset;
-
-DashboardMainAsset::register($this);
 
 $this->title = 'Общая информация';
 

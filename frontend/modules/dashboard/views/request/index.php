@@ -6,10 +6,8 @@ use yii\grid\GridView;
 use common\components\DatePickerFactory;
 use common\models\request\Request;
 use yii\widgets\Pjax;
-use frontend\assets\DashboardMainAsset;
-use common\components\ManageButton;
 
-DashboardMainAsset::register($this);
+use common\components\ManageButton;
 
 $this->title = 'Мои заявки';
 

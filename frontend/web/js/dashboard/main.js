@@ -1,4 +1,12 @@
 $(document).ready(function () {
+    $('.messageButton').click(function () {
+        var obj = $('#messageModal');
+        $.post('/ajax/message/get-dialog-list', {}, function (data) {
+            obj.modal();
+            obj.find('.modal-body').html(data);
+        }, 'html');
+    });
+
     _toggleFormElements($('.companyFormGroup'));
 
     function _toggleFormElements(obj) {

@@ -4,6 +4,7 @@ namespace frontend\modules\dashboard\components;
 
 use common\models\category\Category;
 use common\models\company\Company;
+use common\models\Message;
 use Yii;
 use yii\helpers\Url;
 
@@ -11,6 +12,12 @@ class MenuItems
 {
     public static function getItems()
     {
+        $countNewMessage = Message::countNewMessages();
+        $messageBadge = '';
+        if ($countNewMessage > 0) {
+            $messageBadge = '<span class="badge">' . $countNewMessage . '</span>';
+        }
+
         return [
             [
                 'label' => '<i class="glyphicon glyphicon-plus"></i> Создать заявку',
@@ -30,8 +37,9 @@ class MenuItems
                 'items' => MenuItems::getCompanyManage(),
             ],
             [
-                'label' => '<i class="glyphicon glyphicon-bell"></i>',
-                'url'   => Url::toRoute('message/index')
+                'label'   => '<i class="glyphicon glyphicon-bell"></i>' . $messageBadge,
+                'url'     => '#',
+                'options' => ['class' => 'messageButton']
             ],
             [
                 'label' => '<i class="glyphicon glyphicon-user"></i> '

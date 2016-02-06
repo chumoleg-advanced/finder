@@ -1,9 +1,5 @@
 <?php
-
 use frontend\modules\dashboard\components\CompanyFormGenerator;
-use frontend\assets\DashboardMainAsset;
-
-DashboardMainAsset::register($this);
 
 $this->title = 'Сфера деятельности';
 

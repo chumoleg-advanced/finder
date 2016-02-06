@@ -4,10 +4,10 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use frontend\assets\DashboardMainAsset;
 
-AppAsset::register($this);
+DashboardMainAsset::register($this);
 ?>
 <?php $this->beginPage(); ?>
 
@@ -30,6 +30,8 @@ AppAsset::register($this);
         <legend><?= Html::encode($this->title); ?></legend>
         <?= Alert::widget(); ?>
         <?= $content; ?>
+
+        <?= $this->render('_message'); ?>
     </div>
 </div>
 

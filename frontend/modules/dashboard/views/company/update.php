@@ -4,12 +4,9 @@ use common\models\company\Company;
 use frontend\modules\dashboard\forms\company\MainData;
 use frontend\modules\dashboard\forms\company\ContactData;
 use frontend\modules\dashboard\forms\company\RubricData;
-use frontend\assets\DashboardMainAsset;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use frontend\modules\dashboard\components\CompanyFormGenerator;
-
-DashboardMainAsset::register($this);
 
 /** @var Company $model */
 

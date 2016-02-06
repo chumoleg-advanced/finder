@@ -106,7 +106,7 @@ class Message extends ActiveRecord
      * @param int    $toUserId
      * @param string $text
      */
-    public function createMessage($requestId, $toUserId, $text)
+    public static function createMessage($requestId, $toUserId, $text)
     {
         $model = new self();
         $model->request_id = $requestId;
@@ -120,7 +120,7 @@ class Message extends ActiveRecord
      *
      * @return Message[]|null
      */
-    public function getMessageListByRequest($requestId)
+    public static function getMessageListByRequest($requestId)
     {
         $userId = Yii::$app->user->id;
         return self::find()->where('(from_user_id = ' . $userId . ' OR to_user_id = ' . $userId
@@ -130,7 +130,7 @@ class Message extends ActiveRecord
     /**
      * @return int
      */
-    public function countNewMessages()
+    public static function countNewMessages()
     {
         return (int)self::find()->count('to_user_id = ' . Yii::$app->user->id
             . ' AND status = ' . self::STATUS_NEW);
@@ -139,10 +139,15 @@ class Message extends ActiveRecord
     /**
      * @param int $requestId
      */
-    public function readMessage($requestId)
+    public static function readMessage($requestId)
     {
-        $this->updateAll(['status' => self::STATUS_READ],
+        self::updateAll(['status' => self::STATUS_READ],
             'status = ' . self::STATUS_NEW . ' AND request_id = ' . $requestId
             . ' AND to_user_id = ' . Yii::$app->user->id);
+    }
+
+    public static function getDialogList()
+    {
+        return self::find();
     }
 }
