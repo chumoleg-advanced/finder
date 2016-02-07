@@ -3,8 +3,6 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use frontend\assets\DashboardRequestAsset;
-use common\models\company\CompanyContactData;
-use frontend\modules\dashboard\forms\RequestOfferForm;
 use common\models\company\CompanyTypeDelivery;
 
 DashboardRequestAsset::register($this);
