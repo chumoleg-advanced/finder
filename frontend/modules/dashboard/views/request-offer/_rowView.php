@@ -33,7 +33,7 @@ if (!$service) {
             <?php foreach ($requestOffer->requestOfferImages as $image) : ?>
                 <a class="fancybox imageBlock" rel="gallery_<?= $requestOffer->id; ?>"
                    href="<?= '/' . $image->name; ?>">
-                    <img src="<?= '/' . $image->thumb_name; ?>" alt=""/>
+                    <img src="<?= '/' . $image->thumb_name; ?>" alt="gallery"/>
                 </a>
             <?php endforeach; ?>
         </div>

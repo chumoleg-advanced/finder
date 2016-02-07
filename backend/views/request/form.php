@@ -55,7 +55,7 @@ $deliveryData = RequestAttribute::getValuesByGroup($requestAttributes, $formMode
             <?php foreach ($model->requestImages as $requestImage) : ?>
                 <div class="col-md-6">
                     <a class="fancybox" rel="gallery1" href="<?= '/' . $requestImage->name; ?>">
-                        <img src="<?= '/' . $requestImage->thumb_name; ?>" alt=""/>
+                        <img src="<?= '/' . $requestImage->thumb_name; ?>" alt="gallery"/>
                     </a>
                 </div>
             <?php endforeach; ?>

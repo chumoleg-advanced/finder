@@ -71,7 +71,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                 <?php foreach ($model->requestImages as $requestImage) : ?>
                     <div class="col-md-6">
                         <a class="fancybox imageBlock" rel="gallery1" href="<?= '/' . $requestImage->name; ?>">
-                            <img src="<?= '/' . $requestImage->thumb_name; ?>" alt=""/>
+                            <img src="<?= '/' . $requestImage->thumb_name; ?>" alt="gallery"/>
                         </a>
                     </div>
                 <?php endforeach; ?>

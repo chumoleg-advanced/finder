@@ -86,8 +86,13 @@ $(document).ready(function () {
     }
 
     $(".fancybox").fancybox({
-        openEffect: 'elastic',
-        closeEffect: 'elastic'
+        helpers: {
+            overlay: {
+                locked: false
+            }
+        },
+        openEffect: 'fade',
+        closeEffect: 'fade'
     });
 
     function _getAttributesForm() {

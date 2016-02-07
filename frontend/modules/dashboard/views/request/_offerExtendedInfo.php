@@ -71,7 +71,7 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
                         <?php foreach ($model->requestOfferImages as $image) : ?>
                             <a class="fancybox imageBlock" rel="gallery_<?= $model->id; ?>"
                                href="<?= '/' . $image->name; ?>">
-                                <img src="<?= '/' . $image->thumb_name; ?>" alt=""/>
+                                <img src="<?= '/' . $image->thumb_name; ?>" alt="gallery"/>
                             </a>
                         <?php endforeach; ?>
                     </div>

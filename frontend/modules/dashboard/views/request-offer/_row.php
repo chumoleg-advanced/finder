@@ -76,7 +76,7 @@ if (!$service) {
         <div class="col-md-12 col-sm-12 col-xs-12 imagesPreview">
             <?php foreach ($modelData->imageData as $image) : ?>
                 <a class="fancybox imageBlock" rel="gallery_<?= $i; ?>" href="<?= '/' . $image->name; ?>">
-                    <img src="<?= '/' . $image->thumb_name; ?>" alt=""/>
+                    <img src="<?= '/' . $image->thumb_name; ?>" alt="gallery"/>
                 </a>
             <?php endforeach; ?>
         </div>
