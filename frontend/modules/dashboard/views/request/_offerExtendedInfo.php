@@ -11,7 +11,7 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
 ?>
 
 <div class="row <?= $cssClass; ?> requestOfferBlock" data-counter="<?= $counter; ?>">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="row">
             <h3>Цена: <?= $model->price; ?></h3>
 
@@ -45,7 +45,7 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
         </div>
     </div>
 
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-striped table-condensed table-bordered detail-view">
