@@ -101,6 +101,15 @@ class Company extends ActiveRecord
         return parent::beforeValidate();
     }
 
+    public function beforeSave($insert)
+    {
+        if (empty($this->actual_name)) {
+            $this->actual_name = $this->legal_name;
+        }
+
+        return parent::beforeSave($insert);
+    }
+
     /**
      * @return array
      */

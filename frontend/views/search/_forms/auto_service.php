@@ -3,7 +3,7 @@
 use common\models\car\CarFirm;
 use frontend\components\SearchFormGenerator;
 
-/** @var $model frontend\searchForms\AutoServiceForm */
+/** @var $model frontend\forms\request\AutoServiceForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

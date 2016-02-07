@@ -5,12 +5,12 @@ use kartik\widgets\Select2;
 use common\models\manufacturer\Manufacturer;
 use frontend\components\SearchFormGenerator;
 
-/** @var $model frontend\searchForms\WheelDiscForm */
+/** @var $model frontend\forms\request\WheelDiscForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 
 $form = SearchFormGenerator::getFormSingle($rubric->id);
-$modelData = new \frontend\searchForms\QueryArrayForm();
+$modelData = new \frontend\forms\request\QueryArrayForm();
 ?>
 
     <div class="form-group">

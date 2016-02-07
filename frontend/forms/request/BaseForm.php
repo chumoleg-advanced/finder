@@ -1,7 +1,8 @@
 <?php
 
-namespace frontend\searchForms;
+namespace frontend\forms\request;
 
+use common\components\MyImage;
 use Yii;
 use yii\base\Model;
 use common\models\request\Request;
@@ -134,10 +135,11 @@ class BaseForm extends Model
                 }
 
                 $thumbName = $dir . '/thumb_' . $baseName;
-                Image::thumbnail($fileName, 200, 200, ManipulatorInterface::THUMBNAIL_INSET)
-                    ->save($thumbName);
+                Image::thumbnail($fileName, MyImage::THUMB_SIZE, MyImage::THUMB_SIZE,
+                    ManipulatorInterface::THUMBNAIL_INSET)->save($thumbName);
 
-                Image::thumbnail($fileName, 1000, 1000, ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
+                Image::thumbnail($fileName, MyImage::IMAGE_SIZE, MyImage::IMAGE_SIZE,
+                    ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
 
                 $img = new RequestImage();
                 $img->request_id = $requestId;

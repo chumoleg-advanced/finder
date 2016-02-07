@@ -4,7 +4,7 @@ namespace frontend\modules\ajax\controllers;
 
 use Yii;
 use common\models\autoPart\AutoPart;
-use frontend\searchForms\QueryArrayForm;
+use frontend\forms\request\QueryArrayForm;
 use kartik\widgets\ActiveForm;
 use common\components\Model;
 use yii\helpers\ArrayHelper;
@@ -12,7 +12,7 @@ use yii\helpers\StringHelper;
 use yii\web\Controller;
 use common\models\rubric\Rubric;
 use \yii\helpers\Json;
-use frontend\searchForms\BaseForm;
+use frontend\forms\request\BaseForm;
 use \yii\web\Response;
 
 class SearchController extends Controller

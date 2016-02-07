@@ -1,6 +1,6 @@
 <?php
 
-use frontend\searchForms\QueryArrayForm;
+use frontend\forms\request\QueryArrayForm;
 use kartik\widgets\FileInput;
 use wbraganca\dynamicform\DynamicFormWidget;
 use common\components\CarData;

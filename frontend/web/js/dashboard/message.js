@@ -1,9 +1,7 @@
 $(document).ready(function () {
     function _scrollTopDialogHistory() {
         var obj = $('.dialogHistory');
-        setTimeout(function () {
-            obj.animate('slow').scrollTop(obj.height() + 400);
-        }, 200);
+        obj.scrollTop(1E10);
     }
 
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {

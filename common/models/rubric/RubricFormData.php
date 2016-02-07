@@ -49,6 +49,6 @@ class RubricFormData
             $className = 'DefaultForm';
         }
 
-        return 'frontend\\searchForms\\' . $className;
+        return 'frontend\\forms\\request\\' . $className;
     }
 }

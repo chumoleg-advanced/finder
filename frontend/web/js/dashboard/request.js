@@ -17,16 +17,23 @@ function addInputForValidation(form, index, fieldName) {
 $(document).ready(function () {
     $('.dynamicFormRow a.deleteItem').hide();
 
-    if ($('#yandexMapCompany').length > 0) {
-        initMainOfferMap();
-    }
+    initMainOfferMap($('.requestOfferBlock[data-counter=1]'));
 
     if ($('#yandexMapRequest').length > 0) {
         initMainRequestMap();
     }
 
     $(document).on('click', '.viewMainOfferInfo', function () {
-        $(this).closest('.rowOffer').find('.mainOfferInfoBlock').toggle();
+        var obj = $(this).closest('.dynamicFormRowView').find('.mainOfferInfoBlock');
+        obj.toggle();
+
+        var text = 'Скрыть предложение';
+        if (!obj.is(':visible')) {
+            text = 'Посмотреть предложение';
+        }
+
+        $(this).text(text);
+        initMainOfferMap(obj);
     });
 
     $(document).on('click', '.requestInfoView', function () {
@@ -61,11 +68,12 @@ $(document).ready(function () {
         }
     });
 
-    function initMainOfferMap() {
-        var coordinates = $('.addressCoordinates').val();
-        if (coordinates) {
+    function initMainOfferMap(obj) {
+        var coordinates = obj.find('.addressCoordinates').val();
+        var yandexMabBlock = obj.find('.yandexMapCompany');
+        if (coordinates && yandexMabBlock && yandexMabBlock.find('ymaps').length == 0) {
             coordinates = coordinates.split(',');
-            initMap(coordinates, 17, false, 'yandexMapCompany');
+            initMap(coordinates, 17, false, yandexMabBlock.attr('id'));
         }
     }
 

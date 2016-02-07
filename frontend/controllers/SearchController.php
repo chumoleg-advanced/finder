@@ -6,7 +6,7 @@ use common\components\SaveRequest;
 use Yii;
 use yii\web\Controller;
 use common\models\rubric\Rubric;
-use frontend\searchForms\BaseForm;
+use frontend\forms\request\BaseForm;
 
 class SearchController extends Controller
 {

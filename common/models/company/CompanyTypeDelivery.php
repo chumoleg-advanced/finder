@@ -17,6 +17,12 @@ use common\components\ActiveRecord;
  */
 class CompanyTypeDelivery extends ActiveRecord
 {
+    public static $typeList = [
+        1 => 'Доставка по городу',
+        2 => 'Доставка межгород',
+        3 => 'Самовывоз'
+    ];
+
     /**
      * @inheritdoc
      */
@@ -57,18 +63,6 @@ class CompanyTypeDelivery extends ActiveRecord
     public static function find()
     {
         return new CompanyTypeDeliveryQuery(get_called_class());
-    }
-
-    /**
-     * @return array
-     */
-    public static function getTypeList()
-    {
-        return [
-            1 => 'Доставка по городу',
-            2 => 'Доставка межгород',
-            3 => 'Самовывоз'
-        ];
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace frontend\modules\dashboard\forms;
 
 use common\components\CarData;
+use common\components\MyImage;
 use common\models\category\Category;
 use common\models\company\CompanyRubric;
 use common\models\request\Request;
@@ -233,10 +234,11 @@ class RequestOfferForm extends Model
                 }
 
                 $thumbName = $dir . '/thumb_' . $baseName;
-                Image::thumbnail($fileName, 200, 200, ManipulatorInterface::THUMBNAIL_INSET)
-                    ->save($thumbName);
+                Image::thumbnail($fileName, MyImage::THUMB_SIZE, MyImage::THUMB_SIZE,
+                    ManipulatorInterface::THUMBNAIL_INSET)->save($thumbName);
 
-                Image::thumbnail($fileName, 1000, 1000, ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
+                Image::thumbnail($fileName, MyImage::IMAGE_SIZE, MyImage::IMAGE_SIZE,
+                    ManipulatorInterface::THUMBNAIL_INSET)->save($fileName);
 
                 $img = new RequestOfferImage();
                 $img->request_offer_id = $requestOfferId;

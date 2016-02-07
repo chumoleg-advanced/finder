@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
-use frontend\searchForms\BaseForm;
+use frontend\forms\request\BaseForm;
 use common\components\SaveRequest;
 use common\models\request\Request;
 use common\models\requestOffer\RequestOffer;

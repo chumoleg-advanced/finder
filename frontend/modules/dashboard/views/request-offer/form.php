@@ -14,7 +14,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
 FormPartSearchAsset::register($this);
 
-$this->title = 'Заявка #' . $model->request->id . '. ' . $model->request->description;
+$this->title = 'Заявка №' . $model->request->id . '. ' . $model->request->description;
 
 $backUrl = Url::previous('requestOfferList');
 if (empty($backUrl)) {

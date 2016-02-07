@@ -4,7 +4,7 @@ use common\components\Status;
 use common\models\car\CarFirm;
 use frontend\components\SearchFormGenerator;
 
-/** @var $model frontend\searchForms\AutoPartForm */
+/** @var $model frontend\forms\request\AutoPartForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
 

@@ -5,12 +5,12 @@ namespace common\components;
 use Yii;
 use yii\helpers\Url;
 use yii\web\UploadedFile;
-use frontend\searchForms\QueryArrayForm;
+use frontend\forms\request\QueryArrayForm;
 
 class SaveRequest
 {
     /**
-     * @param \frontend\searchForms\BaseForm $model
+     * @param \frontend\forms\request\BaseForm $model
      * @param int                       $rubricId
      *
      * @return bool
