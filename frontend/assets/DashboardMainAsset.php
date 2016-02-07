@@ -11,6 +11,7 @@ class DashboardMainAsset extends AssetBundle
     public $js
         = [
             '/js/dashboard/main.js',
+            '/js/dashboard/message.js',
         ];
 
     public $depends

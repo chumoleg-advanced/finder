@@ -12,7 +12,7 @@ class MenuItems
 {
     public static function getItems()
     {
-        $countNewMessage = Message::countNewMessages();
+        $countNewMessage = Message::getCountNewMessages();
         $messageBadge = '';
         if ($countNewMessage > 0) {
             $messageBadge = '<span class="badge">' . $countNewMessage . '</span>';

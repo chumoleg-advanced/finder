@@ -1,10 +1,14 @@
 <?php
+/** @var \common\models\requestOffer\RequestOffer $model */
+
 use yii\helpers\ArrayHelper;
 
 ?>
 
 <div class="row rowOffer">
     <div class="col-md-12">
+        <a href="javascript:;" class="sendMessageFromRequest" data-offer="<?= $model->id; ?>">
+            Связаться с компанией</a><br/>
         <a href="javascript:;" class="viewMainOfferInfo">Посмотреть предложение</a>
 
         <div class="mainOfferInfoBlock" style="display: none;">

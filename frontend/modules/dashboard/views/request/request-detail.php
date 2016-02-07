@@ -20,6 +20,8 @@ $wheelData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, 
 $partData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_PART);
 $priceData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_PRICE);
 $deliveryData = RequestAttribute::getValuesByGroup($requestAttributes, $formModel, RequestAttribute::GROUP_DELIVERY);
+
+echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 ?>
 
 <a href="javascript:;" class="requestInfoView">Скрыть информацию по заявке</a>

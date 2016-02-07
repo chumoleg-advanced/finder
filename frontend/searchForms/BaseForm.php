@@ -62,6 +62,11 @@ class BaseForm extends Model
         }
 
         $this->_commonAttributes = $this->attributes;
+        if (empty($this->_commonAttributes['delivery'])) {
+            unset($this->_commonAttributes['deliveryAddress']);
+            unset($this->_commonAttributes['addressCoordinates']);
+        }
+
         unset($this->_commonAttributes['verifyCode']);
         unset($this->_commonAttributes['delivery']);
 

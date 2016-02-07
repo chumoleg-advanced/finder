@@ -2,11 +2,14 @@
 
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->title = 'Диалоги';
-?>
 
-<?php Modal::begin(['id' => 'messageModal', 'header' => Html::tag('h3', $this->title)]); ?>
-fdfgfdsgfsd
+Modal::begin(['id' => 'messageModal', 'header' => Html::tag('h3', $this->title), 'class' => 'modalBlock']);
+?>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <?= Html::img('/img/bigPreLoader.gif'); ?>
+        </div>
+    </div>
 <?php Modal::end(); ?>
