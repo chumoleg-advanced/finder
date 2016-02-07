@@ -9,6 +9,7 @@ $(document).ready(function () {
         obj.modal();
         $.post('/ajax/message/get-dialog-list', {}, function (data) {
             obj.find('.modal-body').html(data);
+            obj.find('.modal-header h3').text('Диалоги');
         }, 'html');
     });
 
