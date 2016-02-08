@@ -1,7 +1,8 @@
 <?php
-/** @var \common\models\Message[] $data */
+/** @var MessageDialog[] $data */
 
 use yii\helpers\Html;
+use common\models\MessageDialog;
 
 ?>
 
@@ -16,20 +17,10 @@ use yii\helpers\Html;
 <?php foreach ($data as $item) : ?>
     <div class="row">
         <div class="col-md-12">
-            <?php
-            $messageBadge = '';
-            if ($item->countNew > 0) {
-                $messageBadge = '<span class="badge">' . $item->countNew . '</span>';
-            }
-
-            echo Html::a('Заявка №' . $item->request_id . '. ' . $item->request->description . ' ' . $messageBadge,
-                'javascript:;', [
-                    'class'        => 'rowRequestMessage',
-                    'data-request' => $item->request_id,
-                    'data-to-user' => $item->from_user_id != Yii::$app->user->id ? $item->from_user_id
-                        : $item->to_user_id
-                ]);
-            ?>
+            <?= Html::a($item->getDialogDescription(), 'javascript:;', [
+                'class'   => 'rowRequestMessage',
+                'data-id' => $item->id
+            ]); ?>
         </div>
     </div>
 <?php endforeach; ?>

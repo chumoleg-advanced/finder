@@ -13,7 +13,7 @@ $(document).ready(function () {
         }, 'html');
     });
 
-    $('.sendMessageFromRequest').click(function () {
+    $(document).on('click', '.sendMessageFromRequest', function () {
         var obj = $('#messageModal');
         var params = {
             requestId: $('#requestId').val(),
@@ -54,16 +54,20 @@ $(document).ready(function () {
     $(document).on('click', '.rowRequestMessage', function () {
         var obj = $('#messageModal');
         obj.modal();
-        var requestId = $(this).data('request');
-        var toUserId = $(this).data('to-user');
         preLoaderShow();
 
-        $.post('/ajax/message/open-message-dialog', {requestId: requestId, toUserId: toUserId}, function (data) {
-            obj.find('.modal-header h3').text('Переписка по заявке №' + requestId);
-            obj.find('.modal-body').html(data);
+        var params = {dialogId: $(this).data('id'), mainRequestOfferId:  $(this).data('offer-id')};
+        $.post('/ajax/message/open-message-dialog', params, function (data) {
+            if (!data) {
+                preLoaderHide();
+                return false;
+            }
+
+            obj.find('.modal-header h3').text('Переписка по заявке №' + data.requestId);
+            obj.find('.modal-body').html(data.html);
 
             _scrollTopDialogHistory();
             preLoaderHide();
-        }, 'html');
+        }, 'json');
     });
 });

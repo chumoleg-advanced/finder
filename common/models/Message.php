@@ -4,30 +4,27 @@ namespace common\models;
 
 use Yii;
 use common\components\ActiveRecord;
-use common\models\request\Request;
 use common\models\user\User;
 
 /**
  * This is the model class for table "message".
  *
- * @property integer $id
- * @property integer $request_id
- * @property integer $from_user_id
- * @property integer $to_user_id
- * @property string  $data
- * @property integer $status
- * @property string  $date_create
+ * @property integer       $id
+ * @property integer       $message_dialog_id
+ * @property integer       $from_user_id
+ * @property integer       $to_user_id
+ * @property string        $data
+ * @property integer       $status
+ * @property string        $date_create
  *
- * @property Request $request
- * @property User    $toUser
- * @property User    $user
+ * @property MessageDialog $messageDialog
+ * @property User          $toUser
+ * @property User          $user
  */
 class Message extends ActiveRecord
 {
     const STATUS_NEW = 1;
     const STATUS_READ = 2;
-
-    public $countNew;
 
     /**
      * @inheritdoc
@@ -44,8 +41,8 @@ class Message extends ActiveRecord
     {
         return [
             [['data'], 'filter', 'filter' => 'trim'],
-            [['request_id', 'from_user_id', 'to_user_id'], 'required'],
-            [['request_id', 'from_user_id', 'to_user_id', 'status'], 'integer'],
+            [['message_dialog_id', 'from_user_id', 'to_user_id'], 'required'],
+            [['message_dialog_id', 'from_user_id', 'to_user_id', 'status'], 'integer'],
             [['data'], 'string'],
             [['date_create'], 'safe']
         ];
@@ -57,13 +54,13 @@ class Message extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'           => 'ID',
-            'request_id'   => 'Заявка',
-            'from_user_id' => 'Отправитель',
-            'to_user_id'   => 'Получатель',
-            'data'         => 'Сообщение',
-            'status'       => 'Статус',
-            'date_create'  => 'Дата сообшения',
+            'id'                => 'ID',
+            'message_dialog_id' => 'Диалог',
+            'from_user_id'      => 'Отправитель',
+            'to_user_id'        => 'Получатель',
+            'data'              => 'Сообщение',
+            'status'            => 'Статус',
+            'date_create'       => 'Дата сообшения',
         ];
     }
 
@@ -86,42 +83,6 @@ class Message extends ActiveRecord
     }
 
     /**
-     * @param int    $requestId
-     * @param int    $toUserId
-     * @param string $text
-     */
-    public static function createMessage($requestId, $toUserId, $text)
-    {
-        $model = new self();
-        $model->request_id = $requestId;
-        $model->to_user_id = $toUserId;
-        $model->data = $text;
-        $model->save();
-    }
-
-    /**
-     * @param int $requestId
-     *
-     * @return Message[]|null
-     */
-    public static function getMessageListByRequest($requestId)
-    {
-        return self::find()
-            ->andWhere(self::_getUserCondition())
-            ->andWhere('request_id = ' . $requestId)
-            ->all();
-    }
-
-    /**
-     * @return string
-     */
-    private static function _getUserCondition()
-    {
-        $userId = Yii::$app->user->id;
-        return 'message.from_user_id = ' . $userId . ' OR to_user_id = ' . $userId;
-    }
-
-    /**
      * @return int
      */
     public static function getCountNewMessages()
@@ -131,39 +92,21 @@ class Message extends ActiveRecord
     }
 
     /**
-     * @param int $requestId
+     * @param int $messageDialogId
      */
-    public static function readMessage($requestId)
+    public static function readMessage($messageDialogId)
     {
         self::updateAll(['status' => self::STATUS_READ],
-            'status = ' . self::STATUS_NEW . ' AND request_id = ' . $requestId
+            'status = ' . self::STATUS_NEW . ' AND message_dialog_id = ' . $messageDialogId
             . ' AND to_user_id = ' . Yii::$app->user->id);
-    }
-
-    /**
-     * @return array|Message[]
-     */
-    public static function getDialogList()
-    {
-        return self::find()
-            ->joinWith('request')
-            ->select([
-                '*',
-                'COUNT(IF(message.status = 1 AND message.to_user_id = ' . Yii::$app->user->id . ',
-                    message.id, NULL)) AS countNew'
-            ])
-            ->andWhere(self::_getUserCondition())
-            ->groupBy('message.request_id')
-            ->orderBy('message.id DESC')
-            ->all();
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRequest()
+    public function getMessageDialog()
     {
-        return $this->hasOne(Request::className(), ['id' => 'request_id']);
+        return $this->hasOne(MessageDialog::className(), ['id' => 'message_dialog_id']);
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace frontend\modules\ajax\controllers;
 
 use common\models\Message;
+use common\models\MessageDialog;
 use common\models\request\Request;
+use common\models\requestOffer\MainRequestOffer;
 use common\models\requestOffer\RequestOffer;
 use Yii;
 use yii\web\Controller;
@@ -15,7 +17,7 @@ class MessageController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_HTML;
 
-        $data = Message::getDialogList();
+        $data = MessageDialog::getDialogList();
         return $this->renderPartial('dialogList', ['data' => $data]);
     }
 
@@ -30,19 +32,18 @@ class MessageController extends Controller
         }
 
         $requestOffer = RequestOffer::findById($requestOfferId);
+        $messageDialog = MessageDialog::getByRequestAndCompany($requestId,
+            $requestOffer->company_id, $requestOffer->user_id);
 
-        Message::readMessage($requestId);
+        Message::readMessage($messageDialog->id);
 
         $model = new Message();
         $model->to_user_id = $requestOffer->user_id;
-        $model->request_id = $requestId;
-
-        $dialogHistory = Message::getMessageListByRequest($model->request_id);
+        $model->message_dialog_id = $messageDialog->id;
 
         $html = $this->renderPartial('requestDialog', [
             'model'         => $model,
-            'dialogHistory' => $dialogHistory,
-            'request'       => Request::findById($model->request_id)
+            'messageDialog' => $messageDialog
         ]);
 
         return [
@@ -53,31 +54,41 @@ class MessageController extends Controller
 
     public function actionOpenMessageDialog()
     {
-        Yii::$app->response->format = Response::FORMAT_HTML;
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $requestId = (int)Yii::$app->request->post('requestId');
-        $toUserId = (int)Yii::$app->request->post('toUserId');
-        if (empty($requestId)) {
-            return null;
+        $dialogId = (int)Yii::$app->request->post('dialogId');
+        $mainRequestOfferId = (int)Yii::$app->request->post('mainRequestOfferId');
+        if (empty($dialogId) && empty($mainRequestOfferId)) {
+            return false;
         }
 
-        if (empty($toUserId)) {
-            $requestModel = Request::findById($requestId);
-            $toUserId = $requestModel->user_id;
+
+        if (!empty($dialogId)) {
+            $messageDialog = MessageDialog::findById($dialogId);
+        } else {
+            $offerModel = MainRequestOffer::findById($mainRequestOfferId);
+            $company = $offerModel->user->companies[0];
+            $messageDialog = MessageDialog::getByRequestAndCompany($offerModel->request_id,
+                $company->id, $offerModel->request->user_id, MessageDialog::SENDER_COMPANY);
         }
 
-        Message::readMessage($requestId);
+        Message::readMessage($dialogId);
 
         $model = new Message();
-        $model->to_user_id = $toUserId;
-        $model->request_id = $requestId;
+        $model->to_user_id = Yii::$app->user->id != $messageDialog->to_user_id
+            ? $messageDialog->to_user_id : $messageDialog->from_user_id;
+        $model->message_dialog_id = $messageDialog->id;
 
-        return $this->renderPartial('requestDialog', [
+        $html = $this->renderPartial('requestDialog', [
             'showBack'      => true,
             'model'         => $model,
-            'dialogHistory' => Message::getMessageListByRequest($model->request_id),
-            'request'       => Request::findById($model->request_id)
+            'messageDialog' => $messageDialog
         ]);
+
+        return [
+            'html'      => $html,
+            'requestId' => $messageDialog->request_id,
+        ];
     }
 
     public function actionSendMessage()
@@ -92,10 +103,8 @@ class MessageController extends Controller
         $model = new Message();
         $model->attributes = $data;
         if ($model->save()) {
-            $dialogHistory = Message::getMessageListByRequest($model->request_id);
             return $this->renderPartial('dialogHistory', [
-                'dialogHistory' => $dialogHistory,
-                'request'       => Request::findById($model->request_id)
+                'messageDialog' => MessageDialog::findById($model->message_dialog_id)
             ]);
         }
 

@@ -1,6 +1,5 @@
 <?php
 /** @var \common\models\Message $model */
-/** @var \common\models\Message[] $dialogHistory */
 
 use kartik\form\ActiveForm;
 use yii\helpers\Html;
@@ -12,7 +11,7 @@ use yii\helpers\Html;
     <div>&nbsp;</div>
 <?php endif; ?>
 
-<?= $this->render('dialogHistory', ['dialogHistory' => $dialogHistory, 'request' => $request]); ?>
+<?= $this->render('dialogHistory', ['messageDialog' => $messageDialog]); ?>
 
 <div class="row">
     <div class="col-md-12">
@@ -29,7 +28,7 @@ use yii\helpers\Html;
             ['placeholder' => $model->getAttributeLabel('data'), 'class' => 'textArea']);
 
         echo $form->field($model, 'to_user_id')->hiddenInput();
-        echo $form->field($model, 'request_id')->hiddenInput();
+        echo $form->field($model, 'message_dialog_id')->hiddenInput();
         $form->end();
         ?>
 

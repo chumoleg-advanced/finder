@@ -1,14 +1,20 @@
 <?php
-/** @var \common\models\Message[] $dialogHistory */
-/** @var \common\models\request\Request $request */
+/** @var MessageDialog $messageDialog */
+
+use \common\models\MessageDialog;
 
 ?>
 
 <div class="dialogHistory">
-    <?php foreach ($dialogHistory as $item) : ?>
+    <?php foreach ($messageDialog->messages as $item) : ?>
         <?php
         $my = $item->from_user_id == Yii::$app->user->id;
-        $from = $my ? 'Я' : ($request->user_id == $item->to_user_id ? 'Компания' : 'Клиент');
+        $from = $my
+            ? 'Я'
+            : ($messageDialog->sender == MessageDialog::SENDER_COMPANY
+            && $messageDialog->from_user_id != Yii::$app->user->id
+                ? $messageDialog->company->legal_name : 'Клиент');
+
         $cssClass = 'dialogMessageForMe';
         if ($my) {
             $cssClass = 'dialogMessageMy';

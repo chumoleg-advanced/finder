@@ -79,7 +79,7 @@ class MainRequestOffer extends ActiveRecord
     /**
      * @param $id
      *
-     * @return null|RequestOffer
+     * @return null|MainRequestOffer
      */
     public static function findById($id)
     {
