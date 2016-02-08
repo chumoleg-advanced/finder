@@ -1,7 +1,7 @@
 <?php
 /** @var MessageDialog $messageDialog */
 
-use \common\models\MessageDialog;
+use \common\models\message\MessageDialog;
 
 ?>
 

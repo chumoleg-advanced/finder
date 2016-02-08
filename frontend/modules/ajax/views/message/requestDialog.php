@@ -1,5 +1,5 @@
 <?php
-/** @var \common\models\Message $model */
+/** @var \common\models\message\Message $model */
 
 use kartik\form\ActiveForm;
 use yii\helpers\Html;

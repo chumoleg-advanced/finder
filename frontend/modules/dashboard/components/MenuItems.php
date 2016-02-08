@@ -4,7 +4,7 @@ namespace frontend\modules\dashboard\components;
 
 use common\models\category\Category;
 use common\models\company\Company;
-use common\models\Message;
+use common\models\message\Message;
 use Yii;
 use yii\helpers\Url;
 

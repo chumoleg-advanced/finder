@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace common\models\message;
 
 use Yii;
 use common\components\ActiveRecord;

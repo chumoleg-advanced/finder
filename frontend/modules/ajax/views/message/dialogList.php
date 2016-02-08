@@ -2,7 +2,7 @@
 /** @var MessageDialog[] $data */
 
 use yii\helpers\Html;
-use common\models\MessageDialog;
+use common\models\message\MessageDialog;
 
 ?>
 

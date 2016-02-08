@@ -2,8 +2,8 @@
 
 namespace frontend\modules\ajax\controllers;
 
-use common\models\Message;
-use common\models\MessageDialog;
+use common\models\message\Message;
+use common\models\message\MessageDialog;
 use common\models\request\Request;
 use common\models\requestOffer\MainRequestOffer;
 use common\models\requestOffer\RequestOffer;
