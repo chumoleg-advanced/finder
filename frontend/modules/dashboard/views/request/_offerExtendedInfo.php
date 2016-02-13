@@ -36,10 +36,21 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
 
                 echo Html::tag('div', '&nbsp;');
 
-                echo 'Способы доставки: <br />';
-                foreach ($model->company->companyTypeDeliveries as $typeDelivery) {
-                    echo CompanyTypeDelivery::$typeList[$typeDelivery->type] . '<br />';
+                $timeWork = $firstAddress->getTimeWorkDataAsString();
+                if (!empty($timeWork)){
+                    echo 'Время работы: <br />';
+                    echo $timeWork;
+
+                    echo Html::tag('div', '&nbsp;');
                 }
+
+                echo 'Способы доставки: <br />';
+                $typeDeliveries = [];
+                foreach ($model->company->companyTypeDeliveries as $typeDelivery) {
+                    $typeDeliveries[] = CompanyTypeDelivery::$typeList[$typeDelivery->type];
+                }
+
+                echo implode(', ', $typeDeliveries);
             }
             ?>
         </div>

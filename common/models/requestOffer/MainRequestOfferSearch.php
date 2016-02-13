@@ -5,13 +5,16 @@ namespace common\models\requestOffer;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
-use common\models\request\Request;
+use yii\helpers\Html;
+use common\models\message\Message;
+use yii\helpers\Url;
 
 class MainRequestOfferSearch extends MainRequestOffer
 {
     public $rubricId;
     public $categoryId;
     public $description;
+    public $countRequestOffers;
 
     /**
      * @inheritdoc
@@ -47,7 +50,11 @@ class MainRequestOfferSearch extends MainRequestOffer
     {
         $query = parent::find();
         $query->joinWith('request.rubric.category');
-        $query->joinWith('requestOffers');
+        $query->select([
+            'main_request_offer.*',
+            '(SELECT COUNT(t.id) FROM ' . RequestOffer::tableName() . ' t
+                WHERE t.main_request_offer_id = main_request_offer.id) AS countRequestOffers'
+        ]);
 
         $dataProvider = $this->getDataProvider($query);
         $this->load($params);
@@ -89,8 +96,12 @@ class MainRequestOfferSearch extends MainRequestOffer
 
     public function getStatisticRow()
     {
-        $countOffers = count($this->requestOffers);
-        return '<i class="glyphicon glyphicon-certificate" style="margin-left: 5px;" title="Моих предложений"></i> '
-        . $countOffers . ' <i class="glyphicon glyphicon-comment" style="margin-left: 5px;" title="Сообщений"></i> 0';
+        $countMessages = Message::getCountByMainRequestOffer($this->id);
+        $html = Html::a('<i class="glyphicon glyphicon-certificate" title="Моих Предложений"></i>',
+                Url::to('offer?id=' . $this->id)) . ' ' . $this->countRequestOffers;
+        $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [])
+            . ' ' . $countMessages;
+
+        return $html;
     }
 }

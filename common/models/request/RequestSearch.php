@@ -3,15 +3,17 @@
 namespace common\models\request;
 
 use common\models\message\Message;
+use common\models\requestOffer\RequestOffer;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
-use common\models\company\CompanyRubric;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 class RequestSearch extends Request
 {
+    public $countRequestOffers;
+
     /**
      * @inheritdoc
      */
@@ -34,6 +36,11 @@ class RequestSearch extends Request
     {
         $query = parent::find();
         $query->joinWith('rubric');
+        $query->select([
+            'request.*',
+            '(SELECT COUNT(t.id) FROM ' . RequestOffer::tableName() . ' t
+                WHERE t.request_id = request.id) AS countRequestOffers'
+        ]);
 
         $dataProvider = $this->getDataProvider($query);
         $this->load($params);
@@ -87,7 +94,7 @@ class RequestSearch extends Request
         $countMessages = Message::getCountByRequest($this->id);
         $html = '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i>' . ' ' . $this->count_view;
         $html .= Html::a('<i class="glyphicon glyphicon-certificate marginIcon" title="Предложений"></i>',
-                Url::to('view/' . $this->id . '#bestRequestOffer')) . ' ' . count($this->requestOffers);
+                Url::to('view/' . $this->id . '#bestRequestOffer')) . ' ' . $this->countRequestOffers;
         $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [])
             . ' ' . $countMessages;
 

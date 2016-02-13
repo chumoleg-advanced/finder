@@ -2,6 +2,7 @@
 
 namespace common\models\message;
 
+use common\models\requestOffer\RequestOffer;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\user\User;
@@ -135,6 +136,20 @@ class Message extends ActiveRecord
         return (int)self::find()
             ->joinWith('messageDialog')
             ->where('message_dialog.request_id = ' . $requestId)
+            ->count();
+    }
+
+    /**
+     * @param int $mainRequestOfferId
+     *
+     * @return int
+     */
+    public static function getCountByMainRequestOffer($mainRequestOfferId)
+    {
+        return (int)self::find()
+            ->joinWith('messageDialog')
+            ->where('message_dialog.request_id IN (SELECT request_id FROM ' . RequestOffer::tableName() . '
+                WHERE main_request_offer_id = ' . $mainRequestOfferId  . ')')
             ->count();
     }
 }

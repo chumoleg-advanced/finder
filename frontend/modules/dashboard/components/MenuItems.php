@@ -42,13 +42,8 @@ class MenuItems
                 'options' => ['class' => 'messageButton']
             ],
             [
-                'label' => '<i class="glyphicon glyphicon-user"></i> '
-                    . Yii::$app->user->identity->email,
+                'label' => '<i class="glyphicon glyphicon-user"></i> ' . Yii::$app->user->identity->email,
                 'items' => [
-                    [
-                        'label' => 'Профиль',
-                        'url'   => Url::toRoute('profile/index')
-                    ],
                     [
                         'label' => 'Настройки',
                         'url'   => Url::toRoute('setting/index')
