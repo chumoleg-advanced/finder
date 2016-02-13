@@ -56,7 +56,7 @@ class Message extends ActiveRecord
     {
         return [
             'id'                => 'ID',
-            'message_dialog_id' => 'Диалог',
+            'message_dialog_id' => 'Переписка',
             'from_user_id'      => 'Отправитель',
             'to_user_id'        => 'Получатель',
             'data'              => 'Сообщение',

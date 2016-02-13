@@ -336,3 +336,7 @@ a.desc:after {
     margin-top: 10px;
     width: 100%;
 }
+
+.rowMessageInDialogList{
+    margin-bottom: 5px;
+}

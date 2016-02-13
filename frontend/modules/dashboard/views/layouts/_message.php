@@ -3,9 +3,9 @@
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
-$this->title = 'Диалоги';
+$this->title = 'Оповещения';
 
-Modal::begin(['id' => 'messageModal', 'header' => Html::tag('h3', $this->title), 'class' => 'modalBlock']);
+Modal::begin(['id' => 'messageModal', 'header' => Html::tag('h4', $this->title), 'class' => 'modalBlock']);
 ?>
     <div class="row">
         <div class="col-md-12 text-center">

@@ -15,9 +15,9 @@ $(document).ready(function () {
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {
         var obj = $('#messageModal');
         obj.modal();
-        $.post('/ajax/message/get-dialog-list', {}, function (data) {
+        $.post('/ajax/message/index', {}, function (data) {
             obj.find('.modal-body').html(data);
-            obj.find('.modal-header h3').text('Диалоги');
+            obj.find('.modal-header h4').text('Оповещения');
         }, 'html');
     });
 
@@ -36,7 +36,7 @@ $(document).ready(function () {
 
             obj.modal();
             obj.find('.modal-body').html(data.html);
-            obj.find('.modal-header h3').text('Диалог с ' + data.companyName);
+            obj.find('.modal-header h4').text('Переписка с ' + data.companyName);
             _scrollTopDialogHistory();
             _updateCounterNewMessage(data);
             preLoaderHide();
@@ -72,7 +72,7 @@ $(document).ready(function () {
                 return false;
             }
 
-            obj.find('.modal-header h3').text('Переписка по заявке №' + data.requestId);
+            obj.find('.modal-header h4').text('Переписка по заявке №' + data.requestId);
             obj.find('.modal-body').html(data.html);
             _scrollTopDialogHistory();
             _updateCounterNewMessage(data);

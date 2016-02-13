@@ -7,7 +7,7 @@ use yii\helpers\Html;
 ?>
 
 <?php if (isset($showBack)) : ?>
-    <div><a href="javascript:;" class="returnBackDialogList">Вернуться к списку диалогов</a></div>
+    <div><a href="javascript:;" class="returnBackDialogList">Вернуться к списку</a></div>
     <div>&nbsp;</div>
 <?php endif; ?>
 

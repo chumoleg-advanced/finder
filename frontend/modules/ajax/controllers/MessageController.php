@@ -4,7 +4,6 @@ namespace frontend\modules\ajax\controllers;
 
 use common\models\message\Message;
 use common\models\message\MessageDialog;
-use common\models\request\Request;
 use common\models\requestOffer\MainRequestOffer;
 use common\models\requestOffer\RequestOffer;
 use Yii;
@@ -13,12 +12,16 @@ use \yii\web\Response;
 
 class MessageController extends Controller
 {
-    public function actionGetDialogList()
+    public function actionIndex()
     {
         Yii::$app->response->format = Response::FORMAT_HTML;
 
-        $data = MessageDialog::getDialogList();
-        return $this->renderPartial('dialogList', ['data' => $data]);
+        $dialogList = MessageDialog::getDialogList();
+        $notificationList = [];
+        return $this->renderPartial('index', [
+            'dialogList'       => $dialogList,
+            'notificationList' => $notificationList,
+        ]);
     }
 
     public function actionOpenRequestDialog()
