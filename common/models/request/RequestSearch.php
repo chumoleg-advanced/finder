@@ -95,8 +95,13 @@ class RequestSearch extends Request
         $html = '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i>' . ' ' . $this->count_view;
         $html .= Html::a('<i class="glyphicon glyphicon-certificate marginIcon" title="Предложений"></i>',
                 Url::to('view/' . $this->id . '#bestRequestOffer')) . ' ' . $this->countRequestOffers;
-        $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [])
-            . ' ' . $countMessages;
+
+        $messageLink = '<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>';
+        if ($countMessages > 0){
+            $messageLink = Html::a($messageLink, 'javascript:;', []);
+        }
+
+        $html .= $messageLink. ' ' . $countMessages;
 
         return $html;
     }

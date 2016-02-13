@@ -99,8 +99,11 @@ class MainRequestOfferSearch extends MainRequestOffer
         $countMessages = Message::getCountByMainRequestOffer($this->id);
         $html = Html::a('<i class="glyphicon glyphicon-certificate" title="Моих Предложений"></i>',
                 Url::to('offer?id=' . $this->id)) . ' ' . $this->countRequestOffers;
-        $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [])
-            . ' ' . $countMessages;
+
+        $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [
+                'class'           => 'rowRequestMessage',
+                'data-main-offer' => $this->id
+            ]) . ' ' . $countMessages;
 
         return $html;
     }
