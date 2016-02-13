@@ -13,6 +13,9 @@ use yii\helpers\Html;
         </div>
     </div>
 <?php else : ?>
+    <?= yii\helpers\Html::textInput('search', $search, ['class' => 'searchText', 'placeholder' => 'Поиск...']);?>
+    <div>&nbsp;</div>
+
     <?php foreach ($data as $item) : ?>
         <div class="row rowMessageInDialogList">
             <div class="col-md-12">

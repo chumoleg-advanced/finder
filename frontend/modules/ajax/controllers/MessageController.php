@@ -16,9 +16,13 @@ class MessageController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_HTML;
 
+        $search = Yii::$app->request->post('search');
+
         $dialogList = MessageDialog::getDialogList();
         $notificationList = [];
+
         return $this->renderPartial('index', [
+            'search'           => $search,
             'dialogList'       => $dialogList,
             'notificationList' => $notificationList,
         ]);

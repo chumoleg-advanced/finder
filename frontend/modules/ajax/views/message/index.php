@@ -4,7 +4,7 @@ echo \yii\bootstrap\Tabs::widget([
     'items' => [
         [
             'label'   => 'Переписка',
-            'content' => $this->render('_dialogList', ['data' => $dialogList]),
+            'content' => $this->render('_dialogList', ['data' => $dialogList, 'search' => $search]),
             'active'  => true
         ],
         [

@@ -97,11 +97,14 @@ class RequestSearch extends Request
                 Url::to('view/' . $this->id . '#bestRequestOffer')) . ' ' . $this->countRequestOffers;
 
         $messageLink = '<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>';
-        if ($countMessages > 0){
-            $messageLink = Html::a($messageLink, 'javascript:;', []);
+        if ($countMessages > 0) {
+            $messageLink = Html::a($messageLink, 'javascript:;', [
+                'class'       => 'messageButton',
+                'data-search' => '№' . $this->id
+            ]);
         }
 
-        $html .= $messageLink. ' ' . $countMessages;
+        $html .= $messageLink . ' ' . $countMessages;
 
         return $html;
     }

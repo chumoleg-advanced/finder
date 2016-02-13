@@ -12,12 +12,20 @@ $(document).ready(function () {
         }
     }
 
+    $(document).on('keyup', '.searchText', function () {
+        findByText($(this).val(), '.rowRequestMessage');
+    });
+
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {
         var obj = $('#messageModal');
         obj.modal();
-        $.post('/ajax/message/index', {}, function (data) {
+
+        var searchText = $(this).data('search');
+
+        $.post('/ajax/message/index', {search: searchText}, function (data) {
             obj.find('.modal-body').html(data);
             obj.find('.modal-header h4').text('Оповещения');
+            $('.searchText').trigger('keyup');
         }, 'html');
     });
 
