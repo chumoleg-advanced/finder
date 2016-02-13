@@ -192,10 +192,15 @@ a.desc:after {
     height: 300px;
     margin: 0;
     padding: 0;
+    text-align: center;
+}
+
+.preLoaderYandexMax {
+    opacity: 0.5;
 }
 
 .yandexMapCompany {
-    height: 200px;
+    height: 250px;
 }
 
 .verifyCodeInput {
@@ -263,7 +268,7 @@ a.desc:after {
 }
 
 .imageBlock {
-    padding: 10px;
+    padding-right: 10px;
 }
 
 .requestInfo table {
@@ -321,4 +326,13 @@ a.desc:after {
 .messageDate {
     font-size: 12px;
     color: grey;
+}
+
+.marginIcon {
+    margin-left: 6px;
+}
+
+.viewMainOfferInfo {
+    margin-top: 10px;
+    width: 100%;
 }

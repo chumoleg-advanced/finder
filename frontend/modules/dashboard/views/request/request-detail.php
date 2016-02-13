@@ -6,6 +6,7 @@
 use frontend\assets\DashboardRequestAsset;
 use yii\widgets\DetailView;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 use common\models\request\RequestAttribute;
 
@@ -110,14 +111,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 
             <?php if (!empty($priceData)) : ?>
                 <legend>Цена</legend>
-                <table class="table table-striped table-condensed table-bordered detail-view">
-                    <?php foreach ($priceData as $label => $value) : ?>
-                        <tr>
-                            <th><?= $label; ?></th>
-                            <td><?= $value; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
+                <h4><?= implode(' - ', array_values($priceData)) . ' руб.'; ?></h4>
                 <div>&nbsp;</div>
             <?php endif; ?>
 

@@ -15,7 +15,7 @@ class MenuItems
         $countNewMessage = Message::getCountNewMessages();
         $messageBadge = '';
         if ($countNewMessage > 0) {
-            $messageBadge = '<span class="badge">' . $countNewMessage . '</span>';
+            $messageBadge = '<span class="badge messageBadgeMenu">' . $countNewMessage . '</span>';
         }
 
         return [

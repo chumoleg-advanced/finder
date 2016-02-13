@@ -125,6 +125,12 @@ class MessageDialog extends ActiveRecord
         }
 
         $model = self::find()->andWhere($attributes)->one();
+        if (empty($model)) {
+            $model = self::find()->andWhere([
+                'request_id'   => $requestId,
+                'from_user_id' => $toUserId
+            ])->one();
+        }
 
         if (empty($model)) {
             $model = new self();
@@ -189,9 +195,11 @@ class MessageDialog extends ActiveRecord
 
         $description = 'Заявка №' . $this->request_id . '. ' . $this->request->description
             . '. Переписка с клиентом. ' . $messageBadge;
-        if ($this->sender == MessageDialog::SENDER_COMPANY && $this->from_user_id != Yii::$app->user->id) {
-            $description = 'Заявка №' . $this->request_id . '. Переписка с компанией '
-                . $this->company->legal_name . '. ' . $messageBadge;
+        if (($this->sender == MessageDialog::SENDER_COMPANY && $this->from_user_id != Yii::$app->user->id)
+            || ($this->sender == MessageDialog::SENDER_USER && $this->to_user_id != Yii::$app->user->id)
+        ) {
+            $description = 'Заявка №' . $this->request_id . '. Переписка с '
+                . $this->company->actual_name . '. ' . $messageBadge;
         }
 
         return $description;

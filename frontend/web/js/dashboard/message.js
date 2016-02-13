@@ -4,6 +4,14 @@ $(document).ready(function () {
         obj.scrollTop(1E10);
     }
 
+    function _updateCounterNewMessage(data) {
+        if (data.countNewMessages == 0) {
+            $('.messageBadgeMenu').text('');
+        } else {
+            $('.messageBadgeMenu').text(data.countNewMessages);
+        }
+    }
+
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {
         var obj = $('#messageModal');
         obj.modal();
@@ -30,6 +38,7 @@ $(document).ready(function () {
             obj.find('.modal-body').html(data.html);
             obj.find('.modal-header h3').text('Диалог с ' + data.companyName);
             _scrollTopDialogHistory();
+            _updateCounterNewMessage(data);
             preLoaderHide();
         }, 'json');
     });
@@ -56,7 +65,7 @@ $(document).ready(function () {
         obj.modal();
         preLoaderShow();
 
-        var params = {dialogId: $(this).data('id'), mainRequestOfferId:  $(this).data('offer-id')};
+        var params = {dialogId: $(this).data('id'), mainRequestOfferId: $(this).data('main-offer')};
         $.post('/ajax/message/open-message-dialog', params, function (data) {
             if (!data) {
                 preLoaderHide();
@@ -65,8 +74,8 @@ $(document).ready(function () {
 
             obj.find('.modal-header h3').text('Переписка по заявке №' + data.requestId);
             obj.find('.modal-body').html(data.html);
-
             _scrollTopDialogHistory();
+            _updateCounterNewMessage(data);
             preLoaderHide();
         }, 'json');
     });

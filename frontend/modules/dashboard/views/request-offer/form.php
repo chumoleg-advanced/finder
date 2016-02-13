@@ -37,7 +37,7 @@ if ($model->request->status == Request::STATUS_CLOSED) {
     <div>&nbsp;</div>
 <?php endif; ?>
 
-<a href="javascript:;" class="rowRequestMessage" data-offer-id="<?= $model->id; ?>">Связаться с клиентом</a>
+<a href="javascript:;" class="rowRequestMessage" data-main-offer="<?= $model->id; ?>">Связаться с клиентом</a>
 <div>&nbsp;</div>
 
 <?= Html::hiddenInput('requestId', $model->request_id, ['id' => 'requestId']); ?>

@@ -28,17 +28,6 @@ if (!$service) {
 
     <div class="form-group"></div>
 
-    <?php if (!empty($requestOffer->requestOfferImages)) : ?>
-        <div class="col-md-12 col-sm-12 col-xs-12 imagesPreview">
-            <?php foreach ($requestOffer->requestOfferImages as $image) : ?>
-                <a class="fancybox imageBlock" rel="gallery_<?= $requestOffer->id; ?>"
-                   href="<?= '/' . $image->name; ?>">
-                    <img src="<?= '/' . $image->thumb_name; ?>" alt="gallery"/>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-
     <div class="col-md-2 col-sm-2 col-xs-6">
         <div class="row">
             <div class="col-md-12">
@@ -47,7 +36,7 @@ if (!$service) {
             </div>
             <div class="col-md-12">
                 <b>Компания</b>:
-                <?= $requestOffer->company->legal_name; ?>
+                <?= $requestOffer->company->actual_name; ?>
             </div>
         </div>
     </div>
@@ -62,8 +51,8 @@ if (!$service) {
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <b>Срок</b>:
-                        от <?= ArrayHelper::getValue($attributes, 'deliveryDayFrom'); ?>
-                        до <?= ArrayHelper::getValue($attributes, 'deliveryDayTo'); ?> дней
+                        <?= ArrayHelper::getValue($attributes, 'deliveryDayFrom'); ?> -
+                        <?= ArrayHelper::getValue($attributes, 'deliveryDayTo'); ?> дн.
                     </div>
                 </div>
             <?php endif; ?>
@@ -114,6 +103,17 @@ if (!$service) {
                     </div>
                 <?php endif; ?>
             </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($requestOffer->requestOfferImages)) : ?>
+        <div class="col-md-12 col-sm-12 col-xs-12 imagesPreview">
+            <?php foreach ($requestOffer->requestOfferImages as $image) : ?>
+                <a class="fancybox imageBlock" rel="gallery_<?= $requestOffer->id; ?>"
+                   href="<?= '/' . $image->name; ?>">
+                    <img src="<?= '/' . $image->thumb_name; ?>" alt="gallery"/>
+                </a>
+            <?php endforeach; ?>
         </div>
     <?php endif; ?>
 

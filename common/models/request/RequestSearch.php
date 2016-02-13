@@ -2,10 +2,13 @@
 
 namespace common\models\request;
 
+use common\models\message\Message;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use common\models\company\CompanyRubric;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 class RequestSearch extends Request
 {
@@ -81,9 +84,13 @@ class RequestSearch extends Request
 
     public function getStatisticRow()
     {
-        $countOffers = count($this->requestOffers);
-        return '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i> ' . $this->count_view
-        . ' <i class="glyphicon glyphicon-certificate" style="margin-left: 5px;" title="Предложений"></i> '
-        . $countOffers . ' <i class="glyphicon glyphicon-comment" style="margin-left: 5px;" title="Сообщений"></i> 0';
+        $countMessages = Message::getCountByRequest($this->id);
+        $html = '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i>' . ' ' . $this->count_view;
+        $html .= Html::a('<i class="glyphicon glyphicon-certificate marginIcon" title="Предложений"></i>',
+                Url::to('view/' . $this->id . '#bestRequestOffer')) . ' ' . count($this->requestOffers);
+        $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [])
+            . ' ' . $countMessages;
+
+        return $html;
     }
 }

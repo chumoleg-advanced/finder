@@ -124,4 +124,17 @@ class Message extends ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'from_user_id']);
     }
+
+    /**
+     * @param int $requestId
+     *
+     * @return int
+     */
+    public static function getCountByRequest($requestId)
+    {
+        return (int)self::find()
+            ->joinWith('messageDialog')
+            ->where('message_dialog.request_id = ' . $requestId)
+            ->count();
+    }
 }

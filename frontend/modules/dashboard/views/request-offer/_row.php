@@ -47,45 +47,6 @@ if (!$service) {
 
     <div class="form-group"></div>
 
-    <?php
-    $fileInputParams = [
-        'language'      => 'ru',
-        'options'       => [
-            'multiple' => true,
-            'accept'   => 'image/*',
-            'class'    => 'option-value-img'
-        ],
-        'pluginOptions' => [
-            'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
-            'maxFileCount'          => 5,
-            'previewFileType'       => 'image',
-            'showRemove'            => false,
-            'showCaption'           => false,
-            'showUpload'            => false,
-            'browseClass'           => 'btn btn-primary',
-            'browseIcon'            => '<i class="glyphicon glyphicon-camera"></i>',
-            'removeIcon'            => '<i class="fa fa-trash"></i>',
-            'previewSettings'       => [
-                'image' => ['width' => '100px', 'height' => '100px'],
-            ],
-        ],
-    ];
-    ?>
-
-    <?php if (!empty($modelData->imageData)) : ?>
-        <div class="col-md-12 col-sm-12 col-xs-12 imagesPreview">
-            <?php foreach ($modelData->imageData as $image) : ?>
-                <a class="fancybox imageBlock" rel="gallery_<?= $i; ?>" href="<?= '/' . $image->name; ?>">
-                    <img src="<?= '/' . $image->thumb_name; ?>" alt="gallery"/>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="uploadFilesBlock col-md-12 col-sm-12 col-xs-12">
-        <?= $form->field($modelData, '[' . $i . ']imageData[]')->widget(FileInput::className(), $fileInputParams); ?>
-    </div>
-
     <div class="col-md-2 col-sm-2 col-xs-6">
         <div class="row">
             <div class="col-md-12">
@@ -157,6 +118,35 @@ if (!$service) {
             </div>
         </div>
     <?php endif; ?>
+
+    <?php
+    $fileInputParams = [
+        'language'      => 'ru',
+        'options'       => [
+            'multiple' => true,
+            'accept'   => 'image/*',
+            'class'    => 'option-value-img'
+        ],
+        'pluginOptions' => [
+            'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
+            'maxFileCount'          => 5,
+            'previewFileType'       => 'image',
+            'showRemove'            => false,
+            'showCaption'           => false,
+            'showUpload'            => false,
+            'browseClass'           => 'btn btn-primary',
+            'browseIcon'            => '<i class="glyphicon glyphicon-camera"></i>',
+            'removeIcon'            => '<i class="fa fa-trash"></i>',
+            'previewSettings'       => [
+                'image' => ['width' => '100px', 'height' => '100px'],
+            ],
+        ],
+    ];
+    ?>
+
+    <div class="uploadFilesBlock col-md-12 col-sm-12 col-xs-12">
+        <?= $form->field($modelData, '[' . $i . ']imageData[]')->widget(FileInput::className(), $fileInputParams); ?>
+    </div>
 
     <div class="col-md-12 col-sm-12 col-xs-12 boldBorderBottom">
     </div>

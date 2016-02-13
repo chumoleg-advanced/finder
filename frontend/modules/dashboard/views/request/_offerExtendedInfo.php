@@ -10,12 +10,12 @@ use frontend\modules\dashboard\forms\RequestOfferForm;
 $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
 ?>
 
-<div class="row <?= $cssClass; ?> requestOfferBlock" data-counter="<?= $counter; ?>">
-    <div class="col-md-3">
+<div class="<?= $cssClass; ?> requestOfferBlock" data-counter="<?= $counter; ?>">
+    <div class="col-md-4">
         <div class="row">
             <h3>Цена: <?= $model->price; ?></h3>
 
-            <h3><?= $model->company->legal_name; ?></h3>
+            <h3><?= $model->company->actual_name; ?></h3>
             <a href="javascript:;" class="sendMessageFromRequest" data-offer="<?= $model->id; ?>">
                 Связаться с компанией</a>
 
@@ -45,7 +45,7 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-striped table-condensed table-bordered detail-view">
@@ -58,12 +58,29 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
                         <td><?= $model->comment; ?></td>
                     </tr>
 
+                    <?php $deliveryDays = []; ?>
                     <?php foreach ($model->getAttributesData() as $attribute => $value) : ?>
+                        <?php
+                        if ($attribute == 'deliveryDayFrom' || $attribute == 'deliveryDayTo') {
+                            $deliveryDays[$attribute] = $value;
+                            continue;
+                        }
+                        ?>
+
                         <tr>
                             <th><?= ArrayHelper::getValue($offerAttributeLabels, $attribute); ?></th>
                             <td><?= $value; ?></td>
                         </tr>
                     <?php endforeach; ?>
+
+                    <?php if (!empty($deliveryDays)) : ?>
+                        <tr>
+                            <th>Срок доставки</th>
+                            <td><?= ArrayHelper::getValue($deliveryDays, 'deliveryDayFrom'); ?> -
+                                <?= ArrayHelper::getValue($deliveryDays, 'deliveryDayTo'); ?> дн.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
 
                 <?php if (!empty($model->requestOfferImages)) : ?>
@@ -80,7 +97,7 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div id="yandexMapCompany_<?= $counter; ?>" class="yandexMapCompany"></div>
     </div>
 </div>

@@ -34,7 +34,10 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
     <div>&nbsp;</div>
     <?php $counter = 1; ?>
 
-    <?= $this->render('_offerExtendedInfo', ['model' => $bestOffer, 'cssClass' => '', 'counter' => $counter]); ?>
+    <div class="row" id="bestRequestOffer">
+        <legend>Лучшее предложение</legend>
+    </div>
+    <?= $this->render('_offerExtendedInfo', ['model' => $bestOffer, 'cssClass' => 'row', 'counter' => $counter]); ?>
 
     <?php if (!empty($otherOffers)) : ?>
         <div>&nbsp;</div>
@@ -46,7 +49,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                 <div class="dynamicFormRowView">
                     <div class="row">
                         <div class="col-md-4">
-                            Компания: <?= $offer->company->legal_name; ?><br/>
+                            Компания: <?= $offer->company->actual_name; ?><br/>
                             <?= $offer->description; ?>
                         </div>
 
@@ -63,16 +66,17 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                         </div>
                     </div>
 
-                    <a href="javascript:;" class="viewMainOfferInfo">Посмотреть предложение</a>
+                    <a href="javascript:;" class="btn btn-sm btn-default viewMainOfferInfo">Посмотреть предложение</a>
 
-                    <div class="col-md-12">
-
-                        <div>&nbsp;</div>
-                        <?= $this->render('_offerExtendedInfo', [
-                            'model'    => $offer,
-                            'cssClass' => 'mainOfferInfoBlock',
-                            'counter'  => ++$counter
-                        ]); ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>&nbsp;</div>
+                            <?= $this->render('_offerExtendedInfo', [
+                                'model'    => $offer,
+                                'cssClass' => 'mainOfferInfoBlock',
+                                'counter'  => ++$counter
+                            ]); ?>
+                        </div>
                     </div>
                 </div>
 

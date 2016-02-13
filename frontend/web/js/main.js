@@ -2,14 +2,20 @@ var myMap = null;
 
 function initMap(coords, zoom, redraw, divId) {
     try {
+        if (!divId) {
+            divId = 'yandexMap';
+        }
+
+        var divObj = $('#'+divId);
+        if (divObj.find('ymaps').length == 0){
+            divObj.html('<img src="/img/linePreLoader.gif" class="preLoaderYandexMax"/>');
+        }
+
         ymaps.ready(function () {
+            divObj.find('.preLoaderYandexMax').remove();
             if (redraw) {
                 myCollection.removeAll();
             } else {
-                if (!divId) {
-                    divId = 'yandexMap';
-                }
-
                 myMap = new ymaps.Map(divId, {
                     center: coords,
                     zoom: zoom,

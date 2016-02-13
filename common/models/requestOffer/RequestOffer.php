@@ -102,6 +102,7 @@ class RequestOffer extends ActiveRecord
                 'request_offer.request_id' => $requestId,
                 'request_offer.status'     => self::STATUS_ACTIVE
             ])
+            ->orderBy('request_offer.price')
             ->all();
 
         if (empty($offers)) {

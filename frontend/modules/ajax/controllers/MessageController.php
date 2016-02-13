@@ -47,8 +47,9 @@ class MessageController extends Controller
         ]);
 
         return [
-            'html'        => $html,
-            'companyName' => $requestOffer->company->legal_name,
+            'html'             => $html,
+            'companyName'      => $requestOffer->company->actual_name,
+            'countNewMessages' => Message::getCountNewMessages()
         ];
     }
 
@@ -86,8 +87,9 @@ class MessageController extends Controller
         ]);
 
         return [
-            'html'      => $html,
-            'requestId' => $messageDialog->request_id,
+            'html'             => $html,
+            'requestId'        => $messageDialog->request_id,
+            'countNewMessages' => Message::getCountNewMessages()
         ];
     }
 

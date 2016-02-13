@@ -3,6 +3,7 @@
 namespace frontend\modules\dashboard\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -34,6 +35,6 @@ class IndexController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->redirect(Url::toRoute('request/index'));
     }
 }

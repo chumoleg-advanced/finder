@@ -28,8 +28,10 @@ $(document).ready(function () {
         obj.toggle();
 
         var text = 'Скрыть предложение';
-        if (!obj.is(':visible')) {
+        if (obj.is(':visible') === false) {
             text = 'Посмотреть предложение';
+        } else {
+            $('html,body').animate({scrollTop: obj.offset().top - 100}, 'slow');
         }
 
         $(this).text(text);

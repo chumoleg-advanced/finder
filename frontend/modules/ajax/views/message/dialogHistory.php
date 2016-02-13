@@ -9,11 +9,18 @@ use \common\models\message\MessageDialog;
     <?php foreach ($messageDialog->messages as $item) : ?>
         <?php
         $my = $item->from_user_id == Yii::$app->user->id;
-        $from = $my
-            ? 'Я'
-            : ($messageDialog->sender == MessageDialog::SENDER_COMPANY
-            && $messageDialog->from_user_id != Yii::$app->user->id
-                ? $messageDialog->company->legal_name : 'Клиент');
+
+
+        $notMe = 'Клиент';
+        if (($messageDialog->sender == MessageDialog::SENDER_COMPANY
+                && $messageDialog->from_user_id != Yii::$app->user->id)
+            || ($messageDialog->sender == MessageDialog::SENDER_USER
+                && $messageDialog->to_user_id != Yii::$app->user->id)
+        ) {
+            $notMe = $messageDialog->company->actual_name;
+        }
+
+        $from = $my ? 'Я' : $notMe;
 
         $cssClass = 'dialogMessageForMe';
         if ($my) {
