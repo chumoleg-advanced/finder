@@ -1,28 +1,34 @@
 <?php
 
-namespace common\models\user;
+namespace common\models\notification;
 
 use Yii;
-use common\components\ActiveRecord;
+use common\models\user\User;
 
 /**
- * This is the model class for table "user_setting".
+ * This is the model class for table "notification".
  *
  * @property integer $id
  * @property integer $user_id
+ * @property integer $type
+ * @property string  $message
+ * @property integer $status
  * @property string  $data
  * @property string  $date_create
  *
  * @property User    $user
  */
-class UserSetting extends ActiveRecord
+class Notification extends \common\components\ActiveRecord
 {
+    const TYPE_REQUEST = 1;
+    const TYPE_COMPANY = 2;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'user_setting';
+        return 'notification';
     }
 
     /**
@@ -31,10 +37,11 @@ class UserSetting extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'required'],
-            [['user_id'], 'integer'],
+            [['user_id', 'type'], 'required'],
+            [['user_id', 'type', 'status'], 'integer'],
             [['data'], 'string'],
-            [['date_create'], 'safe']
+            [['date_create'], 'safe'],
+            [['message'], 'string', 'max' => 300]
         ];
     }
 
@@ -46,18 +53,12 @@ class UserSetting extends ActiveRecord
         return [
             'id'          => 'ID',
             'user_id'     => 'User ID',
+            'type'        => 'Type',
+            'message'     => 'Message',
+            'status'      => 'Status',
             'data'        => 'Data',
             'date_create' => 'Date Create',
         ];
-    }
-
-    /**
-     * @inheritdoc
-     * @return UserSettingQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new UserSettingQuery(get_called_class());
     }
 
     /**

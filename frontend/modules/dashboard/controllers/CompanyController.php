@@ -27,6 +27,7 @@ class CompanyController extends Controller
             $rubricModel = new RubricData();
             $contactModel = new ContactData();
 
+            $mainModel->companyId = $id;
             $mainModel->load($postData);
             $mainModel->validate();
 

@@ -2,6 +2,7 @@
 
 namespace frontend\modules\dashboard\forms\company;
 
+use common\models\company\Company;
 use Yii;
 use yii\base\Model;
 
@@ -71,6 +72,7 @@ class MainData extends Model
             [['form', 'inn', 'legal_name', 'fio'], 'required'],
             [['legal_name', 'actual_name', 'fio'], 'string', 'max' => 250],
             [['form', 'companyId'], 'integer'],
+            [['inn'], 'checkUniqueInn'],
             [['inn', 'ogrn'], 'double'],
             ['inn', 'string', 'length' => [10, 12]],
             ['ogrn', 'string', 'length' => [15, 15]],
@@ -109,5 +111,20 @@ class MainData extends Model
         }
 
         return parent::beforeValidate();
+    }
+
+    public function checkUniqueInn($attribute, $params)
+    {
+        $query = Company::find()->andWhere(['inn' => $this->inn]);
+        if (!empty($this->companyId)) {
+            $query->andWhere(['!=', 'id', $this->companyId]);
+        }
+
+        $check = $query->one();
+        if (!empty($check)) {
+            $this->addError($attribute, 'Указанный ИНН уже занят!');
+        }
+
+        return true;
     }
 }

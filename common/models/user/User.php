@@ -16,20 +16,21 @@ use yii\web\IdentityInterface;
 /**
  * User model
  *
- * @property integer       $id
- * @property string        $password_hash
- * @property string        $password_reset_token
- * @property string        $email
- * @property string        $auth_key
- * @property integer       $status
- * @property integer       $created_at
- * @property integer       $updated_at
- * @property string        $password write-only password
+ * @property integer   $id
+ * @property string    $email
+ * @property string    $password_hash
+ * @property string    $password_reset_token
+ * @property string    $phone
+ * @property string    $fio
+ * @property string    $birthday
+ * @property string    $auth_key
+ * @property integer   $status
+ * @property string    $created_at
+ * @property string    $updated_at
  *
- * @property Company[]     $companies
- * @property Oauth[]       $oauths
- * @property Request[]     $requests
- * @property UserSetting[] $userSettings
+ * @property Company[] $companies
+ * @property Oauth[]   $oauths
+ * @property Request[] $requests
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -68,11 +69,12 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['email', 'auth_key'], 'required'],
             [['status'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'birthday'], 'safe'],
             [['email'], 'string', 'max' => 64],
             [['password_hash'], 'string', 'max' => 60],
             [['password_reset_token'], 'string', 'max' => 44],
             [['phone'], 'string', 'max' => 14],
+            [['fio'], 'string', 'max' => 200],
             [['auth_key'], 'string', 'max' => 32]
         ];
     }
@@ -85,6 +87,8 @@ class User extends ActiveRecord implements IdentityInterface
             'password_hash'        => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
             'phone'                => 'Телефон',
+            'fio'                  => 'ФИО',
+            'birthday'             => 'Дата рождения',
             'auth_key'             => 'Auth Key',
             'status'               => 'Статус',
             'created_at'           => 'Дата создания',
@@ -308,10 +312,12 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @param int $userId
+     *
+     * @return User|null
      */
-    public function getUserSettings()
+    public static function findById($userId)
     {
-        return $this->hasMany(UserSetting::className(), ['user_id' => 'id']);
+        return self::find()->whereId($userId)->one();
     }
 }
