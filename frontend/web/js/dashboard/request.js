@@ -38,6 +38,29 @@ $(document).ready(function () {
         initMainOfferMap(obj);
     });
 
+    $(document).on('click', '.copyRequestOffer', function () {
+        preLoaderShow();
+        var obj = $('.dynamicFormRow:last');
+        var index = $('.requestOfferDynamicForm .dynamicFormRow').length - 1;
+        $.post('/ajax/request-offer/copy-info', {id: $(this).data('id')}, function (data) {
+            $.each(data, function (key, value) {
+                var item = obj.find('#requestofferform-' + index + '-' + key.toLowerCase());
+                if (item.length > 0) {
+                    if (item.is('input')) {
+                        item.val(value).change();
+                    } else if (item.is('div')) {
+                        item.find('input[value="' + value + '"]').trigger('click');
+                    }
+                }
+            });
+
+            var destination = obj.offset().top - 60;
+            $('html, body').animate({scrollTop: destination}, 500);
+
+            preLoaderHide();
+        }, 'json');
+    });
+
     $(document).on('click', '.requestInfoView', function () {
         var obj = $('.requestInfo');
         obj.toggle();

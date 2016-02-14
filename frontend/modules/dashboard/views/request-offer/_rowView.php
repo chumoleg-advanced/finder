@@ -58,7 +58,7 @@ if (!$service) {
             <?php endif; ?>
         </div>
 
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-md-5 col-sm-5 col-xs-5">
             <div class="row">
                 <?php
                 $partsCondition = ArrayHelper::getValue($attributes, 'partsCondition');
@@ -103,6 +103,12 @@ if (!$service) {
                     </div>
                 <?php endif; ?>
             </div>
+        </div>
+
+        <div class="col-md-1 col-sm-1 col-xs-1">
+            <a href="javascript:;" class="btn btn-default copyRequestOffer" data-id="<?= $requestOffer->id; ?>">
+                <i class="glyphicon glyphicon-copy"></i>
+            </a>
         </div>
     <?php endif; ?>
 
