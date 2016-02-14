@@ -54,12 +54,12 @@ echo GridView::widget([
         ],
         [
             'class'         => 'common\components\ActionColumn',
-            'template'      => '{update} {accept} {reject}',
+            'template'      => '{update} {accept}',
             'headerOptions' => ['width' => '127'],
             'buttons'       => [
-                'reject' => function ($url, $model) {
-                    return $model->status == Request::STATUS_NEW ? ManageButton::reject($url) : null;
-                },
+//                'reject' => function ($url, $model) {
+//                    return $model->status == Request::STATUS_NEW ? ManageButton::reject($url) : null;
+//                },
                 'accept' => function ($url, $model) {
                     return $model->status == Request::STATUS_NEW ? ManageButton::accept($url) : null;
                 },
