@@ -30,7 +30,7 @@ class EmailController extends Controller
         } else {
             $userObj = User::findById($forUser);
             $userNotifications = NotificationSetting::getTypeListByUser($userObj->id);
-            if (in_array($type, $userNotifications)) {
+            if (in_array($type, $userNotifications) || $type == Notification::TYPE_ACCEPT_COMPANY) {
                 $userList = [$userObj];
             }
         }
