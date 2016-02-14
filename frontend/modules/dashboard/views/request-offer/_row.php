@@ -147,7 +147,4 @@ if (!$service) {
     <div class="uploadFilesBlock col-md-12 col-sm-12 col-xs-12">
         <?= $form->field($modelData, '[' . $i . ']imageData[]')->widget(FileInput::className(), $fileInputParams); ?>
     </div>
-
-    <div class="col-md-12 col-sm-12 col-xs-12 boldBorderBottom">
-    </div>
 </div>

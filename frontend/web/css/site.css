@@ -285,6 +285,10 @@ a.desc:after {
     margin-bottom: 50px;
 }
 
+.dynamicFormRowViewOffer div {
+    padding-bottom: 5px;
+}
+
 .dropDownTimes {
     margin-top: 13px;
 }

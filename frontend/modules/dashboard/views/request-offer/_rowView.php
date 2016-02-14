@@ -15,18 +15,18 @@ if (!$service) {
 }
 ?>
 
-<div class="row dynamicFormRowView">
-    <div class="col-md-5 col-sm-5 col-xs-12">
+<div class="row dynamicFormRowView dynamicFormRowViewOffer">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         <b><?= $descriptionLabel; ?></b>:
         <?= $requestOffer->description; ?>
     </div>
 
-    <div class="col-md-5 col-sm-5 col-xs-12">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         <b>Комментарий</b>:
         <?= $requestOffer->comment; ?>
     </div>
 
-    <div class="form-group"></div>
+    <div>&nbsp;</div>
 
     <div class="col-md-2 col-sm-2 col-xs-6">
         <div class="row">
@@ -42,7 +42,7 @@ if (!$service) {
     </div>
 
     <?php if (!$service) : ?>
-        <div class="col-md-5 col-sm-5 col-xs-6">
+        <div class="col-md-4 col-sm-4 col-xs-6">
             <?php $availability = ArrayHelper::getValue($attributes, 'availability'); ?>
             <b>Наличие</b>:
             <?= ArrayHelper::getValue(CarData::$availability, $availability); ?>
@@ -58,7 +58,7 @@ if (!$service) {
             <?php endif; ?>
         </div>
 
-        <div class="col-md-5 col-sm-5 col-xs-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="row">
                 <?php
                 $partsCondition = ArrayHelper::getValue($attributes, 'partsCondition');
@@ -116,7 +116,4 @@ if (!$service) {
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
-    <div class="col-md-12 col-sm-12 col-xs-12 boldBorderBottom">
-    </div>
 </div>
