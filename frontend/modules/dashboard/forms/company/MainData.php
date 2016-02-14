@@ -69,7 +69,7 @@ class MainData extends Model
     {
         return [
             [['legal_name', 'actual_name', 'fio', 'inn', 'ogrn', 'ogrnip'], 'filter', 'filter' => 'trim'],
-            [['form', 'inn', 'legal_name', 'fio'], 'required'],
+            [['form', 'inn', 'legal_name', 'fio', 'actual_name'], 'required'],
             [['legal_name', 'actual_name', 'fio'], 'string', 'max' => 250],
             [['form', 'companyId'], 'integer'],
             [['inn'], 'checkUniqueInn'],
@@ -108,6 +108,10 @@ class MainData extends Model
 
         } else {
             $this->fio = $this->legal_name;
+        }
+
+        if (empty($this->actual_name)){
+            $this->actual_name = $this->legal_name;
         }
 
         return parent::beforeValidate();
