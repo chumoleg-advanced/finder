@@ -90,7 +90,7 @@ class CompanyRubric extends ActiveRecord
             $data->andWhere(['company.user_id' => Yii::$app->user->id]);
         }
 
-        return ArrayHelper::map($data->all(), 'company.id', 'company.legal_name');
+        return ArrayHelper::map($data->all(), 'company.id', 'company.actual_name');
     }
 
     /**

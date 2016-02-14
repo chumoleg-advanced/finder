@@ -44,7 +44,7 @@ class EmailController extends Controller
         $subject = str_replace('{modelId}', $modelId, $subject);
         if ($type == Notification::TYPE_ACCEPT_COMPANY) {
             $company = Company::findById($modelId);
-            $subject = str_replace('{modelName}', $company->legal_name, $subject);
+            $subject = str_replace('{modelName}', $company->actual_name, $subject);
         }
 
         foreach ($userList as $userObj) {

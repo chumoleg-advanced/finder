@@ -24,6 +24,7 @@ echo GridView::widget([
             }
         ],
         'legal_name',
+        'actual_name',
         'inn',
         [
             'attribute' => 'status',

@@ -164,7 +164,7 @@ class Company extends ActiveRecord
         }
 
         $data = self::find()->whereUserId($userId)->all();
-        return ArrayHelper::map($data, 'id', 'legal_name');
+        return ArrayHelper::map($data, 'id', 'actual_name');
     }
 
     /**

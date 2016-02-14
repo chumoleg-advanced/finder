@@ -10,7 +10,7 @@ use frontend\modules\dashboard\components\CompanyFormGenerator;
 
 /** @var Company $model */
 
-$this->title = 'Компания ' . $model->legal_name;
+$this->title = 'Компания ' . $model->actual_name;
 ?>
 
     <div class="text-bold text-error"><?= Company::$statusList[$model->status]; ?></div>
