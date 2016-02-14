@@ -2,6 +2,7 @@
 
 namespace common\models\request;
 
+use common\models\notification\Notification;
 use common\models\requestOffer\MainRequestOffer;
 use Yii;
 use common\models\rubric\Rubric;
@@ -126,6 +127,9 @@ class Request extends ActiveRecord
             $requestOffer->request_id = $this->id;
             $requestOffer->user_id = $userObj->id;
             $requestOffer->save();
+
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_ACCEPT_REQUEST
+                . ' ' . $requestOffer->id . ' ' . $userObj->id);
         }
     }
 

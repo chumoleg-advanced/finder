@@ -20,3 +20,5 @@
     ],
     'options'       => ['class' => 'form-control']
 ]);
+
+Yii::setAlias('@yiiBase', realpath(dirname(__FILE__) . '/../../'));

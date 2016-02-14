@@ -69,6 +69,12 @@ class UserDataForm extends Model
         return true;
     }
 
+    public function beforeValidate()
+    {
+        $this->phone = str_replace([' ', '(', ')', '-'], '', $this->phone);
+        return parent::beforeValidate();
+    }
+
     /**
      * @return bool
      */

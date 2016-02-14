@@ -1,7 +1,8 @@
 <?php
-/** @var common\models\message\MessageDialog[] $data */
+/** @var common\models\notification\Notification[] $data */
 
 use yii\helpers\Html;
+use common\models\notification\Notification;
 
 ?>
 <div>&nbsp;</div>
@@ -16,8 +17,10 @@ use yii\helpers\Html;
     <?php foreach ($data as $item) : ?>
         <div class="row rowMessageInDialogList">
             <div class="col-md-12">
-                <?= Html::a($item->getDialogDescription(), 'javascript:;', [
-                    'class'   => 'rowRequestMessage',
+                <div class="messageDate"><?= $item->date_create; ?></div>
+                <?= Html::a($item->message, 'javascript:;', [
+                    'class'   => 'rowNotification ' . ($item->status == Notification::STATUS_READ
+                            ? 'notificationRead' : ''),
                     'data-id' => $item->id
                 ]); ?>
             </div>

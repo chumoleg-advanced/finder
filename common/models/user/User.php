@@ -320,4 +320,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return self::find()->whereId($userId)->one();
     }
+
+    /**
+     * @param string $role
+     *
+     * @return array|User[]
+     */
+    public static function getUsersByRole($role)
+    {
+        return self::find()->where('id IN (SELECT user_id FROM auth_assignment
+            WHERE item_name = "' . $role . '"')->all();
+    }
 }

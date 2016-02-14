@@ -2,6 +2,7 @@
 
 namespace common\models\company;
 
+use common\models\notification\Notification;
 use Yii;
 use yii\base\Exception;
 use common\components\ActiveRecord;
@@ -108,6 +109,25 @@ class Company extends ActiveRecord
         }
 
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @param $status
+     *
+     * @return bool
+     */
+    public function updateStatus($status)
+    {
+        if (!parent::updateStatus($status)) {
+            return false;
+        }
+
+        if ($this->status == self::STATUS_ACTIVE) {
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_ACCEPT_COMPANY
+                . ' ' . $this->id . ' ' . $this->user_id);
+        }
+
+        return true;
     }
 
     /**
@@ -229,6 +249,9 @@ class Company extends ActiveRecord
             $this->_saveTimeWorkData($contactData, $addressId);
 
             $transaction->commit();
+
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_COMPANY . ' ' . $model->id);
+
             return true;
 
         } catch (Exception $e) {
@@ -312,6 +335,9 @@ class Company extends ActiveRecord
             $this->_saveTimeWorkData($contactData, $addressId);
 
             $transaction->commit();
+
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_UPDATE_COMPANY . ' ' . $this->id);
+
             return true;
 
         } catch (Exception $e) {

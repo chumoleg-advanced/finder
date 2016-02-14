@@ -1,6 +1,8 @@
 <?php
 namespace frontend\forms;
 
+use common\models\notification\Notification;
+use common\models\notification\NotificationSetting;
 use Yii;
 use common\components\Role;
 use common\models\user\User;
@@ -54,7 +56,7 @@ class SignUpForm extends Model
     /**
      * @return bool
      */
-    public function signup()
+    public function signUp()
     {
         if (!$this->validate()) {
             return false;
@@ -66,6 +68,10 @@ class SignUpForm extends Model
         $user->generateAuthKey();
         if ($user->save()) {
             Role::assignRoleForUser($user);
+            foreach (Notification::$typeListForUser as $type => $name) {
+                NotificationSetting::manage($user->id, $type);
+            }
+            
             return Yii::$app->user->login($user);
         }
 

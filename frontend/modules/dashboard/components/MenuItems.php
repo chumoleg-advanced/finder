@@ -5,6 +5,7 @@ namespace frontend\modules\dashboard\components;
 use common\models\category\Category;
 use common\models\company\Company;
 use common\models\message\Message;
+use common\models\notification\Notification;
 use Yii;
 use yii\helpers\Url;
 
@@ -12,10 +13,10 @@ class MenuItems
 {
     public static function getItems()
     {
-        $countNewMessage = Message::getCountNewMessages();
+        $countAllNewMessages = Message::getCountNewMessages() + Notification::getCountNewNotifications();
         $messageBadge = '';
-        if ($countNewMessage > 0) {
-            $messageBadge = '<span class="badge messageBadgeMenu">' . $countNewMessage . '</span>';
+        if ($countAllNewMessages > 0) {
+            $messageBadge = ' <span class="badge messageBadgeMenu">' . $countAllNewMessages . '</span>';
         }
 
         return [
@@ -46,7 +47,7 @@ class MenuItems
                 'items' => [
                     [
                         'label' => 'Настройки',
-                        'url'   => Url::toRoute('setting/index')
+                        'url'   => Url::toRoute('profile/index')
                     ],
                     [
                         'label'       => 'Выход',

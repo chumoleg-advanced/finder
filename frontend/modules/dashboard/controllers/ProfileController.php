@@ -2,12 +2,13 @@
 
 namespace frontend\modules\dashboard\controllers;
 
+use common\models\notification\NotificationSetting;
 use common\models\user\User;
 use frontend\modules\dashboard\forms\user\UserDataForm;
 use Yii;
 use yii\web\Controller;
 
-class SettingController extends Controller
+class ProfileController extends Controller
 {
     public function actionIndex()
     {
@@ -27,8 +28,11 @@ class SettingController extends Controller
             $model->attributes = $userModel->attributes;
         }
 
+        $selectedNotification = NotificationSetting::getTypeListByUser($userModel->id);
+
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
+            'selectedNotification' => $selectedNotification
         ]);
     }
 }

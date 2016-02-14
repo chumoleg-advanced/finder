@@ -34,7 +34,8 @@
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-nav-x": "*",
         "beastbytes/yii2-wizard": "*",
-        "newerton/yii2-fancybox": "dev-master"
+        "newerton/yii2-fancybox": "dev-master",
+        "vova07/yii2-console-runner-extension": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

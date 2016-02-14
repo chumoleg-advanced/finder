@@ -4,9 +4,11 @@ namespace frontend\modules\ajax\controllers;
 
 use common\models\message\Message;
 use common\models\message\MessageDialog;
+use common\models\notification\Notification;
 use common\models\requestOffer\MainRequestOffer;
 use common\models\requestOffer\RequestOffer;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use \yii\web\Response;
 
@@ -19,13 +21,27 @@ class MessageController extends Controller
         $search = Yii::$app->request->post('search');
 
         $dialogList = MessageDialog::getDialogList();
-        $notificationList = [];
+        $notificationList = Notification::getNotificationList();
 
-        return $this->renderPartial('index', [
+        return $this->renderPartial('index', $this->_addCountersToArray([
             'search'           => $search,
             'dialogList'       => $dialogList,
-            'notificationList' => $notificationList,
-        ]);
+            'notificationList' => $notificationList
+        ]));
+    }
+
+    private function _addCountersToArray($array)
+    {
+        $countNewMessages = Message::getCountNewMessages();
+        $countNewNotifications = Notification::getCountNewNotifications();
+
+        $data = [
+            'countAllNew'           => $countNewMessages + $countNewNotifications,
+            'countNewMessages'      => $countNewMessages,
+            'countNewNotifications' => $countNewNotifications,
+        ];
+
+        return ArrayHelper::merge($array, $data);
     }
 
     public function actionOpenRequestDialog()
@@ -53,11 +69,10 @@ class MessageController extends Controller
             'messageDialog' => $messageDialog
         ]);
 
-        return [
-            'html'             => $html,
-            'companyName'      => $requestOffer->company->actual_name,
-            'countNewMessages' => Message::getCountNewMessages()
-        ];
+        return $this->_addCountersToArray([
+            'html'        => $html,
+            'companyName' => $requestOffer->company->actual_name
+        ]);
     }
 
     public function actionOpenMessageDialog()
@@ -93,11 +108,10 @@ class MessageController extends Controller
             'messageDialog' => $messageDialog
         ]);
 
-        return [
-            'html'             => $html,
-            'requestId'        => $messageDialog->request_id,
-            'countNewMessages' => Message::getCountNewMessages()
-        ];
+        return $this->_addCountersToArray([
+            'html'      => $html,
+            'requestId' => $messageDialog->request_id
+        ]);
     }
 
     public function actionSendMessage()
@@ -118,5 +132,19 @@ class MessageController extends Controller
         }
 
         return false;
+    }
+
+    public function actionReadNotification()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $id = (int)Yii::$app->request->post('id');
+        if (empty($id)) {
+            return false;
+        }
+
+        Notification::updateAll(['status' => Notification::STATUS_READ], 'id = ' . $id);
+
+        return $this->_addCountersToArray([]);
     }
 }

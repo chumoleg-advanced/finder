@@ -7,11 +7,11 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap'  => ['log'],
     'components' => [
-        'urlManager'  => [
+        'urlManager'    => [
             'enablePrettyUrl' => true,
             'showScriptName'  => false
         ],
-        'i18n'        => [
+        'i18n'          => [
             'translations' => [
                 '*' => [
                     'class'    => 'yii\i18n\PhpMessageSource',
@@ -26,35 +26,39 @@ return [
                 ],
             ],
         ],
-        'authManager' => [
+        'authManager'   => [
             'class' => 'yii\rbac\DbManager',
             'cache' => 'cache',
         ],
-        'db'          => [
+        'db'            => [
             'class'   => 'yii\db\Connection',
             'charset' => 'utf8',
         ],
-        'cache'       => [
+        'cache'         => [
             'class'     => 'yii\redis\Cache',
             'keyPrefix' => md5(dirname(__FILE__))
         ],
-        'redis'       => [
+        'redis'         => [
             'class'    => 'yii\redis\Connection',
             'hostname' => 'localhost',
             'port'     => 6379
         ],
-        'mailer'      => [
+        'mailer'        => [
             'class'    => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
         ],
-        'curl'        => [
+        'curl'          => [
             'class' => 'linslin\yii2\curl\Curl'
         ],
-        'thumbnail'   => [
+        'thumbnail'     => [
             'class'      => 'himiklab\thumbnail\EasyThumbnail',
             'cacheAlias' => 'assets/thumbnails',
         ],
-        'log'         => [
+        'consoleRunner' => [
+            'class' => 'vova07\console\ConsoleRunner',
+            'file'  => '@yiiBase/yii'
+        ],
+        'log'           => [
             'targets' => [
                 [
                     'class'  => 'yii\log\FileTarget',
@@ -67,7 +71,7 @@ return [
                         'yii\db\*',
                         'yii\web\HttpException:*',
                     ],
-                    'except' => [
+                    'except'     => [
                         'yii\web\HttpException:404',
                     ],
                     'message'    => [

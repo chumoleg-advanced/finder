@@ -4,16 +4,33 @@ $(document).ready(function () {
         obj.scrollTop(1E10);
     }
 
-    function _updateCounterNewMessage(data) {
-        if (data.countNewMessages == 0) {
-            $('.messageBadgeMenu').text('');
+    function _updateAllCounters(data) {
+        _updateCounterNewMessage(data.countAllNew, '.messageBadgeMenu');
+        _updateCounterNewMessage(data.countNewMessages, '.messagesBadge');
+        _updateCounterNewMessage(data.countNewNotifications, '.notificationsBadge');
+    }
+
+    function _updateCounterNewMessage(count, objClass) {
+        if (count == 0) {
+            $(objClass).text('');
         } else {
-            $('.messageBadgeMenu').text(data.countNewMessages);
+            $(objClass).text(count);
         }
     }
 
     $(document).on('keyup', '.searchText', function () {
         findByText($(this).val(), '.rowRequestMessage');
+    });
+
+    $(document).on('click', '.rowNotification', function () {
+        var obj = $(this);
+        var id = obj.data('id');
+        if (!obj.hasClass('notificationRead')) {
+            $.post('/ajax/message/read-notification', {id: id}, function (data) {
+                obj.addClass('notificationRead');
+                _updateAllCounters(data);
+            }, 'json');
+        }
     });
 
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {
@@ -46,7 +63,7 @@ $(document).ready(function () {
             obj.find('.modal-body').html(data.html);
             obj.find('.modal-header h4').text('Переписка с ' + data.companyName);
             _scrollTopDialogHistory();
-            _updateCounterNewMessage(data);
+            _updateAllCounters(data);
             preLoaderHide();
         }, 'json');
     });
@@ -83,7 +100,7 @@ $(document).ready(function () {
             obj.find('.modal-header h4').text('Переписка по заявке №' + data.requestId);
             obj.find('.modal-body').html(data.html);
             _scrollTopDialogHistory();
-            _updateCounterNewMessage(data);
+            _updateAllCounters(data);
             preLoaderHide();
         }, 'json');
     });

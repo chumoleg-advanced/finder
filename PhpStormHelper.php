@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Yii bootstrap file.
  * Used for enhanced IDE code autocompletion.
@@ -19,11 +20,12 @@ Yii::$container = new yii\di\Container;
  * Class BaseApplication
  * Used for properties that are identical for both WebApplication and ConsoleApplication
  *
- * @property yii\rbac\DbManager $authManager
- * @property yii\redis\Cache $cache
- * @property linslin\yii2\curl\Curl $curl
- * @property yii\swiftmailer\Mailer $mailer
+ * @property yii\rbac\DbManager               $authManager
+ * @property yii\redis\Cache                  $cache
+ * @property linslin\yii2\curl\Curl           $curl
+ * @property yii\swiftmailer\Mailer           $mailer
  * @property himiklab\thumbnail\EasyThumbnail $thumbnail
+ * @property vova07\console\ConsoleRunner     $consoleRunner
  */
 abstract class BaseApplication extends yii\base\Application
 {

@@ -337,6 +337,13 @@ a.desc:after {
     width: 100%;
 }
 
-.rowMessageInDialogList{
+.rowMessageInDialogList {
     margin-bottom: 5px;
+}
+
+.notificationRead,
+.notificationRead:hover,
+.notificationRead:active {
+    text-decoration: line-through !important;
+    color: darkgrey !important;
 }

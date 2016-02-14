@@ -6,6 +6,7 @@ use common\components\CarData;
 use common\components\MyImage;
 use common\models\category\Category;
 use common\models\company\CompanyRubric;
+use common\models\notification\Notification;
 use common\models\request\Request;
 use common\models\request\RequestAttribute;
 use common\models\requestOffer\RequestOfferAttribute;
@@ -196,6 +197,9 @@ class RequestOfferForm extends Model
 
         $this->_saveFiles($requestOffer->id);
         $this->_saveRequestOfferAttributes($requestOffer->id);
+
+        Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_OFFER . ' ' . $requestOffer->request_id
+            . ' ' . $requestOffer->request->user_id);
     }
 
     /**

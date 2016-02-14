@@ -20,8 +20,36 @@ use common\models\user\User;
  */
 class Notification extends \common\components\ActiveRecord
 {
-    const TYPE_REQUEST = 1;
-    const TYPE_COMPANY = 2;
+    const STATUS_NEW = 1;
+    const STATUS_READ = 2;
+
+    const TYPE_SITE_NEWS = 1;
+
+    const TYPE_NEW_REQUEST = 2;
+    const TYPE_ACCEPT_REQUEST = 3;
+    const TYPE_NEW_OFFER = 4;
+    const TYPE_NEW_COMPANY = 5;
+    const TYPE_UPDATE_COMPANY = 6;
+    const TYPE_ACCEPT_COMPANY = 7;
+    const TYPE_NEW_MESSAGE = 8;
+
+    public static $typeListForUser
+        = [
+            self::TYPE_NEW_MESSAGE    => 'О новых сообщениях',
+            self::TYPE_ACCEPT_REQUEST => 'О поступлении новых заявок',
+            self::TYPE_NEW_OFFER      => 'О поступлении новых предложений'
+        ];
+
+    public static $subjectList
+        = [
+            self::TYPE_NEW_REQUEST    => 'Новая заявка №{modelId}',
+            self::TYPE_ACCEPT_REQUEST => 'Новая заявка №{modelId}',
+            self::TYPE_NEW_OFFER      => 'Новое предложение по заявке №{modelId}',
+            self::TYPE_NEW_COMPANY    => 'Новая компания: ID{modelId}',
+            self::TYPE_UPDATE_COMPANY => 'Требуется модерация компании ID{modelId}',
+            self::TYPE_ACCEPT_COMPANY => 'Проверка компании завершена',
+            self::TYPE_NEW_MESSAGE    => 'Новое сообщение по заявке №{modelId}'
+        ];
 
     /**
      * @inheritdoc
@@ -59,6 +87,40 @@ class Notification extends \common\components\ActiveRecord
             'data'        => 'Data',
             'date_create' => 'Date Create',
         ];
+    }
+
+    /**
+     * @param int    $userId
+     * @param int    $type
+     * @param string $message
+     */
+    public static function create($userId, $type, $message)
+    {
+        $model = new self();
+        $model->user_id = $userId;
+        $model->type = $type;
+        $model->message = $message;
+        $model->save();
+    }
+
+    /**
+     * @return array|Notification
+     */
+    public static function getNotificationList()
+    {
+        return self::find()
+            ->andWhere(['user_id' => Yii::$app->user->id])
+            ->orderBy('id DESC')
+            ->all();
+    }
+
+    /**
+     * @return int
+     */
+    public static function getCountNewNotifications()
+    {
+        return (int)self::find()->where('user_id = ' . Yii::$app->user->id
+            . ' AND status = ' . self::STATUS_NEW)->count();
     }
 
     /**

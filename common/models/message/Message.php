@@ -2,6 +2,7 @@
 
 namespace common\models\message;
 
+use common\models\notification\Notification;
 use common\models\requestOffer\RequestOffer;
 use Yii;
 use common\components\ActiveRecord;
@@ -83,6 +84,14 @@ class Message extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_MESSAGE
+            . ' ' . $this->messageDialog->request_id . ' ' . $this->to_user_id);
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
     /**
      * @return int
      */
@@ -100,30 +109,6 @@ class Message extends ActiveRecord
         self::updateAll(['status' => self::STATUS_READ],
             'status = ' . self::STATUS_NEW . ' AND message_dialog_id = ' . $messageDialogId
             . ' AND to_user_id = ' . Yii::$app->user->id);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMessageDialog()
-    {
-        return $this->hasOne(MessageDialog::className(), ['id' => 'message_dialog_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getToUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'to_user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFromUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'from_user_id']);
     }
 
     /**
@@ -149,7 +134,31 @@ class Message extends ActiveRecord
         return (int)self::find()
             ->joinWith('messageDialog')
             ->where('message_dialog.request_id IN (SELECT request_id FROM ' . RequestOffer::tableName() . '
-                WHERE main_request_offer_id = ' . $mainRequestOfferId  . ')')
+                WHERE main_request_offer_id = ' . $mainRequestOfferId . ')')
             ->count();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMessageDialog()
+    {
+        return $this->hasOne(MessageDialog::className(), ['id' => 'message_dialog_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getToUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'to_user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFromUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'from_user_id']);
     }
 }

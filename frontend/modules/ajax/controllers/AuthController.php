@@ -25,7 +25,7 @@ class AuthController extends Controller
         $model = new SignUpForm();
         $model->load(Yii::$app->request->post());
         if ($model->validate()) {
-            return $model->signup();
+            return $model->signUp();
         }
 
         return false;
