@@ -47,7 +47,7 @@ class Notification extends \common\components\ActiveRecord
             self::TYPE_NEW_OFFER      => 'Новое предложение по заявке №{modelId}',
             self::TYPE_NEW_COMPANY    => 'Новая компания: ID{modelId}',
             self::TYPE_UPDATE_COMPANY => 'Требуется модерация компании ID{modelId}',
-            self::TYPE_ACCEPT_COMPANY => 'Проверка компании завершена',
+            self::TYPE_ACCEPT_COMPANY => 'Проверка компании {modelName} завершена',
             self::TYPE_NEW_MESSAGE    => 'Новое сообщение по заявке №{modelId}'
         ];
 

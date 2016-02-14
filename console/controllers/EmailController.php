@@ -3,6 +3,7 @@
 namespace console\controllers;
 
 use common\components\Role;
+use common\models\company\Company;
 use Yii;
 use yii\console\Controller;
 use common\models\notification\NotificationSetting;
@@ -41,6 +42,10 @@ class EmailController extends Controller
 
         $subject = Notification::$subjectList[$type];
         $subject = str_replace('{modelId}', $modelId, $subject);
+        if ($type == Notification::TYPE_ACCEPT_COMPANY) {
+            $company = Company::findById($modelId);
+            $subject = str_replace('{modelName}', $company->legal_name, $subject);
+        }
 
         foreach ($userList as $userObj) {
             if ($type != Notification::TYPE_NEW_MESSAGE) {
