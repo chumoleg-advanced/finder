@@ -21,10 +21,10 @@ class CompanyController extends CrudController
     public function actions()
     {
         return [
-            'reset'  => [
-                'class'  => 'common\components\actions\ChangeStatusAction',
-                'status' => Company::STATUS_ON_MODERATE
-            ],
+//            'reset'  => [
+//                'class'  => 'common\components\actions\ChangeStatusAction',
+//                'status' => Company::STATUS_ON_MODERATE
+//            ],
             'accept' => [
                 'class'  => 'common\components\actions\ChangeStatusAction',
                 'status' => Company::STATUS_ACTIVE

@@ -39,7 +39,7 @@ echo GridView::widget([
         ],
         [
             'class'         => 'common\components\ActionColumn',
-            'template'      => '{update} {accept} {reject} {reset}',
+            'template'      => '{update} {accept} {reject}',
             'headerOptions' => ['width' => '127'],
             'buttons'       => [
                 'reject' => function ($url, $model) {
@@ -48,9 +48,9 @@ echo GridView::widget([
                 'accept' => function ($url, $model) {
                     return $model->status == Company::STATUS_ON_MODERATE ? ManageButton::accept($url) : null;
                 },
-                'reset'  => function ($url, $model) {
-                    return $model->status != Company::STATUS_ON_MODERATE ? ManageButton::reset($url) : null;
-                },
+//                'reset'  => function ($url, $model) {
+//                    return $model->status != Company::STATUS_ON_MODERATE ? ManageButton::reset($url) : null;
+//                },
             ],
         ],
     ],
