@@ -321,6 +321,7 @@ class Company extends ActiveRecord
 
         try {
             $this->setAttributes($mainData->attributes);
+            $oldStatus = $this->status;
             if (!Yii::$app->user->can('accessToBackend')) {
                 $this->status = self::STATUS_ON_MODERATE;
             }
@@ -336,7 +337,10 @@ class Company extends ActiveRecord
 
             $transaction->commit();
 
-            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_UPDATE_COMPANY . ' ' . $this->id . ' ""');
+            if ($oldStatus != self::STATUS_ON_MODERATE) {
+                Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_UPDATE_COMPANY
+                    . ' ' . $this->id . ' ""');
+            }
 
             return true;
 
