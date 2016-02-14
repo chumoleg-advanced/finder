@@ -129,7 +129,7 @@ class Request extends ActiveRecord
             $requestOffer->save();
 
             Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_ACCEPT_REQUEST
-                . ' ' . $requestOffer->id . ' ' . $userObj->id);
+                . ' ' . $requestOffer->request_id . ' ' . $userObj->id);
         }
     }
 
