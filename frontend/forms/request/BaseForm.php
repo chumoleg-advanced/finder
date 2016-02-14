@@ -107,7 +107,7 @@ class BaseForm extends Model
             RequestAttribute::create($request->id,
                 ArrayHelper::merge($this->_commonAttributes, $positionAttr));
 
-            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_REQUEST . ' ' . $request->id);
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_REQUEST . ' ' . $request->id . ' ""');
         }
 
         return true;

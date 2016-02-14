@@ -250,7 +250,7 @@ class Company extends ActiveRecord
 
             $transaction->commit();
 
-            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_COMPANY . ' ' . $model->id);
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_NEW_COMPANY . ' ' . $model->id . ' ""');
 
             return true;
 
@@ -336,7 +336,7 @@ class Company extends ActiveRecord
 
             $transaction->commit();
 
-            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_UPDATE_COMPANY . ' ' . $this->id);
+            Yii::$app->consoleRunner->run('email/send ' . Notification::TYPE_UPDATE_COMPANY . ' ' . $this->id . ' ""');
 
             return true;
 
