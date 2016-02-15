@@ -49,7 +49,7 @@ class EmailController extends Controller
         }
 
         foreach ($userList as $userObj) {
-            if (!empty($forUser) && $type != Notification::TYPE_NEW_MESSAGE) {
+            if ($type != Notification::TYPE_NEW_MESSAGE) {
                 Notification::create($userObj->id, $type, $subject, $modelId);
             }
 
