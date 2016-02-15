@@ -134,16 +134,6 @@ class Request extends ActiveRecord
     }
 
     /**
-     * @param $id
-     *
-     * @return null|Request
-     */
-    public static function findById($id)
-    {
-        return self::find()->whereId($id)->one();
-    }
-
-    /**
      * @return \yii\db\ActiveQuery
      */
     public function getMainRequest()

@@ -49,12 +49,18 @@ $(document).ready(function () {
     $(document).on('click', '.rowNotification', function () {
         var obj = $(this);
         var id = obj.data('id');
-        if (!obj.hasClass('notificationRead')) {
-            $.post('/ajax/message/read-notification', {id: id}, function (data) {
+        preLoaderShow();
+        $.post('/ajax/message/read-notification', {id: id}, function (data) {
+            if (!obj.hasClass('notificationRead')) {
                 obj.addClass('notificationRead');
-                _updateAllCounters(data);
-            }, 'json');
-        }
+            }
+
+            if (data.location) {
+                document.location.href = data.location;
+            }
+
+            preLoaderHide();
+        }, 'json');
     });
 
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {

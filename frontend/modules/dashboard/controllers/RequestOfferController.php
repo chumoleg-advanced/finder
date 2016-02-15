@@ -48,9 +48,15 @@ class RequestOfferController extends Controller
         Url::remember('', 'requestOfferList');
     }
 
-    public function actionOffer($id)
+    public function actionOffer()
     {
-        $model = $this->loadModel($id);
+        $id = Yii::$app->request->get('id');
+        if (!empty($id)) {
+            $model = $this->_loadModel($id);
+        } else {
+            $requestId = Yii::$app->request->get('requestId');
+            $model = $this->_loadModelByRequest($requestId);
+        }
 
         $postData = Yii::$app->request->post();
         if (!empty($postData['RequestOfferForm'])) {
@@ -91,9 +97,29 @@ class RequestOfferController extends Controller
      * @return MainRequestOffer|null
      * @throws NotFoundHttpException
      */
-    public function loadModel($id)
+    private function _loadModel($id)
     {
         $model = MainRequestOffer::findById($id);
+        if (empty($model)) {
+            throw new NotFoundHttpException('Заявка не найдена');
+        }
+
+        return $model;
+    }
+
+    /**
+     * @param $requestId
+     *
+     * @return MainRequestOffer|null
+     * @throws NotFoundHttpException
+     */
+    private function _loadModelByRequest($requestId)
+    {
+        $model = MainRequestOffer::find()->andWhere([
+            'request_id' => $requestId,
+            'user_id'    => Yii::$app->user->id
+        ])->one();
+
         if (empty($model)) {
             throw new NotFoundHttpException('Заявка не найдена');
         }

@@ -173,8 +173,10 @@ class MessageController extends Controller
             return false;
         }
 
-        Notification::updateAll(['status' => Notification::STATUS_READ], 'id = ' . $id);
+        $model = Notification::findById($id);
+        $model->status = Notification::STATUS_READ;
+        $model->save(false);
 
-        return $this->_addCountersToArray();
+        return ['location' => $model->getLocation()];
     }
 }

@@ -4,6 +4,7 @@ namespace common\models\notification;
 
 use Yii;
 use common\models\user\User;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "notification".
@@ -51,6 +52,13 @@ class Notification extends \common\components\ActiveRecord
             self::TYPE_NEW_MESSAGE    => 'Новое сообщение по заявке №{modelId}'
         ];
 
+    public static $locationList
+        = [
+            self::TYPE_ACCEPT_REQUEST => '/dashboard/request-offer/offer?requestId={modelId}',
+            self::TYPE_NEW_OFFER      => '/dashboard/request/view/{modelId}#bestRequestOffer',
+            self::TYPE_ACCEPT_COMPANY => '/dashboard/company/update/{modelId}',
+        ];
+
     /**
      * @inheritdoc
      */
@@ -90,16 +98,18 @@ class Notification extends \common\components\ActiveRecord
     }
 
     /**
-     * @param int    $userId
-     * @param int    $type
-     * @param string $message
+     * @param int      $userId
+     * @param int      $type
+     * @param string   $message
+     * @param int|null $modelId
      */
-    public static function create($userId, $type, $message)
+    public static function create($userId, $type, $message, $modelId = null)
     {
         $model = new self();
         $model->user_id = $userId;
         $model->type = $type;
         $model->message = $message;
+        $model->data = $modelId;
         $model->save();
     }
 
@@ -129,5 +139,18 @@ class Notification extends \common\components\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocation()
+    {
+        if (empty($this->type) || empty($this->data)) {
+            return null;
+        }
+
+        $location = ArrayHelper::getValue(self::$locationList, $this->type);
+        return str_replace('{modelId}', $this->data, $location);
     }
 }

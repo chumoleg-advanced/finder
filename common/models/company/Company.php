@@ -143,16 +143,6 @@ class Company extends ActiveRecord
     }
 
     /**
-     * @param $id
-     *
-     * @return Company
-     */
-    public static function findById($id)
-    {
-        return self::find()->whereId($id)->one();
-    }
-
-    /**
      * @param $userId
      *
      * @return array

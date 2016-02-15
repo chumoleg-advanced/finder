@@ -65,16 +65,6 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @param int $id
-     *
-     * @return Rubric|null
-     */
-    public static function findById($id)
-    {
-        return self::find()->whereId($id)->one();
-    }
-
-    /**
      * @param null $categoryId
      *
      * @return array

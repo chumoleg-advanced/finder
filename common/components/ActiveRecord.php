@@ -84,4 +84,14 @@ class ActiveRecord extends \yii\db\ActiveRecord
             'sort'  => ['defaultOrder' => $defaultOrder]
         ]);
     }
+
+    /**
+     * @param $id
+     *
+     * @return static
+     */
+    public static function findById($id)
+    {
+        return self::find()->andWhere(['id' => $id])->one();
+    }
 }
