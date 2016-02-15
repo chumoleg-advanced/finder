@@ -75,8 +75,7 @@ class Notification extends \common\components\ActiveRecord
         return [
             [['user_id', 'type'], 'required'],
             [['user_id', 'type', 'status'], 'integer'],
-            [['data'], 'string'],
-            [['date_create'], 'safe'],
+            [['date_create', 'data'], 'safe'],
             [['message'], 'string', 'max' => 300]
         ];
     }
