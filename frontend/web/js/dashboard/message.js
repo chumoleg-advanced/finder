@@ -48,9 +48,8 @@ $(document).ready(function () {
 
     $(document).on('click', '.rowNotification', function () {
         var obj = $(this);
-        var id = obj.data('id');
         preLoaderShow();
-        $.post('/ajax/message/read-notification', {id: id}, function (data) {
+        $.post('/ajax/message/read-notification', {id: obj.data('id')}, function (data) {
             if (!obj.hasClass('notificationRead')) {
                 obj.addClass('notificationRead');
             }
