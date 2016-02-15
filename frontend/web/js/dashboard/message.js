@@ -1,4 +1,26 @@
 $(document).ready(function () {
+    setInterval(function () {
+        _autoUpdateCurrentCounters();
+    }, 10000);
+
+    function _autoUpdateCurrentCounters() {
+        $.post('/ajax/message/update-counters', {}, function (data) {
+            _updateAllCounters(data);
+            if ($('#messageDialogTab').is(':visible')) {
+                var searchText = $(this).data('search');
+                $.post('/ajax/message/get-dialog-content', {search: searchText}, function (html) {
+                    $('#messageDialogTab').html(html);
+                    $('.searchText').trigger('keyup');
+                }, 'html');
+
+            } else if ($('#messageNotificationTab').is(':visible')) {
+                $.post('/ajax/message/get-notification-content', {}, function (html) {
+                    $('#messageNotificationTab').html(html);
+                }, 'html');
+            }
+        }, 'json');
+    }
+
     function _scrollTopDialogHistory() {
         var obj = $('.dialogHistory');
         setTimeout(function () {

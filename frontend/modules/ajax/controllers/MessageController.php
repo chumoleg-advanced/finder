@@ -24,13 +24,18 @@ class MessageController extends Controller
         $notificationList = Notification::getNotificationList();
 
         return $this->renderPartial('index', $this->_addCountersToArray([
-            'search'           => $search,
             'dialogList'       => $dialogList,
-            'notificationList' => $notificationList
+            'notificationList' => $notificationList,
+            'search'           => $search
         ]));
     }
 
-    private function _addCountersToArray($array)
+    /**
+     * @param array $array
+     *
+     * @return array
+     */
+    private function _addCountersToArray($array = [])
     {
         $countNewMessages = Message::getCountNewMessages();
         $countNewNotifications = Notification::getCountNewNotifications();
@@ -42,6 +47,31 @@ class MessageController extends Controller
         ];
 
         return ArrayHelper::merge($array, $data);
+    }
+
+    public function actionGetDialogContent()
+    {
+        Yii::$app->response->format = Response::FORMAT_HTML;
+
+        $search = Yii::$app->request->post('search');
+
+        $dialogList = MessageDialog::getDialogList();
+        return $this->renderPartial('_dialogList', ['data' => $dialogList, 'search' => $search]);
+    }
+
+    public function actionGetNotificationContent()
+    {
+        Yii::$app->response->format = Response::FORMAT_HTML;
+
+        $notificationList = Notification::getNotificationList();
+
+        return $this->renderPartial('_notificationList', ['data' => $notificationList]);
+    }
+
+    public function actionUpdateCounters()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $this->_addCountersToArray();
     }
 
     public function actionOpenRequestDialog()
@@ -145,6 +175,6 @@ class MessageController extends Controller
 
         Notification::updateAll(['status' => Notification::STATUS_READ], 'id = ' . $id);
 
-        return $this->_addCountersToArray([]);
+        return $this->_addCountersToArray();
     }
 }

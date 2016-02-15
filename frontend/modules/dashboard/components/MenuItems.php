@@ -14,10 +14,8 @@ class MenuItems
     public static function getItems()
     {
         $countAllNewMessages = Message::getCountNewMessages() + Notification::getCountNewNotifications();
-        $messageBadge = '';
-        if ($countAllNewMessages > 0) {
-            $messageBadge = ' <span class="badge messageBadgeMenu">' . $countAllNewMessages . '</span>';
-        }
+        $messageBadge = $countAllNewMessages > 0 ? $countAllNewMessages : '';
+        $messageBadge = ' <span class="badge messageBadgeMenu">' . $messageBadge . '</span>';
 
         return [
             [
