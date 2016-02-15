@@ -26,7 +26,8 @@ class EmailController extends Controller
         }
 
         if (empty($forUser)) {
-            $userList = Yii::$app->authManager->getUserIdsByRole(Role::ADMIN);
+            $userIds = Yii::$app->authManager->getUserIdsByRole(Role::ADMIN);
+            $userList = User::find()->whereId($userIds)->all();
 
         } else {
             $userObj = User::findById($forUser);
