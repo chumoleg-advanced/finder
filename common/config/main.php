@@ -61,12 +61,14 @@ return [
         'log'           => [
             'targets' => [
                 [
-                    'class'  => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'class'   => 'yii\log\FileTarget',
+                    'logVars' => [],
+                    'levels'  => ['error', 'warning'],
                 ],
                 [
                     'class'      => 'yii\log\EmailTarget',
                     'levels'     => ['error', 'warning'],
+                    'logVars'    => [],
                     'categories' => [
                         'yii\db\*',
                         'yii\web\HttpException:*',
