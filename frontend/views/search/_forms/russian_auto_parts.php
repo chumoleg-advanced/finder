@@ -24,7 +24,7 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
             <?= $this->render('_parts/_carSelect', [
                 'form'                 => $form,
                 'model'                => $model,
-                'carFirms'             => CarFirm::getListByImport(Status::STATUS_DISABLED),
+                'carFirms'             => CarFirm::getListByImport(Status::STATUS_NOT_ACTIVE),
                 'withoutBodyAndEngine' => true
             ]); ?>
         </div>

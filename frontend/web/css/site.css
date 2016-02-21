@@ -351,3 +351,18 @@ a.desc:after {
     text-decoration: line-through !important;
     color: darkgrey !important;
 }
+
+.requestOfferAttributeBlock {
+    margin-bottom: 15px;
+}
+
+.grid-view ul.pagination {
+    margin: 0 !important;
+    margin-bottom: 5px !important;
+    float:right;
+}
+
+.list-view ul.pagination {
+    margin: 0 !important;
+    margin-bottom: 10px !important;
+}

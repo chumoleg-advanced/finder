@@ -17,7 +17,7 @@ function addInputForValidation(form, index, fieldName) {
 $(document).ready(function () {
     $('.dynamicFormRow a.deleteItem').hide();
 
-    initMainOfferMap($('.requestOfferBlock[data-counter=1]'));
+    initMainOfferMap($('.requestOfferBlock[data-counter=0]'));
 
     if ($('#yandexMapRequest').length > 0) {
         initMainRequestMap();

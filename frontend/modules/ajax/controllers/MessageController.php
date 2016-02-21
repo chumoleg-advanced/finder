@@ -2,6 +2,7 @@
 
 namespace frontend\modules\ajax\controllers;
 
+use common\components\Status;
 use common\models\message\Message;
 use common\models\message\MessageDialog;
 use common\models\notification\Notification;
@@ -139,8 +140,9 @@ class MessageController extends Controller
         ]);
 
         return $this->_addCountersToArray([
-            'html'      => $html,
-            'requestId' => $messageDialog->request_id
+            'html'               => $html,
+            'requestId'          => $messageDialog->request_id,
+            'requestDescription' => $messageDialog->request->description,
         ]);
     }
 
@@ -156,6 +158,11 @@ class MessageController extends Controller
         $model = new Message();
         $model->attributes = $data;
         if ($model->save()) {
+            $messageDialog = MessageDialog::findById($model->message_dialog_id);
+            if ($messageDialog->status != Status::STATUS_ACTIVE) {
+                $messageDialog->updateStatus(Status::STATUS_ACTIVE);
+            }
+
             return $this->renderPartial('dialogHistory', [
                 'messageDialog' => MessageDialog::findById($model->message_dialog_id)
             ]);

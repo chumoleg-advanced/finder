@@ -3,6 +3,7 @@
 namespace frontend\modules\dashboard\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -52,15 +53,18 @@ class RequestController extends Controller
         $model = $this->loadModel($id);
 
         $bestOffer = null;
-        $otherOffers = [];
+        $otherOffersDataProvider = null;
         if ($model->status != Request::STATUS_NEW) {
-            list($bestOffer, $otherOffers) = RequestOffer::findListByRequest($id);
+            $bestOffer = RequestOffer::getBestOfferByRequest($id);
+            if (!empty($bestOffer)) {
+                $otherOffersDataProvider = RequestOffer::getOtherOffersByRequest($id, $bestOffer->id);
+            }
         }
 
         return $this->render('view', [
-            'model'       => $model,
-            'bestOffer'   => $bestOffer,
-            'otherOffers' => $otherOffers
+            'model'                   => $model,
+            'bestOffer'               => $bestOffer,
+            'otherOffersDataProvider' => $otherOffersDataProvider
         ]);
     }
 

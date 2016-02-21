@@ -2,6 +2,7 @@
 
 namespace common\models\message;
 
+use common\components\Status;
 use Yii;
 use common\components\ActiveRecord;
 use common\models\request\Request;
@@ -17,6 +18,7 @@ use common\models\company\Company;
  * @property integer   $from_user_id
  * @property integer   $to_user_id
  * @property integer   $company_id
+ * @property integer   $status
  * @property string    $date_create
  *
  * @property Message[] $messages
@@ -47,7 +49,7 @@ class MessageDialog extends ActiveRecord
     {
         return [
             [['request_id', 'from_user_id', 'to_user_id'], 'required'],
-            [['request_id', 'sender', 'from_user_id', 'to_user_id', 'company_id'], 'integer'],
+            [['request_id', 'sender', 'from_user_id', 'to_user_id', 'company_id', 'status'], 'integer'],
             [['date_create'], 'safe']
         ];
     }
@@ -70,6 +72,16 @@ class MessageDialog extends ActiveRecord
     }
 
     /**
+     * @param $id
+     *
+     * @return null|MessageDialog
+     */
+    public static function findById($id)
+    {
+        return self::find()->joinWith(['messages', 'request'])->where(['message_dialog.id' => $id])->one();
+    }
+
+    /**
      * @return array|Message[]
      */
     public static function getDialogList()
@@ -82,6 +94,7 @@ class MessageDialog extends ActiveRecord
                     AND status = 1 AND to_user_id = ' . Yii::$app->user->id . ') AS countNew'
             ])
             ->andWhere(self::_getUserCondition())
+            ->andWhere(['message_dialog.status' => Status::STATUS_ACTIVE])
             ->orderBy('message_dialog.id DESC')
             ->all();
     }
@@ -93,16 +106,6 @@ class MessageDialog extends ActiveRecord
     {
         $userId = Yii::$app->user->id;
         return 'message_dialog.from_user_id = ' . $userId . ' OR message_dialog.to_user_id = ' . $userId;
-    }
-
-    /**
-     * @param $id
-     *
-     * @return null|MessageDialog
-     */
-    public static function findById($id)
-    {
-        return self::find()->joinWith(['messages'])->where(['message_dialog.id' => $id])->one();
     }
 
     /**
@@ -193,13 +196,13 @@ class MessageDialog extends ActiveRecord
             $messageBadge = '<span class="badge">' . $this->countNew . '</span>';
         }
 
-        $description = 'Заявка №' . $this->request_id . '. ' . $this->request->description
-            . '. Переписка с клиентом. ' . $messageBadge;
+        $baseDescription = 'Заявка №' . $this->request_id . '. ' . $this->request->description . '. ';
         if (($this->sender == MessageDialog::SENDER_COMPANY && $this->from_user_id != Yii::$app->user->id)
             || ($this->sender == MessageDialog::SENDER_USER && $this->to_user_id != Yii::$app->user->id)
         ) {
-            $description = 'Заявка №' . $this->request_id . '. Переписка с '
-                . $this->company->actual_name . '. ' . $messageBadge;
+            $description = $baseDescription . 'Переписка с ' . $this->company->actual_name . '. ' . $messageBadge;
+        } else {
+            $description = $baseDescription . 'Переписка с клиентом. ' . $messageBadge;
         }
 
         return $description;

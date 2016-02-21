@@ -8,6 +8,7 @@ use common\components\ActiveRecord;
 use common\models\company\Company;
 use common\models\request\Request;
 use common\models\user\User;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "request_offer".
@@ -94,28 +95,6 @@ class RequestOffer extends ActiveRecord
         return new RequestOfferQuery(get_called_class());
     }
 
-    public static function findListByRequest($requestId)
-    {
-        $offers = self::find()
-            ->joinWith('company')
-            ->andWhere([
-                'request_offer.request_id' => $requestId,
-                'request_offer.status'     => self::STATUS_ACTIVE
-            ])
-            ->orderBy('request_offer.price')
-            ->all();
-
-        if (empty($offers)) {
-            return [null, []];
-        }
-
-        if (count($offers) == 1) {
-            return [$offers[0], []];
-        }
-
-        return [array_shift($offers), $offers];
-    }
-
     /**
      * @param $id
      *
@@ -124,6 +103,48 @@ class RequestOffer extends ActiveRecord
     public static function findById($id)
     {
         return self::find()->whereId($id)->joinWith('request')->one();
+    }
+
+    /**
+     * @param int $requestId
+     *
+     * @return null|RequestOffer
+     */
+    public static function getBestOfferByRequest($requestId)
+    {
+        return self::find()
+            ->joinWith('company')
+            ->andWhere([
+                'request_offer.request_id' => $requestId,
+                'request_offer.status'     => self::STATUS_ACTIVE
+            ])
+            ->orderBy('request_offer.price')
+            ->one();
+    }
+
+    /**
+     * @param int $requestId
+     * @param int $ignoreId
+     *
+     * @return ActiveDataProvider
+     */
+    public static function getOtherOffersByRequest($requestId, $ignoreId)
+    {
+        $query = self::find()
+            ->joinWith('company')
+            ->andWhere([
+                'request_offer.request_id' => $requestId,
+                'request_offer.status'     => self::STATUS_ACTIVE,
+            ])
+            ->andWhere(['!=', 'request_offer.id', $ignoreId])
+            ->orderBy('request_offer.price');
+
+        return new ActiveDataProvider([
+            'query'      => $query,
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
     }
 
     /**

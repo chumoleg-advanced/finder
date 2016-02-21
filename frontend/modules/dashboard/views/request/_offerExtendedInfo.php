@@ -21,79 +21,83 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
 
             <div>&nbsp;</div>
 
-            <?php
-            if (!empty($model->company->companyAddresses)) {
+            <?php if (!empty($model->company->companyAddresses)) : ?>
+                <?php
                 $firstAddress = $model->company->companyAddresses[0];
-                echo Html::hiddenInput('addressCoordinates', $firstAddress->map_coordinates,
-                    ['class' => 'addressCoordinates']);
-
-                echo Html::tag('div', '&nbsp;');
-
-                echo 'Адрес: ' . $firstAddress->address . '<br />';
-                foreach ($firstAddress->companyContactDatas as $contact) {
-                    echo CompanyContactData::$typeList[$contact->type] . ': ' . $contact->data . '<br />';
-                }
-
-                echo Html::tag('div', '&nbsp;');
-
                 $timeWork = $firstAddress->getTimeWorkDataAsString();
-                if (!empty($timeWork)){
-                    echo 'Время работы: <br />';
-                    echo $timeWork;
 
-                    echo Html::tag('div', '&nbsp;');
-                }
-
-                echo 'Способы доставки: <br />';
                 $typeDeliveries = [];
                 foreach ($model->company->companyTypeDeliveries as $typeDelivery) {
                     $typeDeliveries[] = CompanyTypeDelivery::$typeList[$typeDelivery->type];
                 }
 
-                echo implode(', ', $typeDeliveries);
-            }
-            ?>
+                echo Html::hiddenInput('addressCoordinates', $firstAddress->map_coordinates,
+                    ['class' => 'addressCoordinates']);
+                ?>
+                <div>&nbsp;</div>
+
+                <strong>Адрес</strong>: <?= $firstAddress->address; ?><br/>
+                <?php foreach ($firstAddress->companyContactDatas as $contact) : ?>
+                    <strong><?= CompanyContactData::$typeList[$contact->type]; ?></strong>: <?= $contact->data; ?><br/>
+                <?php endforeach; ?>
+
+                <div>&nbsp;</div>
+
+                <?php if (!empty($timeWork)) : ?>
+                    <strong>Время работы</strong>:<br/>
+                    <?= $timeWork; ?>
+                    <div>&nbsp;</div>
+                <?php endif; ?>
+
+                <strong>Способы доставки</strong>:<br/>
+                <?= implode(', ', $typeDeliveries); ?>
+            <?php endif; ?>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
-                <table class="table table-striped table-condensed table-bordered detail-view">
-                    <tr>
-                        <th>Описание</th>
-                        <td><?= $model->description; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Комментарий</th>
-                        <td><?= $model->comment; ?></td>
-                    </tr>
+                <strong>Описание</strong>:<br/>
+                <?= $model->description; ?>
+                <div>&nbsp;</div>
 
-                    <?php $deliveryDays = []; ?>
-                    <?php foreach ($model->getAttributesData() as $attribute => $value) : ?>
-                        <?php
-                        if ($attribute == 'deliveryDayFrom' || $attribute == 'deliveryDayTo') {
-                            $deliveryDays[$attribute] = $value;
-                            continue;
-                        }
-                        ?>
+                <?php if (!empty($model->comment)) : ?>
+                    <strong>Комментарий</strong>:<br/>
+                    <?= $model->comment; ?>
+                    <div>&nbsp;</div>
+                <?php endif; ?>
+            </div>
+        </div>
 
-                        <tr>
-                            <th><?= ArrayHelper::getValue($offerAttributeLabels, $attribute); ?></th>
-                            <td><?= $value; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+        <div class="row">
+            <?php $deliveryDays = []; ?>
+            <?php foreach ($model->getAttributesData() as $attribute => $value) : ?>
+                <?php
+                if ($attribute == 'deliveryDayFrom' || $attribute == 'deliveryDayTo') {
+                    $deliveryDays[$attribute] = $value;
+                    continue;
+                }
+                ?>
 
-                    <?php if (!empty($deliveryDays)) : ?>
-                        <tr>
-                            <th>Срок доставки</th>
-                            <td><?= ArrayHelper::getValue($deliveryDays, 'deliveryDayFrom'); ?> -
-                                <?= ArrayHelper::getValue($deliveryDays, 'deliveryDayTo'); ?> дн.
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                </table>
+                <div class="col-md-6 requestOfferAttributeBlock">
+                    <strong><?= ArrayHelper::getValue($offerAttributeLabels, $attribute); ?></strong>:<br/>
+                    <?= $value; ?>
+                </div>
+            <?php endforeach; ?>
 
+            <?php if (!empty($deliveryDays)) : ?>
+                <div class="col-md-6 requestOfferAttributeBlock">
+                    <strong>Срок доставки</strong>:<br/>
+                    <?= ArrayHelper::getValue($deliveryDays, 'deliveryDayFrom'); ?> -
+                    <?= ArrayHelper::getValue($deliveryDays, 'deliveryDayTo'); ?> дн.
+                </div>
+            <?php endif; ?>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
                 <?php if (!empty($model->requestOfferImages)) : ?>
                     <div class="col-md-12 col-sm-12 col-xs-12 imagesPreview">
                         <?php foreach ($model->requestOfferImages as $image) : ?>

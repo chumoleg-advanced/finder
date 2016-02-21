@@ -24,6 +24,16 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return !empty($model) ? $model->name : null;
     }
 
+    /**
+     * @param $id
+     *
+     * @return static
+     */
+    public static function findById($id)
+    {
+        return self::find()->andWhere(['id' => $id])->one();
+    }
+
     public function behaviors()
     {
         return [
@@ -80,18 +90,13 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
 
         return new ActiveDataProvider([
-            'query' => $query,
-            'sort'  => ['defaultOrder' => $defaultOrder]
+            'query'      => $query,
+            'sort'       => [
+                'defaultOrder' => $defaultOrder
+            ],
+            'pagination' => [
+                'pageSize' => 20,
+            ]
         ]);
-    }
-
-    /**
-     * @param $id
-     *
-     * @return static
-     */
-    public static function findById($id)
-    {
-        return self::find()->andWhere(['id' => $id])->one();
     }
 }

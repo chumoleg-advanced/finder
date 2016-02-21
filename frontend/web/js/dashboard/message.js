@@ -1,13 +1,13 @@
 $(document).ready(function () {
     setInterval(function () {
         _autoUpdateCurrentCounters();
-    }, 10000);
+    }, 30000);
 
     function _autoUpdateCurrentCounters() {
         $.post('/ajax/message/update-counters', {}, function (data) {
             _updateAllCounters(data);
             if ($('#messageDialogTab').is(':visible')) {
-                var searchText = $(this).data('search');
+                var searchText = $('.searchText').val();
                 $.post('/ajax/message/get-dialog-content', {search: searchText}, function (html) {
                     $('#messageDialogTab').html(html);
                     $('.searchText').trigger('keyup');
@@ -54,12 +54,13 @@ $(document).ready(function () {
                 obj.addClass('notificationRead');
             }
 
+            preLoaderHide();
             if (data.location) {
                 document.location.href = data.location;
             }
-
-            preLoaderHide();
         }, 'json');
+
+        obj.click();
     });
 
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {
@@ -74,6 +75,18 @@ $(document).ready(function () {
             $('.searchText').trigger('keyup');
         }, 'html');
     });
+
+    function _updateCountersAndScroll(data) {
+
+        _updateAllCounters(data);
+        _scrollTopDialogHistory();
+        preLoaderHide();
+
+        setTimeout(function () {
+            $('#message-data').focus();
+            console.log('focus');
+        }, 500);
+    }
 
     $(document).on('click', '.sendMessageFromRequest', function () {
         var obj = $('#messageModal');
@@ -91,9 +104,7 @@ $(document).ready(function () {
             obj.modal();
             obj.find('.modal-body').html(data.html);
             obj.find('.modal-header h4').text('Переписка с ' + data.companyName);
-            _updateAllCounters(data);
-            _scrollTopDialogHistory();
-            preLoaderHide();
+            _updateCountersAndScroll(data);
         }, 'json');
     });
 
@@ -105,9 +116,9 @@ $(document).ready(function () {
         var obj = $('#messageModal');
         preLoaderShow();
         $.post('/ajax/message/send-message', $('#message-form').serialize(), function (data) {
-            $('#message-data').val('');
             obj.find('.dialogHistory').html(data);
             _scrollTopDialogHistory();
+            $('#message-data').val('');
             preLoaderHide();
         }, 'html');
     });
@@ -124,11 +135,10 @@ $(document).ready(function () {
                 return false;
             }
 
-            obj.find('.modal-header h4').text('Переписка по заявке №' + data.requestId);
+            obj.find('.modal-header h4').text('Переписка по заявке №' + data.requestId + '. ' + data.requestDescription);
             obj.find('.modal-body').html(data.html);
-            _updateAllCounters(data);
-            _scrollTopDialogHistory();
-            preLoaderHide();
+            _updateCountersAndScroll(data);
+
         }, 'json');
     });
 });

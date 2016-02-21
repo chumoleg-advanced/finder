@@ -56,7 +56,7 @@ class MainRequestOfferSearch extends MainRequestOffer
                 WHERE t.main_request_offer_id = main_request_offer.id) AS countRequestOffers'
         ]);
 
-        $dataProvider = $this->getDataProvider($query);
+        $dataProvider = $this->getDataProvider($query, ['status' => SORT_ASC, 'request_id' => SORT_DESC]);
         $this->load($params);
         if (!$this->validate()) {
             return $dataProvider;

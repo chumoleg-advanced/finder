@@ -149,7 +149,7 @@ class m151101_162310_migrateCars extends Migration
         foreach ($result as $itemFirm) {
             echo 'car firm ' . $itemFirm['name'] . PHP_EOL;
 
-            $import = array_search($itemFirm['name'], $our) === false ? Status::STATUS_ACTIVE : Status::STATUS_DISABLED;
+            $import = array_search($itemFirm['name'], $our) === false ? Status::STATUS_ACTIVE : Status::STATUS_NOT_ACTIVE;
             $connect->createCommand()->insert('car_firm', [
                 'name'        => $itemFirm['name'],
                 'import'      => $import,

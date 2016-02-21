@@ -21,4 +21,12 @@
     'options'       => ['class' => 'form-control']
 ]);
 
+\Yii::$container->set('yii\grid\GridView', [
+    'layout' => "{pager}\n{summary}\n{items}",
+]);
+
+\Yii::$container->set('yii\widgets\ListView', [
+    'layout' => "{pager}\n{summary}\n{items}",
+]);
+
 Yii::setAlias('@yiiBase', realpath(dirname(__FILE__) . '/../../'));

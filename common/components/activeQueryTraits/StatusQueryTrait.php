@@ -47,6 +47,6 @@ trait StatusQueryTrait
      */
     public function isBlocked()
     {
-        return $this->whereStatus(Status::STATUS_DISABLED);
+        return $this->whereStatus(Status::STATUS_NOT_ACTIVE);
     }
 }
