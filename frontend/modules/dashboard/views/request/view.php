@@ -41,6 +41,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 
     <?php if (!empty($otherOffersDataProvider)) : ?>
         <div>&nbsp;</div>
+        <div>&nbsp;</div>
 
         <div class="row">
             <legend>Предложения других организаций</legend>
