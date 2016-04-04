@@ -59,8 +59,6 @@ $(document).ready(function () {
                 document.location.href = data.location;
             }
         }, 'json');
-
-        obj.click();
     });
 
     $(document).on('click', '.returnBackDialogList, .messageButton', function () {
