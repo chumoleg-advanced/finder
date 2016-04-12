@@ -7,6 +7,7 @@ use Yii;
 
 class CaptchaAction extends \yii\captcha\CaptchaAction
 {
+    public $imageLibrary = 'gd';
     public $fontFile = '@frontend/components/captcha/Fragile_Decay.ttf';
 
     /**
