@@ -10,14 +10,15 @@ class m151011_163946_addAdminUser extends Migration
         try {
             $data = [
                 'LoginForm' => [
-                    'username' => 'chumakov.o',
-                    'email'    => 'chumakov.o@thor-dev.ru',
-                    'password' => '123456',
-                    'phone'    => '89999999999'
+                    'username'        => 'chumakov.o',
+                    'email'           => 'chumakov.o@thor-dev.ru',
+                    'password'        => '123456',
+                    'confirmPassword' => '123456',
+                    'phone'           => '89999999999'
                 ]
             ];
 
-            $model = new \common\forms\LoginForm();
+            $model = new \frontend\forms\SignUpForm();
             if ($model->load($data)) {
                 $model->signUp();
             }
