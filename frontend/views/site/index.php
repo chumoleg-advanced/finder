@@ -86,27 +86,28 @@ $this->title = Yii::t('title', 'Search');
         </section>
     </div>
 </div>
+
 <div class="container">
     <div class="row">
-        <!-- <div class="col-md-12 text-center">
-            <?php
-            // $city = Yii::$app->getRequest()->getCookies()->getValue('city');
-        
-            // if (empty($city)) {
-            //     $info = new common\components\GeoIpInfo();
-            //     $city = $info->getValue('city');
-        
-            //     $cookie = new Cookie([
-            //         'name'   => 'city',
-            //         'value'  => $city,
-            //         'expire' => time() + 86400 * 365,
-            //     ]);
-            //     Yii::$app->getResponse()->getCookies()->add($cookie);
-            // }
-            ?>
-        
-            <h3>Ваш город: <?php//echo $city; ?></h3>
-        </div> -->
+<!--         <div class="col-md-12 text-center">-->
+<!--            --><?php
+//             $city = Yii::$app->getRequest()->getCookies()->getValue('city');
+//
+//             if (empty($city)) {
+//                 $info = new common\components\GeoIpInfo();
+//                 $city = $info->getValue('city');
+//
+//                 $cookie = new Cookie([
+//                     'name'   => 'city',
+//                     'value'  => $city,
+//                     'expire' => time() + 86400 * 365,
+//                 ]);
+//                 Yii::$app->getResponse()->getCookies()->add($cookie);
+//             }
+//            ?>
+<!--        -->
+<!--            <h3>Ваш город: --><?php //echo $city; ?><!--</h3>-->
+<!--        </div>-->
 
         <div class="col-md-6 col-sm-6 col-xs-12">
             <a class="whiteCard" href="<?= Url::toRoute(['/search/category', 'id' => Category::SERVICE]); ?>">
