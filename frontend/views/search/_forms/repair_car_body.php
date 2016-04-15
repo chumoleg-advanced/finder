@@ -10,24 +10,29 @@ use frontend\components\SearchFormGenerator;
 $form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
-<?= $this->render('_parts/_partOrServiceRow', ['form' => $form, 'model' => $model]); ?>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
-            <hr/>
-            <?= $this->render('_parts/_carSelect',
-                ['form' => $form, 'model' => $model, 'carFirms' => CarFirm::getList()]); ?>
-
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <?= $form->field($model, 'color')->textInput(
-                    ['class' => 'form-control', 'placeholder' => 'Цвет']); ?>
-            </div>
+<div class="row carSelect">
+  <div class="rw1170">
+    <?= $this->render('_parts/_carSelect',
+        ['form' => $form, 'model' => $model, 'carFirms' => CarFirm::getList()]); ?>
+    <div class="clearfix"></div>
+    <div class="collapse " id="additionCarData">
+      <?= $this->render('_parts/_additionCarData', ['form' => $form, 'model' => $model]); ?>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <?= $form->field($model, 'color')->textInput(
+                ['class' => 'form-control', 'placeholder' => 'Цвет']); ?>
         </div>
     </div>
+    <?= $this->render('_parts/_additionOptionsButton'); ?>
+    <div class="clearfix"></div>
+  </div>
+</div>
 
-<?= $this->render('_parts/_additionOptionsButton'); ?>
-<?= $this->render('_parts/_additionBlock', ['form' => $form, 'model' => $model]); ?>
-<?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
-<?= $this->render('_parts/_buttons'); ?>
+<div class="clearfix"></div>
 
+<?= $this->render('_parts/_partOrServiceRow', ['form' => $form, 'model' => $model]); ?>
+<div class="row carBg">
+    <div class="col-md-12 text-center buttonGroup">
+        <?= $this->render('_parts/_buttons'); ?>
+    </div>
+</div>
 <?php $form->end(); ?>

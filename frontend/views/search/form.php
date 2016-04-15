@@ -10,10 +10,27 @@ use frontend\assets\FormCarSearchAsset;
 FormCarSearchAsset::register($this);
 
 $this->title = $rubric->name . '. Создание заявки';
-
-if (!isset($hideBackLink)) {
-    echo Html::a('К списку рубрик', Url::toRoute(['/search/category', 'id' => $rubric->category_id]));
-}
-
-echo Html::tag('div', '&nbsp;');
-echo $this->render($formView, ['model' => $formModel, 'rubric' => $rubric]);
+?>
+<div class="container mainCont">
+  <div class="row">
+    <div class="col-md-12">
+      <?php
+      if (!isset($hideBackLink)) {
+          echo Html::a('Тут были хлебные крошки...', Url::toRoute(['/search/category', 'id' => $rubric->category_id]), ['class' => 'autoRepair']);
+      }
+      ?>
+    </div>
+  </div>
+  <?php
+    echo $this->render($formView, ['model' => $formModel, 'rubric' => $rubric]);
+  ?>
+  <div class="row">
+    <div class="col-md-12">
+      <?php
+      if (!isset($hideBackLink)) {
+          echo Html::a('Вернуться в услуги автосервиса', Url::toRoute(['/search/category', 'id' => $rubric->category_id]), ['class' => 'autoRepair']);
+      }
+      ?>
+    </div>
+  </div>
+</div>

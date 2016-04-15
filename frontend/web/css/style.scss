@@ -1,0 +1,532 @@
+@import "colors";
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic|Noto+Sans:400,700,700italic&subset=latin,cyrillic);
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Roboto', 'Noto Sans', sans-serif;
+    font-size: 17px;  
+    color: $black;
+    background: $Porcelain;
+}
+
+body.carBg {
+  background-image: url('../img/Auto_repair.png');
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-attachment: fixed;
+}
+body.wheelBg {
+  background-image: url('../img/Auto_parts_wheel.png');
+  background-repeat: no-repeat;
+  background-position: 96% 80%;
+  background-attachment: fixed;
+}
+
+.wrap {
+  min-height: 100%;
+  height: auto;
+  // margin: 0 auto -60px;
+  padding: 76px 0 60px;
+}
+
+.mainCont {
+  padding-top: 20px;
+}
+.row {position: relative;}
+
+.rw1170 {
+  max-width: 1170px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.w1170 {
+  max-width: 1170px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.mr_auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.whiteBg {
+  background-color: $white;
+}
+
+/* menu */
+.navbar {
+  margin-bottom: 0;
+  border: none;
+  box-shadow: none;
+  border-radius: 0!important;
+  z-index: 1005;
+  min-height: 72px;
+  background-color: $MineShaft;
+  color: $white;
+
+  .navbar-brand {
+    height: auto;
+
+    .svg {
+      float: left;
+      margin-right: 18px;
+      svg {
+        fill: $white;
+      }
+    }
+    .logo {
+      float: left;
+      color: $white;
+      font-family: Noto Sans;
+      font-size: 29px;
+      line-height: 28px;
+      margin-top: 5px;
+
+      .search {
+        color: $PoloBlue;
+        font-weight: 700;
+      }
+      .place {
+        font-weight: 400;
+      }
+    }
+  }
+  .navbar-toggle {
+    border-color: $white;
+    margin-top: 20px;
+    span {
+      background: $white;
+    }
+  }
+  .navbar-collapse {
+    .nav {
+      padding: 11px 0;
+      li {
+        a {
+          color: $Porcelain;
+          font-family: Roboto;
+          font-size: 17px;
+          font-weight: 400;
+          line-height: 24px;
+          text-decoration: underline;
+          outline: none;
+          &:focus,
+          &:active,
+          &:hover {
+            color: $PoloBlue;
+            background: none;
+            outline: none;
+          }
+        }
+      }
+    }
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+      background: none;
+      outline: none;
+    }
+    .dropdown-menu > li > a {
+      color: $Jumbo;
+      outline: none;
+      &:focus,
+      &:active,
+      &:hover {
+        outline: none;
+        color: $MineShaft;
+      }
+    }
+  }
+}
+/* menu end */
+
+.MainSlider {
+  position: relative;
+  margin-bottom: 50px;
+  .title {
+    color: $white;
+    font-family: Noto Sans;
+    font-size: 48px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .number {
+    float: left;
+    color: $white;
+    font-family: Noto Sans;
+    font-size: 112px;
+    font-weight: 700;
+    font-style: italic;
+    margin-right: 28px;
+    margin-bottom: 20px;
+  }
+  .text {
+    float: left;
+    color: $white;
+    font-family: Roboto;
+    line-height: 24px;
+    font-size: 17px;
+    font-weight: 400;
+    padding-top: 18px;
+    margin-bottom: 20px;
+    span {
+      font-size: 21px;
+      font-weight: 700;
+    }
+  }
+  .owl-item .item.sl1 {
+    background-color: $PoloBlue;
+  }
+  .owl-item .item.sl2 {
+    background-color: $HavelockBlue;
+  }
+  .owl-item .item.sl3 {
+    background-color: $RegentGray;
+  }
+  .item {
+    section {
+      min-height: 645px;
+      max-width: 1170px;
+      margin: 0 auto;
+    }
+    .slide1 {
+      padding-top: 100px;
+      background-image: url('../img/icons_main/car_slide_1.png');
+      background-repeat: no-repeat;
+      background-position: center bottom;
+    }    
+    .slide2 {
+      padding-top: 60px;
+      background-image: url('../img/icons_main/man_slide_2.png');
+      background-repeat: no-repeat;
+      background-position: right bottom;
+    }    
+    .slide3 {
+      padding-top: 100px;
+      background-image: url('../img/icons_main/wheel_slide_3.png');
+      background-repeat: no-repeat;
+      background-position: left bottom;
+    }
+  }
+  &.owl-theme .owl-nav.disabled+.owl-dots {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+  }
+  &.owl-theme .owl-dots .owl-dot span {
+    width: 10px;
+    height: 10px;
+    opacity: 0.5;
+    border: 1px solid $white;
+    background: transparent;
+  }
+  &.owl-theme .owl-dots .owl-dot.active span,
+  &.owl-theme .owl-dots .owl-dot:hover span {
+    background: $white;
+  }
+  @media (max-width: 991px) {
+    .item {
+      section {
+        background-image: none!important;
+      }
+    }
+  }
+}
+
+
+.whiteCard {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  background-color: $white;
+  border-radius: 3px;
+  transition: box-shadow .25s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: $MineShaft;
+  font-family: Roboto;
+  font-size: 17px;
+  line-height: 24px;
+  padding: 30px 30px 50px 45px;
+  margin-bottom: 20px;
+  img {
+    margin: 15px auto 15px;
+  }
+  h2 {
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  h4 {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+  p {
+    font-size: 18px;
+    font-weight: 400;
+    min-height: 75px;
+  }
+  &:hover {
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    h2 {
+      text-decoration: underline;
+    }
+  }
+}
+.whiteCardSub {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  background-color: $white;
+  border-radius: 3px;
+  transition: box-shadow .25s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: $MineShaft;
+  font-family: Roboto;
+  padding: 30px 30px 50px 30px;
+  margin-bottom: 30px;
+  .icons_repair {
+    position: relative;
+    width: 100%;
+    min-height: 85px;
+    max-height: 85px;
+    margin: 15px auto 15px;
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+  }
+  h4 {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+    min-height: 60px;
+    text-align: center;
+  }
+  &:hover {
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    h2 {
+      text-decoration: underline;
+    }
+  }
+}
+
+.autoRepair {
+  position: relative;
+  display: inline-block;
+  color: $Jumbo;
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: underline;
+  margin: 15px 15px 35px;
+}
+.goHome {
+  position: relative;
+  display: inline-block;
+  color: $Jumbo;
+  font-family: Roboto;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: underline;
+  margin: 30px 15px 30px;
+}
+
+.layout {
+  background-color: white;
+  border-radius: 3px;
+  border: 1px solid $SilverSand;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.mainCont.fix.pt173 {
+  padding-top: 173px;
+}
+.mainCont.fix {
+  padding-top: 120px;
+  .carSelect {
+    position: fixed;
+    left:0;
+    top: 72px;
+    width: 100%;
+    margin: 0;
+    z-index: 2;
+    border-radius: 0;
+    border:none;
+  }
+  .myRequest {
+    display: block!important;
+    .delBtn {
+      display: block;
+    }
+  }
+  .dynamicFormRow {
+    border-radius: 3px;
+    border-top: 1px solid $SilverSand;
+  }
+}
+.carSelect {
+  background-color: white;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background-color: $PoloBlue;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  border: 1px solid $SilverSand;
+  border-bottom: none;
+  .collapse {
+    position: relative;
+    width: 100%;
+    float: left;
+  } 
+}
+
+.showAdditionOptions {
+  margin: 0 auto;
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+
+.dynamicFormRow {
+  background-color: white;
+  border: 1px solid $SilverSand;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  &:nth-child(1) {
+    border-radius: 0 0 3px 3px;
+    border-top: none;
+    .myRequest {
+      display: none;
+    }
+  }
+}
+.myRequest {
+  display: block;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  background-color: $CatskillWhite;
+  border-bottom: 1px solid $SilverSand;
+  border-radius: 3px 3px 0 0;
+  padding: 26px 15px;
+  h1 {
+    color: $MineShaft;
+    font-family: Noto Sans;
+    font-size: 24px;
+    font-weight: 400;
+    float: left;
+  }
+  .delBtn {
+    display: none;
+  }
+}
+
+.partsSide {
+  margin-top: 7px;
+  margin-bottom: 15px;
+  font-size: 10px;
+  display: inline-block;
+   a {
+    color: $HippieBlue;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+}
+.partsCondition {
+  display: block;
+  float: left;
+}
+.partsOriginal {
+  float: left;
+}
+.field-wheeldiscform-disctype {
+  max-width: 350px;
+}
+
+.modal-content {
+  border: 1px solid #bdc3c7;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.modal-header {
+  background-color: $CatskillWhite;
+  border-bottom: 1px solid $SilverSand;
+  border-radius: 3px 3px 0 0;
+  padding: 22px 30px;
+  h3 {
+    color: #2b2b2b;
+    font-family: Noto Sans;
+    font-size: 24px;
+    font-weight: 400;
+  }
+}
+.modal-open {
+  .navbar {
+    padding-right: 15px;
+  }
+}
+.modal-body {
+  padding: 25px 30px;
+
+  label.control-label {
+    display: none;
+  }
+  .modalLink {
+    color: $HippieBlue;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+footer {
+  display: none;
+  height: 60px;
+  background-color: rgba(236, 240, 241, 0.6);
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  .logo {
+    float: left;
+    color: $Jumbo;
+    font-family: Noto Sans;
+    font-size: 20px;
+    line-height: normal;
+    margin: -6px 10px 0;
+
+    .search {
+      color: $PoloBlue;
+      font-weight: 700;
+    }
+    .place {
+      font-weight: 400;
+    }
+  }
+}
+
+@import "oldstyle";
+@import "button";
+@import "switch";
+@import "select2";
+@import "loading";
+@import "popover";

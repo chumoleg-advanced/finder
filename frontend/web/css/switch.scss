@@ -1,0 +1,142 @@
+/* switch */
+.checkbox {
+  label {
+    min-height: auto;
+    padding-left: 0;
+    color: $Jumbo;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 19px;
+  }
+}
+.onoffswitch {
+  position: relative;
+  width: 48px;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select: none;
+  float: left;
+  margin-right: 10px;
+
+  .onoffswitch-checkbox {
+    display: none;
+  }
+  .onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .onoffswitch-inner {
+      display: block;
+      width: 200%;
+      margin-left: -100%;
+      transition: margin 0.3s ease-in 0s;
+  }
+  .onoffswitch-inner:before, .onoffswitch-inner:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 18px;
+      padding: 0;
+      color: $white;
+      font-family: Roboto;
+      font-size: 9px;
+      font-weight: 400;
+      line-height: 19px;
+      box-sizing: border-box;
+  }
+  .onoffswitch-inner:before {
+      content: "Вкл";
+      padding-left: 5px;
+      background-color: $HippieBlue;
+      color: $white;
+  }
+  .onoffswitch-inner:after {
+      content: "Выкл";
+      padding-right: 5px;
+      background-color: $Jumbo;
+      color: $white;
+      text-align: right;
+  }
+  .onoffswitch-switch {
+      display: block;
+      width: 16px;
+      margin: 1px;
+      background: $white;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 30px;
+      border-radius: 3px;
+      transition: all 0.3s ease-in 0s; 
+  }
+  .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+      margin-left: 0;
+  }
+  .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+      right: 0px; 
+  }
+}
+
+.field-loginform-rememberme {
+  position: relative;
+}
+
+.field-loginform-rememberme > .checkbox > label {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  color: $Jumbo;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+#loginform-rememberme {
+  position: relative;
+  margin: -4px 10px 0 0 ;
+  cursor: pointer;
+  outline: none;
+  
+  &:before {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    content: "";
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid $HippieBlue; 
+  }
+  
+  &:checked {
+    &:before {
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      height: .5rem;
+      border-color: $HippieBlue;
+      border-top-style: none;
+      border-right-style: none;
+    } 
+  }
+  
+  &:after {
+    content: "";
+    position: absolute;
+    top: rem(-2);
+    left: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    background: #fff;
+    cursor: pointer;
+  }
+}
+/* switch end */

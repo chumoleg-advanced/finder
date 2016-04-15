@@ -31,7 +31,7 @@ class BaseForm extends Model
     public function rules()
     {
         return [
-            ['verifyCode', 'captcha'],
+            // ['verifyCode', 'captcha'],
             [['verifyCode', 'delivery', 'deliveryAddress', 'addressCoordinates'], 'safe'],
         ];
     }

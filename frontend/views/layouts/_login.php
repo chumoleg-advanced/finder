@@ -14,10 +14,6 @@ $model = new LoginForm();
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <div>
-                <?= Html::a('Я еще не зарегистрирован!', '#', ['class' => 'loginIfRegister']); ?>
-            </div>
-            <div>&nbsp;</div>
 
             <?php
             $form = ActiveForm::begin([
@@ -33,17 +29,20 @@ $model = new LoginForm();
 
             <?= $form->field($model, 'email')->textInput(
                 ['placeholder' => $model->getAttributeLabel('email')]); ?>
+            <div class="modalLink">
+                <?= Html::a('Я еще не зарегистрирован!', '#', ['class' => 'loginIfRegister']); ?>
+            </div>
             <?= $form->field($model, 'password')->passwordInput(
                 ['placeholder' => $model->getAttributeLabel('password')]); ?>
 
-            <div style="color:#999;margin:1em 0">
+            <div class="modalLink">
                 <?= Html::a('Забыли пароль?', ['auth/request-password-reset']); ?>
             </div>
 
             <?= $form->field($model, 'rememberMe')->checkbox(); ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']); ?>
+                <?= Html::submitButton('Войти <link class="rippleJS" />', ['class' => 'btn autBtn btn-primary', 'name' => 'login-button']); ?>
             </div>
 
             <?php ActiveForm::end(); ?>

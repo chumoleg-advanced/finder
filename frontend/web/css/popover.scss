@@ -1,0 +1,32 @@
+/* popover */
+.popover {
+  background-color: rgba(0,0,0, 0.75);
+  border-radius: 6px;
+  border: none;
+  box-shadow: none;
+  .arrow {
+    border-right-color: transparent!important;
+  }
+}
+.popover.right > .arrow:after {
+  border-right-color: rgba(0,0,0, 0.75);;
+}
+.form-group {
+  position: relative;
+}
+.kv-hint-special {
+  position: relative;
+}
+.kv-hint-icon {
+  position: absolute;
+  right: 35px;
+  top: 12px;
+}
+.kv-hint-content {
+  color: $CatskillWhite;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 15px;
+}
+/* popover end*/

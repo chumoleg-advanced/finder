@@ -1,3 +1,12 @@
+$(document).ready(function () {
+    if ($('.carBg').length) {
+        $('body').addClass('carBg');  
+    };
+    if ($('.wheelBg').length) {
+        $('body').addClass('wheelBg');  
+    };
+});
+
 var myMap = null;
 
 function initMap(coords, zoom, redraw, divId) {
@@ -34,25 +43,50 @@ function initMap(coords, zoom, redraw, divId) {
     }
 }
 
+
 $(document).ready(function () {
-    $('.loginButton').click(function () {
+
+    $(document).on('click', '.newButton', function () {
+        $('.addItemToRequest').trigger('click');
+        
+        if ($('.dynamicFormRow').length > 1) {
+            $('.mainCont').addClass('fix');
+        } 
+    });
+
+    $(document).on('click', '.delete-item', function () {
+        if ($('.dynamicFormRow').length <= 1) {
+            $('.mainCont').removeClass('fix');
+        }
+    });
+
+    $(document).on('click', '.showAdditionOptions', function () {
+        $('.mainCont').toggleClass('pt173');
+    })
+
+    $(document).on('click', '.loginButton', function () {
         $('#loginForm').modal();
     });
 
-    $('.loginIfRegister').click(function () {
+    $(document).on('click', '.loginIfRegister', function () {
         $("#loginForm").modal('hide');
         $('#signUpForm').modal();
     });
 
-    $('.showAdditionOptions').click(function () {
-        $('.additionOptions').toggle();
+    $(document).on('click', '.loginForm', function () {
+        $("#signUpForm").modal('hide');
+        $('#loginForm').modal();
     });
 
-    $('.showDistrictSelect').change(function () {
+    $(document).on('change', '.showDistrictSelect', function () {
         $('.districtSelect').toggle();
     });
 
-    $('.showDeliveryAddress').change(function () {
+    // $(".field-loginform-rememberme #loginform-rememberme").wrap("<div class='checkboxic'></div>");
+    // $(".field-loginform-rememberme #loginform-rememberme").after("<span class='bubble' for='bubble'></span>");
+    $('.showDeliveryAddress').onoff();
+
+    $(document).on('change', '.onoffswitch', function () {
         var obj = $('.deliveryAddressBlock');
         obj.toggle();
 
@@ -185,6 +219,7 @@ $(document).ready(function () {
         return status;
     });
 });
+
 
 function preLoaderShow() {
     var body = $('body');

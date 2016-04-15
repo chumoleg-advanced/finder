@@ -11,6 +11,24 @@ use frontend\components\SearchFormGenerator;
 $form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
+<div class="row carSelect">
+  <div class="rw1170">
+    <?= $this->render('_parts/_carSelect', [
+        'form'     => $form,
+        'model'    => $model,
+        'carFirms' => CarFirm::getListByImport(Status::STATUS_ACTIVE)
+    ]); ?>
+    <div class="clearfix"></div>
+    <div class="collapse " id="additionCarData">
+      <?= $this->render('_parts/_additionCarData', ['form' => $form, 'model' => $model]); ?>
+    </div>
+    <?= $this->render('_parts/_additionOptionsButton'); ?>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+
 <?= $this->render('_parts/_partOrServiceRow', [
     'form'        => $form,
     'model'       => $model,
@@ -19,21 +37,10 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
     'parts'       => true
 ]); ?>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10 col-sm-12 col-xs-12">
-            <hr/>
-            <?= $this->render('_parts/_carSelect', [
-                'form'     => $form,
-                'model'    => $model,
-                'carFirms' => CarFirm::getListByImport(Status::STATUS_ACTIVE)
-            ]); ?>
-        </div>
-    </div>
-
-<?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
-<?= $this->render('_parts/_additionOptionsButton'); ?>
-<?= $this->render('_parts/_additionBlock', ['form' => $form, 'model' => $model]); ?>
-<?= $this->render('_parts/_captcha', ['form' => $form, 'model' => $model]); ?>
-<?= $this->render('_parts/_buttons'); ?>
+<div class="row carBg">
+  <div class="col-md-12 text-center buttonGroup">
+    <?= $this->render('_parts/_buttons'); ?>
+  </div>
+</div>
 
 <?php $form->end(); ?>

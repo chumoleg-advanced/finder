@@ -1,0 +1,68 @@
+/*
+select2
+*/
+.has-success .select2-container--open .select2-selection, .has-success .select2-container--krajee.select2-container--focus .select2-selection {
+  box-shadow: none!important;
+}
+.select2-container--krajee .select2-selection--single .select2-selection__placeholder {
+  color: $Jumbo!important;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.select2-container--krajee .select2-selection {
+  height: 42px!important;
+  border: 1px solid $Edward!important;
+  border-radius: 5px!important;
+  padding: 10px 24px 10px 12px!important;
+}
+.select2-container--krajee .select2-selection--single .select2-selection__arrow {
+  height: 42px!important;
+}
+.form-control {
+  height: 42px!important;
+  border: 1px solid $Edward!important;
+  border-radius: 5px!important;
+  padding: 10px 24px 10px 12px!important;
+  color: $Jumbo!important;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  box-shadow: none;
+}
+.form-control:focus {
+  border: 1px solid $Edward!important;
+  outline: 0;
+  -webkit-box-shadow: none!important;
+          box-shadow: none!important;
+}
+.form-control::-moz-placeholder {
+  color: $Jumbo!important;;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: $Jumbo!important;
+}
+.form-control::-webkit-input-placeholder {
+  color: $Jumbo!important;
+}
+.has-success .form-control {
+  border-color:$PineGreen!important;
+}
+.has-success.select2-container--krajee .select2-dropdown, .has-success .select2-container--krajee .select2-selection {
+  border-color:$PineGreen!important;
+}
+.has-error.select2-container--krajee .select2-dropdown, .has-error .select2-container--krajee .select2-selection {
+  border-color:$Mojo!important;
+}
+.help-block {
+  color: $Mojo!important;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+}
+/*
+select2 end
+*/

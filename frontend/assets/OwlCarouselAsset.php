@@ -6,16 +6,17 @@ use yii\web\AssetBundle;
 
 class OwlCarouselAsset extends AssetBundle
 {
-    public $sourcePath = '@webroot/source/owl-carousel';
+    public $basePath = '@webroot';
 
     public $js
         = [
-            'owl.carousel.min.js'
+            '/js/owl-carousel/owl.carousel.min.js',
+            '/js/carousel.js',
         ];
     public $css
         = [
-            'assets/owl.carousel.min.css',
-            'assets/owl.theme.green.min.css'
+            '/js/owl-carousel/assets/owl.carousel.min.css',
+            '/js/owl-carousel/assets/owl.theme.green.min.css'
         ];
 
     public $depends

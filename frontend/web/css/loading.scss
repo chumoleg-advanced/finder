@@ -1,0 +1,83 @@
+/* loading*/
+.kv-plugin-loading {
+  width: 58px!important;
+  height: 48px!important;
+  background: none!important;
+}
+.kv-plugin-loading:before{
+    content:"";
+    position:absolute;
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+    border-radius:50%;
+    background-image:
+    radial-gradient(at center center, #eee 23%, #1ca 25%, #1ca 57%, transparent 59%),
+    linear-gradient(0deg, transparent 40%, #1ca 40%, #1ca 60%, transparent 60%),
+    linear-gradient(45deg, transparent 43%, #1ca 43%, #1ca 57%, transparent 57%),
+    linear-gradient(90deg, transparent 40%, #1ca 40%, #1ca 60%, transparent 60%),
+    linear-gradient(135deg, transparent 43%, #1ca 43%, #1ca 57%, transparent 57%);
+    
+    
+    animation:rotates 4s infinite linear;
+    -moz-animation:rotates 4s infinite linear;
+    -webkit-animation:rotates 4s infinite linear;
+    -o-animation:rotates 4s infinite linear;
+}
+.kv-plugin-loading:after{
+    content:"";
+    position:absolute;
+    width: 25px;
+    height: 25px;
+    top: 20px;
+    left: 30px;
+    border-radius:50%;
+    background-image:
+    radial-gradient(at center center, #eee 23%, #f35 25%, #f35 57%, transparent 59%),
+    linear-gradient(0deg, transparent 40%, #f35 40%, #f35 60%, transparent 60%),
+    linear-gradient(45deg, transparent 43%, #f35 43%, #f35 57%, transparent 57%),
+    linear-gradient(90deg, transparent 40%, #f35 40%, #f35 60%, transparent 60%),
+    linear-gradient(135deg, transparent 43%, #f35 43%, #f35 57%, transparent 57%);
+    
+    
+    animation:rotateb 4s infinite linear;
+    -moz-animation:rotateb 4s infinite linear;
+    -webkit-animation:rotateb 4s infinite linear;
+    -o-animation:rotateb 4s infinite linear;
+}
+
+@keyframes rotates{
+    form{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+@-moz-keyframes rotates{
+    form{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(360deg);}
+}
+@-webkit-keyframes rotates{
+    form{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
+}
+@-o-keyframes rotates{
+    form{-o-transform:rotate(0deg);}
+    to{-o-transform:rotate(360deg);}
+}
+
+@keyframes rotateb{
+    form{transform:rotate(0deg);}
+    to{transform:rotate(-360deg);}
+}
+@-moz-keyframes rotateb{
+    form{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(-360deg);}
+}
+@-webkit-keyframes rotateb{
+    form{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(-360deg);}
+}
+@-o-keyframes rotateb{
+    form{-o-transform:rotate(0deg);}
+    to{-o-transform:rotate(-360deg);}
+}
+/* loading end*/

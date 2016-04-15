@@ -37,10 +37,10 @@ $model = new SignUpForm();
             </div>
 
             <div class="form-group">
-                <?= Html::submitButton('Зарегистрироваться',
+                <?= Html::submitButton('Зарегистрироваться <link class="rippleJS" />',
                     ['class' => 'btn btn-primary', 'name' => 'signup-button']); ?>
+                <?= Html::a('Войти', '#', ['class' => 'btn btn-default loginForm']); ?>
             </div>
-
             <?php ActiveForm::end(); ?>
         </div>
     </div>

@@ -1,0 +1,181 @@
+/* button */
+a {
+  cursor: pointer;
+  outline: none!important;
+}
+input, button, select, textarea {
+  outline: none!important;
+}
+.collapseBtn[aria-expanded='true'] .chevron {
+  -webkit-transform: rotate(45deg) translate(-5px, -5px);
+          transform: rotate(45deg) translate(-5px, -5px);
+}
+.collapseBtn[aria-expanded='true'] .chevron:before {
+  -webkit-transform: translate(10px, 0);
+          transform: translate(10px, 0);
+}
+.collapseBtn[aria-expanded='true'] .chevron:after {
+  -webkit-transform: rotate(90deg) translate(10px, 0);
+          transform: rotate(90deg) translate(10px, 0);
+}
+.chevron {
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  position: relative;
+  bottom: -5px;
+  left: -10px;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+  margin-top: 2px;
+  text-align: left;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  float: right;
+}
+.chevron:before, .chevron:after {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 3px;
+  background-color: $HippieBlue;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+.chevron:after {
+  position: absolute;
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+  top: -5px;
+  left: 5px;
+}
+
+
+.buttonGroup {
+  .btn {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+.btn-group {
+  .btn {
+    font-size: 12px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+.btn {
+  position: relative;
+  min-height: 42px;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 26px;
+  border-radius: 5px;
+  padding-right: 30px;
+  padding-left: 30px;
+  outline: none;
+  .svg {
+    float: left;
+    margin-right: 10px;
+    svg {
+      fill:$Jumbo;
+    }
+  }
+  &.br2 {
+    border-width: 2px;
+    line-height: 24px;
+  }
+  &:hover,
+  &:active,
+  &:target,
+  &:focus {
+    outline: none;
+  }
+}
+.btn-default:active, 
+.btn-default.active, 
+.open > .dropdown-toggle.btn-default {
+  background-color: $CatskillWhite;
+  border-color: $Jumbo;
+  box-shadow: none;
+  color: $MineShaft;
+}
+
+.btn-default:active:hover,
+.btn-default.active:hover,
+.open > .dropdown-toggle.btn-default:hover,
+.btn-default:active:focus,
+.btn-default.active:focus,
+.open > .dropdown-toggle.btn-default:focus,
+.btn-default:active.focus, .btn-default.active.focus,
+.open > .dropdown-toggle.btn-default.focus {
+  background-color: $CatskillWhite;
+  border-color: $Jumbo;
+  box-shadow: none;
+  color: $MineShaft;
+}
+
+.btn-primary {
+  background-color: $HippieBlue;
+  border-color: $HippieBlue;
+  &:hover,
+  &:active,
+  &:target,
+  &:focus {
+    border-color: $HippieBlue;
+    background-color: $StTropaz;
+  }
+}
+.btn-default {
+  background-color: transparent;
+  border: 1px solid $Jumbo;
+  color: $Jumbo;
+  &:hover,
+  &:active,
+  &:target,
+  &:focus {
+    background-color: transparent;
+    border-color: $MineShaft;
+    color: $MineShaft;
+    svg {
+      fill:$MineShaft;
+    }
+  }
+}
+.svgBtn {
+  padding: 7px 30px 0px;
+}
+.delBtn {
+  color: $HippieBlue;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: underline;
+  .svg {
+    float: right;
+    margin-left: 10px;
+    margin-top: 3px;
+    svg {
+      fill: $HippieBlue;
+    }
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+    color: $HippieBlue;
+    svg {
+      fill:$HippieBlue;
+    }
+  }
+}
+.autBtn {
+  display: block;
+  margin: 0 auto;
+  max-width: 224px;
+  width: 100%;
+}
+/* button end */
