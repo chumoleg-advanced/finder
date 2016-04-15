@@ -12,12 +12,13 @@ use frontend\modules\dashboard\components\CompanyFormGenerator;
 
 $this->title = 'Компания ' . $model->actual_name;
 ?>
+<div class="container layout">
 
     <div class="text-bold text-error"><?= Company::$statusList[$model->status]; ?></div>
     <div>&nbsp;</div>
 
 <?php $form = CompanyFormGenerator::getForm(null, ['id' => 'company-data-form']); ?>
-    <div class="row well">
+    <div class="row">
         <div class="col-md-6">
             <legend>Основная информация</legend>
 
@@ -48,7 +49,7 @@ $this->title = 'Компания ' . $model->actual_name;
     </div>
     <div>&nbsp;</div>
 
-    <div class="row well">
+    <div class="row">
         <div class="col-md-6">
             <?php
             $contactForm = new ContactData();
@@ -79,6 +80,9 @@ $this->title = 'Компания ' . $model->actual_name;
     </div>
 
     <div class="row">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+        <div class="col-md-12">
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+        </div>
     </div>
+</div>
 <?php $form->end(); ?>

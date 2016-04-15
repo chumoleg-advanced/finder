@@ -10,7 +10,9 @@ use yii\widgets\Pjax;
 use common\components\ManageButton;
 
 $this->title = 'Мои заявки';
-
+?>
+<div class="container layout">
+<?php
 Pjax::begin(['id' => 'requestGrid']);
 
 echo GridView::widget([
@@ -73,3 +75,5 @@ echo GridView::widget([
 ]);
 
 Pjax::end();
+?>
+</div>

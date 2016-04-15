@@ -10,7 +10,7 @@ use common\components\ManageButton;
 
 $this->title = 'Заявки от клиентов';
 ?>
-
+<div class="container layout">
 <?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
         <div class="col-md-12">
@@ -81,3 +81,4 @@ $this->title = 'Заявки от клиентов';
         </div>
     </div>
 <?php Pjax::end(); ?>
+</div>

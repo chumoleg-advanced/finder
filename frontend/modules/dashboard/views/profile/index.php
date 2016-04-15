@@ -3,7 +3,7 @@ $this->title = 'Мои настройки';
 
 \frontend\assets\UserProfileAsset::register($this);
 ?>
-
+<div class="container layout">
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <?php
@@ -26,4 +26,5 @@ $this->title = 'Мои настройки';
         ]);
         ?>
     </div>
+</div>
 </div>
