@@ -42,6 +42,8 @@ $this->title = Yii::t('title', 'Categories');
             </a>
         </div>
         <?php endforeach; ?>
+
+        <div class="clearfix"></div>
         <div class="col-md-12">
             <?php
             echo Html::a('На главную', Url::toRoute('/'), ['class' => 'goHome']);

@@ -24,6 +24,7 @@ $this->title = $rubric->name . '. Создание заявки';
   <?php
     echo $this->render($formView, ['model' => $formModel, 'rubric' => $rubric]);
   ?>
+  <div class="clearfix"></div>
   <div class="row">
     <div class="col-md-12">
       <?php
