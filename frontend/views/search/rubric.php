@@ -38,7 +38,6 @@ $this->title = Yii::t('title', 'Categories');
                     <img src="<?= ArrayHelper::getValue($images, $k); ?>" class="img-responsive">
                 </div>
                 <h4><?= $rubric->name; ?></h4>
-                <link class="rippleJS" />
             </a>
         </div>
         <?php endforeach; ?>

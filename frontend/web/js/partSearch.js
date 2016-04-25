@@ -42,6 +42,7 @@ $(document).ready(function () {
 
     $(".partsSearchDynamicForm").on("afterInsert", function (e, item) {
         var itemObj = $('.dynamicFormRow:last');
+
         var destination = itemObj.offset().top - 60;
         $('html, body').animate({scrollTop: destination}, 500);
 
@@ -61,6 +62,8 @@ $(document).ready(function () {
             enableAjaxValidation: true,
             encodeError: true
         });
+
+        $('input[type="checkbox"].showDeliveryAddress').onoff();
 
         preLoaderHide();
     });

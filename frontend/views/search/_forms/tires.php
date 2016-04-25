@@ -46,7 +46,7 @@ $modelData = new \frontend\forms\request\QueryArrayForm();
 <div class="clearfix"></div>
 <div class="box">
     <div class="row dynamicFormRow">
-        <div class="col-md-12 myRequest">
+        <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
             <h1>Моя заявка</h1>
             <a class="delBtn pull-right delete-item">
                 Удалить
@@ -86,9 +86,7 @@ $modelData = new \frontend\forms\request\QueryArrayForm();
 </div>  
 
 <div class="row wheelBg">
-  <div class="col-md-12 text-center buttonGroup">
     <?= $this->render('_parts/_buttons'); ?>
-  </div>
 </div>
 
 <?php $form->end(); ?>

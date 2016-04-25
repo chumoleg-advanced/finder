@@ -3,7 +3,7 @@
 use common\components\Status;
 use common\models\car\CarFirm;
 use frontend\components\SearchFormGenerator;
-
+use kartik\helpers\Html;
 /** @var $model frontend\forms\request\AutoPartForm */
 /** @var $rubric common\models\rubric\Rubric */
 /** @var $this \yii\web\View */
@@ -32,15 +32,12 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
 <?= $this->render('_parts/_partOrServiceRow', [
     'form'        => $form,
     'model'       => $model,
-    'buttonText'  => 'Добавить еще одну запчасть',
     'placeholder' => 'Наименование запчасти или ОЕМ номер',
     'parts'       => true
 ]); ?>
 
 <div class="row carBg">
-  <div class="col-md-12 text-center buttonGroup">
-    <?= $this->render('_parts/_buttons'); ?>
-  </div>
+    <?= $this->render('_parts/_buttons', ['buttonText' => 'Добавить еще одну запчасть']); ?>
 </div>
 
 <?php $form->end(); ?>

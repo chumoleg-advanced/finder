@@ -17,7 +17,7 @@ class AppAsset extends AssetBundle
 
     public $js
         = [
-            '/js/ripple.min.js',
+            '/js/wow.min.js',
             '/js/jquery.onoff.min.js',
             '/js/main.js',
         ];

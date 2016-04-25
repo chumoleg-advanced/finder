@@ -42,7 +42,7 @@ $model = new LoginForm();
             <?= $form->field($model, 'rememberMe')->checkbox(); ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Войти <link class="rippleJS" />', ['class' => 'btn autBtn btn-primary', 'name' => 'login-button']); ?>
+                <?= Html::submitButton('Войти', ['class' => 'btn autBtn btn-primary', 'name' => 'login-button']); ?>
             </div>
 
             <?php ActiveForm::end(); ?>

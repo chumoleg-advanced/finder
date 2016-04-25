@@ -7,10 +7,6 @@ use common\components\CarData;
 use kartik\helpers\Html;
 use frontend\assets\FormPartSearchAsset;
 
-if (!isset($buttonText)) {
-    $buttonText = 'Добавить заявку';
-}
-
 if (!isset($placeholder)) {
     $placeholder = 'Опишите работу';
 }
@@ -51,7 +47,7 @@ $dynamicParams = [
 
     <div class="form-options-body partsSearch">
         <div class="row dynamicFormRow">
-            <div class="col-md-12 myRequest">
+            <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
                 <h1>Моя заявка</h1>
                 <a class="delBtn pull-right delete-item">
                     Удалить

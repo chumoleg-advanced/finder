@@ -30,9 +30,9 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
 <div class="clearfix"></div>
 
 <?= $this->render('_parts/_partOrServiceRow', ['form' => $form, 'model' => $model]); ?>
+
 <div class="row carBg">
-    <div class="col-md-12 text-center buttonGroup">
-        <?= $this->render('_parts/_buttons'); ?>
-    </div>
+    <?= $this->render('_parts/_buttons', ['buttonText' => 'Добавить заявку']); ?>
 </div>
+
 <?php $form->end(); ?>

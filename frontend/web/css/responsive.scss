@@ -1,0 +1,40 @@
+@media (max-width: 500px) {
+  .MainSlider {
+    .item {
+      section {
+        min-height: 550px;
+      }
+      .slide1, .slide2, .slide3 {
+        padding-top: 30px;
+      }
+    }
+    .title {
+      font-size: 32px;
+    }
+    .number {
+      font-size: 72px;
+      margin-right: 10px;
+    }
+    .text {
+      line-height: 20px;
+      font-size: 14px;
+      padding-top: 10px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .whiteCard {
+    padding: 15px 35px 35px;
+    h2 {
+      text-align: center;
+    }
+    p {
+      text-align: center;
+      min-height: auto;
+    }
+  }
+  .whiteCardSub {
+    padding: 15px 15px 35px;
+  }
+}

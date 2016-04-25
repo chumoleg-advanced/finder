@@ -23,7 +23,6 @@ $this->title = Yii::t('title', 'Categories');
                     ['class' => 'img-responsive img-thumbnail', 'alt' => $name]
                 ); ?><br/>
                 <?= $name; ?>
-                <link class="rippleJS" />
             </a>
         </div>
         <?php endforeach; ?>

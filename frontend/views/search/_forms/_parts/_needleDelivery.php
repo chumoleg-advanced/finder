@@ -10,19 +10,21 @@ frontend\assets\YandexMapAsset::register($this);
 
 <div class="form-group">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <?= $form->field($model, 'delivery')->checkbox(['class' => 'showDeliveryAddress']); ?>
+        <?= $form->field($model, '[0]delivery')->checkbox(['class' => 'showDeliveryAddress']); ?>
     </div>
 </div>
 
 <div class="form-group deliveryAddressBlock">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <?= $form->field($model, 'deliveryAddress')->textInput([
+        <?= $form->field($model, '[0]deliveryAddress')->textInput([
             'placeholder' => 'Укажите адрес',
             'class'       => 'form-control deliveryAddress'
         ]); ?>
 
-        <div id="yandexMap"></div>
+        <div class="yandexMap"></div>
     </div>
-
-    <?= $form->field($model, 'addressCoordinates')->hiddenInput(['class' => 'addressCoordinates']); ?>
+    <div class="clearfix"></div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <?= $form->field($model, '[0]addressCoordinates')->hiddenInput(['class' => 'addressCoordinates']); ?>
+    </div>
 </div>

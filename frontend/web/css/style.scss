@@ -258,6 +258,7 @@ body.wheelBg {
   margin-bottom: 20px;
   img {
     margin: 15px auto 15px;
+    display: block;
   }
   h2 {
     font-size: 21px;
@@ -362,7 +363,7 @@ body.wheelBg {
   .carSelect {
     position: fixed;
     left:0;
-    top: 72px;
+    top: 76px;
     width: 100%;
     margin: 0;
     z-index: 2;
@@ -389,6 +390,10 @@ body.wheelBg {
   padding-bottom: 5px;
   border: 1px solid $SilverSand;
   border-bottom: none;
+  // -webkit-transition: all 1s ease-out;
+  // -moz-transition: all 1s ease-out;
+  // -o-transition: all 1s ease-out;
+  // transition: all 1s ease-out;
   .collapse {
     position: relative;
     width: 100%;
@@ -534,9 +539,12 @@ footer {
 
 @import "oldstyle";
 @import "button";
-@import "switch";
 @import "select2";
 @import "loading";
 @import "popover";
 
 }
+
+@import "switch";
+@import "responsive";
+@import "animate";

@@ -7,6 +7,8 @@ $(document).ready(function () {
     };
 });
 
+new WOW().init();
+
 var myMap = null;
 
 function initMap(coords, zoom, redraw, divId) {
@@ -43,17 +45,39 @@ function initMap(coords, zoom, redraw, divId) {
     }
 }
 
+// function carSelect() {
+//     if (jQuery(window).width() > 767) {
+//         $(".carSelect").css({
+//             position:'fixed',
+//             margin:'0',
+//             top:$(".carSelect").offset().top
+//         });
+//     } else {
+//         $(".carSelect").css({
+//             position:'relative',
+//             margin:'0',
+//             top:'0',
+//         });
+//     }
+// }
+// $(document).ready(function() {
+//    carSelect();
+// });
+// $(window).resize(function() {
+//    carSelect();
+// });
+
 
 $(document).ready(function () {
-
     $(document).on('click', '.newButton', function () {
         $('.addItemToRequest').trigger('click');
         
-        if ($('.dynamicFormRow').length > 1) {
-            $('.mainCont').addClass('fix');
-        } 
+        if (jQuery(window).width() > 767) {
+            if ($('.dynamicFormRow').length > 1) {
+                $('.mainCont').addClass('fix');
+            } 
+        }
     });
-
     $(document).on('click', '.delete-item', function () {
         if ($('.dynamicFormRow').length <= 1) {
             $('.mainCont').removeClass('fix');
@@ -82,12 +106,10 @@ $(document).ready(function () {
         $('.districtSelect').toggle();
     });
 
-    // $(".field-loginform-rememberme #loginform-rememberme").wrap("<div class='checkboxic'></div>");
-    // $(".field-loginform-rememberme #loginform-rememberme").after("<span class='bubble' for='bubble'></span>");
     $('.showDeliveryAddress').onoff();
 
     $(document).on('change', '.onoffswitch', function () {
-        var obj = $('.deliveryAddressBlock');
+        var obj = $(this).closest('.dynamicFormRow').find('.deliveryAddressBlock');
         obj.toggle();
 
         if (obj.is(':visible')) {
