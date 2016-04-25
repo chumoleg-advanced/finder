@@ -128,8 +128,14 @@ class Notification extends \common\components\ActiveRecord
      */
     public static function getCountNewNotifications()
     {
-        return (int)self::find()->where('user_id = ' . Yii::$app->user->id
-            . ' AND status = ' . self::STATUS_NEW)->count();
+        if (empty(Yii::$app->user->id)) {
+            return 0;
+        }
+
+        return (int)self::find()
+            ->andWhere('user_id = ' . Yii::$app->user->id)
+            ->andWhere('status = ' . self::STATUS_NEW)
+            ->count();
     }
 
     /**

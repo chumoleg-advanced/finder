@@ -78,7 +78,10 @@ class MessageDialog extends ActiveRecord
      */
     public static function findById($id)
     {
-        return self::find()->joinWith(['messages', 'request'])->where(['message_dialog.id' => $id])->one();
+        return self::find()
+            ->joinWith(['messages', 'request'])
+            ->andWhere(['message_dialog.id' => $id])
+            ->one();
     }
 
     /**

@@ -103,7 +103,7 @@ class CarEngine extends ActiveRecord
             return [];
         }
 
-        $data = self::find()->where('car_body_id = ' . $bodyId)->all();
+        $data = self::find()->andWhere('car_body_id = ' . $bodyId)->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }

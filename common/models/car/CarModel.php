@@ -99,7 +99,7 @@ class CarModel extends ActiveRecord
             return [];
         }
 
-        $data = self::find()->where('car_firm_id = ' . $firmId)->all();
+        $data = self::find()->andWhere('car_firm_id = ' . $firmId)->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }
