@@ -133,7 +133,7 @@ class Notification extends \common\components\ActiveRecord
         }
 
         return (int)self::find()
-            ->andWhere('to_user_id = ' . Yii::$app->user->id)
+            ->andWhere('user_id = ' . Yii::$app->user->id)
             ->andWhere('status = ' . self::STATUS_NEW)
             ->count();
     }
