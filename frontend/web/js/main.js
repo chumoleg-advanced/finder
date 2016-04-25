@@ -88,7 +88,7 @@ function initMap(coords, zoom, redraw, blockObj, index) {
 function _updateItemsInForm() {
     $('input[type="checkbox"].showDeliveryAddress').onoff();
     $('.yandexMap').each(function (k) {
-        $(this).attr('id', '#yandexMap_' + k);
+        $(this).attr('id', 'yandexMap_' + k);
     });
 }
 
