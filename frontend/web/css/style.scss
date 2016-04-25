@@ -242,6 +242,14 @@ body.wheelBg {
 
 
 .whiteCard {
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   position: relative;
   width: 100%;
   display: inline-block;
@@ -283,6 +291,14 @@ body.wheelBg {
   }
 }
 .whiteCardSub {
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   position: relative;
   width: 100%;
   display: inline-block;
@@ -358,13 +374,20 @@ body.wheelBg {
 .mainCont.fix.pt173 {
   padding-top: 173px;
 }
+.mainCont.pt173 {
+  .dynamicFormRow {
+    &:nth-child(1) {
+      margin-top: 147px;
+    }
+  }
+}
 .mainCont.fix {
   padding-top: 120px;
   .carSelect {
     position: fixed;
-    left:0;
-    top: 76px;
+    top: 76px!important;
     width: 100%;
+    max-width: 100%!important;
     margin: 0;
     z-index: 2;
     border-radius: 0;
@@ -379,9 +402,18 @@ body.wheelBg {
   .dynamicFormRow {
     border-radius: 3px;
     border-top: 1px solid $SilverSand;
+    &:nth-child(1) {
+      margin-top: 0;
+    }
   }
 }
 .carSelect {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  margin: 0;
+  max-width: 1170px;
   background-color: white;
   border-radius: 3px 3px 0 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -390,10 +422,9 @@ body.wheelBg {
   padding-bottom: 5px;
   border: 1px solid $SilverSand;
   border-bottom: none;
-  // -webkit-transition: all 1s ease-out;
-  // -moz-transition: all 1s ease-out;
-  // -o-transition: all 1s ease-out;
-  // transition: all 1s ease-out;
+  transition-property: max-width, top;
+  transition-timing-function: ease-out;
+  transition-duration: 1s;
   .collapse {
     position: relative;
     width: 100%;
@@ -411,6 +442,10 @@ body.wheelBg {
 .mainCont {
 
   .dynamicFormRow {
+    -webkit-transition: all 0.25s linear;
+    -moz-transition: all 0.25s linear;
+    -o-transition: all 0.25s linear;
+    transition: all 0.25s linear;
     background-color: white;
     border: 1px solid $SilverSand;
     border-radius: 3px;
@@ -421,6 +456,7 @@ body.wheelBg {
     &:nth-child(1) {
       border-radius: 0 0 3px 3px;
       border-top: none;
+      margin-top: 94px;
       .myRequest {
         display: none;
       }
@@ -546,5 +582,6 @@ footer {
 }
 
 @import "switch";
+@import "ripple";
 @import "responsive";
 @import "animate";

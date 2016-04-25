@@ -16,7 +16,7 @@ use kartik\helpers\Html;
             </g>
           </g>
         </svg>
-      </div> ' . $buttonText, '#', ['class' => 'btn btn-default svgBtn br2 newButton']); ?>
+      </div> ' . $buttonText, 'javascript:void(0);', ['class' => 'btn btn-default svgBtn br2 newButton']); ?>
   <?php endif; ?>
 
   <?= Html::submitButton('Продолжить', ['class' => 'btn btn-primary']); ?>

@@ -186,6 +186,13 @@ body.wheelBg {
       background-image: none !important; } }
 
 .whiteCard {
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: relative;
   width: 100%;
   display: inline-block;
@@ -221,6 +228,13 @@ body.wheelBg {
       text-decoration: underline; }
 
 .whiteCardSub {
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: relative;
   width: 100%;
   display: inline-block;
@@ -288,13 +302,16 @@ body.wheelBg {
 .mainCont.fix.pt173 {
   padding-top: 173px; }
 
+.mainCont.pt173 .dynamicFormRow:nth-child(1) {
+  margin-top: 147px; }
+
 .mainCont.fix {
   padding-top: 120px; }
   .mainCont.fix .carSelect {
     position: fixed;
-    left: 0;
-    top: 76px;
+    top: 76px !important;
     width: 100%;
+    max-width: 100% !important;
     margin: 0;
     z-index: 2;
     border-radius: 0;
@@ -306,8 +323,16 @@ body.wheelBg {
   .mainCont.fix .dynamicFormRow {
     border-radius: 3px;
     border-top: 1px solid #bdc3c7; }
+    .mainCont.fix .dynamicFormRow:nth-child(1) {
+      margin-top: 0; }
 
 .carSelect {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  margin: 0;
+  max-width: 1170px;
   background-color: white;
   border-radius: 3px 3px 0 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -315,7 +340,10 @@ body.wheelBg {
   padding-top: 15px;
   padding-bottom: 5px;
   border: 1px solid #bdc3c7;
-  border-bottom: none; }
+  border-bottom: none;
+  transition-property: max-width, top;
+  transition-timing-function: ease-out;
+  transition-duration: 1s; }
   .carSelect .collapse {
     position: relative;
     width: 100%;
@@ -328,6 +356,10 @@ body.wheelBg {
   height: 20px; }
 
 .mainCont .dynamicFormRow {
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -o-transition: all 0.25s linear;
+  transition: all 0.25s linear;
   background-color: white;
   border: 1px solid #bdc3c7;
   border-radius: 3px;
@@ -337,7 +369,8 @@ body.wheelBg {
   margin-bottom: 30px; }
   .mainCont .dynamicFormRow:nth-child(1) {
     border-radius: 0 0 3px 3px;
-    border-top: none; }
+    border-top: none;
+    margin-top: 94px; }
     .mainCont .dynamicFormRow:nth-child(1) .myRequest {
       display: none; }
 
@@ -692,6 +725,13 @@ footer {
     padding-right: 20px;
     padding-left: 20px; }
   .mainCont .btn {
+    overflow: hidden;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     margin-bottom: 10px;
     position: relative;
     min-height: 42px;
@@ -825,7 +865,9 @@ footer {
   .mainCont .kv-plugin-loading {
     width: 58px !important;
     height: 48px !important;
-    background: none !important; }
+    background: none !important;
+    margin: 0 auto;
+    position: relative; }
   .mainCont .kv-plugin-loading:before {
     content: "";
     position: absolute;
@@ -1035,6 +1077,83 @@ footer {
     cursor: pointer; }
 
 /* switch end */
+/* MATERIAL DESIGN RIPPLE */
+.ripple-wrapper {
+  display: block;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0); }
+
+.ripple-wrapper.animated {
+  animation: ripple 0.65s linear;
+  -webkit-animation: ripple 0.65s linear;
+  -moz-animation: ripple 0.65s linear;
+  -o-animation: ripple 0.65s linear; }
+
+.has-ripple {
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  outline: none; }
+
+@keyframes ripple {
+  100% {
+    -webkit-transform: scale(2.5);
+    -ms-transform: scale(2.5);
+    -o-transform: scale(2.5);
+    transform: scale(2.5);
+    opacity: 0; } }
+@-webkit-keyframes ripple {
+  100% {
+    -webkit-transform: scale(2.5);
+    -ms-transform: scale(2.5);
+    -o-transform: scale(2.5);
+    transform: scale(2.5);
+    opacity: 0; } }
+@-o-keyframes ripple {
+  100% {
+    -webkit-transform: scale(2.5);
+    -ms-transform: scale(2.5);
+    -o-transform: scale(2.5);
+    transform: scale(2.5);
+    opacity: 0; } }
+@-moz-keyframes ripple {
+  100% {
+    -webkit-transform: scale(2.5);
+    -ms-transform: scale(2.5);
+    -o-transform: scale(2.5);
+    transform: scale(2.5);
+    opacity: 0; } }
+@media (max-width: 1199px) {
+  .carSelect {
+    max-width: 970px; } }
+@media (max-width: 991px) {
+  .carSelect {
+    max-width: 750px; }
+
+  .mainCont .dynamicFormRow:nth-child(1) {
+    margin-top: 150px; } }
+@media (max-width: 767px) {
+  .whiteCard {
+    padding: 15px 35px 35px; }
+    .whiteCard h2 {
+      text-align: center; }
+    .whiteCard p {
+      text-align: center;
+      min-height: auto; }
+
+  .whiteCardSub {
+    padding: 15px 15px 35px; }
+
+  .mainCont.pt173 .dynamicFormRow:nth-child(1) {
+    margin-top: 0; }
+
+  .mainCont .dynamicFormRow:nth-child(1) {
+    margin-top: 0; } }
 @media (max-width: 500px) {
   .MainSlider .item section {
     min-height: 550px; }
@@ -1049,17 +1168,6 @@ footer {
     line-height: 20px;
     font-size: 14px;
     padding-top: 10px; } }
-@media (max-width: 767px) {
-  .whiteCard {
-    padding: 15px 35px 35px; }
-    .whiteCard h2 {
-      text-align: center; }
-    .whiteCard p {
-      text-align: center;
-      min-height: auto; }
-
-  .whiteCardSub {
-    padding: 15px 15px 35px; } }
 /*!
 Animate.css - http://daneden.me/animate
 Licensed under the MIT license
