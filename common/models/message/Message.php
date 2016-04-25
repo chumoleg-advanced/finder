@@ -97,6 +97,10 @@ class Message extends ActiveRecord
      */
     public static function getCountNewMessages()
     {
+        if (empty(Yii::$app->user->id)) {
+            return 0;
+        }
+
         return (int)self::find()->where('to_user_id = ' . Yii::$app->user->id
             . ' AND status = ' . self::STATUS_NEW)->count();
     }
