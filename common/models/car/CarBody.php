@@ -101,7 +101,7 @@ class CarBody extends ActiveRecord
             return [];
         }
 
-        $data = self::find()->where('car_model_id = ' . $modelId)->all();
+        $data = self::find()->andWhere('car_model_id = ' . $modelId)->all();
         return ArrayHelper::map($data, 'id', 'name');
     }
 }

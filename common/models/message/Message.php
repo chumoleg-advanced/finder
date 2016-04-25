@@ -101,8 +101,10 @@ class Message extends ActiveRecord
             return 0;
         }
 
-        return (int)self::find()->where('to_user_id = ' . Yii::$app->user->id
-            . ' AND status = ' . self::STATUS_NEW)->count();
+        return (int)self::find()
+            ->andWhere('to_user_id = ' . Yii::$app->user->id)
+            ->andWhere('status = ' . self::STATUS_NEW)
+            ->count();
     }
 
     /**
@@ -124,7 +126,7 @@ class Message extends ActiveRecord
     {
         return (int)self::find()
             ->joinWith('messageDialog')
-            ->where('message_dialog.request_id = ' . $requestId)
+            ->andWhere('message_dialog.request_id = ' . $requestId)
             ->count();
     }
 
@@ -137,7 +139,7 @@ class Message extends ActiveRecord
     {
         return (int)self::find()
             ->joinWith('messageDialog')
-            ->where('message_dialog.request_id IN (SELECT request_id FROM ' . RequestOffer::tableName() . '
+            ->andWhere('message_dialog.request_id IN (SELECT request_id FROM ' . RequestOffer::tableName() . '
                 WHERE main_request_offer_id = ' . $mainRequestOfferId . ')')
             ->count();
     }
