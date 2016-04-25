@@ -541,9 +541,9 @@ footer {
     padding: 0; }
   .mainCont .ajaxLink.active {
     background-color: #bbe7f5 !important; }
-  .mainCont #yandexMap,
+  .mainCont .yandexMap,
   .mainCont .yandexMapCompany,
-  .mainCont #yandexMapRequest {
+  .mainCont .yandexMapRequest {
     width: 100%;
     height: 300px;
     margin: 0;

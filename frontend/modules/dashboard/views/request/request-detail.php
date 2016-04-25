@@ -27,7 +27,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 
 <a href="javascript:;" class="requestInfoView">Скрыть информацию по заявке</a>
 
-<div class="requestInfo">
+<div class="requestInfo mainCont">
     <div class="row well">
         <div class="col-md-6">
             <legend>Запрос</legend>
@@ -121,7 +121,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                 <div>&nbsp;</div>
                 <?= Html::hiddenInput('addressCoordinatesRequest', $deliveryData['addressCoordinates'],
                     ['id' => 'addressCoordinatesRequest']); ?>
-                <div id="yandexMapRequest"></div>
+                <div class="yandexMapRequest" id="yandexMapRequest"></div>
             <?php endif; ?>
         </div>
     </div>

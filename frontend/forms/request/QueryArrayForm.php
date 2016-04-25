@@ -13,6 +13,10 @@ class QueryArrayForm extends Model
     public $partsCondition = [];
     public $partsOriginal = [];
 
+    public $delivery;
+    public $deliveryAddress;
+    public $addressCoordinates;
+
     /**
      * @inheritdoc
      */
@@ -23,7 +27,8 @@ class QueryArrayForm extends Model
             [['partsCondition'], 'required', 'on' => 'parts'],
             [['image'], 'safe'],
             [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, jpeg, gif, png', 'maxFiles' => 5],
-            [['comment', 'partsOriginal', 'partsCondition'], 'safe']
+            [['comment', 'partsOriginal', 'partsCondition'], 'safe'],
+            [['delivery', 'deliveryAddress', 'addressCoordinates'], 'safe'],
         ];
     }
 

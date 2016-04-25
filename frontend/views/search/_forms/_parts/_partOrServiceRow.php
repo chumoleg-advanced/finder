@@ -144,7 +144,7 @@ $dynamicParams = [
                 <div class="clearfix"></div> 
                 
                 <?php if (isset($parts)) : ?>
-                    <?= $this->render('_needleDelivery', ['form' => $form, 'model' => $model]); ?>
+                    <?= $this->render('_needleDelivery', ['form' => $form, 'model' => $modelData]); ?>
                 <?php endif; ?> 
                 <div class="clearfix"></div> 
             </div>

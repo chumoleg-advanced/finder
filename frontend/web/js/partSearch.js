@@ -63,7 +63,8 @@ $(document).ready(function () {
             encodeError: true
         });
 
-        $('input[type="checkbox"].showDeliveryAddress').onoff();
+        _updateItemsInForm();
+        _setDeliveryAutocomplete();
 
         preLoaderHide();
     });

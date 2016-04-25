@@ -1,33 +1,50 @@
 $(document).ready(function () {
     if ($('.carBg').length) {
-        $('body').addClass('carBg');  
-    };
+        $('body').addClass('carBg');
+    }
+
     if ($('.wheelBg').length) {
-        $('body').addClass('wheelBg');  
-    };
+        $('body').addClass('wheelBg');
+    }
 });
 
 new WOW().init();
 
-var myMap = null;
+var myMap = {};
+var myCollection = {};
 
-function initMap(coords, zoom, redraw, divId) {
+/**
+ * @param coords
+ * @param zoom
+ * @param redraw
+ * @param blockObj
+ * @param index
+ */
+function initMap(coords, zoom, redraw, blockObj, index) {
     try {
-        if (!divId) {
-            divId = 'yandexMap';
+        if (blockObj.length == 0) {
+            return false;
         }
 
-        var divObj = $('#'+divId);
-        if (divObj.find('ymaps').length == 0){
-            divObj.html('<img src="/img/linePreLoader.gif" class="preLoaderYandexMax"/>');
+        if (blockObj.find('ymaps').length == 0) {
+            blockObj.html('<img src="/img/linePreLoader.gif" class="preLoaderYandexMax"/>');
+        }
+
+        if (!index) {
+            index = 0;
+        }
+
+        var mapId = blockObj.attr('id');
+        if (!mapId) {
+            mapId = 'yandexMap_' + index;
         }
 
         ymaps.ready(function () {
-            divObj.find('.preLoaderYandexMax').remove();
+            blockObj.find('.preLoaderYandexMax').remove();
             if (redraw) {
-                myCollection.removeAll();
+                myCollection[mapId].removeAll();
             } else {
-                myMap = new ymaps.Map(divId, {
+                myMap[mapId] = new ymaps.Map(mapId, {
                     center: coords,
                     zoom: zoom,
                     controls: ['zoomControl']
@@ -35,11 +52,11 @@ function initMap(coords, zoom, redraw, divId) {
             }
 
             var myPlaceMark = new ymaps.Placemark(coords);
-            myCollection = new ymaps.GeoObjectCollection();
-            myCollection.add(myPlaceMark);
+            myCollection[mapId] = new ymaps.GeoObjectCollection();
+            myCollection[mapId].add(myPlaceMark);
 
-            myMap.geoObjects.add(myCollection);
-            myMap.setCenter(coords, zoom);
+            myMap[mapId].geoObjects.add(myCollection[mapId]);
+            myMap[mapId].setCenter(coords, zoom);
         });
     } catch (e) {
     }
@@ -68,61 +85,14 @@ function initMap(coords, zoom, redraw, divId) {
 // });
 
 
-$(document).ready(function () {
-    $(document).on('click', '.newButton', function () {
-        $('.addItemToRequest').trigger('click');
-        
-        if (jQuery(window).width() > 767) {
-            if ($('.dynamicFormRow').length > 1) {
-                $('.mainCont').addClass('fix');
-            } 
-        }
+function _updateItemsInForm() {
+    $('input[type="checkbox"].showDeliveryAddress').onoff();
+    $('.yandexMap').each(function (k) {
+        $(this).attr('id', '#yandexMap_' + k);
     });
-    $(document).on('click', '.delete-item', function () {
-        if ($('.dynamicFormRow').length <= 1) {
-            $('.mainCont').removeClass('fix');
-        }
-    });
+}
 
-    $(document).on('click', '.showAdditionOptions', function () {
-        $('.mainCont').toggleClass('pt173');
-    })
-
-    $(document).on('click', '.loginButton', function () {
-        $('#loginForm').modal();
-    });
-
-    $(document).on('click', '.loginIfRegister', function () {
-        $("#loginForm").modal('hide');
-        $('#signUpForm').modal();
-    });
-
-    $(document).on('click', '.loginForm', function () {
-        $("#signUpForm").modal('hide');
-        $('#loginForm').modal();
-    });
-
-    $(document).on('change', '.showDistrictSelect', function () {
-        $('.districtSelect').toggle();
-    });
-
-    $('.showDeliveryAddress').onoff();
-
-    $(document).on('change', '.onoffswitch', function () {
-        var obj = $(this).closest('.dynamicFormRow').find('.deliveryAddressBlock');
-        obj.toggle();
-
-        if (obj.is(':visible')) {
-            if (myMap == null) {
-                initMap([55.0302, 82.9204], 14);
-            }
-
-            var destination = $(this).offset().top - 60;
-            $('html, body').animate({scrollTop: destination}, 500);
-            $('.deliveryAddress').focus();
-        }
-    });
-
+function _setDeliveryAutocomplete() {
     $(".deliveryAddress").autocomplete({
         minLength: 3,
         source: function (request, response) {
@@ -142,12 +112,71 @@ $(document).ready(function () {
             });
         },
         select: function (a, b) {
-            $('.addressCoordinates').val(b.item.point);
+            var block = $(this).closest('.dynamicFormRow');
+            block.find('.addressCoordinates').val(b.item.point);
 
             try {
-                initMap(b.item.point, 17, true);
+                initMap(b.item.point, 17, true, block.find('.yandexMap'), block.index());
             } catch (e) {
             }
+        }
+    });
+}
+$(document).ready(function () {
+    _updateItemsInForm();
+    _setDeliveryAutocomplete();
+
+    $(document).on('click', '.newButton', function () {
+        $('.addItemToRequest').trigger('click');
+
+        if (jQuery(window).width() > 767) {
+            if ($('.dynamicFormRow').length > 1) {
+                $('.mainCont').addClass('fix');
+            }
+        }
+    });
+    $(document).on('click', '.delete-item', function () {
+        if ($('.dynamicFormRow').length <= 1) {
+            $('.mainCont').removeClass('fix');
+        }
+    });
+
+    $(document).on('click', '.showAdditionOptions', function () {
+        $('.mainCont').toggleClass('pt173');
+    });
+
+    $(document).on('click', '.loginButton', function () {
+        $('#loginForm').modal();
+    });
+
+    $(document).on('click', '.loginIfRegister', function () {
+        $("#loginForm").modal('hide');
+        $('#signUpForm').modal();
+    });
+
+    $(document).on('click', '.loginForm', function () {
+        $("#signUpForm").modal('hide');
+        $('#loginForm').modal();
+    });
+
+    $(document).on('change', '.showDistrictSelect', function () {
+        $('.districtSelect').toggle();
+    });
+
+    $(document).on('change', '.onoffswitch', function () {
+        var block = $(this).closest('.dynamicFormRow');
+        var obj = block.find('.deliveryAddressBlock');
+        obj.toggle();
+
+        if (obj.is(':visible')) {
+            var mapId = 'yandexMap_' + block.index();
+            if (myMap[mapId] == null) {
+                initMap([55.0302, 82.9204], 14, false, block.find('.yandexMap'), block.index());
+            }
+
+            var destination = $(this).offset().top - 60;
+            $('html, body').animate({scrollTop: destination}, 500);
+            block.find('.deliveryAddress').focus();
         }
     });
 

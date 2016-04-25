@@ -104,6 +104,11 @@ class BaseForm extends Model
             unset($positionAttr['comment']);
             unset($positionAttr['image']);
 
+            if (empty($positionAttr['delivery'])) {
+                unset($positionAttr['deliveryAddress']);
+                unset($positionAttr['addressCoordinates']);
+            }
+
             RequestAttribute::create($request->id,
                 ArrayHelper::merge($this->_commonAttributes, $positionAttr));
 

@@ -19,7 +19,7 @@ $(document).ready(function () {
 
     initMainOfferMap($('.requestOfferBlock[data-counter=0]'));
 
-    if ($('#yandexMapRequest').length > 0) {
+    if ($('.yandexMapRequest').length > 0) {
         initMainRequestMap();
     }
 
@@ -98,7 +98,7 @@ $(document).ready(function () {
         var yandexMabBlock = obj.find('.yandexMapCompany');
         if (coordinates && yandexMabBlock && yandexMabBlock.find('ymaps').length == 0) {
             coordinates = coordinates.split(',');
-            initMap(coordinates, 17, false, yandexMabBlock.attr('id'));
+            initMap(coordinates, 17, false, yandexMabBlock);
         }
     }
 
@@ -106,7 +106,7 @@ $(document).ready(function () {
         var coordinates = $('#addressCoordinatesRequest').val();
         if (coordinates) {
             coordinates = coordinates.split(',');
-            initMap(coordinates, 17, false, 'yandexMapRequest');
+            initMap(coordinates, 17, false, $('.yandexMapRequest'));
         }
     }
 
