@@ -14,4 +14,10 @@ class Controller extends \yii\web\Controller
             $this->redirect('/');
         }
     }
+
+    public function beforeAction($action)
+    {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
 }
