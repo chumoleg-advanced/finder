@@ -1,3 +1,52 @@
+@media (max-width: 1199px) {
+  .carSelect {
+    max-width: 970px;
+  }
+}
+
+@media (max-width: 991px) {
+  .carSelect {
+    max-width: 750px;
+  }
+  .mainCont {
+    .dynamicFormRow {
+      &:nth-child(1) {
+        margin-top: 150px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .whiteCard {
+    padding: 15px 35px 35px;
+    h2 {
+      text-align: center;
+    }
+    p {
+      text-align: center;
+      min-height: auto;
+    }
+  }
+  .whiteCardSub {
+    padding: 15px 15px 35px;
+  }
+  .mainCont.pt173 {
+    .dynamicFormRow {
+      &:nth-child(1) {
+        margin-top: 0;
+      }
+    }
+  }
+  .mainCont {
+    .dynamicFormRow {
+      &:nth-child(1) {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
 @media (max-width: 500px) {
   .MainSlider {
     .item {
@@ -20,21 +69,5 @@
       font-size: 14px;
       padding-top: 10px;
     }
-  }
-}
-
-@media (max-width: 767px) {
-  .whiteCard {
-    padding: 15px 35px 35px;
-    h2 {
-      text-align: center;
-    }
-    p {
-      text-align: center;
-      min-height: auto;
-    }
-  }
-  .whiteCardSub {
-    padding: 15px 15px 35px;
   }
 }
