@@ -573,7 +573,6 @@ footer {
 
 .mainCont {
 
-@import "oldstyle";
 @import "button";
 @import "select2";
 @import "loading";
@@ -581,6 +580,7 @@ footer {
 
 }
 
+@import "oldstyle";
 @import "switch";
 @import "ripple";
 @import "responsive";

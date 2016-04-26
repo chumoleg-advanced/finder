@@ -464,7 +464,6 @@ footer {
       font-weight: 400; }
 
 .mainCont {
-  /* add sorting icons to gridview sort links */
   /* button */
   /* button end */
   /*
@@ -477,203 +476,6 @@ footer {
   /* loading end*/
   /* popover */
   /* popover end*/ }
-  .mainCont .jumbotron {
-    text-align: center;
-    background-color: transparent; }
-  .mainCont .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px; }
-  .mainCont .not-set {
-    color: #c55;
-    font-style: italic; }
-  .mainCont a.asc:after, .mainCont a.desc:after {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px; }
-  .mainCont a.asc:after {
-    content: "\e151"; }
-  .mainCont a.desc:after {
-    content: "\e152"; }
-  .mainCont .sort-numerical a.asc:after {
-    content: "\e153"; }
-  .mainCont .sort-numerical a.desc:after {
-    content: "\e154"; }
-  .mainCont .sort-ordinal a.asc:after {
-    content: "\e155"; }
-  .mainCont .sort-ordinal a.desc:after {
-    content: "\e156"; }
-  .mainCont .grid-view th {
-    white-space: nowrap; }
-  .mainCont .hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999; }
-  .mainCont .error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0; }
-  .mainCont .cbx-label {
-    display: initial; }
-  .mainCont .auth-clients-modal .auth-clients {
-    display: inline-block;
-    float: none;
-    margin-left: 0;
-    padding-left: 0; }
-  .mainCont .auth-clients-modal {
-    text-align: center; }
-  .mainCont .formDiv {
-    padding: 10px; }
-  .mainCont .borderDashed {
-    border: 1px dashed black;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px; }
-  .mainCont .additionOptions {
-    margin-top: 5px; }
-  .mainCont .districtSelect,
-  .mainCont .deliveryAddressBlock {
-    margin-top: 7px; }
-  .mainCont .deleteServiceDiv {
-    text-align: right; }
-  .mainCont .districtSelect,
-  .mainCont .deliveryAddressBlock,
-  .mainCont .additionOptions,
-  .mainCont .partsOriginal,
-  .mainCont .tireTypeWinterParams,
-  .mainCont .uploadFilesBlock,
-  .mainCont .uploadFilesBlock .btn-file,
-  .mainCont .file-footer-caption,
-  .mainCont .file-upload-indicator,
-  .mainCont .kv-file-upload,
-  .mainCont .mainOfferInfoBlock {
-    display: none; }
-  .mainCont .tt-menu .tt-suggestion {
-    white-space: normal !important; }
-  .mainCont .file-preview {
-    margin-top: 10px; }
-  .mainCont .file-preview-frame {
-    height: 100%; }
-  .mainCont .file-drop-zone-title {
-    padding: 10px 10px !important;
-    font-size: 30px !important; }
-  .mainCont .file-actions {
-    position: absolute;
-    margin-top: 0;
-    right: 0;
-    top: -100px; }
-  .mainCont .withoutPadding {
-    padding: 0; }
-  .mainCont .withoutPadding .col-md-12 {
-    padding: 0; }
-  .mainCont .ajaxLink.active {
-    background-color: #bbe7f5 !important; }
-  .mainCont .yandexMap,
-  .mainCont .yandexMapCompany,
-  .mainCont .yandexMapRequest {
-    width: 100%;
-    height: 300px;
-    margin: 0;
-    padding: 0;
-    text-align: center; }
-  .mainCont .preLoaderYandexMax {
-    opacity: 0.5; }
-  .mainCont .yandexMapCompany {
-    height: 250px; }
-  .mainCont .verifyCodeInput {
-    margin-top: 10px; }
-  .mainCont .verifyCodeBlock .help-block {
-    padding-left: 10px; }
-  .mainCont .navbar-brand > img {
-    margin-top: -6px; }
-  .mainCont .wizardMenu ul {
-    margin-left: 0;
-    padding: 0;
-    margin-bottom: 20px; }
-  .mainCont .wizardMenu li {
-    display: inline-block;
-    padding: 0;
-    text-align: center;
-    height: 30px;
-    font-size: 20px; }
-  .mainCont .wizardMenu li.past-step {
-    background-color: #bbe7f5; }
-  .mainCont .wizardMenu li.active {
-    background-color: lightgreen; }
-  .mainCont .form-row.buttons .btn {
-    margin-right: 10px; }
-  .mainCont .checkBoxButtonFormGroup label,
-  .mainCont .radioButtonFormGroup label {
-    display: block; }
-  .mainCont .categoryRubrics {
-    margin-left: 40px;
-    margin-top: -9px; }
-  .mainCont .radioList label {
-    display: block; }
-  .mainCont .text-bold {
-    font-weight: bold; }
-  .mainCont .text-error {
-    color: red; }
-  .mainCont .imageBlock {
-    padding-right: 10px; }
-  .mainCont .requestInfo table {
-    table-layout: fixed; }
-  .mainCont .dynamicFormRowViewOffer div {
-    padding-bottom: 5px; }
-  .mainCont .dropDownTimes {
-    margin-top: 13px; }
-  .mainCont .textArea {
-    width: 100%;
-    height: 200px;
-    resize: none; }
-  .mainCont .dialogMessageForMe,
-  .mainCont .dialogMessageMy {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 10px; }
-  .mainCont .dialogMessageForMe {
-    background-color: #e8e8e8; }
-  .mainCont .dialogMessageMy {
-    margin-left: 30px;
-    background-color: #c1eefc; }
-  .mainCont .modal-body {
-    max-height: 600px; }
-  .mainCont .dialogHistory {
-    max-height: 400px;
-    overflow-y: auto;
-    overflow-x: hidden; }
-  .mainCont .messageDate {
-    font-size: 12px;
-    color: grey; }
-  .mainCont .marginIcon {
-    margin-left: 6px; }
-  .mainCont .viewMainOfferInfo {
-    margin-top: 10px;
-    width: 100%; }
-  .mainCont .rowMessageInDialogList {
-    margin-bottom: 5px; }
-  .mainCont .notificationRead,
-  .mainCont .notificationRead:hover,
-  .mainCont .notificationRead:active {
-    text-decoration: line-through !important;
-    color: darkgrey !important; }
-  .mainCont .requestOfferAttributeBlock {
-    margin-bottom: 15px; }
-  .mainCont .grid-view ul.pagination {
-    margin: 0 !important;
-    margin-bottom: 5px !important;
-    float: right; }
-  .mainCont .list-view ul.pagination {
-    margin: 0 !important;
-    margin-bottom: 10px !important; }
   .mainCont a {
     cursor: pointer;
     outline: none !important; }
@@ -958,6 +760,268 @@ footer {
     font-weight: 400;
     line-height: 15px; }
 
+.jumbotron {
+  text-align: center;
+  background-color: transparent; }
+
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px; }
+
+.not-set {
+  color: #c55;
+  font-style: italic; }
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px; }
+
+a.asc:after {
+  content: "\e151"; }
+
+a.desc:after {
+  content: "\e152"; }
+
+.sort-numerical a.asc:after {
+  content: "\e153"; }
+
+.sort-numerical a.desc:after {
+  content: "\e154"; }
+
+.sort-ordinal a.asc:after {
+  content: "\e155"; }
+
+.sort-ordinal a.desc:after {
+  content: "\e156"; }
+
+.grid-view th {
+  white-space: nowrap; }
+
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: #999; }
+
+.error-summary {
+  color: #a94442;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0; }
+
+.cbx-label {
+  display: initial; }
+
+.auth-clients-modal .auth-clients {
+  display: inline-block;
+  float: none;
+  margin-left: 0;
+  padding-left: 0; }
+
+.auth-clients-modal {
+  text-align: center; }
+
+.formDiv {
+  padding: 10px; }
+
+.borderDashed {
+  border: 1px dashed black;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; }
+
+.additionOptions {
+  margin-top: 5px; }
+
+.districtSelect,
+.deliveryAddressBlock {
+  margin-top: 7px; }
+
+.deleteServiceDiv {
+  text-align: right; }
+
+.districtSelect,
+.deliveryAddressBlock,
+.additionOptions,
+.partsOriginal,
+.tireTypeWinterParams,
+.uploadFilesBlock,
+.uploadFilesBlock .btn-file,
+.file-footer-caption,
+.file-upload-indicator,
+.kv-file-upload,
+.mainOfferInfoBlock {
+  display: none; }
+
+.tt-menu .tt-suggestion {
+  white-space: normal !important; }
+
+.file-preview {
+  margin-top: 10px; }
+
+.file-preview-frame {
+  height: 100%; }
+
+.file-drop-zone-title {
+  padding: 10px 10px !important;
+  font-size: 30px !important; }
+
+.file-actions {
+  position: absolute;
+  margin-top: 0;
+  right: 0;
+  top: -100px; }
+
+.withoutPadding {
+  padding: 0; }
+
+.withoutPadding .col-md-12 {
+  padding: 0; }
+
+.ajaxLink.active {
+  background-color: #bbe7f5 !important; }
+
+.yandexMap,
+.yandexMapCompany,
+.yandexMapRequest {
+  width: 100%;
+  height: 300px;
+  margin: 0;
+  padding: 0;
+  text-align: center; }
+
+.preLoaderYandexMax {
+  opacity: 0.5; }
+
+.yandexMapCompany {
+  height: 250px; }
+
+.verifyCodeInput {
+  margin-top: 10px; }
+
+.verifyCodeBlock .help-block {
+  padding-left: 10px; }
+
+.navbar-brand > img {
+  margin-top: -6px; }
+
+.wizardMenu ul {
+  margin-left: 0;
+  padding: 0;
+  margin-bottom: 20px; }
+
+.wizardMenu li {
+  display: inline-block;
+  padding: 0;
+  text-align: center;
+  height: 30px;
+  font-size: 20px; }
+
+.wizardMenu li.past-step {
+  background-color: #bbe7f5; }
+
+.wizardMenu li.active {
+  background-color: lightgreen; }
+
+.form-row.buttons .btn {
+  margin-right: 10px; }
+
+.checkBoxButtonFormGroup label,
+.radioButtonFormGroup label {
+  display: block; }
+
+.categoryRubrics {
+  margin-left: 40px;
+  margin-top: -9px; }
+
+.radioList label {
+  display: block; }
+
+.text-bold {
+  font-weight: bold; }
+
+.text-error {
+  color: red; }
+
+.imageBlock {
+  padding-right: 10px; }
+
+.requestInfo table {
+  table-layout: fixed; }
+
+.dynamicFormRowViewOffer div {
+  padding-bottom: 5px; }
+
+.dropDownTimes {
+  margin-top: 13px; }
+
+.textArea {
+  width: 100%;
+  height: 200px;
+  resize: none; }
+
+.dialogMessageForMe,
+.dialogMessageMy {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px; }
+
+.dialogMessageForMe {
+  background-color: #e8e8e8; }
+
+.dialogMessageMy {
+  margin-left: 30px;
+  background-color: #c1eefc; }
+
+.modal-body {
+  max-height: 600px; }
+
+.dialogHistory {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden; }
+
+.messageDate {
+  font-size: 12px;
+  color: grey; }
+
+.marginIcon {
+  margin-left: 6px; }
+
+.viewMainOfferInfo {
+  margin-top: 10px;
+  width: 100%; }
+
+.rowMessageInDialogList {
+  margin-bottom: 5px; }
+
+.notificationRead,
+.notificationRead:hover,
+.notificationRead:active {
+  text-decoration: line-through !important;
+  color: darkgrey !important; }
+
+.requestOfferAttributeBlock {
+  margin-bottom: 15px; }
+
+.grid-view ul.pagination {
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+  float: right; }
+
+.list-view ul.pagination {
+  margin: 0 !important;
+  margin-bottom: 10px !important; }
+
 /* switch */
 .checkbox label {
   min-height: auto;
@@ -1138,6 +1202,9 @@ footer {
   .mainCont .dynamicFormRow:nth-child(1) {
     margin-top: 150px; } }
 @media (max-width: 767px) {
+  body {
+    background-image: none !important; }
+
   .whiteCard {
     padding: 15px 35px 35px; }
     .whiteCard h2 {

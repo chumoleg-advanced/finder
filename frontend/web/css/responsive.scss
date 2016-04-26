@@ -18,6 +18,9 @@
 }
 
 @media (max-width: 767px) {
+  body {
+    background-image: none!important;
+  }
   .whiteCard {
     padding: 15px 35px 35px;
     h2 {

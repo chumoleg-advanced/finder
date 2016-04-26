@@ -247,8 +247,13 @@ $(document).ready(function () {
 
                 var form = $('form#request-form');
                 if (form.length > 0) {
-                    form.submit();
-                    preLoaderHide();
+                    if (checkClickRequestSubmitButton){
+                        form.submit();
+                        preLoaderHide();    
+                    } else {
+                        document.location.href = '/';
+                    }
+                    
                 } else {
                     document.location.href = '/';
                 }
@@ -260,6 +265,7 @@ $(document).ready(function () {
         return false;
     }
 
+    var checkClickRequestSubmitButton = false;
     $(document).on('beforeSubmit', 'form#request-form', function (event) {
         preLoaderShow();
         var status = false;
@@ -269,6 +275,7 @@ $(document).ready(function () {
             async: false,
             success: function (data) {
                 if (data.status === false) {
+                    checkClickRequestSubmitButton = true;
                     $('.loginButton').trigger('click');
                 } else {
                     event.preventDefault();
