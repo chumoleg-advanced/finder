@@ -124,6 +124,10 @@ function _setDeliveryAutocomplete() {
         },
         select: function (a, b) {
             var block = $(this).closest('.dynamicFormRow');
+            if (block.length == 0){
+                block = $(this).closest('.row');
+            }
+
             block.find('.addressCoordinates').val(b.item.point);
 
             try {
