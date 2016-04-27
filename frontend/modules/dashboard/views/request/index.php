@@ -29,14 +29,13 @@ $this->title = 'Мои заявки';
                     [
                         'attribute' => 'id',
                         'headerOptions' => ['width' => '100'],
-
                     ],
                     [
-                        'attribute' => 'categoryId',
+                        'attribute' => 'category',
                         'headerOptions' => ['width' => '150'],
                         'filter'    => $searchModel->getCategoryList(),
                         'value'     => function ($data) {
-                            return !empty($data->rubric) ? $data->rubric->category->name : null;
+                            return \common\helpers\CategoryHelper::getNameByCategory($data->category);
                         }
                     ],
                     [

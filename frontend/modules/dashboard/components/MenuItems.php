@@ -2,7 +2,6 @@
 
 namespace frontend\modules\dashboard\components;
 
-use common\models\category\Category;
 use common\models\company\Company;
 use common\models\message\Message;
 use common\models\notification\Notification;
@@ -18,10 +17,6 @@ class MenuItems
         $messageBadge = ' <span class="badge messageBadgeMenu">' . $messageBadge . '</span>';
 
         return [
-            [
-                'label' => 'Создать заявку',
-                'items' => MenuItems::getCreateRequest()
-            ],
             [
                 'label' => 'Мои заявки',
                 'url'   => Url::toRoute('request/index')
@@ -67,27 +62,6 @@ class MenuItems
                 ]
             ]
         ];
-    }
-
-    public static function getCreateRequest()
-    {
-        $createRequestItems = [];
-        foreach (Category::getList() as $categoryObj) {
-            $rubricItems = [];
-            foreach ($categoryObj->rubrics as $rubric) {
-                $rubricItems[] = [
-                    'label' => $rubric->name,
-                    'url'   => Url::toRoute(['request/create', 'id' => $rubric->id]),
-                ];
-            }
-
-            $createRequestItems[] = [
-                'label' => $categoryObj->name,
-                'items' => $rubricItems
-            ];
-        }
-
-        return $createRequestItems;
     }
 
     public static function getCompanyManage()

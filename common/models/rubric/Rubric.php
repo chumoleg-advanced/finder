@@ -4,19 +4,18 @@ namespace common\models\rubric;
 
 use Yii;
 use common\components\ActiveRecord;
-use common\models\category\Category;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "rubric".
  *
- * @property integer  $id
- * @property integer  $category_id
- * @property integer  $rubric_form
- * @property string   $name
- * @property string   $date_create
- *
- * @property Category $category
+ * @property integer $id
+ * @property integer $category
+ * @property integer $rubric_form
+ * @property string  $name
+ * @property string  $css_class_background
+ * @property string  $image
+ * @property string  $date_create
  */
 class Rubric extends ActiveRecord
 {
@@ -34,9 +33,9 @@ class Rubric extends ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'rubric_form', 'name'], 'required'],
-            [['category_idm', 'rubric_form'], 'integer'],
-            [['date_create'], 'safe'],
+            [['category', 'rubric_form', 'name'], 'required'],
+            [['category', 'rubric_form'], 'integer'],
+            [['css_class_background', 'image', 'date_create'], 'safe'],
             [['name'], 'string', 'max' => 250]
         ];
     }
@@ -47,11 +46,13 @@ class Rubric extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('label', 'ID'),
-            'category_id' => Yii::t('label', 'Category ID'),
-            'rubric_form' => Yii::t('label', 'Rubric Form'),
-            'name'        => Yii::t('label', 'Name'),
-            'date_create' => Yii::t('label', 'Date Create'),
+            'id'                   => Yii::t('label', 'ID'),
+            'category'             => Yii::t('label', 'Category'),
+            'rubric_form'          => Yii::t('label', 'Rubric Form'),
+            'name'                 => Yii::t('label', 'Name'),
+            'css_class_background' => Yii::t('label', 'CSS class'),
+            'image'                => Yii::t('label', 'Image'),
+            'date_create'          => Yii::t('label', 'Date Create'),
         ];
     }
 
@@ -65,14 +66,14 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @param null $categoryId
+     * @param int|null $category
      *
      * @return array
      */
-    public static function getList($categoryId = null)
+    public static function getList($category = null)
     {
-        if (!empty($categoryId)) {
-            $data = self::findAllByCategory($categoryId);
+        if (!empty($category)) {
+            $data = self::findAllByCategory($category);
         } else {
             $data = self::find()->all();
         }
@@ -81,21 +82,13 @@ class Rubric extends ActiveRecord
     }
 
     /**
-     * @param int $categoryId
+     * @param int $category
      *
      * @return array|Rubric[]
      */
-    public static function findAllByCategory($categoryId)
+    public static function findAllByCategory($category)
     {
-        return self::find()->whereCategoryId($categoryId)->all();
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+        return self::find()->andWhere(['category' => $category])->all();
     }
 
     /**

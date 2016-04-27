@@ -7,6 +7,14 @@ use yii\helpers\ArrayHelper;
 
 class RubricFormData
 {
+    const FORM_IMPORT_AUTO_PARTS = 1;
+    const FORM_RUSSIAN_AUTO_PARTS = 2;
+    const FORM_TIRES = 3;
+    const FORM_WHEEL_DISC = 4;
+    const FORM_AUTO_SERVICE = 5;
+    const FORM_REPAIR_DISC = 6;
+    const FORM_CAR_BODY = 7;
+
     /**
      * @param int $formId
      *
@@ -15,13 +23,13 @@ class RubricFormData
     public static function getViewName($formId)
     {
         $viewsList = [
-            1 => 'import_auto_parts',
-            2 => 'russian_auto_parts',
-            3 => 'tires',
-            4 => 'wheel_disc',
-            5 => 'auto_service',
-            6 => 'repair_discs',
-            7 => 'repair_car_body'
+            self::FORM_IMPORT_AUTO_PARTS  => 'import_auto_parts',
+            self::FORM_RUSSIAN_AUTO_PARTS => 'russian_auto_parts',
+            self::FORM_TIRES              => 'tires',
+            self::FORM_WHEEL_DISC         => 'wheel_disc',
+            self::FORM_AUTO_SERVICE       => 'auto_service',
+            self::FORM_REPAIR_DISC        => 'repair_discs',
+            self::FORM_CAR_BODY           => 'repair_car_body'
         ];
 
         return ArrayHelper::getValue($viewsList, $formId, 'default');
@@ -35,13 +43,13 @@ class RubricFormData
     public static function geFormModel($formId)
     {
         $viewsList = [
-            1 => 'AutoPartForm',
-            2 => 'AutoPartForm',
-            3 => 'TireForm',
-            4 => 'WheelDiscForm',
-            5 => 'AutoServiceForm',
-            6 => 'RepairDiscForm',
-            7 => 'RepairCarBodyForm'
+            self::FORM_IMPORT_AUTO_PARTS  => 'AutoPartForm',
+            self::FORM_RUSSIAN_AUTO_PARTS => 'AutoPartForm',
+            self::FORM_TIRES              => 'TireForm',
+            self::FORM_WHEEL_DISC         => 'WheelDiscForm',
+            self::FORM_AUTO_SERVICE       => 'AutoServiceForm',
+            self::FORM_REPAIR_DISC        => 'RepairDiscForm',
+            self::FORM_CAR_BODY           => 'RepairCarBodyForm'
         ];
 
         $className = ArrayHelper::getValue($viewsList, $formId);

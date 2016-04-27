@@ -16,6 +16,7 @@ use common\models\requestOffer\RequestOffer;
  * @property integer            $id
  * @property integer            $main_request_id
  * @property string             $id_for_client
+ * @property integer            $category
  * @property integer            $rubric_id
  * @property string             $description
  * @property string             $comment
@@ -45,8 +46,6 @@ class Request extends ActiveRecord
             self::STATUS_CLOSED  => 'Закрыта',
         ];
 
-    public $categoryId;
-
     /**
      * @inheritdoc
      */
@@ -61,8 +60,8 @@ class Request extends ActiveRecord
     public function rules()
     {
         return [
-            [['main_request_id', 'id_for_client', 'rubric_id', 'user_id'], 'required'],
-            [['main_request_id', 'rubric_id', 'user_id', 'status', 'count_view'], 'integer'],
+            [['main_request_id', 'id_for_client', 'category', 'rubric_id', 'user_id'], 'required'],
+            [['main_request_id', 'category', 'rubric_id', 'user_id', 'status', 'count_view'], 'integer'],
             [['description', 'comment'], 'string'],
             [['date_create'], 'safe'],
             [['id_for_client'], 'string', 'max' => 15],
@@ -79,8 +78,8 @@ class Request extends ActiveRecord
             'id'              => 'ID',
             'main_request_id' => 'Main Request ID',
             'id_for_client'   => 'Номер',
+            'category'        => 'Категория',
             'rubric_id'       => 'Рубрика',
-            'categoryId'      => 'Категория',
             'description'     => 'Описание',
             'comment'         => 'Комментарий',
             'status'          => 'Статус',

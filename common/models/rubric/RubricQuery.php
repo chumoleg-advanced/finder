@@ -3,7 +3,6 @@
 namespace common\models\rubric;
 
 use \yii\db\ActiveQuery;
-use common\components\activeQueryTraits\CategoryQueryTrait;
 use common\components\activeQueryTraits\CommonQueryTrait;
 
 /**
@@ -13,8 +12,7 @@ use common\components\activeQueryTraits\CommonQueryTrait;
  */
 class RubricQuery extends ActiveQuery
 {
-    use CommonQueryTrait,
-        CategoryQueryTrait;
+    use CommonQueryTrait;
 
     /**
      * @inheritdoc

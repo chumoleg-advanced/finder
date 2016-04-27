@@ -4,7 +4,6 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use frontend\components\SearchFormGenerator;
 use frontend\modules\dashboard\forms\RequestOfferForm;
-use common\models\category\Category;
 use frontend\assets\FormPartSearchAsset;
 use common\models\request\Request;
 use wbraganca\dynamicform\DynamicFormWidget;
@@ -46,7 +45,7 @@ if ($model->request->status == Request::STATUS_CLOSED) {
 
 <div class="request-offer-form">
     <?php $form = SearchFormGenerator::getFormParamsRequestOffer(); ?>
-    <?php $service = $model->request->rubric->category_id == Category::SERVICE; ?>
+    <?php $service = ($model->request->category == \common\helpers\CategoryHelper::CATEGORY_SERVICE); ?>
 
     <?php
     $dynamic = false;
