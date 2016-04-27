@@ -1,7 +1,7 @@
 <?php
 
 /** @var \common\models\requestOffer\MainRequestOfferSearch $searchModel */
-
+use yii\helpers\Html;
 use yii\grid\GridView;
 use common\components\DatePickerFactory;
 use yii\widgets\Pjax;
@@ -10,13 +10,18 @@ use common\components\ManageButton;
 
 $this->title = 'Заявки от клиентов';
 ?>
-<div class="container layout">
-    <?php Pjax::begin(['id' => 'requestGrid']); ?>
-    <div class="row">
-        <div class="col-md-12">
+<div class="container mainCont dashboard">
+    <div class="dynamicFormRow">
+        <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
+            <h1><?= Html::encode($this->title); ?></h1>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <?php Pjax::begin(['id' => 'requestGrid']); ?>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel'  => $searchModel,
+                'tableOptions' => ['class' => 'table table-hover'],
+                'layout'     => '<div class="table-scrollable">{items}</div><div class="row">{pager}</div>',
                 'columns'      => [
                     'request_id',
                     [
@@ -56,7 +61,7 @@ $this->title = 'Заявки от клиентов';
                         'label'         => '',
                         'filter'        => false,
                         'format'        => 'raw',
-                        'headerOptions' => ['width' => '90'],
+                        'headerOptions' => ['width' => '150'],
                         'value'         => function ($data) {
                             return $data->getStatisticRow();
                         }
@@ -66,20 +71,45 @@ $this->title = 'Заявки от клиентов';
                         'template'      => '{offer} {close} {reset}',
                         'headerOptions' => ['width' => '90'],
                         'buttons'       => [
-                            'close' => function ($url, $model) {
-                                return $model->status != MainRequestOffer::STATUS_CLOSED
-                                    ? ManageButton::close($url) : null;
+                            'offer' => function ($url, $model, $key) {
+                                $options = [
+                                    'class'      => 'tBtn',
+                                    'title'      => Yii::t('yii', 'offer'),
+                                    'aria-label' => Yii::t('yii', 'offer'),
+                                ];
+                                return Html::a('<i class="fa fa-eye"></i>Посмотреть', $url, $options);
                             },
+
+                            'close' => function ($url, $model) {
+                                if( $model->status == MainRequestOffer::STATUS_CLOSED) {
+                                    return null;
+                                }
+                                $options = [
+                                    'class'      => 'tBtn',
+                                    'title'      => Yii::t('yii', 'close'),
+                                    'aria-label' => Yii::t('yii', 'close'),
+                                ];
+                                return Html::a('<i class="fa fa-lock"></i>Закрыть', $url, $options);
+
+                            },
+
                             'reset' => function ($url, $model) {
-                                return $model->status == MainRequestOffer::STATUS_CLOSED
-                                    ? ManageButton::reset($url) : null;
-                            }
+                                if( $model->status != MainRequestOffer::STATUS_CLOSED) {
+                                    return null;
+                                }
+                                $options = [
+                                    'class'      => 'tBtn',
+                                    'title'      => Yii::t('yii', 'reset'),
+                                    'aria-label' => Yii::t('yii', 'reset'),
+                                ];
+                                return Html::a('<i class="fa fa-repeat"></i>Возобновить', $url, $options);
+                            },
                         ],
                     ],
                 ],
             ]);
             ?>
+            <?php Pjax::end(); ?>
         </div>
     </div>
-    <?php Pjax::end(); ?>
 </div>

@@ -29,22 +29,9 @@ echo NavX::widget([
 
 NavBar::end();*/
 ?>
-<!-- <div class="container">
-  <div class="nav">
-    <ul>
-      <li><a href="<?= Url::toRoute('request/index'); ?>">Мои заявки</a></li>
-      <li><a href="<?= Url::toRoute('request-offer/index'); ?>">Заявки от клиентов</a></li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-    </ul>
-  </div>
-</div> -->
 
 <nav id="w1" class="navbar-inverse navbar-fixed-top navbar yamm" role="navigation">
-  <div class="container">
+  <div class="w1170">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w1-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -62,38 +49,79 @@ NavBar::end();*/
     </div>
     <div id="w1-collapse" class="collapse navbar-collapse">
       <ul id="w2" class="navbar-nav nav">
-        <li class="dropdown">
+        <li class="dropdown yamm-fw">
           <a class="dropdown-toggle" href="#" data-toggle="dropdown">Создать заявку <span class="caret"></span></a>
-          <ul id="w3" class="dropdown-menu list-inline">
-            <li class="dropdown dropdown-submenu yamm-fw">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Автосервис</a>
+          <ul id="w3" class="dropdown-menu ">
+            <div class="w1170 list-inline">
+            <li class="dropdown dropdown-submenu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Автосервис <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
-                  <div class="yamm-content">
+                  <div class="yamm-content w1170">
                     <div class="row">
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/1">Авторемонт и техобслуживание (СТО)</a>
+                        <a href="/dashboard/request/create/1">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair1.svg">
+                          </div>
+                          <h4>Авторемонт и техобслуживание (СТО)</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/2">Ремонт дисков</a>
+                        <a href="/dashboard/request/create/2">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair2.svg">
+                          </div>
+                          <h4>Ремонт дисков</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/3">Кузовной ремонт / малярные работы</a>
+                        <a href="/dashboard/request/create/3">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair3.svg">
+                          </div>
+                          <h4>Кузовной ремонт / малярные работы</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/4">Установка / ремонт автостёкол</a>
+                        <a href="/dashboard/request/create/4">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair4.svg">
+                          </div>
+                          <h4>Установка / ремонт автостёкол</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/5">Ремонт автоэлектрики</a>
+                        <a href="/dashboard/request/create/5">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair5.svg">
+                          </div>
+                          <h4>Ремонт автоэлектрики</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/6">Ремонт ходовой части автомобиля</a>
+                        <a href="/dashboard/request/create/6">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair6.svg">
+                          </div>
+                          <h4>Ремонт ходовой части автомобиля</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/7">Ремонт дизельных двигателей</a>
+                        <a href="/dashboard/request/create/7">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair7.svg">
+                          </div>
+                          <h4>Ремонт дизельных двигателей</h4>
+                        </a>
                       </div>
                       <div class="col-xs-12 col-sm-4 col-md-2">
-                        <a href="/dashboard/request/create/8">Ремонт бензиновых двигателей</a>
+                        <a href="/dashboard/request/create/8">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/auto_repair8.svg">
+                          </div>
+                          <h4>Ремонт бензиновых двигателей</h4>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -103,16 +131,51 @@ NavBar::end();*/
             <li class="dropdown dropdown-submenu">
               <a class="dropdown-toggle" href="#" tabindex="-1" data-toggle="dropdown">Автозапчасти / Автотовары <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/dashboard/request/create/9" tabindex="-1">Автозапчасти для иномарок</a></li>
-                <li><a href="/dashboard/request/create/12" tabindex="-1">Автозапчасти для отечественных автомобилей</a></li>
-                <li><a href="/dashboard/request/create/13" tabindex="-1">Шины для легковых а\м</a></li>
-                <li><a href="/dashboard/request/create/14" tabindex="-1">Диски для легковых а\м</a></li>
+                <li>
+                  <div class="yamm-content w1170">
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-4 col-md-2">
+                        <a href="/dashboard/request/create/9">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/ar1_1.svg">
+                          </div>
+                          <h4>Автозапчасти для иномарок</h4>
+                        </a>
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-2">
+                        <a href="/dashboard/request/create/12">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/ar1_2.svg">
+                          </div>
+                          <h4>Автозапчасти для отечественных автомобилей</h4>
+                        </a>
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-2">
+                        <a href="/dashboard/request/create/13">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/ar1_3.svg">
+                          </div>
+                          <h4>Шины для легковых автомобилей</h4>
+                        </a>
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-2">
+                        <a href="/dashboard/request/create/14">
+                          <div class="icons_repair">
+                            <img class="img-responsive" src="/img/icons_repair/ar1_4.svg">
+                          </div>
+                          <h4>Диски для легковых автомобилей</h4>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </li>
+            </div>
           </ul>
         </li>
-        <li><a href="/dashboard/request/index">Мои заявки</a></li>
-        <li><a href="/dashboard/request-offer/index">Заявки от клиентов</a></li>
+        <li><a href="<?= Url::toRoute('request/index'); ?>">Мои заявки</a></li>
+        <li><a href="<?= Url::toRoute('request-offer/index'); ?>">Заявки от клиентов</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" href="#" data-toggle="dropdown">Мои компании <span class="caret"></span></a>
           <ul id="w4" class="dropdown-menu list-inline">

@@ -107,16 +107,6 @@ body.wheelBg {
   .navbar .navbar-collapse .nav .open > a, .navbar .navbar-collapse .nav .open > a:hover, .navbar .navbar-collapse .nav .open > a:focus {
     background: none;
     outline: none; }
-  .navbar .navbar-collapse .dropdown.open:after {
-    content: '';
-    position: fixed;
-    left: 0px;
-    top: 76px;
-    background-color: #54575a;
-    width: 100%;
-    min-height: 65px;
-    display: block;
-    z-index: -1; }
   .navbar .navbar-collapse .dropdown .dropdown-menu {
     background-color: transparent;
     border: none;
@@ -129,16 +119,72 @@ body.wheelBg {
       font-weight: 400;
       line-height: 24px;
       outline: none;
-      padding: 15px 10px; }
+      padding: 15px 10px;
+      display: block; }
     .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu {
       top: 100%;
-      background-color: #fff; }
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); }
       .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu li a {
         color: #2b2b2b;
         font-family: Roboto;
         font-size: 12px;
         font-weight: 500;
-        line-height: 14px; }
+        line-height: 14px;
+        overflow: hidden;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        width: 100%;
+        display: inline-block;
+        background-color: #fff;
+        border-radius: 3px;
+        transition: border .25s;
+        border: 1px solid transparent;
+        padding: 10px 10px 15px;
+        margin-bottom: 10px; }
+        .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu li a .icons_repair {
+          position: relative;
+          width: 100%;
+          min-height: 65px;
+          max-height: 65px;
+          margin: 10px auto 10px; }
+          .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu li a .icons_repair img {
+            max-height: 65px;
+            max-width: 65px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); }
+        .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu li a h4 {
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 14px;
+          text-align: center;
+          min-height: 42px; }
+        .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu li a:hover {
+          border: 1px solid #c9c9c9; }
+          .navbar .navbar-collapse .dropdown .dropdown-menu li > .dropdown-menu li a:hover h4 {
+            text-decoration: underline; }
+  .navbar .navbar-nav > .dropdown:after {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 100%;
+    background-color: #54575a;
+    width: 100%;
+    min-height: 65px;
+    visibility: hidden;
+    opacity: 0;
+    z-index: -1; }
+  .navbar .navbar-nav > .dropdown.open:after {
+    content: '';
+    visibility: visible;
+    opacity: 1; }
   .navbar .navbar-nav .caret {
     border-top: 7px dashed;
     border-top: 7px solid \9;
@@ -333,7 +379,7 @@ body.wheelBg {
     text-align: center; }
   .whiteCardSub:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); }
-    .whiteCardSub:hover h2 {
+    .whiteCardSub:hover h4 {
       text-decoration: underline; }
 
 .autoRepair {

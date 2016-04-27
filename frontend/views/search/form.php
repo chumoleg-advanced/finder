@@ -38,5 +38,5 @@ $this->title = $rubric->name . '. Создание заявки';
         </div>
     </div>
 
-    <?= Html::hiddenInput('rubricCssClass', $rubric->css_class_background); ?>
+    <?= Html::hiddenInput('rubricCssClass', $rubric->css_class_background, ['id' => 'rubricCssClass']); ?>
 </div>

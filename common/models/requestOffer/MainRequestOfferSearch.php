@@ -108,13 +108,13 @@ class MainRequestOfferSearch extends MainRequestOffer
     public function getStatisticRow()
     {
         $countMessages = Message::getCountByMainRequestOffer($this->id);
-        $html = Html::a('<i class="glyphicon glyphicon-certificate" title="Моих Предложений"></i>',
-                Url::to('offer?id=' . $this->id)) . ' ' . $this->countRequestOffers;
+        $html = Html::a('<div class="indicat"><i class="fa fa-circle point2" title="Моих Предложений"></i> Моих Предложений',
+                Url::to('offer?id=' . $this->id)) . ' <span>' . $this->countRequestOffers . '</span></div>';
 
-        $html .= Html::a('<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>', 'javascript:;', [
+        $html .= Html::a('<div class="indicat"><i class="fa fa-circle point3" title="Сообщений"></i> Сообщений', 'javascript:;', [
                 'class'           => 'rowRequestMessage',
                 'data-main-offer' => $this->id
-            ]) . ' ' . $countMessages;
+            ]) . ' <span>' . $countMessages . '</span></div>';
 
         return $html;
     }

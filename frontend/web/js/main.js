@@ -1,10 +1,22 @@
-$(document).ready(function () {
-    if ($('.carBg').length) {
-        $('body').addClass('carBg');
-    }
+(function($){
+    $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+            event.preventDefault(); 
+            event.stopPropagation(); 
+            $(this).parent().siblings().removeClass('open');
+            $(this).parent().toggleClass('open');
+        });
+    });
+})(jQuery);
 
-    if ($('.wheelBg').length) {
-        $('body').addClass('wheelBg');
+$(document).on('click', '.yamm .dropdown-menu', function(e) {
+   e.stopPropagation()
+})
+
+
+$(document).ready(function () {
+    if ($('#rubricCssClass').length){
+        $('body').addClass($('#rubricCssClass').val());
     }
 
     $('.btn').materialripple();
@@ -330,18 +342,3 @@ function findByText(text, obj) {
         $(obj).show();
     }
 }
-
-(function($){
-    $(document).ready(function(){
-        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
-            event.preventDefault(); 
-            event.stopPropagation(); 
-            $(this).parent().siblings().removeClass('open');
-            $(this).parent().toggleClass('open');
-        });
-    });
-})(jQuery);
-
-$(document).on('click', '.yamm .dropdown-menu', function(e) {
-   e.stopPropagation()
-})
