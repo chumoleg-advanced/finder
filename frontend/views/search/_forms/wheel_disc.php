@@ -12,13 +12,13 @@ use frontend\components\SearchFormGenerator;
 $form = SearchFormGenerator::getFormSingle($rubric->id);
 $modelData = new \frontend\forms\request\QueryArrayForm();
 ?>
-<div class="row carSelect">
+<div class="carSelect">
     <div class="rw1170">
         <?= $this->render('_parts/_discParams', ['form' => $form, 'model' => $model]); ?>
         <div class="clearfix"></div>
 
         <div class="collapse " id="additionCarData">
-            <div class="col-md-4 col-sm-5 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <?= $form->field($model, 'manufacturer')->widget(Select2::classname(), [
                     'data'          => Manufacturer::getListByType(Manufacturer::TYPE_DISC),
                     'pluginOptions' => ['allowClear' => true],
@@ -27,11 +27,10 @@ $modelData = new \frontend\forms\request\QueryArrayForm();
                     ]
                 ]); ?>
             </div>
-            <div class="col-md-8 col-sm-7 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <?= $form->field($modelData, '[0]description')->textInput(
                     ['class' => 'form-control', 'placeholder' => 'Укажите название или модель диска']); ?>
             </div>
-            <div class="clearfix"></div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <?= $this->render('_parts/_price', ['form' => $form, 'model' => $model]); ?>
             </div>
@@ -45,7 +44,7 @@ $modelData = new \frontend\forms\request\QueryArrayForm();
 
 <div class="clearfix"></div>
 <div class="box">
-    <div class="row dynamicFormRow">
+    <div class="dynamicFormRow">
         <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
             <h1>Моя заявка</h1>
             <a class="delBtn pull-right delete-item">

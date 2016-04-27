@@ -11,7 +11,7 @@ use frontend\components\SearchFormGenerator;
 $form = SearchFormGenerator::getFormFiles($rubric->id);
 ?>
 
-<div class="row carSelect">
+<div class="carSelect">
   <div class="rw1170">
     <?= $this->render('_parts/_carSelect', [
         'form'                 => $form,

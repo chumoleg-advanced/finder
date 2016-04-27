@@ -46,7 +46,7 @@ $dynamicParams = [
 <?php DynamicFormWidget::begin($dynamicParams); ?>
 
     <div class="form-options-body partsSearch">
-        <div class="row dynamicFormRow">
+        <div class=" dynamicFormRow">
             <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
                 <h1>Моя заявка</h1>
                 <a class="delBtn pull-right delete-item">

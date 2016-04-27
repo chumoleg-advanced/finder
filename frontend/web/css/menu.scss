@@ -1,0 +1,220 @@
+/* menu */
+.navbar {
+  margin-bottom: 0;
+  border: none;
+  box-shadow: none;
+  border-radius: 0!important;
+  z-index: 1005;
+  min-height: 72px;
+  background-color: $MineShaft;
+  color: $white;
+
+  .navbar-brand {
+    height: auto;
+    .svg {
+      float: left;
+      margin-right: 18px;
+      svg {
+        fill: $white;
+      }
+    }
+    .logo {
+      float: left;
+      color: $white;
+      font-family: Noto Sans;
+      font-size: 29px;
+      line-height: 28px;
+      margin-top: 5px;
+
+      .search {
+        color: $PoloBlue;
+        font-weight: 700;
+      }
+      .place {
+        font-weight: 400;
+      }
+    }
+  }
+  .navbar-toggle {
+    border-color: $white;
+    margin-top: 20px;
+    span {
+      background: $white;
+    }
+  }
+  .navbar-collapse {
+    .nav {
+      padding: 11px 0;
+      li {
+        a {
+          color: $Porcelain;
+          font-family: Roboto;
+          font-size: 17px;
+          font-weight: 400;
+          line-height: 24px;
+          outline: none;
+          &:focus,
+          &:active,
+          &:hover {
+            text-decoration: underline;
+            color: $PoloBlue;
+            background: none;
+            outline: none;
+            .svg {
+              svg {
+                fill: $PoloBlue;
+              }
+            }
+          }
+        }
+      }
+    }
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+      background: none;
+      outline: none;
+    }
+    .dropdown {
+      &.open {
+        &:after {
+          content: '';
+          position: fixed;
+          left: 0px;
+          top: 76px;
+          background-color: $Abbey;
+          width: 100%;
+          min-height: 65px;
+          display: block;
+          z-index: -1;
+        }
+      }
+      .dropdown-menu {
+        background-color: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        li {
+          a {
+            color: $Porcelain;
+            font-family: Roboto;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 24px;
+            outline: none;
+            padding: 15px 10px;
+          }
+          > .dropdown-menu {
+            top: 100%;
+            background-color: $white;
+            li {
+              a {
+                color: $MineShaft;
+                font-family: Roboto;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 14px;
+              }
+            }
+          }
+        }
+        // .dropdown-submenu {
+        //   &.open {
+        //     &:after {
+        //       content: '';
+        //       position: fixed;
+        //       left: 0px;
+        //       top: 76px;
+        //       background-color: $white;
+        //       width: 100%;
+        //       min-height: 65px;
+        //       display: block;
+        //       z-index: -1;
+        //     }
+        //   }
+        // }
+      }
+    }
+      
+    // .dropdown-menu > li > a {
+    //   color: $Jumbo;
+    //   outline: none;
+    //   &:focus,
+    //   &:active,
+    //   &:hover {
+    //     outline: none;
+    //     color: $MineShaft;
+    //   }
+    // }
+  }
+  .navbar-nav {
+    .caret {
+      border-top: 7px dashed;
+      border-top: 7px solid \9;
+      border-right: 7px solid transparent;
+      border-left: 7px solid transparent;
+    }
+    .svg {
+      float: left;
+      margin-right: 10px;
+      svg {
+        fill: $Porcelain;
+      }
+    }
+    .messageButton {
+      .svg {
+        margin-right: 0;
+      }
+      .badge {
+        padding: 3px 6px;
+        background-color: $HippieBlue;
+        color: $Porcelain;
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 400;
+        position: absolute;
+        top: 8px;
+        right: 2px;
+      }
+    }
+  }
+}
+/* menu end */
+
+/*!
+ * Yamm!3 - Yet another megamenu for Bootstrap 3
+ * http://geedmo.github.com/yamm3
+ *
+ * @geedmo - Licensed under the MIT license
+ */
+
+//-----------------------------
+//  Yamm Styles
+//-----------------------------
+
+.yamm {
+
+  // reset positions
+  .nav, .collapse, .dropup, .dropdown {
+    position: static;
+  }
+
+  // propagate menu position under container for fw navbars
+  .container {
+    position: relative;
+  }
+
+  // by default aligns menu to left
+  .dropdown-menu {
+    left: auto;
+  }
+
+  // Content with padding
+  .yamm-content {
+    padding: 20px 30px;
+  }
+
+  // Fullwidth menu
+  .dropdown.yamm-fw .dropdown-menu {
+    left: 0; right: 0;
+  }
+
+}

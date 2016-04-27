@@ -76,7 +76,7 @@ function carSelect() {
     } else {
         $(".carSelect").css({
             position:'relative',
-            margin:'0 -15px',
+            margin:'0',
             width:'auto',
             top:'0',
             left: '0',
@@ -330,3 +330,18 @@ function findByText(text, obj) {
         $(obj).show();
     }
 }
+
+(function($){
+    $(document).ready(function(){
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+            event.preventDefault(); 
+            event.stopPropagation(); 
+            $(this).parent().siblings().removeClass('open');
+            $(this).parent().toggleClass('open');
+        });
+    });
+})(jQuery);
+
+$(document).on('click', '.yamm .dropdown-menu', function(e) {
+   e.stopPropagation()
+})

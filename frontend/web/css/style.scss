@@ -60,90 +60,7 @@ body.wheelBg {
   background-color: $white;
 }
 
-/* menu */
-.navbar {
-  margin-bottom: 0;
-  border: none;
-  box-shadow: none;
-  border-radius: 0!important;
-  z-index: 1005;
-  min-height: 72px;
-  background-color: $MineShaft;
-  color: $white;
-
-  .navbar-brand {
-    height: auto;
-
-    .svg {
-      float: left;
-      margin-right: 18px;
-      svg {
-        fill: $white;
-      }
-    }
-    .logo {
-      float: left;
-      color: $white;
-      font-family: Noto Sans;
-      font-size: 29px;
-      line-height: 28px;
-      margin-top: 5px;
-
-      .search {
-        color: $PoloBlue;
-        font-weight: 700;
-      }
-      .place {
-        font-weight: 400;
-      }
-    }
-  }
-  .navbar-toggle {
-    border-color: $white;
-    margin-top: 20px;
-    span {
-      background: $white;
-    }
-  }
-  .navbar-collapse {
-    .nav {
-      padding: 11px 0;
-      li {
-        a {
-          color: $Porcelain;
-          font-family: Roboto;
-          font-size: 17px;
-          font-weight: 400;
-          line-height: 24px;
-          text-decoration: underline;
-          outline: none;
-          &:focus,
-          &:active,
-          &:hover {
-            color: $PoloBlue;
-            background: none;
-            outline: none;
-          }
-        }
-      }
-    }
-    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-      background: none;
-      outline: none;
-    }
-    .dropdown-menu > li > a {
-      color: $Jumbo;
-      outline: none;
-      &:focus,
-      &:active,
-      &:hover {
-        outline: none;
-        color: $MineShaft;
-      }
-    }
-  }
-}
-/* menu end */
+@import "menu";
 
 .MainSlider {
   position: relative;
@@ -404,6 +321,7 @@ body.wheelBg {
     border-top: 1px solid $SilverSand;
     &:nth-child(1) {
       margin-top: 0;
+      border-top: 1px solid $SilverSand;
     }
   }
 }
@@ -413,7 +331,7 @@ body.wheelBg {
   transform: translateX(-50%);
   width: 100%;
   margin: 0;
-  max-width: 1170px;
+  max-width: 1140px;
   background-color: white;
   border-radius: 3px 3px 0 0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -442,6 +360,9 @@ body.wheelBg {
 .mainCont {
 
   .dynamicFormRow {
+    position: relative;
+    display: inline-block;
+    width: 100%;
     -webkit-transition: all 0.25s linear;
     -moz-transition: all 0.25s linear;
     -o-transition: all 0.25s linear;
@@ -462,7 +383,21 @@ body.wheelBg {
       }
     }
   }
-
+  /* dashboard end */  
+  &.dashboard {
+    padding-top: 100px;
+    .dynamicFormRow {
+      &:nth-child(1) {
+        border-radius: 3px;
+        border-top: 1px solid $SilverSand;
+        margin-top: 0;
+        .myRequest {
+          display: block;
+        }
+      }
+    }
+  }
+  /* dashboard end */  
 }
 
 .myRequest {
@@ -572,15 +507,14 @@ footer {
 }
 
 .mainCont {
-
-@import "button";
-@import "select2";
-@import "loading";
-@import "popover";
-
+  @import "button";
+  @import "select2";
+  @import "loading";
+  @import "popover";
 }
 
 @import "oldstyle";
+@import "table";
 @import "switch";
 @import "ripple";
 @import "responsive";

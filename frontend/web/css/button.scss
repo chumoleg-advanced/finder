@@ -100,6 +100,7 @@ input, button, select, textarea {
   &:active,
   &:target,
   &:focus {
+    box-shadow: none;
     outline: none;
   }
 }
@@ -186,5 +187,46 @@ input, button, select, textarea {
   margin: 0 auto;
   max-width: 224px;
   width: 100%;
+}
+
+.tBtn {
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+  display: block;
+  color: $Shark;
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: underline;
+  padding: 0 0 0 25px;
+  min-height: auto;
+  margin-bottom: 5px;
+  outline: none;
+  i {
+    color: $Edward;
+    text-align: center;
+    font-size: 16px;
+    min-width: 16px;
+    position: absolute;
+    left: 0;
+    top: 44%;
+    transform: translateY(-50%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    color: $HippieBlue;
+    outline: none;
+    i {
+      color:$HippieBlue;
+    }
+  }
 }
 /* button end */

@@ -21,25 +21,21 @@ DashboardMainAsset::register($this);
     <?php $this->head(); ?>
 </head>
 <body>
-<?php $this->beginBody(); ?>
+    <?php $this->beginBody(); ?>
 
-<div class="wrap">
-    <?= $this->render('_menu'); ?>
-
-    <div class="container">
-        <legend><?= Html::encode($this->title); ?></legend>
+    <div class="wrap">
+        <?= $this->render('_menu'); ?>
         <?= Alert::widget(); ?>
         <?= $content; ?>
 
         <?= $this->render('_message'); ?>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container"></div>
-</footer>
+    <footer class="footer">
+        <div class="container"></div>
+    </footer>
 
-<?php $this->endBody(); ?>
+    <?php $this->endBody(); ?>
 </body>
 </html>
 <?php $this->endPage(); ?>

@@ -92,11 +92,13 @@ class RequestSearch extends Request
     public function getStatisticRow()
     {
         $countMessages = Message::getCountByRequest($this->id);
-        $html = '<i class="glyphicon glyphicon-eye-open" title="Просмотров"></i>' . ' ' . $this->count_view;
-        $html .= Html::a('<i class="glyphicon glyphicon-certificate marginIcon" title="Предложений"></i>',
-                Url::to('view/' . $this->id . '#bestRequestOffer')) . ' ' . $this->countRequestOffers;
+        $html = '<div class="indicat"><i class="fa fa-circle point1" title="Просмотров"></i> Просмотров' . ' <span>' . $this->count_view . '</span></div>';
+        $html .= '<div class="indicat">';
+        $html .= Html::a('<i class="fa fa-circle point2" title="Предложений"></i> Предложений',
+                Url::to('view/' . $this->id . '#bestRequestOffer')) . ' <span>' . $this->countRequestOffers . '</span>';
+        $html .= '</div>';
 
-        $messageLink = '<i class="glyphicon glyphicon-comment marginIcon" title="Сообщений"></i>';
+        $messageLink = '<div class="indicat"><i class="fa fa-circle point3" title="Сообщений"></i> Сообщений';
         if ($countMessages > 0) {
             $messageLink = Html::a($messageLink, 'javascript:;', [
                 'class'       => 'messageButton',
@@ -104,7 +106,7 @@ class RequestSearch extends Request
             ]);
         }
 
-        $html .= $messageLink . ' ' . $countMessages;
+        $html .= $messageLink . ' <span>' . $countMessages . '</span></div>';
 
         return $html;
     }
