@@ -1,13 +1,11 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $categories common\models\category\Category[] */
 
 use \yii\helpers\Url;
-use himiklab\thumbnail\EasyThumbnailImage;
 use yii\web\Cookie;
 use frontend\assets\OwlCarouselAsset;
-use common\models\category\Category;
+use yii\helpers\ArrayHelper;
 
 OwlCarouselAsset::register($this);
 
@@ -109,28 +107,18 @@ $this->title = Yii::t('title', 'Search');
 <!--            <h3>Ваш город: --><?php //echo $city; ?><!--</h3>-->
 <!--        </div>-->
 
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <a class="whiteCard" href="<?= Url::toRoute(['/search/category', 'id' => Category::SERVICE]); ?>">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <img src="/img/icons_main/main1.svg" alt="">
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    <h2>Автосервис</h2>
-                    <p>Любые услуги по автосервису: от удаления вмятин до замены ходовой части.</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <a class="whiteCard" href="<?= Url::toRoute(['/search/category', 'id' => Category::PARTS]); ?>">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <img src="/img/icons_main/main2.svg" alt="">
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    <h2>Автозапчасти/Автотовары</h2>
-                    <p>Вы найдёте нужное: всё от запчастей до дисков и шин.</p>
-                </div>
-            </a>
-        </div>
+        <?php foreach (\common\helpers\CategoryHelper::getList() as $id => $item) : ?>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <a class="whiteCard" href="<?= Url::toRoute(['/search/category', 'id' => $id]); ?>">
+                    <div class="col-xs-12 col-sm-4 col-md-3">
+                        <img src="<?= ArrayHelper::getValue($item, 'image'); ?>" alt="">
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        <h2><?= ArrayHelper::getValue($item, 'name'); ?></h2>
+                        <p><?= ArrayHelper::getValue($item, 'description'); ?></p>
+                    </div>
+                </a>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>

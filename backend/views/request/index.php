@@ -1,12 +1,9 @@
 <?php
 
 use yii\grid\GridView;
-use yii\helpers\Html;
 use common\components\DatePickerFactory;
 use common\components\ManageButton;
 use common\models\request\Request;
-use common\models\category\Category;
-use common\models\rubric\Rubric;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\request\RequestSearch */
@@ -26,10 +23,10 @@ echo GridView::widget([
             }
         ],
         [
-            'attribute' => 'categoryId',
+            'attribute' => 'category',
             'filter'    => $searchModel->getCategoryList(),
             'value'     => function ($data) {
-                return !empty($data->rubric) ? $data->rubric->category->name : null;
+                return \common\helpers\CategoryHelper::getNameByCategory($data->category);
             }
         ],
         [

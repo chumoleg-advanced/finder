@@ -11,27 +11,32 @@ FormCarSearchAsset::register($this);
 
 $this->title = $rubric->name . '. Создание заявки';
 ?>
+
 <div class="container mainCont">
-  <div class="row">
-    <div class="col-md-12">
-      <?php
-      if (!isset($hideBackLink)) {
-          echo Html::a('Тут были хлебные крошки...', Url::toRoute(['/search/category', 'id' => $rubric->category_id]), ['class' => 'autoRepair']);
-      }
-      ?>
+    <div class="row">
+        <div class="col-md-12">
+            <?php
+            if (!isset($hideBackLink)) {
+                echo Html::a('Тут были хлебные крошки...',
+                    Url::toRoute(['/search/category', 'id' => $rubric->category]), ['class' => 'autoRepair']);
+            }
+            ?>
+        </div>
     </div>
-  </div>
-  <?php
-    echo $this->render($formView, ['model' => $formModel, 'rubric' => $rubric]);
-  ?>
-  <div class="clearfix"></div>
-  <div class="row">
-    <div class="col-md-12">
-      <?php
-      if (!isset($hideBackLink)) {
-          echo Html::a('Вернуться в услуги автосервиса', Url::toRoute(['/search/category', 'id' => $rubric->category_id]), ['class' => 'autoRepair']);
-      }
-      ?>
+
+    <?= $this->render($formView, ['model' => $formModel, 'rubric' => $rubric]); ?>
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <?php
+            if (!isset($hideBackLink)) {
+                echo Html::a('Вернуться в услуги автосервиса',
+                    Url::toRoute(['/search/category', 'id' => $rubric->category]), ['class' => 'autoRepair']);
+            }
+            ?>
+        </div>
     </div>
-  </div>
+
+    <?= Html::hiddenInput('rubricCssClass', $rubric->css_class_background); ?>
 </div>

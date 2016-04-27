@@ -2,6 +2,7 @@
 
 namespace common\models\requestOffer;
 
+use common\helpers\CategoryHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -11,8 +12,8 @@ use yii\helpers\Url;
 
 class MainRequestOfferSearch extends MainRequestOffer
 {
+    public $category;
     public $rubricId;
-    public $categoryId;
     public $description;
     public $countRequestOffers;
 
@@ -22,7 +23,7 @@ class MainRequestOfferSearch extends MainRequestOffer
     public function rules()
     {
         return [
-            [['request_id', 'status', 'categoryId', 'rubricId'], 'integer'],
+            [['request_id', 'status', 'category', 'rubricId'], 'integer'],
             [['date_create', 'description'], 'safe']
         ];
     }
@@ -33,7 +34,7 @@ class MainRequestOfferSearch extends MainRequestOffer
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'categoryId'  => 'Категория',
+            'category'  => 'Категория',
             'rubricId'    => 'Рубрика',
             'description' => 'Описание',
         ]);
@@ -49,7 +50,7 @@ class MainRequestOfferSearch extends MainRequestOffer
     public function search($params)
     {
         $query = parent::find();
-        $query->joinWith('request.rubric.category');
+        $query->joinWith('request.rubric');
         $query->select([
             'main_request_offer.*',
             '(SELECT COUNT(t.id) FROM ' . RequestOffer::tableName() . ' t
@@ -67,7 +68,7 @@ class MainRequestOfferSearch extends MainRequestOffer
             'main_request_offer.status'            => $this->status,
             'main_request_offer.request_id'        => $this->request_id,
             'request.rubric_id'                    => $this->rubricId,
-            'rubric.category_id'                   => $this->categoryId,
+            'request.category'                     => $this->category,
             'DATE(main_request_offer.date_create)' => $this->date_create
         ]);
 
@@ -78,14 +79,21 @@ class MainRequestOfferSearch extends MainRequestOffer
         return $dataProvider;
     }
 
+    /**
+     * @return array
+     */
     public function getListCategories()
     {
-        $query = self::find()->joinWith('request.rubric.category')->distinct('rubric.category_id');
+        $query = self::find()->joinWith('request')->distinct('request.category');
         $this->andWhereUser($query, 'main_request_offer.user_id');
+        $data = ArrayHelper::map($query->all(), 'request.category', 'request.category');
 
-        return ArrayHelper::map($query->all(), 'request.rubric.category_id', 'request.rubric.category.name');
+        return CategoryHelper::getListByIds($data);
     }
 
+    /**
+     * @return array
+     */
     public function getListRubrics()
     {
         $query = self::find()->joinWith('request.rubric')->distinct('rubric.id');
@@ -94,6 +102,9 @@ class MainRequestOfferSearch extends MainRequestOffer
         return ArrayHelper::map($query->all(), 'request.rubric_id', 'request.rubric.name');
     }
 
+    /**
+     * @return string
+     */
     public function getStatisticRow()
     {
         $countMessages = Message::getCountByMainRequestOffer($this->id);

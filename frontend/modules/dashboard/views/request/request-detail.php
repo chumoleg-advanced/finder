@@ -36,8 +36,8 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
                 'model'      => $model,
                 'attributes' => [
                     [
-                        'attribute' => 'categoryId',
-                        'value'     => !empty($model->rubric) ? $model->rubric->category->name : null
+                        'attribute' => 'category',
+                        'value'     => \common\helpers\CategoryHelper::getNameByCategory($model->category)
                     ],
                     [
                         'attribute' => 'rubric_id',

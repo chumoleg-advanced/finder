@@ -2,6 +2,7 @@
 
 namespace common\models\request;
 
+use common\helpers\CategoryHelper;
 use common\models\message\Message;
 use common\models\requestOffer\RequestOffer;
 use Yii;
@@ -20,7 +21,7 @@ class RequestSearch extends Request
     public function rules()
     {
         return [
-            [['id', 'status', 'categoryId', 'rubric_id', 'user_id'], 'integer'],
+            [['id', 'status', 'category', 'rubric_id', 'user_id'], 'integer'],
             [['description', 'date_create'], 'safe']
         ];
     }
@@ -51,36 +52,42 @@ class RequestSearch extends Request
         $query->andFilterWhere([
             'request.id'                => $this->id,
             'request.status'            => $this->status,
+            'request.category'          => $this->category,
             'request.rubric_id'         => $this->rubric_id,
             'request.user_id'           => $this->user_id,
             'DATE(request.date_create)' => $this->date_create
         ]);
 
         $query->andFilterWhere(['like', 'description', $this->description]);
-
-        if (!empty($this->categoryId)) {
-            $query->andFilterWhere(['rubric.category_id' => $this->categoryId]);
-        }
-
         $this->andWhereUser($query, 'request.user_id');
 
         return $dataProvider;
     }
 
+    /**
+     * @return array
+     */
     public function getUserList()
     {
         return ArrayHelper::map(self::find()->joinWith('user')->distinct('user_id')->all(),
             'user.id', 'user.email');
     }
 
+    /**
+     * @return array
+     */
     public function getCategoryList()
     {
-        $query = self::find()->joinWith('rubric.category')->distinct('rubric_id');
-        $this->andWhereUser($query, 'request.user_id');
+        $query = self::find()->distinct('category');
+        $this->andWhereUser($query, 'user_id');
+        $data = ArrayHelper::map($query->all(), 'category', 'category');
 
-        return ArrayHelper::map($query->all(), 'rubric.category.id', 'rubric.category.name');
+        return CategoryHelper::getListByIds($data);
     }
 
+    /**
+     * @return array
+     */
     public function getRubricList()
     {
         $query = self::find()->joinWith('rubric')->distinct('rubric_id');
@@ -89,6 +96,9 @@ class RequestSearch extends Request
         return ArrayHelper::map($query->all(), 'rubric.id', 'rubric.name');
     }
 
+    /**
+     * @return string
+     */
     public function getStatisticRow()
     {
         $countMessages = Message::getCountByRequest($this->id);

@@ -33,11 +33,6 @@ class SearchController extends Controller
         ]);
     }
 
-    public function actionSearch()
-    {
-        return $this->render('category');
-    }
-
     public function actionCategory($id)
     {
         $rubrics = Rubric::findAllByCategory($id);

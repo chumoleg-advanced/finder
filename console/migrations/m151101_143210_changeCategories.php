@@ -56,14 +56,14 @@ class m151101_143210_changeCategories extends Migration
 
     /**
      * @param [] $rubricsData
-     * @param int $categoryId
+     * @param int $category
      */
-    private function _insertRubrics($rubricsData, $categoryId)
+    private function _insertRubrics($rubricsData, $category)
     {
         $date = date('Y-m-d H:i:s');
         foreach ($rubricsData as $name => $formId) {
             $this->insert('rubric', [
-                'category_id'    => $categoryId,
+                'category_id'    => $category,
                 'name'           => $name,
                 'rubric_form' => $formId,
                 'date_create'    => $date

@@ -11,7 +11,7 @@ use common\components\ManageButton;
 $this->title = 'Заявки от клиентов';
 ?>
 <div class="container layout">
-<?php Pjax::begin(['id' => 'requestGrid']); ?>
+    <?php Pjax::begin(['id' => 'requestGrid']); ?>
     <div class="row">
         <div class="col-md-12">
             <?= GridView::widget([
@@ -27,10 +27,11 @@ $this->title = 'Заявки от клиентов';
                         }
                     ],
                     [
-                        'attribute' => 'categoryId',
+                        'attribute' => 'category',
                         'filter'    => $searchModel->getListCategories(),
                         'value'     => function ($data) {
-                            return !empty($data->request) ? $data->request->rubric->category->name : null;
+                            return !empty($data->request)
+                                ? \common\helpers\CategoryHelper::getNameByCategory($data->request->category) : null;
                         }
                     ],
                     [
@@ -80,5 +81,5 @@ $this->title = 'Заявки от клиентов';
             ?>
         </div>
     </div>
-<?php Pjax::end(); ?>
+    <?php Pjax::end(); ?>
 </div>

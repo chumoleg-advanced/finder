@@ -58,11 +58,11 @@ class m151008_063526_getDataFrom2Gis extends Migration
                 ])
                 ->execute();
 
-            $categoryId = $connect->getLastInsertID();
+            $category = $connect->getLastInsertID();
             foreach ($mainCategory['rubrics'] as $rubric) {
                 $connect->createCommand()
                     ->insert('rubric', [
-                        'category_id' => $categoryId,
+                        'category_id' => $category,
                         'name'        => $rubric['name'],
                         'date_create' => $date
                     ])

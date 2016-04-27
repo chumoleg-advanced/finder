@@ -4,7 +4,7 @@ namespace frontend\modules\dashboard\forms;
 
 use common\components\CarData;
 use common\components\MyImage;
-use common\models\category\Category;
+use common\helpers\CategoryHelper;
 use common\models\company\CompanyRubric;
 use common\models\notification\Notification;
 use common\models\request\Request;
@@ -46,7 +46,6 @@ class RequestOfferForm extends Model
 
     public static function getAttributesDataByRequest(Request $request, $form)
     {
-        $service = $request->rubric->category_id == Category::SERVICE;
         $companiesList = CompanyRubric::getCompaniesByRubric($request->rubric_id);
 
         $availability = CarData::$availability;
@@ -67,7 +66,7 @@ class RequestOfferForm extends Model
         $viewParams = ArrayHelper::merge([
             'availability'  => $availability,
             'companiesList' => $companiesList,
-            'service'       => $service,
+            'service'       => ($request->category == CategoryHelper::CATEGORY_SERVICE),
             'form'          => $form,
             'request'       => $request,
         ], $offerFormAttributes);

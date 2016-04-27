@@ -21,10 +21,10 @@ echo GridView::widget([
     'columns'      => [
         'id',
         [
-            'attribute' => 'categoryId',
+            'attribute' => 'category',
             'filter'    => $searchModel->getCategoryList(),
             'value'     => function ($data) {
-                return !empty($data->rubric) ? $data->rubric->category->name : null;
+                return \common\helpers\CategoryHelper::getNameByCategory($data->category);
             }
         ],
         [
