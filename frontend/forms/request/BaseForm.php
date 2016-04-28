@@ -4,6 +4,7 @@ namespace frontend\forms\request;
 
 use common\components\MyImage;
 use common\models\notification\Notification;
+use common\models\rubric\Rubric;
 use Yii;
 use yii\base\Model;
 use common\models\request\Request;
@@ -87,11 +88,14 @@ class BaseForm extends Model
             return false;
         }
 
+        $rubricModel = Rubric::findById($rubricId);
+
         foreach ($positions as $k => $positionAttr) {
             $request = new Request();
             $request->main_request_id = $mainRequestId;
             $request->id_for_client = $mainRequestId . '-' . ($k + 1);
             $request->user_id = Yii::$app->user->id;
+            $request->category = $rubricModel->category;
             $request->rubric_id = $rubricId;
             $request->description = ArrayHelper::getValue($positionAttr, 'description');
             $request->comment = ArrayHelper::getValue($positionAttr, 'comment');
