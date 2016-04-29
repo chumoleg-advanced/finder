@@ -34,12 +34,12 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
                     ?>
 
                     <div class="address"><?= $firstAddress->address; ?></div>
-                    <a class="collapseBtn small collapsed" type="button" data-toggle="collapse" data-target="#allCompanyPhone" aria-expanded="false" aria-controls="allCompanyPhone">
+                    <a class="collapseBtn small collapsed" type="button" data-toggle="collapse" data-target="#allCompanyPhone<?= $counter; ?>" aria-expanded="false" aria-controls="allCompanyPhone">
                         <span class="rollUp">Посмотреть все контакты</span>
                         <span class="chevron"></span>
                     </a>
                     <div class="collapseBox">
-                        <div class="collapse" id="allCompanyPhone">
+                        <div class="collapse" id="allCompanyPhone<?= $counter; ?>">
                             <?php foreach ($firstAddress->companyContactDatas as $contact) : ?>
                                 <div class="companyPhone">
                                     <div class="svg">
@@ -103,12 +103,12 @@ $offerAttributeLabels = (new RequestOfferForm())->attributeLabels();
                     <?php if (!empty($timeWork)) : ?>
                         <h6 class="timeWorkText">Время работы:</h6>
 
-                        <a class="collapseBtn collapsed" type="button" data-toggle="collapse" data-target="#allTimeWork" aria-expanded="false" aria-controls="allCompanyPhone">
+                        <a class="collapseBtn collapsed" type="button" data-toggle="collapse" data-target="#allTimeWork<?= $counter; ?>" aria-expanded="false" aria-controls="allCompanyPhone">
                             <h5 class="timeWork">Сегодня с 10:00 до 20:00</h5>
                             <span class="chevron"></span>
                         </a>
                         <div class="collapseBox">
-                            <div class="collapse" id="allTimeWork">
+                            <div class="collapse" id="allTimeWork<?= $counter; ?>">
                                 <?//= $timeWork; ?>
                                 <div class="schedule_dropdown">
                                     <table class="schedule_table">
