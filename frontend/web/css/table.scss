@@ -1,4 +1,4 @@
-.table {
+.PStable {
   > thead,
   > tbody,
   > tfoot {
@@ -41,7 +41,7 @@
   }
 }
 
-.table > thead > tr > th {
+.PStable > thead > tr > th {
   border-bottom: 1px solid transparent;
   color: $MineShaft;
   font-family: Roboto;
@@ -63,11 +63,11 @@
   }
 }
 
-.table > thead > tr > td {
+.PStable > thead > tr > td {
   border-top: 1px solid transparent;
 }
 
-.table > thead > tr {
+.PStable > thead > tr {
   &.filters {
     td:first-child {
       .form-control {
@@ -77,13 +77,13 @@
     }
   }
 }
-.table > tbody > tr {
+.PStable > tbody > tr {
   &:hover {
     background-color: transparent;
   }
 }
 
-.table > tbody > tr > td {
+.PStable > tbody > tr > td {
   border-top: 1px solid $SilverSand;
 }
 
@@ -142,7 +142,7 @@ Scrollable Tables
         width: 100% !important;
         margin: 0 !important;
         margin-bottom: 0;
-        background-color: #fff;
+        background-color: $white;
 
         > thead > tr > th,
         > tbody > tr > th,
@@ -183,4 +183,76 @@ Scrollable Tables
           border-bottom: 0;
         }
     }
+}
+
+
+
+.schedule_dropdown {
+  visibility: visible;
+  max-height: 999px;
+  opacity: 1;
+}
+.schedule_table {
+  display: table;
+  box-sizing: border-box;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+}
+.schedule_th {
+  position: relative;
+  padding: 10px 0;
+  border-bottom: 2px solid $Atlantis;
+  box-shadow: 0 1px 0 $Atlantis,-2px 2px 0 $white;
+  vertical-align: bottom;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+
+}
+.schedule_th.dayoff {
+  border-bottom-color: $Mojo;
+  box-shadow: 0 1px 0 $Mojo,-2px 2px 0 $white;
+}
+.schedule_th.active {
+  position: relative;
+  z-index: 1;
+  border-bottom-color: $Atlantis;
+  border-radius: 2px 2px 0 0;
+  background-color: $Deco;
+  box-shadow: 0 1px 0 $Deco,2px 1px 0 $white,-2px 1px 0 $white;
+}
+.schedule_td {
+  padding: 10px 0 8px;
+  border-bottom: 1px solid $SilverSand;
+  vertical-align: middle;
+  font-size: 12px;
+  position: relative;
+}
+.schedule_tableTime {
+  display: block;
+  overflow: hidden;
+  margin: 0 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.schedule_dayoff {
+  display: inline-block;
+  font-size: 14px;
+  position: relative;
+  top: 1px;
+  color: $Edward;
+}
+.schedule_tr:last-of-type .schedule_td {
+  border-bottom: none;
+}
+.schedule_td.active {
+  position: relative;
+  border-bottom-color: $Deco;
+  background-color: $Deco;
+  box-shadow: 0 1px 0 $Deco,2px 2px 0 $white,-2px 2px 0 $white;
+}
+.schedule_tr:last-child .schedule_td.active {
+  border-radius: 0 0 2px 2px;
 }

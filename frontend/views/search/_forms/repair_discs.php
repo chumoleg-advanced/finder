@@ -33,31 +33,33 @@ $form = SearchFormGenerator::getFormSingle($rubric->id);
                 </div>
             </a>
         </div>
-        <div class="form-group placeListServices">
-            <div class="col-md-12 col-sm-12 col-xs-12 serviceRow">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <?= $form->field($modelData, '[0]description')->textInput(
-                        ['class' => 'form-control', 'placeholder' => 'Опишите работу']); ?>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <?= $form->field($modelData, '[0]comment')->textInput(
-                        ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
+        <div class="dynamicFormRowBody">
+            <div class="form-group placeListServices">
+                <div class="col-md-12 col-sm-12 col-xs-12 serviceRow">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?= $form->field($modelData, '[0]description')->textInput(
+                            ['class' => 'form-control', 'placeholder' => 'Опишите работу']); ?>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?= $form->field($modelData, '[0]comment')->textInput(
+                            ['class' => 'form-control', 'placeholder' => 'Комментарий']); ?>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <?php $model->discType = 1; ?>
-                    <?= $form->field($model, 'discType')->checkboxButtonGroup(CarData::$discTypeList); ?>
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <?php $model->discType = 1; ?>
+                        <?= $form->field($model, 'discType')->checkboxButtonGroup(CarData::$discTypeList); ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row wheelBg">
+<div class="row">
     <?= $this->render('_parts/_buttons'); ?>
 </div>
 

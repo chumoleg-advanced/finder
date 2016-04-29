@@ -21,6 +21,9 @@
   body {
     background-image: none!important;
   }
+  .navbar-fixed-top {
+    position: absolute;
+  }
   .whiteCard {
     padding: 15px 35px 35px;
     h2 {
@@ -48,6 +51,9 @@
       }
     }
   }
+  .viewBtn {
+    float: left;
+  }
 }
 
 @media (max-width: 500px) {
@@ -72,5 +78,8 @@
       font-size: 14px;
       padding-top: 10px;
     }
+  }
+  .schedule_td {
+    font-size: 10px;
   }
 }

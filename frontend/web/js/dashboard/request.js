@@ -34,7 +34,7 @@ $(document).ready(function () {
             $('html,body').animate({scrollTop: obj.offset().top - 100}, 'slow');
         }
 
-        $(this).text(text);
+        $('.viewMainOfferInfo span').text(text);
         initMainOfferMap(obj);
     });
 
@@ -59,6 +59,11 @@ $(document).ready(function () {
 
             preLoaderHide();
         }, 'json');
+    });
+
+    $(document).on('click', '.showHidePhone', function () {
+        $(this).find('.showPhoneText').hide();
+        $(this).find('.showPhone').show();
     });
 
     $(document).on('click', '.requestInfoView', function () {

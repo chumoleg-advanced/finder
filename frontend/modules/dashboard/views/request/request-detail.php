@@ -25,105 +25,119 @@ $deliveryData = RequestAttribute::getValuesByGroup($requestAttributes, $formMode
 echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 ?>
 
-<a href="javascript:;" class="requestInfoView">Скрыть информацию по заявке</a>
+<!-- <a href="javascript:;" class="requestInfoView">Скрыть информацию по заявке</a> -->
 
-<div class="requestInfo mainCont">
-    <div class="row well">
-        <div class="col-md-6">
-            <legend>Запрос</legend>
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <h5 class="titleF17">Запрос</h5>
+        <div class="dotItemBox">
+            <div class="dotItem">
+                <div class="diLabel"><?= $model->getAttributeLabel('category'); ?></div>
+                <div class="diValue"><?= \common\helpers\CategoryHelper::getNameByCategory($model->category); ?></div>
+            </div>
+            <div class="dotItem">
+                <div class="diLabel"><?= $model->getAttributeLabel('rubric_id'); ?></div>
+                <div class="diValue"><?= !empty($model->rubric) ? $model->rubric->name : null; ?></div>
+            </div>
+            <div class="dotItem">
+                <div class="diLabel"><?= $model->getAttributeLabel('description'); ?></div>
+                <div class="diValue"><?= $model->description; ?></div>
+            </div>
+            <div class="dotItem">
+                <div class="diLabel"><?= $model->getAttributeLabel('comment'); ?></div>
+                <div class="diValue"><?= $model->comment; ?></div>
+            </div>
+            <div class="dotItem">
+                <div class="diLabel"><?= $model->getAttributeLabel('date_create'); ?></div>
+                <div class="diValue"><?= date('Y-m-d', strtotime($model->date_create)); ?></div>
+            </div>
+        </div>
+    
+        <?php if (!empty($partData)) : ?>
+            <div class="clearfix"></div>
 
-            <?= DetailView::widget([
-                'model'      => $model,
-                'attributes' => [
-                    [
-                        'attribute' => 'category',
-                        'value'     => \common\helpers\CategoryHelper::getNameByCategory($model->category)
-                    ],
-                    [
-                        'attribute' => 'rubric_id',
-                        'value'     => !empty($model->rubric) ? $model->rubric->name : null
-                    ],
-                    'description',
-                    'comment',
-                    [
-                        'attribute' => 'date_create',
-                        'format'    => 'date',
-                    ],
-                ]
-            ]);
-            ?>
-            <div>&nbsp;</div>
+            <h5 class="titleF17">Дополнительная информация</h5>
 
-            <?php if (!empty($partData)) : ?>
-                <legend>Дополнительная информация</legend>
-                <table class="table table-striped table-condensed table-bordered detail-view">
-                    <?php foreach ($partData as $label => $value) : ?>
-                        <tr>
-                            <th><?= $label; ?></th>
-                            <td><?= $value; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <div>&nbsp;</div>
-            <?php endif; ?>
-
-            <?php if (!empty($model->requestImages)) : ?>
-                <legend>Изображения</legend>
-                <?php foreach ($model->requestImages as $requestImage) : ?>
-                    <div class="col-md-6">
-                        <a class="fancybox imageBlock" rel="gallery1" href="<?= '/' . $requestImage->name; ?>">
-                            <img src="<?= '/' . $requestImage->thumb_name; ?>" alt="gallery"/>
-                        </a>
+            <div class="dotItemBox">
+                <?php foreach ($partData as $label => $value) : ?>
+                    <div class="dotItem">
+                        <div class="diLabel"><?= $label; ?></div>
+                        <div class="diValue"><?= $value; ?></div>
                     </div>
                 <?php endforeach; ?>
-                <div>&nbsp;</div>
-            <?php endif; ?>
-        </div>
+            </div>
+        <?php endif; ?>
 
-        <div class="col-md-6">
-            <?php if (!empty($carData)) : ?>
-                <legend>Для автомобиля</legend>
+        <?php if (!empty($model->requestImages)) : ?>
+            <div class="clearfix"></div>
 
-                <table class="table table-striped table-condensed table-bordered detail-view">
-                    <?php foreach ($carData as $label => $value) : ?>
-                        <tr>
-                            <th><?= $label; ?></th>
-                            <td><?= $value; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <div>&nbsp;</div>
-            <?php endif; ?>
+            <h5 class="titleF17">Изображения</h5>
+            
+            <?php foreach ($model->requestImages as $requestImage) : ?>
+                    <a class="fancybox imageBlock" rel="gallery1" href="<?= '/' . $requestImage->name; ?>">
+                        <img src="<?= '/' . $requestImage->thumb_name; ?>" alt="gallery" class="img-responsive thumbnail" />
+                    </a>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 
-            <?php if (!empty($wheelData)) : ?>
-                <legend>Параметры шины/диска</legend>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <?php if (!empty($carData)) : ?>
+            <h5 class="titleF17">Для автомобиля</h5>
 
-                <table class="table table-striped table-condensed table-bordered detail-view">
-                    <?php foreach ($wheelData as $label => $value) : ?>
-                        <tr>
-                            <th><?= $label; ?></th>
-                            <td><?= $value; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-                <div>&nbsp;</div>
-            <?php endif; ?>
+            <div class="dotItemBox">
+                <?php foreach ($carData as $label => $value) : ?>
+                    <div class="dotItem">
+                        <div class="diLabel"><?= $label; ?></div>
+                        <div class="diValue"><?= $value; ?></div>
+                    </div>
+                <?php endforeach; ?>
+                <?php if (!empty($priceData)) : ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Цена</div>
+                        <div class="diValue"><?= implode(' - ', array_values($priceData)) . ' руб.'; ?></div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
 
-            <?php if (!empty($priceData)) : ?>
-                <legend>Цена</legend>
-                <h4><?= implode(' - ', array_values($priceData)) . ' руб.'; ?></h4>
-                <div>&nbsp;</div>
-            <?php endif; ?>
+        <?php if (!empty($wheelData)) : ?>
+            <div class="clearfix"></div>
 
-            <?php if (!empty($deliveryData)) : ?>
-                <legend>Информация о доставке</legend>
-                <b>Адрес:</b> <?= $deliveryData['deliveryAddress']; ?>
-                <div>&nbsp;</div>
-                <?= Html::hiddenInput('addressCoordinatesRequest', $deliveryData['addressCoordinates'],
-                    ['id' => 'addressCoordinatesRequest']); ?>
-                <div class="yandexMapRequest" id="yandexMapRequest"></div>
-            <?php endif; ?>
-        </div>
+            <h5 class="titleF17">Параметры шины/диска</h5>
+
+            <div class="dotItemBox">
+                <?php foreach ($wheelData as $label => $value) : ?>
+                    <div class="dotItem">
+                        <div class="diLabel"><?= $label; ?></div>
+                        <div class="diValue"><?= $value; ?></div>
+                    </div>
+                <?php endforeach; ?>
+                <?php if (!empty($priceData)) : ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Цена</div>
+                        <div class="diValue"><?= implode(' - ', array_values($priceData)) . ' руб.'; ?></div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+
+        <?php if (!empty($deliveryData)) : ?>
+            <div class="clearfix"></div>
+
+            <h5 class="titleF17">Информация о доставке</h5>
+            
+            <div class="dotItemBox">
+                <div class="dotItem">
+                    <div class="diLabel">Адрес</div>
+                    <div class="diValue"><?= $deliveryData['deliveryAddress']; ?></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <?= Html::hiddenInput('addressCoordinatesRequest', $deliveryData['addressCoordinates'],
+                ['id' => 'addressCoordinatesRequest']); ?>
+            <div class="yandexMapRequest" id="yandexMapRequest"></div>
+        <?php endif; ?>
     </div>
 </div>
-<div>&nbsp;</div>

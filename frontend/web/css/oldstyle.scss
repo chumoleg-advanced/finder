@@ -235,10 +235,6 @@ a.desc:after {
     color: red;
 }
 
-.imageBlock {
-    padding-right: 10px;
-}
-
 .requestInfo table {
     table-layout: fixed;
 }
@@ -294,11 +290,6 @@ a.desc:after {
     margin-left: 6px;
 }
 
-.viewMainOfferInfo {
-    margin-top: 10px;
-    width: 100%;
-}
-
 .rowMessageInDialogList {
     margin-bottom: 5px;
 }
@@ -308,10 +299,6 @@ a.desc:after {
 .notificationRead:active {
     text-decoration: line-through !important;
     color: darkgrey !important;
-}
-
-.requestOfferAttributeBlock {
-    margin-bottom: 15px;
 }
 
 .grid-view ul.pagination {

@@ -56,27 +56,29 @@ $modelData = new \frontend\forms\request\QueryArrayForm();
                 </div>
             </a>
         </div>
-        <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="pull-left">
-                        <?= $form->field($model, 'discType')->checkboxButtonGroup(CarData::$discTypeList); ?>
+        <div class="dynamicFormRowBody">
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="pull-left">
+                            <?= $form->field($model, 'discType')->checkboxButtonGroup(CarData::$discTypeList); ?>
+                        </div>
+                        <div class="pull-left">
+                            <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                        </div>
                     </div>
-                    <div class="pull-left">
-                        <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
-                </div>
 
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row wheelBg">
+<div class="row">
     <?= $this->render('_parts/_buttons'); ?>
 </div>
 

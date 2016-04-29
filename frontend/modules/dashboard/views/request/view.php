@@ -21,38 +21,48 @@ if (empty($backUrl)) {
 
 echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
 ?>
-
-<?= Html::a('Вернуться к списку', $backUrl, ['class' => 'btn btn-default']); ?>
-    <div>&nbsp;</div>
-
+<div class="container mainCont">
     <div class="row">
         <div class="col-md-12">
-            <?= $this->render('request-detail', ['model' => $model]); ?>
+            <?= Html::a('Вернуться к списку', $backUrl, ['class' => 'autoRepair']); ?>
+        </div>
+    </div>
+    <div class="dynamicFormRow">
+        <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
+            <h1><?= Html::encode($this->title); ?></h1>
+            <a class="pull-right collapseBtn" type="button" data-toggle="collapse" data-target="#requestInfoView" aria-expanded="true" aria-controls="requestInfoView">
+                <span class="rollUp">Свернуть</span>
+                <span class="chevron"></span>
+            </a>
+        </div>
+        <div class="dynamicFormRowBody collapse in requestInfo" id="requestInfoView">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <?= $this->render('request-detail', ['model' => $model]); ?>
+            </div>
         </div>
     </div>
 
-<?php if (!empty($bestOffer)) : ?>
-    <div>&nbsp;</div>
-    <div class="row" id="bestRequestOffer">
-        <legend>Лучшее предложение</legend>
-    </div>
+    <?php if (!empty($bestOffer)) : ?>
+        <div class="dynamicFormRow">
+            <div class="col-md-12 col-sm-12 col-xs-12 myRequest">
+                <h1><?= Html::encode($this->title); ?></h1>
+            </div>
+            <div class="dynamicFormRowBody">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <?= $this->render('_offerExtendedInfo', ['model' => $bestOffer, 'cssClass' => 'row', 'counter' => 0]); ?>
+                </div>
+            </div>
+        </div>
 
-    <?= $this->render('_offerExtendedInfo', ['model' => $bestOffer, 'cssClass' => 'row', 'counter' => 0]); ?>
-
-    <?php if (!empty($otherOffersDataProvider)) : ?>
-        <div>&nbsp;</div>
-        <div>&nbsp;</div>
-
-        <div class="row">
-            <legend>Предложения других организаций</legend>
-
+        <?php if (!empty($otherOffersDataProvider)) : ?>
             <?php Pjax::begin(); ?>
             <?= ListView::widget([
                 'dataProvider' => $otherOffersDataProvider,
-                'itemView'     => '_otherOfferRow'
+                'itemView'     => '_otherOfferRow',
+                'layout'     => '{items}',
             ]);
             ?>
             <?php Pjax::end(); ?>
-        </div>
+        <?php endif; ?>
     <?php endif; ?>
-<?php endif; ?>
+</div>

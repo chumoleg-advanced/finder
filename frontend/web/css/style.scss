@@ -27,6 +27,10 @@ body.wheelBg {
   background-attachment: fixed;
 }
 
+p {
+  margin: 0 0 10px;
+}
+
 .wrap {
   min-height: 100%;
   height: auto;
@@ -34,9 +38,6 @@ body.wheelBg {
   padding: 76px 0 60px;
 }
 
-.mainCont {
-  padding-top: 20px;
-}
 .row {position: relative;}
 
 .rw1170 {
@@ -44,6 +45,7 @@ body.wheelBg {
   margin-right: auto;
   margin-left: auto;
 }
+
 .w1170 {
   max-width: 1170px;
   padding-right: 15px;
@@ -56,6 +58,7 @@ body.wheelBg {
   margin-left: auto;
   margin-right: auto;
 }
+
 .whiteBg {
   background-color: $white;
 }
@@ -155,8 +158,6 @@ body.wheelBg {
     }
   }
 }
-
-
 
 .whiteCard {
   overflow: hidden;
@@ -294,7 +295,7 @@ body.wheelBg {
 .mainCont.pt173 {
   .dynamicFormRow {
     &:nth-child(1) {
-      margin-top: 147px;
+      // margin-top: 147px;
     }
   }
 }
@@ -302,6 +303,7 @@ body.wheelBg {
   padding-top: 120px;
   .carSelect {
     position: fixed;
+    left: 0;
     top: 76px!important;
     width: 100%;
     max-width: 100%!important;
@@ -325,10 +327,12 @@ body.wheelBg {
     }
   }
 }
+
 .carSelect {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
+  // position: fixed;
+  // left: 50%;
+  // transform: translateX(-50%);
+  position: relative;
   width: 100%;
   margin: 0;
   max-width: 1140px;
@@ -340,9 +344,9 @@ body.wheelBg {
   padding-bottom: 5px;
   border: 1px solid $SilverSand;
   border-bottom: none;
-  transition-property: max-width, top;
-  transition-timing-function: ease-out;
-  transition-duration: 1s;
+  // transition-property: max-width, top;
+  // transition-timing-function: ease-out;
+  // transition-duration: 1s;
   .collapse {
     position: relative;
     width: 100%;
@@ -358,7 +362,7 @@ body.wheelBg {
 }
 
 .mainCont {
-
+  padding-top: 20px;
   .dynamicFormRow {
     position: relative;
     display: inline-block;
@@ -371,16 +375,25 @@ body.wheelBg {
     border: 1px solid $SilverSand;
     border-radius: 3px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    padding-top: 15px;
-    padding-bottom: 15px;
     margin-bottom: 30px;
     &:nth-child(1) {
       border-radius: 0 0 3px 3px;
       border-top: none;
-      margin-top: 94px;
+      // margin-top: 94px;
       .myRequest {
         display: none;
       }
+    }
+    .dynamicFormRowBody {
+      -webkit-transition: all 0.25s linear;
+      -moz-transition: all 0.25s linear;
+      -o-transition: all 0.25s linear;
+      transition: all 0.25s linear;
+      position: relative;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      width: 100%;
+      float: left;
     }
   }
   /* dashboard end */  
@@ -397,13 +410,255 @@ body.wheelBg {
       }
     }
   }
-  /* dashboard end */  
-}
+  /* dashboard end */ 
 
+  .titleF17 {
+    color: $Jumbo;
+    font-family: Noto Sans;
+    font-size: 17px;
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+  .titleF15 {
+    color: $Jumbo;
+    font-family: Noto Sans;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+
+  .line {
+    width: 100%;
+    height: 1px;
+    background-color: $SilverSand;
+  }
+  
+  .dotItemBox {
+    display: block;
+    width: 100%;
+    float: left;
+    margin-bottom: 25px;
+  }
+  .dotItem {
+    position: relative;
+    width: 100%;
+    float: left;
+    margin-bottom: 4px;
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      top: 16px;
+      left: 0;
+      border-bottom: 1px dotted $Himalaya;
+    }
+  }
+  .diLabel {
+    position: relative;
+    background-color: $white;
+    z-index: 1;
+    width: auto;
+    float: left;
+    color: $Jumbo;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .diValue {
+    position: relative;
+    background-color: $white;
+    z-index: 1;
+    float: right;
+    text-align: right;
+    width: auto;
+    color: $MineShaft;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .dotItem {
+    &.date {
+      .diLabel {
+        font-size: 13px;
+      }
+      .diValue {
+        color: $Edward;
+        font-size: 13px;
+      }
+    }
+    &.small {
+      .diLabel {
+        font-size: 13px;
+      }
+      .diValue {
+        font-size: 13px;
+      }
+    }
+    &.desc {
+      &:after {
+        display: none;
+      }
+      .diLabel {
+        line-height: 18px;
+        width: 100%;
+        font-size: 13px;
+      }
+      .diValue {
+        line-height: 18px;
+        width: 100%;
+        text-align: left;
+        float: left;
+        font-size: 13px;
+      }
+    }
+  }
+  
+  .imageBlock {
+    padding-right: 10px;
+    display: inline-block;
+    float: left;
+    img {
+      max-width: 79px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .address {
+    color: $MineShaft;
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  
+  .price {
+    font-family: Noto Sans;
+    font-weight: 400;
+    color: $black;
+    font-size: 24px;
+  }
+
+  .price20 {
+    font-family: Noto Sans;
+    font-weight: 400;
+    color: $black;
+    font-size: 20px;
+    float: left;
+    margin-top: 18px;
+    margin-right: 15px;
+  }
+  .companyName {
+    color: $HippieBlue;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 30px;
+  }
+  
+  .companyPhone {
+    display: block;
+    color: $Jumbo;
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 400;
+    .svg {
+      float: left;
+      margin-right: 10px;
+      margin-top: 3px;
+      width: 20px;
+      text-align: center;
+      svg {
+        fill: $Jumbo;
+      }
+    }
+    
+    span {
+      line-height: 20px;
+    }
+    .showPhone {
+      color :$MineShaft;
+      display: none;
+    }
+  }  
+  a.companyPhone {
+    display: inline-block;
+    &:hover,
+    &:active,
+    &:focus {
+      color :$MineShaft;
+      text-decoration: none;
+      svg {
+        fill:$MineShaft;
+      }
+    }
+  }
+  .companyDeliveries {
+    display: block;
+    color: $MineShaft;
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 400;
+    .svg {
+      float: left;
+      margin-right: 10px;
+      margin-top: 3px;
+      width: 20px;
+      text-align: center;
+      svg {
+        fill: $Jumbo;
+      }
+    }
+    span {
+      line-height: 20px;
+    }
+  }
+  a.companyDeliveries {
+    display: inline-block;
+    &:hover,
+    &:active,
+    &:focus {
+      font-weight: 500;
+      text-decoration: none;
+      svg {
+        fill:$MineShaft;
+      }
+    }
+  }
+
+  .collapseBox {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    float: left;
+  }
+
+  .timeWorkText {
+    font-family: Roboto;
+    color: $Jumbo;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .timeWork {
+    font-family: Roboto;
+    color: $MineShaft;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  @import "button";
+  @import "select2";
+  @import "loading";
+  @import "popover";
+}
 .myRequest {
   display: block;
-  margin-top: -15px;
-  margin-bottom: 15px;
   background-color: $CatskillWhite;
   border-bottom: 1px solid $SilverSand;
   border-radius: 3px 3px 0 0;
@@ -417,6 +672,12 @@ body.wheelBg {
   }
   .delBtn {
     display: none;
+  }
+}
+
+.dynamicFormRowView {
+  .myRequest {
+    display: block!important;
   }
 }
 
@@ -504,13 +765,6 @@ footer {
       font-weight: 400;
     }
   }
-}
-
-.mainCont {
-  @import "button";
-  @import "select2";
-  @import "loading";
-  @import "popover";
 }
 
 @import "oldstyle";

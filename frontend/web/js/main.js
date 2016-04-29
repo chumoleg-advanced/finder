@@ -78,34 +78,34 @@ function initMap(coords, zoom, redraw, blockObj, index) {
     }
 }
 
-function carSelect() {
-    if (jQuery(window).width() > 767) {
-        $(".carSelect").css({
-            position:'fixed',
-            margin:'0',
-            top:$(".carSelect").offset().top
-        });
-    } else {
-        $(".carSelect").css({
-            position:'relative',
-            margin:'0',
-            width:'auto',
-            top:'0',
-            left: '0',
-            transform: 'translateX(0)',
-        });
-    }
-}
-$(document).ready(function() {
-    if ($('.carSelect').length >= 1) {
-        carSelect();
-    }
-});
-$(window).resize(function() {
-    if ($('.carSelect').length >= 1) {
-        carSelect();
-    }
-});
+// function carSelect() {
+//     if (jQuery(window).width() > 767) {
+//         $(".carSelect").css({
+//             position:'fixed',
+//             margin:'0',
+//             top:$(".carSelect").offset().top
+//         });
+//     } else {
+//         $(".carSelect").css({
+//             position:'relative',
+//             margin:'0',
+//             width:'auto',
+//             top:'0',
+//             left: '0',
+//             transform: 'translateX(0)',
+//         });
+//     }
+// }
+// $(document).ready(function() {
+//     if ($('.carSelect').length >= 1) {
+//         carSelect();
+//     }
+// });
+// $(window).resize(function() {
+//     if ($('.carSelect').length >= 1) {
+//         carSelect();
+//     }
+// });
 
 
 function _updateItemsInForm() {

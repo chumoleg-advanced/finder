@@ -36,7 +36,7 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
     'parts'       => true
 ]); ?>
 
-<div class="row carBg">
+<div class="row">
     <?= $this->render('_parts/_buttons', ['buttonText' => 'Добавить еще одну запчасть']); ?>
 </div>
 

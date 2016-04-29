@@ -56,35 +56,37 @@ $modelData = new \frontend\forms\request\QueryArrayForm();
                 </div>
             </a>
         </div>
-        <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="pull-left">
-                        <?= $form->field($model, 'tireType[]')->checkboxButtonGroup(CarData::$tireTypeList,
-                            ['class' => 'buttonListTireType']); ?>
+        <div class="dynamicFormRowBody">
+            <div class="form-group">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="pull-left">
+                            <?= $form->field($model, 'tireType[]')->checkboxButtonGroup(CarData::$tireTypeList,
+                                ['class' => 'buttonListTireType']); ?>
+                        </div>
+
+                        <div class="pull-left">
+                            <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                        </div>
+                        
                     </div>
 
-                    <div class="pull-left">
-                        <?= $form->field($modelData, '[0]partsCondition')->checkboxButtonGroup(CarData::$wheelCondition); ?>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="tireTypeWinterParams">
+                            <?= $form->field($model, 'tireTypeWinter[]')->checkboxButtonGroup(CarData::$tireTypeWinterList); ?>
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        
+                        <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
                     </div>
-                    
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="tireTypeWinterParams">
-                        <?= $form->field($model, 'tireTypeWinter[]')->checkboxButtonGroup(CarData::$tireTypeWinterList); ?>
-                    </div>
-                    
-                    <div class="clearfix"></div>
-                    
-                    <?= $this->render('_parts/_needleDelivery', ['form' => $form, 'model' => $model]); ?>
                 </div>
             </div>
         </div>
     </div>  
 </div>  
 
-<div class="row wheelBg">
+<div class="row">
     <?= $this->render('_parts/_buttons'); ?>
 </div>
 

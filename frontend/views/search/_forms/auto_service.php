@@ -28,7 +28,7 @@ $form = SearchFormGenerator::getFormFiles($rubric->id);
 
 <?= $this->render('_parts/_partOrServiceRow', ['form' => $form, 'model' => $model]); ?>
 
-<div class="row carBg">
+<div class="row">
     <?= $this->render('_parts/_buttons', ['buttonText' => 'Добавить заявку']); ?>
 </div>
 
