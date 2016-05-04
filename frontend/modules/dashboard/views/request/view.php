@@ -36,9 +36,7 @@ echo Html::hiddenInput('requestId', $model->id, ['id' => 'requestId']);
             </a>
         </div>
         <div class="dynamicFormRowBody collapse in requestInfo" id="requestInfoView">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <?= $this->render('request-detail', ['model' => $model]); ?>
-            </div>
+            <?= $this->render('request-detail', ['model' => $model]); ?>
         </div>
     </div>
 

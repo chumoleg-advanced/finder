@@ -342,3 +342,10 @@ function findByText(text, obj) {
         $(obj).show();
     }
 }
+
+
+var favicon=new Favico({
+    animation:'slide',
+});
+var messageBadgeMenu = $('.messageBadgeMenu').text();
+favicon.badge(messageBadgeMenu);

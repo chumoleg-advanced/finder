@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
             '/js/wow.min.js',
             '/js/jquery.onoff.min.js',
             '/js/jquery.materialripple.js',
+            '/js/favico.js',
             '/js/main.js',
         ];
     

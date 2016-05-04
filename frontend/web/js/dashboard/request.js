@@ -34,7 +34,7 @@ $(document).ready(function () {
             $('html,body').animate({scrollTop: obj.offset().top - 100}, 'slow');
         }
 
-        $('.viewMainOfferInfo span').text(text);
+        $(this).find('span').text(text);
         initMainOfferMap(obj);
     });
 

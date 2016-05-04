@@ -15,51 +15,46 @@ if (!$service) {
 }
 ?>
 
-<div class="row dynamicFormRowView dynamicFormRowViewOffer">
+<div class="dynamicFormRowView dynamicFormRowViewOffer">
     <div class="col-md-6 col-sm-6 col-xs-12">
-        <b><?= $descriptionLabel; ?></b>:
-        <?= $requestOffer->description; ?>
-    </div>
-
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <b>Комментарий</b>:
-        <?= $requestOffer->comment; ?>
-    </div>
-
-    <div>&nbsp;</div>
-
-    <div class="col-md-2 col-sm-2 col-xs-6">
-        <div class="row">
-            <div class="col-md-12">
-                <b><?= $priceLabel; ?></b>:
-                <?= $requestOffer->price; ?>
+        <div class="dotItemBox">
+            <div class="dotItem">
+                <div class="diLabel"><?= $priceLabel; ?>:</div>
+                <div class="diValue"><?= $requestOffer->price; ?> руб.</div>
             </div>
-            <div class="col-md-12">
-                <b>Компания</b>:
-                <?= $requestOffer->company->actual_name; ?>
+            <div class="dotItem">
+                <div class="diLabel">Компания:</div>
+                <div class="diValue"><?= $requestOffer->company->actual_name; ?></div>
+            </div>
+            <div class="dotItem">
+                <div class="diLabel"><?= $descriptionLabel; ?>:</div>
+                <div class="diValue"><?= $requestOffer->description; ?></div>
+            </div>
+            <div class="dotItem">
+                <div class="diLabel">Комментарий:</div>
+                <div class="diValue"><?= $requestOffer->comment; ?></div>
             </div>
         </div>
     </div>
 
     <?php if (!$service) : ?>
-        <div class="col-md-4 col-sm-4 col-xs-6">
-            <?php $availability = ArrayHelper::getValue($attributes, 'availability'); ?>
-            <b>Наличие</b>:
-            <?= ArrayHelper::getValue(CarData::$availability, $availability); ?>
-
-            <?php if ($availability == 2) : ?>
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <b>Срок</b>:
-                        <?= ArrayHelper::getValue($attributes, 'deliveryDayFrom'); ?> -
-                        <?= ArrayHelper::getValue($attributes, 'deliveryDayTo'); ?> дн.
-                    </div>
+        <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="dotItemBox">
+                <div class="dotItem">
+                    <?php $availability = ArrayHelper::getValue($attributes, 'availability'); ?>
+                    <div class="diLabel">Наличие:</div>
+                    <div class="diValue"><?= ArrayHelper::getValue(CarData::$availability, $availability); ?></div>
                 </div>
-            <?php endif; ?>
-        </div>
-
-        <div class="col-md-5 col-sm-5 col-xs-5">
-            <div class="row">
+                <?php if ($availability == 2) : ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Срок:</div>
+                        <div class="diValue">
+                            <?= ArrayHelper::getValue($attributes, 'deliveryDayFrom'); ?> -
+                            <?= ArrayHelper::getValue($attributes, 'deliveryDayTo'); ?> дн.
+                        </div>
+                    </div>
+                <?php endif; ?>
+                
                 <?php
                 $partsCondition = ArrayHelper::getValue($attributes, 'partsCondition');
                 $partsOriginal = ArrayHelper::getValue($attributes, 'partsOriginal');
@@ -69,48 +64,50 @@ if (!$service) {
                 ?>
 
                 <?php if (!empty($partsCondition)) : ?>
-                    <div class="col-md-12">
-                        <b>Состояние</b>:
-                        <?= ArrayHelper::getValue(CarData::$partsCondition, $partsCondition); ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Состояние:</div>
+                        <div class="diValue"><?= ArrayHelper::getValue(CarData::$partsCondition, $partsCondition); ?></div>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($partsOriginal)) : ?>
-                    <div class="col-md-12">
-                        <b>Оригинальность</b>:
-                        <?= ArrayHelper::getValue(CarData::$partsOriginal, $partsOriginal); ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Оригинальность:</div>
+                        <div class="diValue"><?= ArrayHelper::getValue(CarData::$partsOriginal, $partsOriginal); ?></div>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($discType)) : ?>
-                    <div class="col-md-12">
-                        <b>Тип дисков</b>:
-                        <?= ArrayHelper::getValue(CarData::$discTypeList, $discType); ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Тип дисков:</div>
+                        <div class="diValue"><?= ArrayHelper::getValue(CarData::$discTypeList, $discType); ?></div>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($tireType)) : ?>
-                    <div class="col-md-12">
-                        <b>Тип шин</b>:
-                        <?= ArrayHelper::getValue(CarData::$tireTypeList, $tireType); ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Тип шин:</div>
+                        <div class="diValue"><?= ArrayHelper::getValue(CarData::$tireTypeList, $tireType); ?></div>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($tireTypeWinter)) : ?>
-                    <div class="col-md-12">
-                        <b>Тип зимних шин</b>:
-                        <?= ArrayHelper::getValue(CarData::$tireTypeWinterList, $tireTypeWinter); ?>
+                    <div class="dotItem">
+                        <div class="diLabel">Тип зимних шин:</div>
+                        <div class="diValue"><?= ArrayHelper::getValue(CarData::$tireTypeWinterList, $tireTypeWinter); ?></div>
                     </div>
                 <?php endif; ?>
             </div>
-        </div>
 
+
+        </div>
         <div class="col-md-1 col-sm-1 col-xs-1">
             <a href="javascript:;" class="btn btn-default copyRequestOffer" data-id="<?= $requestOffer->id; ?>">
                 <i class="glyphicon glyphicon-copy"></i>
             </a>
         </div>
     <?php endif; ?>
+
 
     <?php if (!empty($requestOffer->requestOfferImages)) : ?>
         <div class="col-md-12 col-sm-12 col-xs-12 imagesPreview">
